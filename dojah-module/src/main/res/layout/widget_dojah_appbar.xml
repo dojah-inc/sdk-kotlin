@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/padding_top_default">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/margin_start_toolbar_navigation_button"
+            android:background="@color/transparent"
+            android:gravity="start"
+            android:paddingHorizontal="@dimen/padding_horizontal_navigation_button"
+            android:paddingVertical="@dimen/padding_vertical_navigation_button"
+            android:visibility="visible"
+            android:textColor="@color/app_bar_back_color"
+            app:iconTint="@color/app_bar_back_color"
+            app:icon="?attr/appBarBackIcon"
+            app:iconPadding="@dimen/margin_8dp"
+            android:text="@string/back_text"
+            android:textSize="@dimen/text_size_13sp"
+            tools:visibility="visible"
+            tools:ignore="RelativeOverlap" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logo"
+            android:layout_width="@dimen/logo_size"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_4dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="false"
+            android:layout_marginHorizontal="@dimen/margin_24dp"
+            android:src="?attr/appLogo"
+            android:visibility="visible"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/trail_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/margin_8dp"
+            android:layout_marginStart="@dimen/margin_start_toolbar_navigation_button"
+            android:background="@color/transparent"
+            android:paddingHorizontal="@dimen/margin_24dp"
+            android:src="?attr/appBarCloseIcon"
+            android:visibility="visible"
+            app:iconSize="@dimen/padding_top_default_2"
+            />
+
+
+    </RelativeLayout>
+</merge>

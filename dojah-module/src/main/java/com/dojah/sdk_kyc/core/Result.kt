@@ -1,0 +1,26 @@
+package com.dojah.sdk_kyc.core
+
+sealed class Result<out R> {
+
+    data class Success<out T>(val data: T) : Result<T>()
+
+    object Loading: Result<Nothing>()
+
+    sealed class Error : Result<Nothing>() {
+        object NetworkError : Error()
+
+        object NoDataError : Error()
+
+        object TimeoutError : Error()
+
+        object DuplicateTransactionError: Error()
+
+        /**
+         * Error gotten from the response body
+         * It sends the entire result unlike other errors so the receiver will know exactly
+         * how to handle it
+         * It is very similar to Success, but the fact that it is an error completely changes its usage
+         * */
+        data class ApiError(val error: Map<Any, Any>?) : Error()
+    }
+}

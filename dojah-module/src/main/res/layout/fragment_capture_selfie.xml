@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/margin_24dp"
+            android:layout_marginTop="@dimen/margin_24dp"
+            android:orientation="vertical">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:background="@color/black"
+                android:gravity="center"
+                app:cardBackgroundColor="@color/black"
+                app:cardCornerRadius="@dimen/_334dp">
+
+                <TextView
+                    android:id="@+id/title_text"
+                    style="@style/TextAppearance.Dojah.ParagraphTiny"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_8dp"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:layout_marginBottom="@dimen/margin_4dp"
+                    android:drawablePadding="@dimen/margin_8dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/place_your_face_in_the_circle_and_click_capture"
+                    android:textAlignment="center"
+                    android:textColor="@color/white" />
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_pic"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Chip"
+                tools:background="@color/green"
+                tools:src="@color/card_stroke_color" />
+
+
+            <RelativeLayout
+                android:layout_width="257dp"
+                android:layout_height="256dp"
+                android:layout_gravity="center">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    app:lottie_autoPlay="true"
+                    app:lottie_colorFilter="@color/progress_color"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="?attr/facialVerificationAnim" />
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_24dp"
+                    app:cardCornerRadius="280dp"
+                    app:cardElevation="0dp">
+
+                    <androidx.camera.view.PreviewView
+                        android:id="@+id/camera"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/info_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:background="?attr/errorMessageCorneredBg"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/info_text"
+                    style="@style/TextAppearance.Dojah.ParagraphTiny"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_8dp"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:layout_marginBottom="@dimen/margin_4dp"
+                    android:drawablePadding="@dimen/margin_8dp"
+                    android:gravity="center"
+                    android:text="@string/please_make_sure_you_are_in_a_well_lit_environment"
+                    android:textAlignment="center"
+                    android:textColor="?attr/errorMessageColor"
+                    app:drawableStartCompat="?attr/infoIcon"
+                    app:drawableTint="?attr/errorMessageColor" />
+            </LinearLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/start_recording"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/record"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/done_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/done"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/capture_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/capture" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

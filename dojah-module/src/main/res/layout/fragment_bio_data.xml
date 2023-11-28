@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/margin_24dp">
+
+    <LinearLayout
+        android:id="@+id/info_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_48dp"
+        android:background="?attr/infoMessageCorneredBg"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/info_text"
+            style="@style/TextAppearance.Dojah.ParagraphMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/margin_8dp"
+            android:layout_marginTop="@dimen/margin_5dp"
+            android:layout_marginBottom="@dimen/margin_4dp"
+            android:drawablePadding="@dimen/margin_8dp"
+            android:gravity="center"
+            android:text="@string/fill_as_shown_id"
+            android:textAlignment="center"
+            android:textColor="?attr/infoMessageColor"
+            app:drawableStartCompat="@drawable/ic_info"
+            app:drawableTint="?attr/infoMessageColor" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_first_name"
+        style="@style/TextView.InputLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="@string/first_name" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_first_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Dojah.ParagraphSmall"
+            android:hint="@string/first_name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_last_name"
+        style="@style/TextView.InputLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/last_name" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_last_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Dojah.ParagraphSmall"
+            android:hint="@string/last_name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_middle_name"
+        style="@style/TextView.InputLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/middle_name" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_middle_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Dojah.ParagraphSmall"
+            android:hint="@string/middle_name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/text_dob"
+        style="@style/TextView.InputLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_of_birth" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconDrawable="@drawable/ic_calendar"
+        app:endIconMode="custom">
+
+        <AutoCompleteTextView
+            android:id="@+id/spinner_text_dob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/b_date_format"
+            style="@style/TextAppearance.Dojah.ParagraphSmall"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_top_first_login_button_login"
+        android:text="@string/_continue"
+        app:iconGravity="textEnd"
+        app:iconPadding="11dp" />
+
+    <TextView
+        android:id="@+id/policy_tv"
+        style="@style/TextAppearance.Dojah.ParagraphSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16dp"
+        android:gravity="center"
+        android:text="@string/policy_term_text" />
+</LinearLayout>
+

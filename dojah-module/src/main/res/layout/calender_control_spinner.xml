@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="32dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="0dp"
+    app:elevation="0dp">
+
+    <LinearLayout
+        android:id="@+id/input_cal_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <!--        <com.google.android.material.textfield.TextInputLayout-->
+        <!--            android:id="@+id/input_cal_txt"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:background="@color/white"-->
+        <!--            app:endIconDrawable="@drawable/ic_dropdown"-->
+        <!--            app:endIconMode="custom"-->
+        <!--            app:endIconTint="@color/black_200">-->
+
+        <!--            &lt;!&ndash;        <TextView&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:id="@+id/spinner_cal_txt"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            style="@style/TextAppearance.Dojah.ButtonBig"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:ellipsize="end"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:maxLines="1"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:paddingStart="8dp"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:paddingTop="0dp"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:paddingEnd="4dp"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            android:paddingBottom="0dp"&ndash;&gt;-->
+        <!--            &lt;!&ndash;            tools:text="2022" />&ndash;&gt;-->
+        <!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <TextView
+            android:id="@+id/spinner_cal_txt"
+            style="@style/TextAppearance.Dojah.ButtonBig"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="24"
+            android:ellipsize="marquee"
+            android:paddingStart="8dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="0dp"
+            android:singleLine="true"
+            tools:text="2022" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:src="@drawable/ic_spinner_icon" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

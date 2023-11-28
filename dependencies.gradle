@@ -1,0 +1,73 @@
+ext {
+    mobileToolsVersion = [
+            applicationId        : "com.dojah.sdk_kyc",
+            minSdk               : 21,
+            targetSdk            : 34,
+            compileSdk           : 34,
+            versionCode          : 29,
+            versionName          : "1.4.6",
+            fileProviderAuthority: "com.dojah.sdk_kyc.provider"
+    ]
+
+    posToolsVersion = [
+            applicationId        : "com.dojah.sdk_kyc.pos",
+            minSdk               : 24,
+            targetSdk            : 25,
+            compileSdk           : 33,
+            versionCode          : 29,
+            versionName          : "1.4.6",
+            fileProviderAuthority: "com.dojah.sdk_kyc_pos.provider"
+    ]
+
+
+    configVariable = [
+            versionCode             : "2022",
+            baseURL                 : "https://mobile.kippapay.com/api/", //https://agency-mobile-api-staging.upkip.live/api/ //"https://mobile.kippapay.com/api/", //https://agency-mobile-api.upkip.live/api/
+            baseUrlDev              : "https://agency-mobile-api-dev.upkip.live/api/",
+            baseUrlStaging          : "https://agency-mobile-api-staging.upkip.live/api/",
+            pushNotficationChannelID: "com.dojah.sdk_kyc.Push_Notification",
+            mixPanelToken           : "91d05b74032abcca90f330a0400779c6",
+            intercomApiKey          : "android_sdk-8a4cf574f838097db2876a4197f6fc0c7e8c8d87",
+            intercomAppId           : "cc0gkyns",
+            ebanqoUrl               : "https://webchat.ebanqo.io/Kippa/",
+            cleverTapAccountID      : "65W-Z68-666Z",
+            cleverTapToken          : "b61-056",
+            metamapClientID         : "64b154e3f471a3001c8cb14b",
+            metamapFlowID           : "64b1580e0b1201001c7d724d",
+    ]
+
+    projectDependenciesVersion = [
+            kotlin: "1.6.21"
+    ]
+
+    dependenciesVersion = [
+            core            : "1.8.0",
+            activity        : "1.4.0",
+            appCompat       : "1.5.0",
+            constraintLayout: "2.1.4",
+            legacySupport   : "1.0.0",
+            lifecycle       : "2.5.1",
+            recyclerView    : "1.2.1",
+            navigation      : "2.5.1",
+            preference      : "1.2.0",
+            room            : "2.4.3",
+            materialDesign  : "1.6.1",
+            retrofit        : "2.9.0",
+            gson            : "2.9.0",
+            okhttp          : "5.0.0-alpha.2",
+
+            firebase        : "30.3.1",
+            hilt            : "2.42",
+            coil            : "2.1.0",
+
+            glide           : "4.13.2",
+
+            libphonenumber  : "8.12.31",
+            timber          : "4.7.1",
+            zxing           : "3.4.0",
+            desugar         : "1.1.5",
+            mixPanel        : "7.0.1",
+            clevertap       : "4.7.4",
+            appUpdate      : "2.1.0",
+    ]
+}

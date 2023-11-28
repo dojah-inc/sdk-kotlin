@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/card_back_color"
+    app:cardCornerRadius="@dimen/margin_12dp"
+    app:contentPadding="@dimen/margin_16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/selected_date_label"
+            style="@style/TextAppearance.Dojah.TagCaption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/margin_8dp"
+            android:paddingTop="@dimen/margin_8dp"
+            android:paddingEnd="@dimen/margin_8dp"
+            android:paddingBottom="@dimen/margin_8dp"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/brand_dojah"
+            app:cornerRadius="4dp"
+            app:icon="@drawable/ic_calendar_faded"
+            app:iconPadding="@dimen/margin_8dp"
+            app:iconTint="@color/brand_200"
+            tools:text="NOVEMBER 21, 2022" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:paddingTop="8dp">
+
+            <include
+                android:id="@+id/cal_month_spin"
+                layout="@layout/calender_control_spinner"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_marginVertical="4dp"
+                android:layout_weight="5"
+                app:cardCornerRadius="2dp" />
+
+            <include
+                android:id="@+id/cal_date_spin"
+                layout="@layout/calender_control_text"
+                android:layout_width="40dp"
+                android:layout_height="32dp"
+                android:layout_marginVertical="4dp"
+                android:layout_marginStart="@dimen/margin_8dp"
+                app:elevation="0dp"
+                app:cardCornerRadius="2dp" />
+
+            <include
+                android:id="@+id/cal_year_spin"
+                layout="@layout/calender_control_spinner"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_marginVertical="4dp"
+                android:layout_marginStart="@dimen/margin_8dp"
+                android:layout_weight="4"
+                app:cardCornerRadius="2dp" />
+
+        </LinearLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:contentPaddingBottom="@dimen/margin_13dp"
+            app:contentPaddingLeft="@dimen/margin_8dp"
+            app:contentPaddingRight="@dimen/margin_8dp"
+            app:contentPaddingTop="@dimen/margin_20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.kizitonwose.calendar.view.CalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cv_dayViewResource="@layout/calendar_day_layout"
+                    app:cv_monthHeaderResource="@layout/calendar_day_titles_container" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Dojahtest2" parent="Theme.AppCompat.Light.NoActionBar" />
+
+
+    <style name="Theme.CustomDojah" parent="Theme.Dojah">
+
+<!--                <item name="appLogo" >@drawable/ic_alarm</item>-->
+        <!--        <item name="appBarCloseIcon" >@drawable/ct_close</item>-->
+    </style>
+</resources>

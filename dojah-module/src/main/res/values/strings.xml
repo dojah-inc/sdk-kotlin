@@ -1,0 +1,97 @@
+<resources>
+    <string name="app_name">Dojah</string>
+    <string name="empty"> </string>
+
+
+    <!--    Dojah strings   -->
+    <string name="back_text">Back</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="select">Select</string>
+    <string name="done">Done</string>
+    <string name="error_network">Check your internet connection and try again.</string>
+    <string name="error_timeout">Timeout, Check your network and try again later.</string>
+    <string name="error_no_data">Data not received. If this is a transaction, please check transaction history/wallet balance before you retry.</string>
+    <string name="duplicate_transaction_error">Duplicate transaction, please try again in a minute.</string>
+    <string name="unlock_device">Unlock device</string>
+    <string name="select_date_of_birth">Select your date of birth</string>
+    <string name="search">Search</string>
+    <string name="search_country">Search country</string>
+
+
+    <string name="please_note_the_following">Please note the following</string>
+    <string name="be_in_well_lit">You must be in a well lit environment before getting started.</string>
+    <string name="hide_not_your_face">Avoid wearing anything that hinders or hides your face from being seen.</string>
+    <string name="show_id_clearly">All parts of your identification must be shown properly and must be clear.</string>
+    <string name="_continue">Continue</string>
+    <string name="powered_by">Powered by</string>
+    <string name="sandbox">SANDBOX</string>
+    <string name="select_a_country">Select a country</string>
+    <string name="policy_term_text">By proceeding you agree to our Terms of Use \nand Privacy Policy.</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="middle_name">Middle name</string>
+    <string name="b_date_format">dd/mm/yyyy</string>
+    <string name="fill_as_shown_id">Fill the form as it appears on your valid ID</string>
+    <string name="gov_id">Government Identification</string>
+    <string name="verify_with">Verify with</string>
+    <string name="bvn_number">BVN Number</string>
+    <string name="driver_number">Driver’s License Number</string>
+    <string name="nin_number">NIN Number</string>
+    <string name="bvn_verify">BVN Verification</string>
+    <string name="driver_verify">Driver’s License</string>
+    <string name="cac_verify">CAC</string>
+    <string name="nin_verify">NIN</string>
+    <string name="other_verify">Other Doc</string>
+    <string name="selfie">Selfie</string>
+    <string name="video">Video KYC</string>
+    <string name="phone_verify">Phone Number OTP</string>
+    <string name="email_verify">Email OTP</string>
+    <string name="document_type">Document type</string>
+    <string name="upload">Upload</string>
+    <string name="upload_instead">Upload instead</string>
+    <string name="capture">Capture</string>
+    <string name="make_sure_driver_id_is_placed">Make sure your Driver\’s License is properly placed, and hold it still for a few seconds</string>
+    <string name="capture_the_front_of_your_id">Capture the front of your ID</string>
+    <string name="continue_on_my_smartphone">Continue on my Smartphone</string>
+    <string name="retake">Retake</string>
+    <string name="please_review_capture">Please take a moment to review the captured image to ensure it is clear and readable.</string>
+    <string name="make_sure_visible">Make sure the entire document or ID card is fully visible within the frame.</string>
+    <string name="look_for_obstruction">Look out for any reflections that could obstruct the document’s visibility.</string>
+    <string name="preview_your_id">Preview your ID</string>
+    <string name="preview_your_selfie">Preview your Selfie</string>
+    <string name="capture_the_back_of_your_id">Capture the back of your ID</string>
+    <string name="upload_the_front_of_your_id">Upload the front of your ID</string>
+    <string name="click__select_from_device">Click here to select from \nyour device.</string>
+    <string name="capture_instead">Capture instead</string>
+    <string name="image_thumbnails">image Thumbnails</string>
+    <string name="upload_back_doc">Upload the back of your ID</string>
+    <string name="camera_permission_required">Camera Permission Required</string>
+    <string name="picture_permission_required">Picture Permission Required</string>
+    <string name="may_we_access_camera">May We Access Your Camera for Security Verification?</string>
+    <string name="may_we_access_picture">May We Access Your Picture Gallery for Security Verification?</string>
+    <string name="to_ensure_the_security">To ensure the security and integrity of your account, we request access to your device\'s camera for:</string>
+    <string name="to_ensure_the_security_gallery">To ensure the security and integrity of your account, we request access to your device\'s picture gallery for:</string>
+    <string name="allow_permission">Allow in Settings</string>
+    <string name="try_again">Try again</string>
+    <string name="how_to_allow_permission">How to allow permission</string>
+    <string name="take_moment_ensure_readable">Please take a moment to review the captured image to ensure it is clear and readable.</string>
+    <string name="please_make_sure_you_are_in_a_well_lit_environment">Please make sure you are in a well lit environment</string>
+    <string name="place_your_face_in_the_circle_and_click_capture">Place your face in the circle and click Capture</string>
+    <string name="if_blurry">If the image is blurry or dark, you may retake the photo by pressing the designated button.</string>
+    <string name="if_satisfied_continue">If you are satisfied with the captured image, proceed to the next step to continue with the verification process.</string>
+    <string name="success_msg">Your identification has been successfully verified, you will now be redirected</string>
+    <string name="success_msg_arg">Your %s has been successfully verified, you will now be redirected</string>
+    <string name="email_address">Email address</string>
+    <string name="phone_number">Phone number</string>
+    <string name="enter_phone_number">Enter phone number</string>
+    <string name="home_address">Home Address</string>
+    <string name="rc_number">RC number</string>
+    <string name="tin_number">TIN number</string>
+    <string name="business_name">Business name</string>
+    <string name="enter_the_code_sent">Enter the code sent to %s</string>
+    <string name="resend_code_in">Resend code in %s</string>
+    <string name="resend_code">Resend code</string>
+    <string name="record">Record</string>
+    <string name="processing_load">Processing...</string>
+
+</resources>

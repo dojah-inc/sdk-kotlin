@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_10">#1AFFFFFF</color>
+    <color name="white_90">#E6FFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="purple">#5E3EEB</color>
+    <color name="dojah_purple">#5E3EEB</color>
+    <color name="ash">#828282</color>
+    <color name="track_color">#F5F5F5</color>
+    <color name="light_purple">#EDEDFE</color>
+    <color name="red_2">#EB001B</color>
+
+    <color name="green">#28A23F</color>
+    <color name="green_alpha_5">#0D28A23F</color>
+    <color name="green_alpha_6">#E9FFF7</color>
+
+    <color name="amber">#FFBF00</color>
+
+    <color name="teal_green">#FA7039</color>
+
+    <color name="account_divider">#1A202046</color>
+
+    <color name="login_illustration_background">#1A9BBDFF</color>
+
+    <color name="switch_track">#DBE0E9</color>
+
+    <color name="widget_item_group">#F9F9F9</color>
+
+    <color name="fund_wallet">#564FEE</color>
+    <color name="send_money">#BE0094</color>
+    <color name="withdraw">#2AAD86</color>
+    <color name="card_balance">#7E52C3</color>
+    <color name="cardless_withdrawal">#F79E1B</color>
+    <color name="buy_airtime">#1ABA00</color>
+    <color name="buy_data">#FF482F</color>
+    <color name="cable">#C03CFF</color>
+    <color name="electricity">#FFE605</color>
+    <color name="open_account">#0068C8</color>
+    <color name="qr_pay">#09093E</color>
+    <color name="education">#8BE000</color>
+    <color name="betting">#CE693E</color>
+    <color name="analysis">#9E1879</color>
+    <color name="bank_success_rate">#FEF8EF</color>
+    <color name="switch_green">#1ABA00</color>
+    <color name="ash_2">#C4C4C4</color>
+    <color name="ash_2_alpha_30">#4DC4C4C4</color>
+    <color name="qr_pay_70">#B309093E</color>
+
+    <color name="baby_blue">#EBF1FF</color>
+
+    <color name="notification_header_background">#F7F7F7</color>
+
+    <color name="login_description">#9BBDFF</color>
+    <color name="reward_bal_card_shadow">#8BB9B5FB</color>
+    <color name="yellow">#FFC325</color>
+
+    <color name="debit">#FF4500</color>
+
+    <color name="bank_success_rate_border">#564FED</color>
+    <color name="black_05">#0D000000</color>
+    <color name="black_fade">#000000</color>
+
+    <color name="excellent">#008000</color>
+    <color name="good">#FFA500</color>
+    <color name="poor">#FF0000</color>
+    <color name="successTableHeader">#0D564FED</color>
+    <color name="gray200">#EAECF0</color>
+    <color name="gray600">#475467</color>
+    <color name="gray700">#344054</color>
+    <color name="gray500">#667085</color>
+    <color name="gray900">#101828</color>
+    <color name="progress_background">#DBE0E9</color>
+    <color name="progress_track1">#5047F5</color>
+    <color name="progress_track2">#635047F5</color>
+    <color name="primary">#4840DD</color>
+    <color name="success">#079455</color>
+    <color name="failure">#D92D20</color>
+    <color name="switch_bg">#F1F5F9</color>
+    <color name="teal_green200">#25FA7039</color>
+    <color name="ash_3">#7A7979</color>
+
+    <color name="text_body_dimmed">#64748B</color>
+    <color name="grey_scale_title">#0F172A</color>
+    <color name="border_color">#99E2E9F0</color>
+    <color name="grey_scale_background">#F8FAFC</color>
+    <color name="grey_scale_placeholder">#64748B</color>
+    <color name="grey_scale_body">#334155</color>
+    <color name="divider_color_tier">#80CBD5E1</color>
+    <color name="brand">#5047F5</color>
+    <color name="grey_bg">#EEEEF1</color>
+
+    <color name="app_bar_back_color">#85858E</color>
+    <color name="card_back_color">#F9F9F9</color>#CECED2
+    <color name="card_stroke_color">#CECED2</color>#CECED2
+    <color name="body_color">#4A4A68</color>
+    <color name="progress_color">#3F7CDB</color>
+    <color name="grey_color">#DBD9D9</color>
+    <color name="accent2_500">#A13E3F</color>
+    <color name="accent1_500">#4A878D</color>
+    <color name="black">#FF000000</color>
+    <color name="brand_dojah">#3F7CDB</color>
+    <color name="brand_200">#9FBDED</color>
+    <color name="black_100">#CECED2</color>
+    <color name="black_200">#84858D</color>
+    <color name="black_main">#080917</color>
+
+
+</resources>

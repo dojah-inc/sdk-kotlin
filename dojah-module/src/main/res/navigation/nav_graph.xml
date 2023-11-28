@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/frag_country">
+
+    <fragment
+        android:id="@+id/frag_country"
+        android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.CountryFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_country" />
+
+    <fragment
+        android:id="@+id/frag_bio_data"
+        android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.BioDataFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_bio_data" />
+    <navigation
+        android:id="@+id/gov_nav_graph"
+        app:startDestination="@id/frag_gov_data"
+        >
+        <fragment
+            android:id="@+id/frag_gov_data"
+            android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.GovDataFragment"
+            android:label="@string/empty"
+            tools:layout="@layout/fragment_gov_data" />
+
+        <include app:graph="@navigation/gov_id_nav_graph" />
+
+        <include app:graph="@navigation/selfie_nav_graph" />
+
+        <fragment
+            android:id="@+id/frag_phone_otp"
+            android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.PhoneOtpFragment"
+            android:label="@string/empty"
+            tools:layout="@layout/fragment_otp_phone" />
+        <fragment
+            android:id="@+id/frag_email_otp"
+            android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.EmailOtpFragment"
+            android:label="@string/empty"
+            tools:layout="@layout/fragment_otp_email" />
+
+        <fragment
+            android:id="@+id/frag_enter_otp"
+            android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.EnterOtpFragment"
+            android:label="@string/empty"
+            tools:layout="@layout/fragment_enter_otp2" />
+
+        <fragment
+            android:id="@+id/frag_address"
+            android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.HomeAddressFragment"
+            android:label="@string/empty"
+            tools:layout="@layout/fragment_home_address" />
+
+
+        <fragment
+            android:id="@+id/frag_success"
+            android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.SuccessFragment"
+            android:label="@string/empty"
+            tools:layout="@layout/success_view" />
+    </navigation>
+
+</navigation>
