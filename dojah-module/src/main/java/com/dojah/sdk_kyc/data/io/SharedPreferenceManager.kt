@@ -20,10 +20,13 @@ class SharedPreferenceManager @Inject constructor(
         ///Dojah keys
         const val KEY_BEARER_TOKEN = " bearer token"
         const val KEY_NOTIFICATION_TOKEN = "notification_token"
-        const val KEY_SERIAL_NUMBER = "serial number"
+        const val KEY_SESSION_ID = "session id"
         const val KEY_LOCATION = "location"
 
-        const val KEY_ANALYSIS_RESPONSE = "key_analysis_response"
+        const val KEY_AUTH_RESPONSE = "key_analysis_response"
+        const val KEY_PRE_AUTH_RESPONSE = "key_pre_auth_response"
+        const val KEY_CHECK_IP_RESPONSE = "key_check_ip_response"
+        const val KEY_GET_IP_RESPONSE = "key_get_ip_response"
     }
 
     private val userPref: SharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE)
@@ -41,13 +44,6 @@ class SharedPreferenceManager @Inject constructor(
     }
 
 
-    fun getBearerToken() = userPref.getString(KEY_BEARER_TOKEN, "")!!
-
-    fun getNotificationToken() = appPref.getString(KEY_NOTIFICATION_TOKEN, "")!!
-
-
-    fun getDeviceSerialNumber() = appPref.getString(KEY_SERIAL_NUMBER, null)
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         key?.let { k ->
             callbacks.forEach { it.onChange(k) }
@@ -60,8 +56,22 @@ class SharedPreferenceManager @Inject constructor(
         }
     }
 
-    fun getLocation() = appPref.getString(KEY_LOCATION, "")!!
 
+    fun getBearerToken() = userPref.getString(KEY_BEARER_TOKEN, null)
+
+    fun getSessionId() = userPref.getString(KEY_SESSION_ID, null)
+
+    fun setBearerToken(token: String?) {
+        userPref.edit {
+            putString(KEY_BEARER_TOKEN, token)
+        }
+    }
+
+    fun setSessionId(id: String) {
+        userPref.edit {
+            putString(KEY_SESSION_ID, id)
+        }
+    }
 
     fun saveJsonResponse(responseString: String?, key: String) {
         if (responseString == null) {

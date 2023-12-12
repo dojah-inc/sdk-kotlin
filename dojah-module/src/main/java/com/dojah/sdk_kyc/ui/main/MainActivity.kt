@@ -7,6 +7,9 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -16,18 +19,25 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import androidx.navigation.get
 import androidx.navigation.navOptions
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.databinding.ActivityMainDojahBinding
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
-import com.dojah.sdk_kyc.ui.utils.makeDebugToast
+import com.dojah.sdk_kyc.ui.main.fragment.DojahNavGraph
+import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
+import com.dojah.sdk_kyc.ui.splash.COUNTRY_ERROR
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -43,6 +53,8 @@ class MainActivity : AppCompatActivity() {
 
     private val navViewModel by viewModels<NavigationViewModel>()
 
+    private val viewModel by viewModels<VerificationViewModel>()
+
     @Inject
     lateinit var preferenceManager: SharedPreferenceManager
 
@@ -56,8 +68,29 @@ class MainActivity : AppCompatActivity() {
 
         ActivityMainDojahBinding.inflate(layoutInflater).apply {
             binding = this
-
             setContentView(root)
+
+            val errorExtra = intent.getStringExtra("error")
+            val msgExtra = intent.getStringExtra("message")
+            if (errorExtra != null) {
+                ///If there is an auth error redirect to error page.
+                findViewById<View>(R.id.nav_host_fragment).isVisible = false
+                if (errorExtra == COUNTRY_ERROR) {
+                    stub.layoutInflater.inflate(R.layout.fragment_error_country, root).apply {
+                        findViewById<TextView>(R.id.msg).text = msgExtra
+                    }
+                } else {
+                    stub.layoutInflater.inflate(R.layout.fragment_error, root).apply {
+                        findViewById<TextView>(R.id.msg).text = msgExtra
+                    }
+                }
+                return@apply
+            } else {
+//                Toast.makeText(this@MainActivity, "Error is null", Toast.LENGTH_SHORT)
+//                    .show()
+                findViewById<View>(R.id.nav_host_fragment).isVisible = true
+            }
+
 
             hideKeyboard(root)
 
@@ -65,7 +98,22 @@ class MainActivity : AppCompatActivity() {
             sandboxTag.isVisible = booleanExtra
 
             val navController = findNavController(R.id.nav_host_fragment)
-
+            val isSingleCountry = viewModel.getCountriesFullFromPrefs(this@MainActivity)?.size == 1
+//            if (isSingleCountry) {
+//                navController.navigate(
+//                    R.id.frag_bio_data,
+//                )
+//            } else {
+//                navController.navigate(
+//                    R.id.frag_country,
+//                )
+//            }
+            val pages = viewModel.getPagesFromPrefs()!!
+            DojahNavGraph.createRoutes(
+                navController,
+                isSingleCountry,
+                pages
+            )
             navController.restoreState(savedInstanceState)
 
             observeNavigation()
@@ -78,19 +126,33 @@ class MainActivity : AppCompatActivity() {
 
             if (intent.hasExtra(EXTRA_DESTINATION)) handleDestinationIntent()
 
+            onBackPressedDispatcher.addCallback(this@MainActivity) {
+                val startDestinationRoute =
+                    (navController.graph[Routes.verification_route] as NavGraph).startDestinationRoute
+                val currentRoute = navController.currentDestination?.route
+                if (currentRoute == startDestinationRoute) {
+                    //if current route is first route, exist Dojah SDK
+                    finish()
+                } else {
+                    val isDojahRoute = pages.find { it.name == currentRoute } != null
+                    // first check if current route is part of pages
+                    // fetched from server
+                    if (isDojahRoute) {
+                        //pop last route from dojah routes
+                        navViewModel.popLastDojahRoute()
+                    }
+                    //if current route is not first route, pop back stack
+                    navController.popBackStack()
+                }
+            }
             toolbar.backView.setOnClickListener {
-                navController.popBackStack()
+                onBackPressedDispatcher.onBackPressed()
             }
             toolbar.closeView.setOnClickListener {
                 finish()
             }
 
-
         }
-        //handle deep linking
-//        DeepLinkService
-//            .getDojahLinks(this)
-//            .navigateLinks(navViewModel)
     }
 
     private fun changeStatusBarIconToDark() {
@@ -176,15 +238,49 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeNavigation() {
-        val navController = findNavController(R.id.nav_host_fragment)
+        val navController =
+            findNavController(R.id.nav_host_fragment)
+
+
+
+        navViewModel.currentStepLiveData.observe(this) { it ->
+            HttpLoggingInterceptor.Logger.DEFAULT.log("all routes click is ${it.toString()}")
+        }
+        navViewModel.autoNavigateLiveData.observe(this) { event ->
+            if (!event.hasBeenHandled) {
+                val lastStoredRoute = navViewModel.currentStepLiveData.value
+                    ?.lastOrNull()
+                val currentRoute = lastStoredRoute ?: navController.currentDestination?.route
+                event.getContentIfNotHandled()?.also {
+                    // nextRoute  is e.g = user-data/government-data
+                    val pages = viewModel.getPagesFromPrefs()
+                    val indexOfCurrent = pages?.indexOfFirst { it.name == currentRoute }
+                    if (indexOfCurrent != null) {
+                        val nextIndex = indexOfCurrent + 1
+                        if (nextIndex <= pages.size - 1) {
+                            val nextRoute = pages[nextIndex].name ?: ""
+                            navViewModel.pushNextDojahRoute(nextRoute)
+                            val destination =
+                                if (it.first == null) nextRoute else Routes.getOptionRoute(
+                                    nextRoute, it.first?.getString(
+                                        NavArguments.option, null
+                                    )
+                                )
+                            navController.navigate(
+                                destination, createNavOptions(it.second)
+                            )
+                        } else {
+                            Toast.makeText(this, "No more steps!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
 
         navViewModel.navigationLiveData.observe(this) { event ->
             if (!event.hasBeenHandled) {
-//                Toast.makeText(this,"Navigation just get handled", Toast.LENGTH_SHORT).show()
-
                 event.getContentIfNotHandled()?.also {
-                    navController.navigate(it.first, it.second, createNavOptions(it.third))
-
+                    navController.navigate(it.first, createNavOptions(it.third))
                 }
             }
         }
@@ -265,7 +361,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

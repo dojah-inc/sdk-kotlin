@@ -105,7 +105,7 @@ class UploadBackDocFragment : ErrorFragment() {
                 }
             }
             btnUpload.setOnClickListener {
-                navViewModel.navigate(R.id.frag_preview_doc)
+                navViewModel.navigateOld(R.id.frag_preview_doc)
             }
 
             btnCapture.setOnClickListener {

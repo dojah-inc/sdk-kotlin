@@ -111,7 +111,7 @@ class UploadFrontDocFragment : ErrorFragment() {
             }
 
             btnUpload.setOnClickListener {
-                navViewModel.navigate(R.id.frag_preview_doc, Bundle().apply {
+                navViewModel.navigateOld(R.id.frag_preview_doc, Bundle().apply {
                     putBoolean("isUpload", true)
                 })
             }

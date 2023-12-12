@@ -75,7 +75,7 @@ class CountryPickSpinner : LinearLayout {
             (field as MutableList<Country>).apply {
                 clear()
                 addAll(value)
-                setSelectedItem(field.find { it.id.equals("ng", ignoreCase = true) }!!)
+//                field.find { it.id.equals("ng", ignoreCase = true) }?.let { setSelectedItem(it) }
                 spinnerLayout.progressIndicator.isVisible = false
                 (spinnerLayout.recyclerView.adapter as SpinnerAdapter).submitList(value)
             }
@@ -267,7 +267,7 @@ class CountryPickSpinner : LinearLayout {
         }
     }
 
-    private fun setSelectedItem(item: Country) {
+    fun setSelectedItem(item: Country) {
         binding.apply {
             selectedCountryId = item.id
             countryName.text = item.name

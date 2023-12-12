@@ -5,14 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
-import com.dojah.sdk_kyc.core.Constants
 import com.dojah.sdk_kyc.databinding.FragmentBusinessDataBinding
-import com.dojah.sdk_kyc.databinding.FragmentGovDataBinding
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.base.SpinnerFragment
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.performOperationOnActivityAvailable
@@ -25,9 +23,7 @@ import timber.log.Timber
 class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
     private val binding by viewBinding { FragmentBusinessDataBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.nav_graph) { defaultViewModelProviderFactory }
-
-//    private val viewModel by viewModels<VerificationViewModel>()
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
 
@@ -80,7 +76,7 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
 
 
             btnContinue.setOnClickListener {
-                navViewModel.navigate(R.id.frag_disclaimer)
+                navViewModel.navigateOld(R.id.frag_disclaimer)
             }
             performOperationOnActivityAvailable {
 //                addMenu()

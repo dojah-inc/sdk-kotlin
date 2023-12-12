@@ -48,6 +48,7 @@
         <item name="appBarBackIcon">@drawable/corned_arrow_back</item>
         <item name="icVerificationAvatar">@drawable/ic_verification_avatar</item>
         <item name="img404">@drawable/img_404</item>
+        <item name="countryWarning">@drawable/country_warning</item>
         <item name="infoIcon">@drawable/ic_info</item>
 <!--        <item name="facialVerificationAnim">@raw/facial_verification_anim</item>-->
         <item name="facialVerificationAnim">@raw/loading_circle</item>

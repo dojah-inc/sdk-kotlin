@@ -13,6 +13,7 @@ import java.net.UnknownHostException
 open class BaseRepository(private val networkManager: NetworkManager, private val gson: Gson) {
     private companion object {
         val successCode = arrayOf("success", "00", "ok")
+        val errorCode = "error"
     }
 
     /**
@@ -42,26 +43,18 @@ open class BaseRepository(private val networkManager: NetworkManager, private va
         get() {
             val jsonMap = gson.fromJson<Map<String, String>>(this, Map::class.java)
 
-            val status = when {
-                jsonMap?.containsKey("status") == true -> {
-                    jsonMap["status"]
-
-                }
-
-                jsonMap?.containsKey("Status") == true -> {
-                    jsonMap["Status"]
-                }
-
-                jsonMap?.containsKey("data") == true && (jsonMap.getValue("data") != null) -> {
-                    "00"
-                }
-
-                else -> ""
-            }
+//            val status = when {
+//                jsonMap?.containsKey("status") == true -> {
+//                    jsonMap["status"]
+//
+//                }
+//
+//                else -> ""
+//            }
 
 //            Timber.tag("getResult>").d(">isSuccess$status")
 
-            return successCode.contains(status)
+            return !jsonMap.contains(errorCode)
         }
 
     /**

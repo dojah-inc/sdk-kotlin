@@ -3,7 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/frag_country">
+    app:startDestination="@id/frag_empty"
+    >
+
+    <fragment
+        android:id="@+id/frag_empty"
+        android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.EmptyFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_empty" />
 
     <fragment
         android:id="@+id/frag_country"
@@ -29,6 +36,12 @@
         <include app:graph="@navigation/gov_id_nav_graph" />
 
         <include app:graph="@navigation/selfie_nav_graph" />
+
+        <fragment
+            android:id="@+id/frag_biz_data"
+            android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.BusinessDataFragment"
+            android:label="@string/empty"
+            tools:layout="@layout/fragment_business_data" />
 
         <fragment
             android:id="@+id/frag_phone_otp"

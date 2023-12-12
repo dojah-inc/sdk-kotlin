@@ -7,16 +7,22 @@ import android.widget.Toast
 import androidx.core.text.toSpannable
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.databinding.FragmentCountryBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
+import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.KycPages
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.getAttr
 import com.dojah.sdk_kyc.ui.utils.performOperationOnActivityAvailable
 import com.dojah.sdk_kyc.ui.utils.setClickableText
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 
 
@@ -25,9 +31,11 @@ import timber.log.Timber
 class CountryFragment : ErrorFragment(R.layout.fragment_country) {
     private val binding by viewBinding { FragmentCountryBinding.bind(it) }
 
-    private val viewModel by viewModels<VerificationViewModel>()
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route){defaultViewModelProviderFactory}
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
+
+
 
     override fun onResume() {
         super.onResume()
@@ -60,8 +68,9 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
             }
 
             btnContinue.setOnClickListener {
-                navViewModel.navigate(R.id.frag_bio_data)
+                navViewModel.navigateNextStep()
             }
+
             performOperationOnActivityAvailable {
 //                addMenu()
 //                setAppBarData(viewModel.profileLiveData.value)
@@ -76,16 +85,18 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
         viewModel.getCountries()
         viewModel.countryLiveData.observe(viewLifecycleOwner) {
             binding.layoutSpinner.apply {
-                items = it.filter {
-                    return@filter listOf<String>(
-                        "Nigeria",
-                        "Ghana",
-                        "Kenya",
-                        "Uganda",
-                        "Zimbabwe",
-                        "South Africa"
-                    ).contains(it.name)
+                val tmpItems = it.filter {
+                    it.name.equals(
+                        viewModel.getUserCountryFromPrefs(),
+                        ignoreCase = true
+                    ).let { _ ->
+                        setSelectedItem(it)
+                    }
+                    return@filter viewModel.getCountriesFullFromPrefs(requireContext())
+                        ?.contains(it.name) == true
                 }
+//                setSelectedItem(viewModel.getUserCountryFromPrefs(requireContext()))
+                items = tmpItems.ifEmpty { it }
             }
         }
     }

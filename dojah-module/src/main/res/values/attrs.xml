@@ -123,6 +123,8 @@
         <attr name="icVerificationAvatar" format="reference" />
         <!--        img404 can be in an image format (e.g svg,png...)-->
         <attr name="img404" format="reference" />
+        <!--        img404 can be in an image format (e.g svg,png...)-->
+        <attr name="countryWarning" format="reference" />
         <!--        infoIcon can be in an image format (e.g svg,png...)-->
         <attr name="infoIcon" format="reference" />
         <!--        sandboxBg can be in an image format (e.g svg,png...)-->

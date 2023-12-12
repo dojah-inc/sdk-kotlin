@@ -10,7 +10,7 @@
     <string name="done">Done</string>
     <string name="error_network">Check your internet connection and try again.</string>
     <string name="error_timeout">Timeout, Check your network and try again later.</string>
-    <string name="error_no_data">Data not received. If this is a transaction, please check transaction history/wallet balance before you retry.</string>
+    <string name="error_no_data">Data not received.</string>
     <string name="duplicate_transaction_error">Duplicate transaction, please try again in a minute.</string>
     <string name="unlock_device">Unlock device</string>
     <string name="select_date_of_birth">Select your date of birth</string>
@@ -93,5 +93,8 @@
     <string name="resend_code">Resend code</string>
     <string name="record">Record</string>
     <string name="processing_load">Processing...</string>
+    <string name="verification_is_not_allowed_in_your_country">Verification is not allowed in\nyour country</string>
+    <string name="something_is_broken">Something is broken</string>
+    <string name="it_looks_like_something_isn_t_connecting_right_please_verify_your_entry_or_give_a_page_refresh_a_try">It looks like something isn\'t connecting right. Please verify your entry or give a page refresh a try.</string>
 
 </resources>

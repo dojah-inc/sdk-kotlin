@@ -21,7 +21,7 @@ ext {
     configVariable = [
             versionCode             : "2022",
             baseURL                 : "https://mobile.dojah.com/api/",
-            baseUrlDev              : "https://dojah-mobile-api-dev.upkip.live/api/",
+            baseUrlDev              : "https://api-dev.dojah.services/",
             baseUrlStaging          : "https://dojah-mobile-api-staging.upkip.live/api/",
     ]
 
@@ -95,9 +95,9 @@ android {
             minifyEnabled false
 
 //            applicationIdSuffix ".debug"
-//            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlDev}\""
+            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlDev}\""
 //            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlStaging}\""
-            buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
+//            buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
 
         }
 

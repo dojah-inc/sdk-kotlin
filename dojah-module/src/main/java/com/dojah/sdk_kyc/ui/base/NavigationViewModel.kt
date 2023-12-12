@@ -18,9 +18,19 @@ import kotlinx.coroutines.launch
  */
 class NavigationViewModel : ViewModel() {
 
-    private val _navigationLiveData = MutableLiveData<Event<Triple<Int, Bundle?, PopAction?>>>()
+    private val _currentStepLiveData = MutableLiveData<ArrayDeque<String>>(ArrayDeque())
 
-    val navigationLiveData: LiveData<Event<Triple<Int, Bundle?, PopAction?>>>
+    val currentStepLiveData: LiveData<ArrayDeque<String>>
+        get() = _currentStepLiveData
+
+    private val _autoNavigateLiveData = MutableLiveData<Event<Pair<Bundle?, PopAction?>>>()
+
+    val autoNavigateLiveData: LiveData<Event<Pair<Bundle?, PopAction?>>>
+        get() = _autoNavigateLiveData
+
+    private val _navigationLiveData = MutableLiveData<Event<Triple<String, Bundle?, PopAction?>>>()
+
+    val navigationLiveData: LiveData<Event<Triple<String, Bundle?, PopAction?>>>
         get() = _navigationLiveData
 
     private val _popBackStackLiveData = MutableLiveData<Event<Pair<Int, Boolean>>>()
@@ -28,10 +38,31 @@ class NavigationViewModel : ViewModel() {
     val popBackStackLiveData: LiveData<Event<Pair<Int, Boolean>>>
         get() = _popBackStackLiveData
 
-    fun navigate(destination: Int, args: Bundle? = null, popAction: PopAction? = null) {
+    fun navigateOld(destination: Int, args: Bundle? = null, popAction: PopAction? = null) {
+        viewModelScope.launch(Dispatchers.Main) {
+//            _navigationLiveData.postValue(Event(Triple(destination, args, popAction)))
+        }
+    }
+
+    fun navigate(destination: String, args: Bundle? = null, popAction: PopAction? = null) {
         viewModelScope.launch(Dispatchers.Main) {
             _navigationLiveData.postValue(Event(Triple(destination, args, popAction)))
         }
+    }
+
+    fun navigateNextStep(args: Bundle? = null, popAction: PopAction? = null) {
+        viewModelScope.launch(Dispatchers.Main) {
+            _autoNavigateLiveData.postValue(Event(Pair(args, popAction)))
+        }
+    }
+
+    fun pushNextDojahRoute(currentRoute: String) {
+        _currentStepLiveData.value?.addLast(currentRoute)
+        _currentStepLiveData.postValue(_currentStepLiveData.value)
+    }
+    fun popLastDojahRoute() {
+        _currentStepLiveData.value?.removeLast()
+        _currentStepLiveData.postValue(_currentStepLiveData.value)
     }
 
     /**

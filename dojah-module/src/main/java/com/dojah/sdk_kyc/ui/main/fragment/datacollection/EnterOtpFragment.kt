@@ -16,6 +16,7 @@ import com.dojah.sdk_kyc.core.Constants
 import com.dojah.sdk_kyc.databinding.FragmentEnterOtp2Binding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.getAttr
@@ -29,7 +30,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
     private val binding by viewBinding { FragmentEnterOtp2Binding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_nav_graph) { defaultViewModelProviderFactory }
+    //    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_nav_graph) { defaultViewModelProviderFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
 
@@ -108,12 +110,13 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
             }
 
             btnContinue.setOnClickListener {
-                navViewModel.navigate(R.id.frag_success, Bundle().apply {
-                    putString(
-                        Constants.SUCCESS_BUNDLE,
-                        "Your ${viewModel.verificationTypeLiveData.value?.title ?: "identification"} has been successfully verified, you will now be redirected."
-                    )
-                })
+                navViewModel.navigateNextStep()
+//                navViewModel.navigateOld(R.id.frag_success, Bundle().apply {
+//                    putString(
+//                        Constants.SUCCESS_BUNDLE,
+//                        "Your ${viewModel.verificationTypeLiveData.value?.title ?: "identification"} has been successfully verified, you will now be redirected."
+//                    )
+//                })
             }
         }
     }

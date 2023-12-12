@@ -13,6 +13,12 @@
         tools:layout="@layout/fragment_doc_type" />
 
     <fragment
+        android:id="@+id/frag_biz_doc_type"
+        android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.BizDocTypeFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_doc_type" />
+
+    <fragment
         android:id="@+id/frag_disclaimer"
         android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.DisclaimerFragment"
         android:label="@string/empty"
@@ -26,7 +32,7 @@
 
     <fragment
         android:id="@+id/frag_capture_back_doc"
-        android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureBackDriverLicFragment"
+        android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureBackDocFragment"
         android:label="@string/empty"
         tools:layout="@layout/fragment_capture_document" />
 
@@ -48,15 +54,6 @@
         android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.UploadBackDocFragment"
         android:label="@string/empty"
         tools:layout="@layout/fragment_upload_doc" />
-
-
-    <fragment
-        android:id="@+id/frag_biz_data"
-        android:name="com.dojah.sdk_kyc.ui.main.fragment.datacollection.BusinessDataFragment"
-        android:label="@string/empty"
-        tools:layout="@layout/fragment_business_data" />
-
-
 
 
 </navigation>

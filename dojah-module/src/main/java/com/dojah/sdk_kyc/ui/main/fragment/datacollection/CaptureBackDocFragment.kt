@@ -28,11 +28,10 @@ import com.dojah.sdk_kyc.ui.utils.openAppSystemSettings
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class CaptureBackDriverLicFragment : ErrorFragment() {
+class CaptureBackDocFragment : ErrorFragment() {
 
     private val binding by viewBinding { FragmentCaptureDocumentBinding.bind(it) }
 
@@ -154,7 +153,7 @@ class CaptureBackDriverLicFragment : ErrorFragment() {
                             val savedUri = Uri.fromFile(photoFile)
                             viewModel.setBackDocUri(savedUri)
                             val msg = "Photo capture succeeded: $savedUri"
-                            navViewModel.navigate(R.id.frag_preview_doc)
+                            navViewModel.navigateOld(R.id.frag_preview_doc)
 
                         }
                     })
@@ -162,7 +161,7 @@ class CaptureBackDriverLicFragment : ErrorFragment() {
             }
 
             uploadBtn.setOnClickListener {
-                navViewModel.navigate(R.id.frag_upload_front_doc)
+                navViewModel.navigateOld(R.id.frag_upload_front_doc)
             }
 
         }
@@ -180,7 +179,7 @@ class CaptureBackDriverLicFragment : ErrorFragment() {
 //                navViewModel.popBackStack()
             }
 
-            show(this@CaptureBackDriverLicFragment.childFragmentManager, null)
+            show(this@CaptureBackDocFragment.childFragmentManager, null)
         }
 
 

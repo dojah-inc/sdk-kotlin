@@ -54,13 +54,20 @@
                         android:textColor="@color/accent2_500" />
                 </LinearLayout>
 
+                <ViewStub
+                    android:id="@+id/stub"
+                    android:name="androidx.navigation.fragment.NavHostFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    />
                 <fragment
                     android:id="@+id/nav_host_fragment"
                     android:name="androidx.navigation.fragment.NavHostFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:defaultNavHost="true"
-                    app:navGraph="@navigation/nav_graph" />
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"

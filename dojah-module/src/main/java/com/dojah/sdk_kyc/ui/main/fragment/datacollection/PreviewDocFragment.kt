@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
-import com.dojah.sdk_kyc.core.Constants
 import com.dojah.sdk_kyc.databinding.FragmentPreviewDriverLicenceBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
@@ -62,27 +61,27 @@ class PreviewDocFragment : ErrorFragment() {
                     viewModel.docTypeLiveData.value == GovDocType.DRIVER_LICENCE
                 ) {
                     if (arguments?.getBoolean("isUpload") == true) {
-                        navViewModel.navigate(R.id.frag_upload_back_doc)
+                        navViewModel.navigateOld(R.id.frag_upload_back_doc)
                     } else {
-                        navViewModel.navigate(R.id.frag_capture_back_doc)
+                        navViewModel.navigateOld(R.id.frag_capture_back_doc)
                     }
                 } else {
                     //Doc verification done, move to verify with options
                     when (val verificationType = govViewModel.verificationTypeLiveData.value) {
                         VerificationType.HOME_ADDRESS -> {
-                            navViewModel.navigate(R.id.frag_address)
+                            navViewModel.navigateOld(R.id.frag_address)
                         }
 
                         VerificationType.EMAIL_OTP -> {
-                            navViewModel.navigate(R.id.frag_email_otp)
+                            navViewModel.navigateOld(R.id.frag_email_otp)
                         }
 
                         VerificationType.PHONE_OTP -> {
-                            navViewModel.navigate(R.id.frag_phone_otp)
+                            navViewModel.navigateOld(R.id.frag_phone_otp)
                         }
 
                         else -> {
-                            navViewModel.navigate(R.id.selfie_nav_graph)
+                            navViewModel.navigateOld(R.id.selfie_nav_graph)
                         }
                     }
                 }

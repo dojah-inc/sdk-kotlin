@@ -285,6 +285,12 @@
 
 
     <!--    Dojah Styles    -->
+    <style name="TextAppearance.Dojah.Header4" parent="TextAppearance.Dojah.Header5">
+        <item name="fontFamily">@font/atakk_medium600</item>
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+        <item name="lineHeight">@dimen/line_height_28sp</item>
+    </style>
+
     <style name="TextAppearance.Dojah.Header5" parent="TextAppearance.AppCompat.Title">
         <item name="fontFamily">@font/atakk_medium600</item>
         <item name="android:textSize">@dimen/text_size_16sp</item>

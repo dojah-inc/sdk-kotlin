@@ -49,8 +49,7 @@ fun GreetingMain(name: String, modifier: Modifier = Modifier, context: Activity)
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Greeting("Test Sandbox", context = context, sandbox = true)
-            Greeting("Test KYC", context = context, sandbox = false)
+            Greeting("Launch Dojah SDK", context = context, sandbox = false)
         }
     }
 

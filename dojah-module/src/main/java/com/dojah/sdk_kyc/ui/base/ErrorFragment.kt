@@ -50,7 +50,6 @@ open class ErrorFragment : Fragment {
             is Result.Error.NetworkError -> getString(R.string.error_network)
             is Result.Error.TimeoutError -> getString(R.string.error_timeout)
             is Result.Error.NoDataError -> getString(R.string.error_no_data)
-            is Result.Error.DuplicateTransactionError -> getString(R.string.duplicate_transaction_error)
             else -> {
                 (error as Result.Error.ApiError).error?.let {
                     //save the status code
@@ -59,8 +58,6 @@ open class ErrorFragment : Fragment {
                     //extract the message
                     if (errorTitleField.isNotEmpty()) title =
                         it[errorTitleField].toString().ifEmpty { errorTitle }
-
-                    if (title.contains("Suspended", true))  statusCode = "09"
 
                     it[errorField]?.toString() ?: ""
                 } ?: if (BuildConfig.DEBUG) "Something went wrong" else "Unknown error"

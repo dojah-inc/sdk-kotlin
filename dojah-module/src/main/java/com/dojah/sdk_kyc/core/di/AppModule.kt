@@ -19,6 +19,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -41,9 +42,8 @@ AppModule {
             connectTimeout(Constants.CONNECT_TIMEOUT, TimeUnit.SECONDS)
             writeTimeout(Constants.WRITE_TIMEOUT, TimeUnit.SECONDS)
             readTimeout(Constants.READ_TIMEOUT, TimeUnit.SECONDS)
-
 //            addInterceptor(VersionCodeInterceptor(BuildConfig.VERSION_CODE, gson))
-            addInterceptor(HeaderInterceptor(BuildConfig.VERSION_CODE, manager))
+            addInterceptor(HeaderInterceptor(manager))
 
             cache(null)
 
@@ -67,7 +67,7 @@ AppModule {
 
     @Provides
     @Singleton
-    fun provideAnalysisService(retrofit: Retrofit): DojahService {
+    fun provideDojahService(retrofit: Retrofit): DojahService {
 //        if (BuildConfig.DEBUG) {
 //            print(":::::::::::::::::::::Using DojahServiceMock:::::::::::::::::::::")
 //            return DojahServiceMock()

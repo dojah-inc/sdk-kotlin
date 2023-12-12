@@ -18,7 +18,7 @@ import timber.log.Timber
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
 @AndroidEntryPoint
-class DocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
+class BizDocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
     private val binding by viewBinding { FragmentDocTypeBinding.bind(it) }
 
     private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_id_nav_graph) { defaultViewModelProviderFactory }

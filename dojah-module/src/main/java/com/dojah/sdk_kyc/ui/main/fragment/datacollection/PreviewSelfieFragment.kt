@@ -2,13 +2,11 @@ package com.dojah.sdk_kyc.ui.main.fragment.datacollection
 
 import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.MediaController
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
@@ -107,7 +105,7 @@ class PreviewSelfieFragment : ErrorFragment() {
                     delay(2000)
                     processing.visibility = View.GONE
                     ///go to success screen
-                    navViewModel.navigate(R.id.frag_success, Bundle().apply {
+                    navViewModel.navigateOld(R.id.frag_success, Bundle().apply {
                         putString(
                             Constants.SUCCESS_BUNDLE,
                             getString(R.string.success_msg)

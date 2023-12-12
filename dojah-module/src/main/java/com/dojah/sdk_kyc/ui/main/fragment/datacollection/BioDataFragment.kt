@@ -7,20 +7,23 @@ import android.widget.Toast
 import androidx.core.text.toSpannable
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.databinding.FragmentBioDataBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.CalendarDialogFragment
+import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.getAttr
-import com.dojah.sdk_kyc.ui.utils.openAppSystemSettings
 import com.dojah.sdk_kyc.ui.utils.performOperationOnActivityAvailable
 import com.dojah.sdk_kyc.ui.utils.setClickableText
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import java.time.Instant
 import java.time.LocalDate
@@ -36,7 +39,7 @@ import java.time.temporal.ChronoUnit
 class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
     private val binding by viewBinding { FragmentBioDataBinding.bind(it) }
 
-    private val viewModel by viewModels<VerificationViewModel>()
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route){defaultViewModelProviderFactory}
 
     private val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 
@@ -111,7 +114,7 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
             }
 
             btnContinue.setOnClickListener {
-                navViewModel.navigate(R.id.gov_nav_graph)
+                navViewModel.navigateNextStep()
             }
             textInputDate.setEndIconOnClickListener {
                 CalendarDialogFragment.getInstance(viewModel).apply {

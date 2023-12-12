@@ -34,6 +34,7 @@ import com.dojah.sdk_kyc.databinding.FragmentCaptureSelfieBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.CameraPermissionDialogFragment
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationType
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
@@ -43,7 +44,6 @@ import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -60,8 +60,11 @@ class CaptureSelfieFragment : ErrorFragment() {
     private var cameraProvider: ProcessCameraProvider? = null
 
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.selfie_nav_graph) { defaultViewModelProviderFactory }
-    private val govViewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_nav_graph) { defaultViewModelProviderFactory }
+//    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.selfie_nav_graph) { defaultViewModelProviderFactory }
+private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route){defaultViewModelProviderFactory}
+
+//    private val govViewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_nav_graph) { defaultViewModelProviderFactory }
+//    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route){defaultViewModelProviderFactory}
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
     private fun startCamera() {
@@ -80,7 +83,7 @@ class CaptureSelfieFragment : ErrorFragment() {
 
             val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
 
-            val isVideo = govViewModel.verificationTypeLiveData.value == VerificationType.Video
+            val isVideo = viewModel.verificationTypeLiveData.value == VerificationType.Video
             if (isVideo) {
 
                 val qualitySelector = QualitySelector.fromOrderedList(
@@ -157,7 +160,7 @@ class CaptureSelfieFragment : ErrorFragment() {
 
         cameraContract.launch(Manifest.permission.CAMERA)
         binding.apply {
-            val type = govViewModel.verificationTypeLiveData.value
+            val type = viewModel.verificationTypeLiveData.value
             titleText.text = type?.title
             (type == VerificationType.Video).also {
                 if (it) {
@@ -169,6 +172,8 @@ class CaptureSelfieFragment : ErrorFragment() {
                 cameraContract.launch(Manifest.permission.CAMERA)
             }
             captureBtn.setOnClickListener {
+                navViewModel.navigateNextStep()
+                return@setOnClickListener
 
                 val photoFile =
                     File.createTempFile("capture_selfie", ".jpg", requireContext().cacheDir)
@@ -191,7 +196,7 @@ class CaptureSelfieFragment : ErrorFragment() {
                             val savedUri = Uri.fromFile(photoFile)
                             viewModel.setSelfieUri(savedUri)
 
-                            navViewModel.navigate(R.id.frag_preview_selfie)
+                            navViewModel.navigateOld(R.id.frag_preview_selfie)
 
                         }
                     })
@@ -225,7 +230,7 @@ class CaptureSelfieFragment : ErrorFragment() {
                                 ///take path and send to preview screen
                                 val videoUri = it.outputResults.outputUri
                                 viewModel.setSelfieUri(videoUri)
-                                navViewModel.navigate(R.id.frag_preview_selfie)
+                                navViewModel.navigateOld(R.id.frag_preview_selfie)
                             }
                         }
             }

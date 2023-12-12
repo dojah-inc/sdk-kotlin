@@ -29,7 +29,6 @@ import com.dojah.sdk_kyc.ui.utils.openAppSystemSettings
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -143,7 +142,7 @@ class CaptureDocumentFragment : ErrorFragment() {
 
                             val savedUri = Uri.fromFile(photoFile)
                             viewModel.setFrontDocUri(savedUri)
-                            navViewModel.navigate(R.id.frag_preview_doc)
+                            navViewModel.navigateOld(R.id.frag_preview_doc)
 
                         }
                     })
@@ -151,7 +150,7 @@ class CaptureDocumentFragment : ErrorFragment() {
             }
 
             uploadBtn.setOnClickListener {
-                navViewModel.navigate(R.id.frag_upload_front_doc)
+                navViewModel.navigateOld(R.id.frag_upload_front_doc)
             }
 
         }

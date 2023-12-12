@@ -33,7 +33,7 @@ class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
             btnContinue.setOnClickListener {
-                navViewModel.navigate(R.id.frag_success, Bundle().apply {
+                navViewModel.navigateOld(R.id.frag_success, Bundle().apply {
                     putString(
                         Constants.SUCCESS_BUNDLE,
                         "Your home address has been successfully verified, you will now be redirected"
