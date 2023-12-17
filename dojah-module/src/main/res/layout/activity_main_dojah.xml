@@ -55,7 +55,7 @@
                 </LinearLayout>
 
                 <ViewStub
-                    android:id="@+id/stub"
+                    android:id="@+id/error_stub"
                     android:name="androidx.navigation.fragment.NavHostFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

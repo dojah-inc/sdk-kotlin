@@ -6,16 +6,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.text.toSpannable
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.databinding.FragmentCountryBinding
+import com.dojah.sdk_kyc.domain.Country
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
-import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
-import com.dojah.sdk_kyc.ui.main.viewmodel.KycPages
+import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.getAttr
@@ -31,10 +29,34 @@ import timber.log.Timber
 class CountryFragment : ErrorFragment(R.layout.fragment_country) {
     private val binding by viewBinding { FragmentCountryBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route){defaultViewModelProviderFactory}
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
 
+    private var selectedCountry: Country? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        observeEvents(KycPages.COUNTRY.serverKey)
+
+//        viewModel.eventLiveData.observe(this) {
+//            if (it.second is Result.Loading) {
+//                showLoading("Loading...")
+//            } else {
+//                dismissLoading()
+//                if (it.second is Result.Success) {
+//                    when (it.first.eventType) {
+//                        EventTypes.COUNTRY_SELECTED.serverKey -> {
+//                            navViewModel.navigateNextStep()
+//                        }
+//                    }
+//                } else {
+//                    navViewModel.navigate(Routes.error_fragment)
+//                }
+//            }
+//        }
+    }
 
 
     override fun onResume() {
@@ -68,7 +90,15 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
             }
 
             btnContinue.setOnClickListener {
-                navViewModel.navigateNextStep()
+                val stepNumber = viewModel.getCurrentPage(KycPages.INDEX.serverKey)?.id
+                    ?: throw Exception("No stepNumber")
+
+                viewModel.logEvent(
+                    EventTypes.COUNTRY_SELECTED.serverKey,
+                    viewModel.selectedCountryLiveData.value?.name ?: "",
+                    stepNumber = stepNumber
+                )
+//                navViewModel.navigateNextStep()
             }
 
             performOperationOnActivityAvailable {
@@ -82,21 +112,40 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
     }
 
     private fun reloadCountries() {
+        val serverCountries = viewModel.getCountriesFullFromPrefs(requireContext())
+        val userCountry = viewModel.getUserCountryFromPrefs()
         viewModel.getCountries()
         viewModel.countryLiveData.observe(viewLifecycleOwner) {
             binding.layoutSpinner.apply {
+                onCountrySelected = { country ->
+                    viewModel.setSelectedCountry(country)
+                }
+
                 val tmpItems = it.filter {
+//                    HttpLoggingInterceptor.Logger.DEFAULT.log(" nonTest Country ${it.name} == $userCountry")
                     it.name.equals(
-                        viewModel.getUserCountryFromPrefs(),
+                        userCountry,
                         ignoreCase = true
-                    ).let { _ ->
-                        setSelectedItem(it)
+                    ).let { isUserCountry ->
+                        HttpLoggingInterceptor.Logger.DEFAULT.log(" test Country ${it.name} == $userCountry")
+                        it.selected = isUserCountry
                     }
-                    return@filter viewModel.getCountriesFullFromPrefs(requireContext())
+                    return@filter serverCountries
                         ?.contains(it.name) == true
                 }
 //                setSelectedItem(viewModel.getUserCountryFromPrefs(requireContext()))
                 items = tmpItems.ifEmpty { it }
+//                it.forEach {
+//                    HttpLoggingInterceptor.Logger.DEFAULT.log(" nonTest Country ${it.name} == $userCountry")
+//                    it.name.equals(
+//                        userCountry,
+//                        ignoreCase = true
+//                    ).let { _ ->
+//                        HttpLoggingInterceptor.Logger.DEFAULT.log(" test Country ${it.name} == $userCountry")
+//                        setSelectedItem(it)
+//                    }
+//                }
+
             }
         }
     }

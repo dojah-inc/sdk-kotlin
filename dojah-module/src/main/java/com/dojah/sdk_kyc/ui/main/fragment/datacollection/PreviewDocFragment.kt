@@ -11,8 +11,7 @@ import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.databinding.FragmentPreviewDriverLicenceBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
-import com.dojah.sdk_kyc.ui.main.viewmodel.GovDocType
-import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationType
+import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.load
@@ -58,7 +57,7 @@ class PreviewDocFragment : ErrorFragment() {
             }
             btnContinue.setOnClickListener {
                 if (viewModel.isBackDocLiveData.value != true &&
-                    viewModel.docTypeLiveData.value == GovDocType.DRIVER_LICENCE
+                    viewModel.docTypeLiveData.value == GovDocType.DL
                 ) {
                     if (arguments?.getBoolean("isUpload") == true) {
                         navViewModel.navigateOld(R.id.frag_upload_back_doc)

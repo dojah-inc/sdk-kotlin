@@ -18,20 +18,9 @@ import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.repository.DojahRepository
 import com.dojah.sdk_kyc.domain.Country
 import com.dojah.sdk_kyc.domain.request.CheckIpRequest
+import com.dojah.sdk_kyc.domain.request.EventRequest
 import com.dojah.sdk_kyc.domain.responses.*
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.BioDataFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.BizDocTypeFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.BusinessDataFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureDocumentFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CountryFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DisclaimerFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DocTypeFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.EmailOtpFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.EnterOtpFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.GovDataFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.HomeAddressFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.PhoneOtpFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.SelfieDisclaimerFragment
+import com.dojah.sdk_kyc.ui.utils.*
 import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.onStart
@@ -66,6 +55,7 @@ class VerificationViewModel @Inject constructor(
     private val _getIpDataLiveData = MutableLiveData<Result<GetIpResponse>>()
     private val _authErrLiveData = MutableLiveData<String>()
     private val _pages = MutableLiveData<List<Step>?>()
+
     val pages: LiveData<List<Step>?>
         get() = _pages
 
@@ -85,6 +75,10 @@ class VerificationViewModel @Inject constructor(
 
     val countryLiveData: LiveData<List<Country>>
         get() = _countryLiveData
+
+    private val _eventLiveData = MutableLiveData<Pair<EventRequest, Result<SimpleResponse>>>()
+    val eventLiveData: LiveData<Pair<EventRequest, Result<SimpleResponse>>>
+        get() = _eventLiveData
     val frontDocUriLiveData: LiveData<Uri>
         get() = _frontDocUriLiveData
     val backDocUriLiveData: LiveData<Uri>
@@ -107,6 +101,24 @@ class VerificationViewModel @Inject constructor(
     val timerOtpDoneLiveData: LiveData<Boolean>
         get() = _timerOtpDoneLiveData
 
+    private val _selectedCountryLiveData = MutableLiveData<Country?>()
+    val selectedCountryLiveData: LiveData<Country?>
+        get() = _selectedCountryLiveData
+
+    private val _selectedGovIdDataLiveData = MutableLiveData<EnumAttr?>()
+    val selectedGovDataLiveData: LiveData<EnumAttr?>
+        get() = _selectedGovIdDataLiveData
+
+
+    private val _submitGovLiveData = MutableLiveData<Result<String>>()
+    val submitGovLiveData: LiveData<Result<String>>
+        get() = _submitGovLiveData
+
+
+    val dojahEnum
+        get(): DojahEnum {
+            return repo.getDojahEnum.data
+        }
 
     fun setFrontDocUri(uri: Uri) {
         _isBackDocLiveData.postValue(false)
@@ -126,10 +138,6 @@ class VerificationViewModel @Inject constructor(
         _docTypeLiveData.postValue(GovDocType.enumOfValue(type))
     }
 
-    fun selectVerificationType(type: String) {
-        _verificationTypeLiveData.postValue(VerificationType.enumOfValue(type))
-    }
-
     fun getCountries() {
         countryManager.get().addCallback {
             _countryLiveData.postValue(it)
@@ -141,15 +149,16 @@ class VerificationViewModel @Inject constructor(
     }
 
     fun getDocType(): List<String> {
-        return GovDocType.values().map { it.value }
+        return GovDocType.values().map { it.sName }
     }
 
-    fun getVerifyMethods(): List<String> {
-        return VerificationType.values().map { it.value }
-    }
 
     fun getBussinessTypes(): List<String> {
         return BusinessDataType.values().map { it.value }
+    }
+
+    fun selectGovIdentity(id: EnumAttr?) {
+        _selectedGovIdDataLiveData.postValue(id)
     }
 
     fun authenticate(widgetId: String) {
@@ -202,6 +211,46 @@ class VerificationViewModel @Inject constructor(
                     } else if (preAuthResult is Result.Error) {
                         _authErrLiveData.postValue(getErrorMessage(preAuthResult))
                     }
+                }
+        }
+    }
+
+    fun buildEventRequest(
+        services: List<String>,
+        eventType: String,
+        eventValue: String,
+        stepNumber: Int,
+    ): EventRequest {
+        val authData = repo.getLocalResponse(
+            SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
+        )?.data
+//            authData?.initData?.authData?.stepNumber ?: throw Exception("Step number is null")
+        val verificationId =
+            authData?.initData?.authData?.verificationId
+                ?: throw Exception("Verification id is null")
+        return EventRequest(
+            stepNumber = stepNumber,
+            services = services,
+            eventType = eventType,
+            eventValue = eventValue,
+            verificationId = verificationId
+        ).apply {
+            logger.log("EventRequest: ${this}")
+        }
+    }
+
+    fun logEvent(
+        eventType: String,
+        eventValue: String,
+        services: List<String> = listOf(),
+        stepNumber: Int,
+    ) {
+        viewModelScope.launch {
+            val request = buildEventRequest(services, eventType, eventValue, stepNumber)
+            repo.logEvent(request)
+                .onStart { _eventLiveData.postValue(request to Result.Loading) }
+                .collect {
+                    _eventLiveData.postValue(request to it)
                 }
         }
     }
@@ -268,202 +317,28 @@ class VerificationViewModel @Inject constructor(
         return getPagesFromPrefs()?.find { it.name == currentPage }
     }
 
-    val targetDuration: Duration = Duration.ofMinutes(2).plusSeconds(43)
+    val targetDuration: Duration = Duration.ofMinutes(0).plusSeconds(13)
+//    val targetDuration: Duration = Duration.ofMinutes(2).plusSeconds(43)
+
+    private val otpTimer = object : CountDownTimer(targetDuration.toMillis(), 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            val format = SimpleDateFormat("mm:ss", Locale.ENGLISH)
+            _timerOtpLiveData.postValue(format.format(Date(millisUntilFinished)))
+        }
+
+        override fun onFinish() {
+            _timerOtpDoneLiveData.postValue(true)
+            cancel()
+        }
+    }
 
     fun startTimer() {
-        val timer = object : CountDownTimer(targetDuration.toMillis(), 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val format = SimpleDateFormat("mm:ss", Locale.ENGLISH)
-                _timerOtpLiveData.postValue(format.format(Date(millisUntilFinished)))
-//                _timerOtpLiveData.postValue("$min:$secs")
-            }
-
-            override fun onFinish() {
-                _timerOtpDoneLiveData.postValue(true)
-            }
-        }
-        timer.cancel()
-        timer.start()
+        otpTimer.cancel()
+        otpTimer.start()
     }
 
-}
-
-
-enum class BusinessDataType(val value: String) {
-    RC_NUMBER("RC Number"), TIN("TIN Number");
-
-    companion object {
-        fun enumOfValue(value: String): VerificationType? {
-            return VerificationType.values().find { it.value == value }
-        }
-    }
-}
-
-enum class VerificationType(
-    val value: String,
-    val serverKey: String,
-    val details: String? = "",
-    val title: String = "",
-    val preview: String = ""
-) {
-    Selfie(
-        "Selfie", "Place your face in the circle and click Capture", "Preview your Selfie"
-    ),
-    Video(
-        "Video KYC",
-        "selfie",
-        "Place your face in the circle and click Record",
-        "Preview your Video"
-    ),
-    OTP("OTP", "otp"), PHONE_OTP("Phone Number OTP", "phone number"), EMAIL_OTP(
-        "Email OTP", "email"
-    ),
-    HOME_ADDRESS("Home Address", "home address");
-
-    companion object {
-        fun enumOfValue(value: String): VerificationType? {
-            return VerificationType.values().find { it.value == value }
-        }
-
-        fun findEnumWithKey(serverKey: String?): VerificationType? {
-            return VerificationType.values().find { it.serverKey == serverKey }
-        }
-    }
-}
-
-enum class GovDocType(
-    val value: String, val serverKey: String, val title: String = "", val info: String = ""
-) {
-
-    DRIVER_LICENCE("Driver’s License", "dl",
-    "Capture the Driver’s License Document",
-    "Make sure your Driver’s License Document is properly placed, and hold it still for a few seconds"
-    ),
-    BVN(
-        "BVN",
-        "bvn",
-        "Capture the CAC Document",
-        "Make sure your CAC Document is properly placed, and hold it still for a few seconds"
-    ),
-    VOTER(
-        "Voter’s Card",
-        "voter",
-        "Capture the Voter’s Card Document",
-        "Make sure your Voter’s Card Document is properly placed, and hold it still for a few seconds"
-    ),
-    PASSPORT(
-        "National Passport",
-        "passport",
-        "Capture your National Passport",
-        "Make sure your National Passpor Document is properly placed, and hold it still for a few seconds"
-    ),
-    NIN(
-        "NIN",
-        "nin",
-        "Capture the NIN Document",
-        "Make sure your NIN Document is properly placed, and hold it still for a few seconds"
-    ),
-    NATIONAL(
-        "National ID",
-        "national",
-        "Capture the National ID Document",
-        "Make sure your National ID Document is properly placed, and hold it still for a few seconds"
-    ),
-    VNIN(
-        "VNIN",
-        "vnin",
-        "Capture the VNIN Document",
-        "Make sure your VNIN Document is properly placed, and hold it still for a few seconds"
-    );
-//    BUSINESS(
-//        "CAC",
-//        "cac",
-//        "Capture the CAC Document",
-//        "Make sure your CAC Document is properly placed, and hold it still for a few seconds"
-//    ),
-//    OTHER(
-//        "Other Doc",
-//        "Upload Document",
-//        "Make sure your Document is properly placed, and hold it still for a few seconds"
-//    );
-
-    companion object {
-        fun enumOfValue(value: String): GovDocType? {
-            return values().find { it.value == value }
-        }
-        fun findEnumWithKey(serverKey: String?): GovDocType? {
-            return values().find { it.serverKey == serverKey }
-        }
+    fun setSelectedCountry(country: Country) {
+        _selectedCountryLiveData.postValue(country)
     }
 
-}
-
-enum class KycPages(
-    val serverKey: String,
-    val fragmentClassName: String,
-    val optionpages: List<Pair<String, String>>? = null
-) {
-    INDEX(
-        "index", DisclaimerFragment::class.java.name
-    ),
-    COUNTRY(
-        "countries",
-        CountryFragment::class.java.name,
-    ),
-    USER_DATA(
-        "user-data",
-        BioDataFragment::class.java.name,
-    ),
-    GOVERNMENT_DATA(
-        "government-data",
-        GovDataFragment::class.java.name,
-    ),
-    GOVERNMENT_DATA_VERIFICATION(
-        "government-data-verification", "", listOf(
-            VerificationType.Video.serverKey to SelfieDisclaimerFragment::class.java.name,
-            VerificationType.OTP.serverKey to EnterOtpFragment::class.java.name,
-        )
-    ),
-    ID_OPTION(
-        "id-options",
-        DocTypeFragment::class.java.name,
-    ),
-    ID(
-        "id",
-        DisclaimerFragment::class.java.name,
-    ),
-    BUSINESS_DATA(
-        "business-data",
-        BusinessDataFragment::class.java.name,
-    ),
-    PHONE_NUMBER(
-        "phone-number",
-        PhoneOtpFragment::class.java.name,
-    ),
-    EMAIL(
-        "email",
-        EmailOtpFragment::class.java.name,
-    ),
-    BUSINESS_ID(
-        "business-id",
-        BizDocTypeFragment::class.java.name,
-    ),
-    ADDRESS(
-        "address",
-        HomeAddressFragment::class.java.name,
-    ),
-    SELFIE(
-        "selfie",
-        SelfieDisclaimerFragment::class.java.name,
-    ),
-    OTHER_DOCUMENT(
-        "additional-document",
-        CaptureDocumentFragment::class.java.name,
-    );
-
-    companion object {
-        fun findPageEnum(serverKey: String): KycPages? {
-            return values().find { it.serverKey == serverKey }
-        }
-    }
 }

@@ -17,7 +17,7 @@ import com.dojah.sdk_kyc.databinding.FragmentUploadDocBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.GalleryPermissionDialogFragment
-import com.dojah.sdk_kyc.ui.main.viewmodel.GovDocType
+import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.getAttr
@@ -89,7 +89,7 @@ class UploadFrontDocFragment : ErrorFragment() {
 
         binding.apply {
             val selectedDoc = viewModel.docTypeLiveData.value
-            if (selectedDoc != GovDocType.DRIVER_LICENCE) {
+            if (selectedDoc != GovDocType.DL) {
                 textTitle.text = selectedDoc?.title
 //                infoText.text = selectedDoc?.info
             }

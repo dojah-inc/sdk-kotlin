@@ -1,9 +1,12 @@
 package com.dojah.sdk_kyc.domain
 
-data class Country(val id: String,
-                   val name: String,
-                   val code: String,
-                   val path: String) {
+data class Country(
+    val id: String,
+    val name: String,
+    val code: String,
+    val path: String,
+    var selected: Boolean = false,
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

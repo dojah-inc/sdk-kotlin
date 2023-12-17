@@ -260,30 +260,105 @@ fun checkIpResponse(): String = """{
 }
 """.trimIndent()
 
-fun weeklyTxnSample(
-    daily_txn_count_value: Int = 78,
-    daily_txn_amount_value: Double = 425750.0,
-    daily_txn_count_goal: Int = 98,
-    daily_txn_amount_goal: Double = 750000.0,
+fun simpleEventRequest(
+    stepNumber: Int,
+    eventType: String,
+    eventValue: String,
 ): String = """{
-    "status": "00",
-    "data": {
-        "transaction_volume": $daily_txn_count_value,
-        "transaction_value": $daily_txn_amount_value,
-        "weekly_target_count": "$daily_txn_count_goal",
-        "weekly_target_value": "$daily_txn_amount_goal",
-        "user": {
-            "fname": "Jossy ventures",
-            "lname": "Jossy ventures",
-            "phone": "08057175725"
-        },
-        "status_count": 1,
-        "status_value": -1,
-        "start_date": "2023-08-07",
-        "end_date": "2023-08-13",
-        "created_at": "2023-08-03",
-        "last_updated": "2023-08-03"
-    },
-    "message": "Agent weekly transactions fetched successfully"
+  "verification_id": 172411,
+  "step_number": $stepNumber,
+  "event_type": "$eventType",
+  "event_value": "$eventValue",
+  "services": []
 }
-"""
+""".trimIndent()
+
+fun simpleEventResponse(): String = """{
+    "entity":{
+        "success":true,
+        "msg":"Operation completed successfully"
+    }
+}
+""".trimIndent()
+
+fun bvnResponse(): String = """{
+  "entity": {
+        "bvn": "22171234567",
+        "first_name": "JOHN",
+        "last_name": "DOE",
+        "middle_name": "AHMED",
+        "gender": "Male",
+        "date_of_birth": "1997-05-16",
+        "phone_number1": "08012345678",
+        "image": "BASE 64 IMAGE",
+        "phone_number2": "08012345678"
+    }
+}
+""".trimIndent()
+
+fun ninResponse(): String = """{
+    "entity": {
+        "nin": "70123456789",
+        "firstname": "John",
+        "middlename": "Doe",
+        "surname": "Alamutu",
+        "telephoneno": "08012345678",
+        "birthdate": "01-01-1982",
+        "photo": "/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgc...",
+        "gender": "m",
+    }
+}
+""".trimIndent()
+fun vNinResponse(): String = """{
+    "entity": {
+        "vnin": "AB012345678910YZ",
+        "firstname": "John",
+        "middlename": "Doe",
+        "surname": "Alamutu",
+        "user_id": "WXABCD-1234",
+        "gender": "M",
+        "mobile": "08012345678",
+        "dateOfBirth": "YYYY-MM-DD",
+        "photo": "/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgc..."
+    }
+}
+""".trimIndent()
+
+fun driverLicenceResponse(): String = """{
+    "entity": {
+        "uuid": "1625583696",
+        "licenseNo": "FKJ494A2133",
+        "firstName": "JOHN",
+        "lastName": "DOE",
+        "middleName": "",
+        "gender": "Male",
+        "issuedDate": "2019-01-25",
+        "expiryDate": "2024-08-17",
+        "stateOfIssue": "LAGOS",
+        "birthDate": "28-09-1998",
+        "photo": "BASE 64 IMAGE"
+    }
+}
+""".trimIndent()
+
+
+fun sendOtpResponse(): String = """{
+    "entity": [
+        {
+            "reference_id": "6f0d7137-358a-4686-a6db-4720732eac86",
+            "destination": "+2347068038410",
+            "status_id": "d21daf53-7032-43e1-8fda-c7ddb54a3ada",
+            "status": "sms OTP sent successfully"
+        }
+    ]
+}
+""".trimIndent()
+
+
+fun validateOtpResponse(): String = """{
+    "entity": {
+        "valid": true
+    }
+}
+""".trimIndent()
+

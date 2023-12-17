@@ -75,7 +75,7 @@ class CountryPickSpinner : LinearLayout {
             (field as MutableList<Country>).apply {
                 clear()
                 addAll(value)
-//                field.find { it.id.equals("ng", ignoreCase = true) }?.let { setSelectedItem(it) }
+                field.find { it.selected }?.let { setSelectedItem(it) }
                 spinnerLayout.progressIndicator.isVisible = false
                 (spinnerLayout.recyclerView.adapter as SpinnerAdapter).submitList(value)
             }
@@ -115,8 +115,10 @@ class CountryPickSpinner : LinearLayout {
         ).use {
             strokeWidthFocused =
                 it.getDimensionPixelSize(R.styleable.CountryPickSpinner_spinBoxStrokeSizeFocused, 0)
-            strokeWidth = it.getDimensionPixelSize(R.styleable.CountryPickSpinner_spinBoxStrokeSize, 0)
-            cornerSize = it.getDimensionPixelSize(R.styleable.CountryPickSpinner_spinCornerLength, 0)
+            strokeWidth =
+                it.getDimensionPixelSize(R.styleable.CountryPickSpinner_spinBoxStrokeSize, 0)
+            cornerSize =
+                it.getDimensionPixelSize(R.styleable.CountryPickSpinner_spinCornerLength, 0)
             strokeColor = it.getColorStateList(R.styleable.CountryPickSpinner_spinStrokeTint)
         }
     }
@@ -136,7 +138,7 @@ class CountryPickSpinner : LinearLayout {
                 if (isErrorShown) errorColor else this@CountryPickSpinner.strokeColor!!.defaultColor
             setStrokeTint(color)
             strokeWidth = this@CountryPickSpinner.strokeWidth.toFloat()
-            setTint(ContextCompat.getColor(context,R.color.card_back_color))
+            setTint(ContextCompat.getColor(context, R.color.card_back_color))
 
             setCornerSize(cornerSize.toFloat())
 
@@ -226,7 +228,7 @@ class CountryPickSpinner : LinearLayout {
 
             changeDrawable()
 
-            spinnerPopup.showAsDropDown(layoutSpinner, 0,  0, Gravity.BOTTOM)
+            spinnerPopup.showAsDropDown(layoutSpinner, 0, 0, Gravity.BOTTOM)
         }
     }
 
@@ -267,11 +269,14 @@ class CountryPickSpinner : LinearLayout {
         }
     }
 
+    var onCountrySelected: ((country: Country) -> Unit)? = null
+
     fun setSelectedItem(item: Country) {
         binding.apply {
             selectedCountryId = item.id
             countryName.text = item.name
             imageCountry.load(item.path)
+            onCountrySelected?.let { it(item) }
         }
     }
 
@@ -307,7 +312,9 @@ class CountryPickSpinner : LinearLayout {
             holder.binding.apply {
                 val item = currentList[position]
 
-
+                if (item.selected) {
+                    setSelectedItem(currentList[position])
+                }
                 textName.text = item.name
 
                 imageFlag.load(item.path)

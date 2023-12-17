@@ -15,14 +15,16 @@ import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureBackDocFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureDocumentFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureSelfieFragment
+import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DojahErrorFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.EmptyFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.PreviewDocFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.PreviewSelfieFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.SuccessFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.UploadBackDocFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.UploadFrontDocFragment
-import com.dojah.sdk_kyc.ui.main.viewmodel.KycPages
 import okhttp3.logging.HttpLoggingInterceptor
+import com.dojah.sdk_kyc.ui.utils.*
+
 
 object Routes {
     const val index_page = "index_page"
@@ -35,6 +37,7 @@ object Routes {
     const val upload_back_doc_route = "upload_back_doc_route"
     const val capture_selfie_fragment = "capture_selfie_fragment"
     const val preview_selfie_fragment = "preview_selfie_fragment"
+    const val error_fragment = "error_fragment"
     const val success_route = "success_route"
 
     fun getOptionRoute(pageName: String, optionPageName: String?, arg: Bundle? = null): String {
@@ -81,7 +84,7 @@ class DojahNavGraph {
                 }
 
                 navigation(
-                    startDestination = if (singleCountry) "${KycPages.USER_DATA.serverKey}" else "${KycPages.COUNTRY.serverKey}",
+                    startDestination = KycPages.INDEX.serverKey,
                     Routes.verification_route
                 ) {
 
@@ -92,8 +95,15 @@ class DojahNavGraph {
                     fragment<UploadBackDocFragment>(Routes.upload_back_doc_route)
                     fragment<CaptureSelfieFragment>(Routes.capture_selfie_fragment)
                     fragment<PreviewSelfieFragment>(Routes.preview_selfie_fragment)
-                    fragment<SuccessFragment>("${Routes.success_route}/{${NavArguments.next_page}}") {
-                        argument("arg1") {
+                    fragment<DojahErrorFragment>("${Routes.error_fragment}/{${NavArguments.option}}") {
+                        argument(NavArguments.option) {
+                            type = NavType.StringType
+                            nullable = true
+                        }
+                    }
+                    fragment<SuccessFragment>("${Routes.success_route}/{${NavArguments.option}}") {
+                        argument(NavArguments.option) {
+//                            type = NavType.StringType
                             type = NavType.StringType
                             nullable = true
                         }
@@ -110,7 +120,7 @@ class DojahNavGraph {
                                     controller.navigatorProvider[FragmentNavigator::class].createDestination()
                                         .apply {
                                             route =
-                                                "${findPageEnum.serverKey}"
+                                                findPageEnum.serverKey
                                             setClassName(findPageEnum.fragmentClassName)
                                             addArgument(
                                                 NavArguments.next_page,

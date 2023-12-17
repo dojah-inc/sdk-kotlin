@@ -1,15 +1,21 @@
 package com.dojah.sdk_kyc.ui.base
 
+import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.navGraphViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.dojah.sdk_kyc.BuildConfig
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.ui.dialog.TransactionErrorDialogFragment
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.utils.*
+import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 
 open class ErrorFragment : Fragment {
 
@@ -19,9 +25,45 @@ open class ErrorFragment : Fragment {
 
     private var genericDialog: AlertDialog? = null
 
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val navViewModel by activityViewModels<NavigationViewModel>()
+
+
     constructor() : super()
 
     constructor(@LayoutRes layoutRes: Int) : super(layoutRes)
+
+    fun observeEvents(eventValue: String,argument:Bundle?=null) {
+        viewModel.eventLiveData.observe(this) {
+            if (it.second is Result.Loading) {
+                showLoading("Loading...")
+            } else {
+                dismissLoading()
+                if (it.second is Result.Success) {
+                    when (it.first.eventType) {
+                        EventTypes.STEP_COMPLETED.serverKey -> {
+                            when (eventValue) {
+                                KycPages.INDEX.serverKey -> navViewModel.navigateNextStep(args= argument)
+
+                                KycPages.GOVERNMENT_DATA.serverKey -> navViewModel.navigateNextStep(args= argument)
+
+                            }
+                        }
+
+                        EventTypes.COUNTRY_SELECTED.serverKey -> {
+                            when (eventValue) {
+                                KycPages.COUNTRY.serverKey -> {
+                                    navViewModel.navigateNextStep(args= argument)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    navViewModel.navigate(Routes.error_fragment)
+                }
+            }
+        }
+    }
 
     /**
      * Used to handle all possible [Result.Error]
@@ -64,7 +106,11 @@ open class ErrorFragment : Fragment {
             }
         }
 
-        if (useToast && !(statusCode == "09" || statusCode == "10")) Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        if (useToast && !(statusCode == "09" || statusCode == "10")) Toast.makeText(
+            requireContext(),
+            errorMessage,
+            Toast.LENGTH_SHORT
+        ).show()
         else {
             TransactionErrorDialogFragment.getInstance(title, errorMessage, statusCode).apply {
                 action?.also {
@@ -83,14 +129,15 @@ open class ErrorFragment : Fragment {
         }
     }
 
-    fun showShortToast(text: String = ""){
-        Toast.makeText(context,text,Toast.LENGTH_SHORT).show()
-    }
-    fun showLongToast(text: String = ""){
-        Toast.makeText(context,text,Toast.LENGTH_LONG).show()
+    fun showShortToast(text: String = "") {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 
-    fun showLoading(text: String = "") {
+    fun showLongToast(text: String = "") {
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+    }
+
+    fun showLoading(text: String = "Loading...") {
         if (loadingDialog == null) {
             loadingDialog = MaterialAlertDialogBuilder(requireContext())
                 .setView(R.layout.dialog_loading)

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavType
 import com.dojah.sdk_kyc.core.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -12,11 +12,14 @@ import androidx.core.text.toSpannable
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
-import com.dojah.sdk_kyc.core.Constants
+import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.databinding.FragmentEnterOtp2Binding
+import com.dojah.sdk_kyc.domain.responses.SendOtpEntity
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
+import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.getAttr
@@ -32,8 +35,11 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
 
     //    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_nav_graph) { defaultViewModelProviderFactory }
     private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
+
+    private var otpCode: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +67,36 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
                     }
                 }
             }
+            govViewModel.validateOtpLiveData.observe(requireActivity()) {
+                if (it is Result.Loading) {
+                    showLoading()
+                } else {
+                    dismissLoading()
+                    if (it is Result.Success) {
+                        if (it.data?.entity?.valid == false) {
+                            showLongToast("Invalid Otp")
+                            return@observe
+                        }
+                        navViewModel.navigateNextStep()
+                    } else if (it is Result.Error) {
+                        navViewModel.navigate(Routes.error_fragment, Bundle().apply {
+                            putString(NavArguments.option, getErrorMessage(it))
+                        })
+                    }
+                }
+            }
+            govViewModel.sendOtpLiveData.observe(requireActivity()) {
+                if (govViewModel.isResentOtpLiveData.value == true) {
+                    if (it is Result.Loading) {
+                        showLoading()
+                    } else {
+                        dismissLoading()
+                        if (it is Result.Success) {
+                            showShortToast("Resent")
+                        }
+                    }
+                }
+            }
         }
         binding.resendTxt.apply {
             isEnabled = false
@@ -73,11 +109,17 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
                 )
             )
             setOnClickListener {
-                showShortToast("Resent")
+                govViewModel.sendOtpSync(viewModel, true)
             }
         }
         binding.apply {
-            val id = arguments?.getString(Constants.OTP_ID_BUNDLE) ?: "..."
+            var otpEntity: List<SendOtpEntity>? = null
+            if (govViewModel.sendOtpLiveData.value is Result.Success) {
+                otpEntity = (govViewModel.sendOtpLiveData.value as Result.Success).data?.entity
+            }
+            val id =
+                otpEntity?.first()?.destination
+                    ?: "..."
             (getString(R.string.enter_the_code_sent, id)).toSpannable().apply {
 
                 val startIndex = indexOf(id)
@@ -105,18 +147,16 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
                 }
 
                 override fun onOTPComplete(otp: String) {
+                    otpCode = otp
                     btnContinue.isButtonEnabled = true
                 }
             }
 
             btnContinue.setOnClickListener {
-                navViewModel.navigateNextStep()
-//                navViewModel.navigateOld(R.id.frag_success, Bundle().apply {
-//                    putString(
-//                        Constants.SUCCESS_BUNDLE,
-//                        "Your ${viewModel.verificationTypeLiveData.value?.title ?: "identification"} has been successfully verified, you will now be redirected."
-//                    )
-//                })
+                if (otpCode == null) {
+                    throw Exception("otp is null")
+                }
+                govViewModel.validateOtp(otpCode!!)
             }
         }
     }

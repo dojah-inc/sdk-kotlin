@@ -21,6 +21,9 @@ class SharedPreferenceManager @Inject constructor(
         const val KEY_BEARER_TOKEN = " bearer token"
         const val KEY_NOTIFICATION_TOKEN = "notification_token"
         const val KEY_SESSION_ID = "session id"
+        const val KEY_PKEY = "key pkey"
+        const val KEY_REF = "key ref"
+        const val KEY_APP_ID = "key app id"
         const val KEY_LOCATION = "location"
 
         const val KEY_AUTH_RESPONSE = "key_analysis_response"
@@ -60,6 +63,30 @@ class SharedPreferenceManager @Inject constructor(
     fun getBearerToken() = userPref.getString(KEY_BEARER_TOKEN, null)
 
     fun getSessionId() = userPref.getString(KEY_SESSION_ID, null)
+
+    fun getPKey() = userPref.getString(KEY_PKEY, null)
+
+    fun getReference() = userPref.getString(KEY_REF, null)
+
+    fun getAppId() = userPref.getString(KEY_APP_ID, null)
+
+    fun setPKey(pkey: String) {
+        userPref.edit {
+            putString(KEY_PKEY, pkey)
+        }
+    }
+
+    fun setReference(ref: String) {
+        userPref.edit {
+            putString(KEY_REF, ref)
+        }
+    }
+
+    fun setAppId(appId: String) {
+        userPref.edit {
+            putString(KEY_APP_ID, appId)
+        }
+    }
 
     fun setBearerToken(token: String?) {
         userPref.edit {

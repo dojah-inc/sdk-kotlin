@@ -2,6 +2,7 @@ package com.dojah.sdk_kyc.ui.main
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -31,12 +32,14 @@ import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.main.fragment.DojahNavGraph
 import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.splash.COUNTRY_ERROR
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import javax.inject.Inject
@@ -76,11 +79,11 @@ class MainActivity : AppCompatActivity() {
                 ///If there is an auth error redirect to error page.
                 findViewById<View>(R.id.nav_host_fragment).isVisible = false
                 if (errorExtra == COUNTRY_ERROR) {
-                    stub.layoutInflater.inflate(R.layout.fragment_error_country, root).apply {
+                    errorStub.layoutInflater.inflate(R.layout.fragment_error_country, root).apply {
                         findViewById<TextView>(R.id.msg).text = msgExtra
                     }
                 } else {
-                    stub.layoutInflater.inflate(R.layout.fragment_error, root).apply {
+                    errorStub.layoutInflater.inflate(R.layout.fragment_error, root).apply {
                         findViewById<TextView>(R.id.msg).text = msgExtra
                     }
                 }
@@ -134,7 +137,8 @@ class MainActivity : AppCompatActivity() {
                     //if current route is first route, exist Dojah SDK
                     finish()
                 } else {
-                    val isDojahRoute = pages.find { it.name == currentRoute } != null
+                    val isDojahRoute =
+                        pages.find { currentRoute?.contains(it.name ?: "") == true } != null
                     // first check if current route is part of pages
                     // fetched from server
                     if (isDojahRoute) {
@@ -172,27 +176,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onDestinationChanged(id: Int) {
-        val menuDest = listOf<Int>(
-//            R.id.frag_home,
-//            R.id.frag_status,
-//            R.id.frag_dispute_detail,
-//            R.id.frag_kyc
-        )
-
-        val noAppBarDest = listOf<Int>(
-//            R.id.frag_kyc_bank_details,
-//            R.id.frag_kyc_upload_pic,
-//            R.id.frag_accept_challenge,
-//            R.id.frag_daily_reward_dashboard,
-//            R.id.frag_kyc_select_documents,
-//            R.id.frag_kyc_upload_documents,
-//            R.id.frag_kyc_upload_cac,
-//            R.id.frag_kyc_upload_utility,
-//            R.id.frag_analysis,
-//            R.id.frag_leaderboard,
-//            R.id.frag_gamification_home,
-//            R.id.frag_reward_wallet_history,
-        )
+        val noAppBarDest = listOf<Int>()
 
         val navView = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.view
 
@@ -248,17 +232,32 @@ class MainActivity : AppCompatActivity() {
         }
         navViewModel.autoNavigateLiveData.observe(this) { event ->
             if (!event.hasBeenHandled) {
-                val lastStoredRoute = navViewModel.currentStepLiveData.value
-                    ?.lastOrNull()
-                val currentRoute = lastStoredRoute ?: navController.currentDestination?.route
                 event.getContentIfNotHandled()?.also {
-                    // nextRoute  is e.g = user-data/government-data
+                    val lastStoredRoute = navViewModel.currentStepLiveData.value
+                        ?.lastOrNull()
+                    val currentRoute = lastStoredRoute ?: navController.currentDestination?.route
+
                     val pages = viewModel.getPagesFromPrefs()
                     val indexOfCurrent = pages?.indexOfFirst { it.name == currentRoute }
                     if (indexOfCurrent != null) {
                         val nextIndex = indexOfCurrent + 1
                         if (nextIndex <= pages.size - 1) {
-                            val nextRoute = pages[nextIndex].name ?: ""
+                            var nextRoute = pages[nextIndex].name ?: ""
+                            if (nextRoute == KycPages.COUNTRY.serverKey) {
+                                // if nextRoute is Country page,
+                                // check if country is more than one
+                                // before launching the country page,
+                                // else just jump the country page
+                                val isSingleCountry =
+                                    viewModel.getCountriesFullFromPrefs(this)?.size == 1
+//
+                                if (isSingleCountry) {
+                                    val nextNextIndex = (nextIndex + 1).coerceAtMost(pages.size - 1)
+                                    nextRoute =
+                                        pages[nextNextIndex].name
+                                            ?: ""
+                                }
+                            }
                             navViewModel.pushNextDojahRoute(nextRoute)
                             val destination =
                                 if (it.first == null) nextRoute else Routes.getOptionRoute(
@@ -280,7 +279,12 @@ class MainActivity : AppCompatActivity() {
         navViewModel.navigationLiveData.observe(this) { event ->
             if (!event.hasBeenHandled) {
                 event.getContentIfNotHandled()?.also {
-                    navController.navigate(it.first, createNavOptions(it.third))
+                    val argument = it.second?.getString(NavArguments.option)
+                    if (argument != null) {
+                        navController.navigate("${it.first}/$argument", createNavOptions(it.third))
+                    } else {
+                        navController.navigate(it.first, createNavOptions(it.third))
+                    }
                 }
             }
         }

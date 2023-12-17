@@ -129,15 +129,23 @@ class SplashActivity : AppCompatActivity() {
         val booleanExtra = intent.getBooleanExtra("sandbox", false)
         onBackPressedDispatcher.onBackPressed()
         startActivity(Intent(this, MainActivity::class.java).apply {
-            val serverEnvironment =
-                (viewModel.preAuthDataLiveData.value as Result.Success).data.widget?.env
-            HttpLoggingInterceptor.Logger.DEFAULT.log("sandbox extra is : ${serverEnvironment?.lowercase() == "sandbox"}")
-            putExtra("sandbox", serverEnvironment?.lowercase() == "sandbox")
-            if (errorType != null) {
+            val preAuthResponseResult = viewModel.preAuthDataLiveData.value
+            if (preAuthResponseResult is Result.Success) {
+                val serverEnvironment =
+                    preAuthResponseResult.data.widget?.env
+                HttpLoggingInterceptor.Logger.DEFAULT.log("sandbox extra is : ${serverEnvironment?.lowercase() == "sandbox"}")
+                putExtra("sandbox", serverEnvironment?.lowercase() == "sandbox")
+                if (errorType != null) {
+                    putExtra("error", errorType)
+                }
+                if (message != null) {
+                    putExtra("message", message)
+                }
+            } else {
                 putExtra("error", errorType)
-            }
-            if (message != null) {
-                putExtra("message", message)
+                if (message != null) {
+                    putExtra("message", message)
+                }
             }
         })
     }

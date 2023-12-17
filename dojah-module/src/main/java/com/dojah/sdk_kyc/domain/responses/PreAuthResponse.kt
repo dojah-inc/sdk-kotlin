@@ -2,7 +2,7 @@ package com.dojah.sdk_kyc.domain.responses
 
 import com.dojah.sdk_kyc.domain.request.AuthReqSteps
 import com.dojah.sdk_kyc.domain.request.AuthRequest
-import com.dojah.sdk_kyc.ui.main.viewmodel.KycPages
+import com.dojah.sdk_kyc.ui.utils.*
 import com.google.gson.annotations.SerializedName
 import okhttp3.logging.HttpLoggingInterceptor
 import java.lang.Exception

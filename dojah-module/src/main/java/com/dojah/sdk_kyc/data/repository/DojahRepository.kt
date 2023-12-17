@@ -2,22 +2,36 @@ package com.dojah.sdk_kyc.data.repository
 
 import com.google.gson.Gson
 import com.dojah.sdk_kyc.core.Result
+import com.dojah.sdk_kyc.core.mock_data.enumData
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.network.NetworkManager
 import com.dojah.sdk_kyc.data.network.service.DojahService
 import com.dojah.sdk_kyc.data.repository.base.BaseRepository
 import com.dojah.sdk_kyc.domain.request.AuthRequest
 import com.dojah.sdk_kyc.domain.request.CheckIpRequest
+import com.dojah.sdk_kyc.domain.request.EventRequest
+import com.dojah.sdk_kyc.domain.request.OtpRequest
 import com.dojah.sdk_kyc.domain.responses.AuthResponse
+import com.dojah.sdk_kyc.domain.responses.BvnLookUpEntity
+import com.dojah.sdk_kyc.domain.responses.BvnLookUpResponse
 import com.dojah.sdk_kyc.domain.responses.CheckIpResponse
+import com.dojah.sdk_kyc.domain.responses.DojahEnum
+import com.dojah.sdk_kyc.domain.responses.DriverLicenceResponse
 import com.dojah.sdk_kyc.domain.responses.GetIpResponse
+import com.dojah.sdk_kyc.domain.responses.NinLookUpResponse
 import com.dojah.sdk_kyc.domain.responses.PreAuthResponse
+import com.dojah.sdk_kyc.domain.responses.SendOtpResponse
+import com.dojah.sdk_kyc.domain.responses.SimpleResponse
+import com.dojah.sdk_kyc.domain.responses.ValidateOtpResponse
+import com.dojah.sdk_kyc.domain.responses.VninLookUpResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
+import retrofit2.http.Query
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
@@ -31,9 +45,14 @@ class DojahRepository @Inject constructor(
 ) : BaseRepository(networkManager, gson) {
 
 
+    val getDojahEnum
+        get(): Result.Success<DojahEnum> {
+            val savedResponse = enumData.replace("\n", "").toResponseBody()
+            return Response.success(savedResponse)
+                .getResult(DojahEnum::class.java) as Result.Success
+        }
+
     suspend fun doPreAuth(widgetId: String): Flow<Result<PreAuthResponse>> {
-//        prefManager.setBearerToken(null)
-//        prefManager.setSessionId("")
         return flow {
             val result = checkNetworkAndStartRequest {
                 val response = service.doPreAuth(widgetId)
@@ -46,6 +65,9 @@ class DojahRepository @Inject constructor(
                     SharedPreferenceManager.KEY_PRE_AUTH_RESPONSE
                 )
                 prefManager.setBearerToken(Random.nextInt(200).toString())
+                prefManager.setPKey(result.data.publicKey ?: "")
+                prefManager.setAppId(result.data.app?.id ?: "")
+
             }
 
             emit(result)
@@ -66,7 +88,8 @@ class DojahRepository @Inject constructor(
                     result.toJson,
                     SharedPreferenceManager.KEY_AUTH_RESPONSE
                 )
-                prefManager.setSessionId(result.data.sessionId ?: "empty")
+                prefManager.setSessionId(result.data.sessionId ?: "")
+                prefManager.setReference(result.data.initData?.authData?.referenceId ?: "")
 
             }
 
@@ -106,8 +129,94 @@ class DojahRepository @Inject constructor(
                 //save response to sharedPref if successful
                 prefManager.saveJsonResponse(
                     result.toJson,
-                    SharedPreferenceManager.KEY_GET_IP_RESPONSE
+                    SharedPreferenceManager.KEY_CHECK_IP_RESPONSE
                 )
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun logEvent(data: EventRequest): Flow<Result<SimpleResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.logEvent(data)
+                response.getResult(SimpleResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun lookUpBvn(bvn: String): Flow<Result<BvnLookUpResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.lookUpBvn(bvn)
+                response.getResult(BvnLookUpResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun lookUpNin(nin: String): Flow<Result<NinLookUpResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.lookUpNin(nin)
+                response.getResult(NinLookUpResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun lookUpVnin(vNin: String): Flow<Result<VninLookUpResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.lookUpVNin(vNin)
+                response.getResult(VninLookUpResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun lookUpDriverLicense(licenseNumber: String): Flow<Result<DriverLicenceResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.lookUpDriverLicence(licenseNumber)
+                response.getResult(DriverLicenceResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun sendOtp(request: OtpRequest): Flow<Result<SendOtpResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.sendOtp(request)
+                response.getResult(SendOtpResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun validateOtp(
+        code: String, referenceId: String
+    ): Flow<Result<ValidateOtpResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.validateOtp(code, referenceId)
+                response.getResult(ValidateOtpResponse::class.java)
             }
             emit(result)
 
@@ -136,5 +245,5 @@ class DojahRepository @Inject constructor(
         prefManager.saveJsonResponse(null, SharedPreferenceManager.KEY_GET_IP_RESPONSE)
     }
 
-
 }
+

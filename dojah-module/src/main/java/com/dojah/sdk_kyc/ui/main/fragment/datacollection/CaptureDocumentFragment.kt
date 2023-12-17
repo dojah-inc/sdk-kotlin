@@ -22,7 +22,7 @@ import com.dojah.sdk_kyc.databinding.FragmentCaptureDocumentBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.CameraPermissionDialogFragment
-import com.dojah.sdk_kyc.ui.main.viewmodel.GovDocType
+import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.openAppSystemSettings
@@ -113,7 +113,7 @@ class CaptureDocumentFragment : ErrorFragment() {
         cameraContract.launch(Manifest.permission.CAMERA)
         binding.apply {
             val selectedDoc = viewModel.docTypeLiveData.value
-            if (selectedDoc != GovDocType.DRIVER_LICENCE) {
+            if (selectedDoc != GovDocType.DL) {
                 title.text = selectedDoc?.title
                 infoText.text = selectedDoc?.info
             }

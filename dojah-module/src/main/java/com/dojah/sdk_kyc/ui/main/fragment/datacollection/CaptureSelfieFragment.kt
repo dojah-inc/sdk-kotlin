@@ -35,7 +35,7 @@ import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.CameraPermissionDialogFragment
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
-import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationType
+import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.openAppSystemSettings

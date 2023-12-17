@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class CheckIpResponse (
 
-    @SerializedName("entity" ) var entity : Entity? = Entity()
+    @SerializedName("entity" ) var entity : IpEntity? = IpEntity()
 
 )
 
-data class Entity (
+data class IpEntity (
 
     @SerializedName("status"     ) var status     : String?  = null,
     @SerializedName("country"    ) var country    : String?  = null,
