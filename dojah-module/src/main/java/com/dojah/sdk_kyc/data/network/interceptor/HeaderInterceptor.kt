@@ -49,8 +49,8 @@ class HeaderInterceptor(
                 if (bearer != null) addHeader("Authorization", bearer!!)
                 if (sessionId?.isNotEmpty() == true) addHeader("Session", sessionId!!)
                 if (pkey?.isNotEmpty() == true) addHeader("p-key", pkey!!)
-                if (ref?.isNotEmpty() == true) addHeader("app-id", appId!!)
-                if (appId?.isNotEmpty() == true) addHeader("reference", ref!!)
+                if (appId?.isNotEmpty() == true) addHeader("app-id", appId!!)
+                if (ref?.isNotEmpty() == true) addHeader("reference", ref!!)
 
                 build()
             }
