@@ -3,7 +3,6 @@ package com.dojah.sdk_kyc.data.io
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.google.gson.Gson
 import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -14,8 +13,8 @@ import javax.inject.Singleton
 
 @Singleton
 class SharedPreferenceManager @Inject constructor(
-        private val gson: Gson,
-        @ApplicationContext private val context: Context) : SharedPreferences.OnSharedPreferenceChangeListener {
+    @ApplicationContext private val context: Context
+) : SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
         ///Dojah keys
         const val KEY_BEARER_TOKEN = " bearer token"
@@ -30,9 +29,11 @@ class SharedPreferenceManager @Inject constructor(
         const val KEY_PRE_AUTH_RESPONSE = "key_pre_auth_response"
         const val KEY_CHECK_IP_RESPONSE = "key_check_ip_response"
         const val KEY_GET_IP_RESPONSE = "key_get_ip_response"
+        const val KEY_BTN_COLOR = "key_btn_color"
     }
 
-    private val userPref: SharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE)
+    private val userPref: SharedPreferences =
+        context.getSharedPreferences("user", Context.MODE_PRIVATE)
 
     private val appPref = context.getSharedPreferences("app", Context.MODE_PRIVATE)
 
@@ -118,6 +119,16 @@ class SharedPreferenceManager @Inject constructor(
         }
         return Response.success(responseBody)
     }
+
+
+    fun setMaterialButtonBgColor(color: String?) {
+        userPref.edit {
+            putString(KEY_BTN_COLOR, color)
+        }
+    }
+
+    val getMaterialButtonBgColor: String?
+        get() = userPref.getString(KEY_BTN_COLOR, null)
 
     fun clearTemporaryPref() {
 //        TODO("Not yet implemented")

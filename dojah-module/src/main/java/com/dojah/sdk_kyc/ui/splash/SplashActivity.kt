@@ -12,6 +12,7 @@ import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.data.LocationManager
 import com.dojah.sdk_kyc.data.io.CountryManager
 import com.dojah.sdk_kyc.data.io.FileManager
+import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.ui.main.MainActivity
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import dagger.hilt.android.AndroidEntryPoint

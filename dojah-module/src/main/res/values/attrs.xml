@@ -149,6 +149,7 @@
         <attr name="errorMessageCorneredBg" format="reference" />
         <attr name="infoMessageColor" format="reference" />
         <attr name="errorMessageColor" format="reference" />
+        <attr name="materialBtnStyle" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="DojahAppBarView">
@@ -158,6 +159,9 @@
         <attr name="dojahLeadingIcon" format="reference" />
         <!--        dojahShowBackButton can be in an image format (e.g svg,png...)-->
         <attr name="dojahShowBackButton" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="DojahMaterialButton">
     </declare-styleable>
 
 

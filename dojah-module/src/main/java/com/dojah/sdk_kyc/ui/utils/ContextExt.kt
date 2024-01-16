@@ -12,6 +12,7 @@ import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.dojah.sdk_kyc.BuildConfig
+import com.dojah.sdk_kyc.R
 import timber.log.Timber
 import java.io.File
 
@@ -45,6 +46,13 @@ fun Context.getAttr(attrId: Int): Int {
     theme.resolveAttribute(attrId, tv, true)
 
     return tv.data
+}
+
+fun Context.updatePrimaryColor(stringColor: String) {
+    val tv = TypedValue()
+
+    theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, tv, true)
+    tv.data = R.color.black
 }
 
 fun Context.createTemporaryFile(): Uri {

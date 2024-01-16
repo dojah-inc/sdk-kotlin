@@ -105,7 +105,7 @@
             android:textColor="@color/body_color"
             app:drawableStartCompat="@drawable/ic_check" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
             android:id="@+id/btn_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -35,7 +35,7 @@
                 android:src="@color/card_stroke_color" />
         </androidx.cardview.widget.CardView>
 
-        <TextView
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
             android:id="@+id/text_subtitle"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
             android:textColor="@color/body_color"
             app:drawableStartCompat="@drawable/ic_check" />
 
-        <TextView
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
             android:id="@+id/text_subtitle2"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
             android:layout_width="match_parent"
@@ -59,7 +59,7 @@
             android:textColor="@color/body_color"
             app:drawableStartCompat="@drawable/ic_check" />
 
-        <TextView
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
             android:id="@+id/text_subtitle3"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
             android:textColor="@color/body_color"
             app:drawableStartCompat="@drawable/ic_check" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
             android:id="@+id/btn_retake"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
             app:strokeColor="@color/black"
             app:strokeWidth="1dp" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
             android:id="@+id/btn_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

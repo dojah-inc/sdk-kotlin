@@ -79,13 +79,13 @@
             </LinearLayout>
 
 
-            <com.google.android.material.button.MaterialButton
+            <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
                 android:id="@+id/capture_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/capture" />
 
-            <com.google.android.material.button.MaterialButton
+            <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
                 android:id="@+id/upload_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

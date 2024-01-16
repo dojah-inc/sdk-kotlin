@@ -35,6 +35,8 @@
         <item name="toolbarNavigationButtonStyle">@style/Toolbar.Navigation</item>
         <item name="editTextSpinnerStyle">@style/EditTextWithSpinner.Dojah</item>
         <item name="materialButtonStyle">@style/Button.Dojah</item>
+        <item name="materialBtnStyle">@style/Button.Dojah</item>
+
         <!--        <item name="materialCalendarStyle">@style/MaterialDatePicker.Dojah</item>-->
         <item name="textInputStyle">@style/TextInputLayout.Dojah</item>
         <item name="circularProgressIndicatorStyle">@style/CircularProgressIndicator.Dojah</item>

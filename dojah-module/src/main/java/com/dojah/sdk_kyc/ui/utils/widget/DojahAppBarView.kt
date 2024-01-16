@@ -5,8 +5,10 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.use
 import androidx.core.view.isVisible
@@ -14,6 +16,7 @@ import androidx.core.view.updateLayoutParams
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.databinding.WidgetDojahAppbarBinding
 import com.dojah.sdk_kyc.databinding.WidgetSimpleAppbarBinding
+import com.dojah.sdk_kyc.ui.utils.load
 
 class DojahAppBarView : ConstraintLayout {
 
@@ -69,6 +72,13 @@ class DojahAppBarView : ConstraintLayout {
 
     var closeView: View = binding.trailButton
 
+    var logoUrl: String? = null
+        set(value) {
+            if (value != null) {
+                binding.logo.load(value, isCenterInside = true)
+            }
+        }
+
 
     constructor(context: Context) : this(context, null, 0, 0)
 
@@ -103,6 +113,7 @@ class DojahAppBarView : ConstraintLayout {
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+
     }
 
 

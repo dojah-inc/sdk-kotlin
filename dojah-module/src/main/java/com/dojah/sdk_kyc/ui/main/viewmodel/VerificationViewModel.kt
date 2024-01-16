@@ -120,6 +120,11 @@ class VerificationViewModel @Inject constructor(
             return repo.getDojahEnum.data
         }
 
+    private fun saveBrandColor(color: String?) {
+        logger.log("Brand color: $color")
+        prefManager.setMaterialButtonBgColor(color)
+    }
+
     fun setFrontDocUri(uri: Uri) {
         _isBackDocLiveData.postValue(false)
         _frontDocUriLiveData.postValue(uri)
@@ -172,9 +177,8 @@ class VerificationViewModel @Inject constructor(
                 .collect { preAuthResult ->
                     _preAuthDataLiveData.postValue(preAuthResult)
                     if (preAuthResult is Result.Success) {
+                        saveBrandColor(preAuthResult.data.app?.colorCode)
                         //do Auth
-//                        logger.log("print result")
-//                        logger.log(preAuthResult.data.toAuthRequest().toString())
                         repo.doAuth(preAuthResult.data.toAuthRequest()).collect { authResult ->
                             _authDataLiveData.postValue(authResult)
                             if (authResult is Result.Success) {
@@ -291,6 +295,12 @@ class VerificationViewModel @Inject constructor(
         return fullSupportedCountryList
     }
 
+    fun getDojahAppAttribute(context: Context): App? {
+        return repo.getLocalResponse(
+            SharedPreferenceManager.KEY_PRE_AUTH_RESPONSE, PreAuthResponse::class.java
+        )?.data?.app
+    }
+
     fun getCountriesFullFromPrefs(context: Context): List<String>? {
         return getFullCountryNames(
             context, repo.getLocalResponse(
@@ -317,8 +327,8 @@ class VerificationViewModel @Inject constructor(
         return getPagesFromPrefs()?.find { it.name == currentPage }
     }
 
-    val targetDuration: Duration = Duration.ofMinutes(0).plusSeconds(13)
-//    val targetDuration: Duration = Duration.ofMinutes(2).plusSeconds(43)
+    //    val targetDuration: Duration = Duration.ofMinutes(0).plusSeconds(13)
+    val targetDuration: Duration = Duration.ofMinutes(2).plusSeconds(43)
 
     private val otpTimer = object : CountDownTimer(targetDuration.toMillis(), 1000) {
         override fun onTick(millisUntilFinished: Long) {

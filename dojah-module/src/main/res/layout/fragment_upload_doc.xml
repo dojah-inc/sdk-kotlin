@@ -65,7 +65,7 @@
             app:buttonEnabled="false"
             app:buttonText="@string/upload" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
             android:id="@+id/btn_capture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -2,6 +2,7 @@ package com.dojah.sdk_kyc.ui.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.core.view.children
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import com.dojah.sdk_kyc.R
+import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.databinding.CalendarDayLayoutBinding
 import com.dojah.sdk_kyc.databinding.DojahCalenderFragmentBinding
 import com.dojah.sdk_kyc.ui.base.SpinnerDialogFragment
@@ -38,7 +40,7 @@ import java.util.Locale
 
 class CalendarDialogFragment : SpinnerDialogFragment(R.layout.dojah_calender_fragment) {
     companion object {
-        private var mViewModel:VerificationViewModel? = null
+        private var mViewModel: VerificationViewModel? = null
 
         fun getInstance(viewModel: VerificationViewModel): CalendarDialogFragment {
             mViewModel = viewModel
@@ -97,11 +99,20 @@ class CalendarDialogFragment : SpinnerDialogFragment(R.layout.dojah_calender_fra
                     if (data.date == selectedDate) {
                         MaterialShapeDrawable().apply {
                             setCornerSize(300F)
-                            setTint(
-                                ContextCompat.getColor(
-                                    requireContext(), R.color.brand_dojah
-                                )
-                            )
+
+                            SharedPreferenceManager(requireContext()).getMaterialButtonBgColor.let {
+                                if (it != null) {
+                                    setTint(Color.parseColor(it))
+                                    alpha = 230
+                                } else {
+                                    setTint(
+                                        ContextCompat.getColor(
+                                            requireContext(), R.color.brand_dojah
+                                        )
+                                    )
+                                }
+                            }
+
                             container.textView.background = this
                         }
                         container.textView.setTextColor(
@@ -164,6 +175,15 @@ class CalendarDialogFragment : SpinnerDialogFragment(R.layout.dojah_calender_fra
             calendarView.monthHeaderBinder = object : MonthHeaderFooterBinder<MonthViewContainer> {
                 override fun create(view: View) = MonthViewContainer(view)
                 override fun bind(container: MonthViewContainer, data: CalendarMonth) {
+                    SharedPreferenceManager(requireContext()).getMaterialButtonBgColor?.let { color ->
+                        container.titlesContainer.children.forEach {
+                            if (it is TextView) {
+                                it.setTextColor(Color.parseColor(color))
+                                it.alpha = 0.8F
+                            }
+
+                        }
+                    }
                     if (container.titlesContainer.tag == null) {
                         container.titlesContainer.tag = data.yearMonth
                         val month = data.yearMonth.month.getDisplayName(
@@ -212,16 +232,16 @@ class CalendarDialogFragment : SpinnerDialogFragment(R.layout.dojah_calender_fra
             }
 
             calMonthSpin.spinnerCalTxt.apply {
-                    ellipsize = TextUtils.TruncateAt.MARQUEE
-                    isSelected = true
-                    isSingleLine = true
-                    marqueeRepeatLimit = -1
+                ellipsize = TextUtils.TruncateAt.MARQUEE
+                isSelected = true
+                isSingleLine = true
+                marqueeRepeatLimit = -1
             }
             calYearSpin.spinnerCalTxt.apply {
-                    ellipsize = TextUtils.TruncateAt.MARQUEE
-                    isSelected = true
-                    isSingleLine = true
-                    marqueeRepeatLimit = -1
+                ellipsize = TextUtils.TruncateAt.MARQUEE
+                isSelected = true
+                isSingleLine = true
+                marqueeRepeatLimit = -1
             }
             calYearSpin.inputCalTxt.setOnClickListener {
                 val years = (startMonth.year..currentMonth.year).map { year ->

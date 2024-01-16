@@ -1,6 +1,7 @@
 package com.dojah.sdk_kyc.ui.utils
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.text.*
 import android.text.method.LinkMovementMethod
@@ -24,6 +25,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import com.dojah.sdk_kyc.BuildConfig
+import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 
 
 /**
@@ -67,7 +69,13 @@ fun TextView.setClickableText(
         setSpan(object : ClickableSpan() {
             override fun updateDrawState(ds: TextPaint) {
                 super.updateDrawState(ds)
-                color?.let { ds.color = it }
+                SharedPreferenceManager(context).getMaterialButtonBgColor.let {
+                    if (it == null) {
+                        color?.let { newColor -> ds.color = newColor }
+                    } else {
+                        ds.color = Color.parseColor(it)
+                    }
+                }
                 ds.isUnderlineText = false
                 ds.textSize = 40f
             }
