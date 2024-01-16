@@ -2,10 +2,14 @@ package com.dojah.sdk_kyc.ui.main
 
 import android.app.Activity
 import android.content.Context
-import android.net.Uri
+import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -19,6 +23,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
@@ -32,17 +37,17 @@ import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.main.fragment.DojahNavGraph
 import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
-import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.splash.COUNTRY_ERROR
+import com.dojah.sdk_kyc.ui.utils.KycPages
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -72,6 +77,8 @@ class MainActivity : AppCompatActivity() {
         ActivityMainDojahBinding.inflate(layoutInflater).apply {
             binding = this
             setContentView(root)
+            attachKeyboardListeners()
+
 
             val errorExtra = intent.getStringExtra("error")
             val msgExtra = intent.getStringExtra("message")
@@ -102,15 +109,6 @@ class MainActivity : AppCompatActivity() {
 
             val navController = findNavController(R.id.nav_host_fragment)
             val isSingleCountry = viewModel.getCountriesFullFromPrefs(this@MainActivity)?.size == 1
-//            if (isSingleCountry) {
-//                navController.navigate(
-//                    R.id.frag_bio_data,
-//                )
-//            } else {
-//                navController.navigate(
-//                    R.id.frag_country,
-//                )
-//            }
             val pages = viewModel.getPagesFromPrefs()!!
             DojahNavGraph.createRoutes(
                 navController,
@@ -123,6 +121,10 @@ class MainActivity : AppCompatActivity() {
 
             setupToolbarForNavigation(navController)
 
+            viewModel.getDojahAppAttribute(this@MainActivity)?.let {
+                toolbar.logoUrl = it.logo
+            }
+//            this@MainActivity.updatePrimaryColor("")
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 onDestinationChanged(destination.id)
             }
@@ -354,19 +356,70 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         preferenceManager.clearTemporaryPref()
+
+        if (keyboardListenersAttached) {
+            rootLayout?.viewTreeObserver?.removeOnGlobalLayoutListener(keyboardLayoutListener);
+        }
     }
 
 //    fun Fragment.hideKeyboard() {
 //        view?.let { activity?.hideKeyboard(it) }
 //    }
 
-    fun Activity.hideKeyboard() {
-        hideKeyboard(currentFocus ?: View(this))
-    }
 
     fun Context.hideKeyboard(view: View) {
         val inputMethodManager =
             getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+    private val keyboardLayoutListener =
+        ViewTreeObserver.OnGlobalLayoutListener { // navigation bar height
+            var navigationBarHeight = 0
+            var resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+            if (resourceId > 0) {
+                navigationBarHeight = resources.getDimensionPixelSize(resourceId)
+            }
+
+            // status bar height
+            var statusBarHeight = 0
+            resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+            if (resourceId > 0) {
+                statusBarHeight = resources.getDimensionPixelSize(resourceId)
+            }
+
+            // display window size for the app layout
+            val rect = Rect()
+            window.decorView.getWindowVisibleDisplayFrame(rect)
+
+            // screen height - (user app height + status + nav) ..... if non-zero, then there is a soft keyboard
+            val keyboardHeight =
+                rootLayout!!.rootView.height - (statusBarHeight + navigationBarHeight + rect.height())
+            if (keyboardHeight <= 0) {
+                onHideKeyboard()
+            } else {
+                onShowKeyboard(keyboardHeight)
+            }
+        }
+
+    private var keyboardListenersAttached = false
+    private var rootLayout: ViewGroup? = null
+
+    private fun onShowKeyboard(keyboardHeight: Int) {
+        binding?.footer?.isVisible = false
+    }
+
+    private fun onHideKeyboard() {
+        binding?.footer?.isVisible = true
+
+    }
+
+    private fun attachKeyboardListeners() {
+        if (keyboardListenersAttached) {
+            return
+        }
+        rootLayout = binding?.root
+        rootLayout?.viewTreeObserver?.addOnGlobalLayoutListener(keyboardLayoutListener)
+        keyboardListenersAttached = true
+    }
+
 }
