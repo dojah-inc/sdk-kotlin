@@ -13,6 +13,7 @@ import com.dojah.sdk_kyc.BuildConfig
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.ui.dialog.TransactionErrorDialogFragment
+import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
 import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
@@ -63,6 +64,13 @@ open class ErrorFragment : Fragment {
                 }
             }
         }
+    }
+
+    fun navigateToErrorPage(it: Result.Error) {
+        dismissLoading()
+        navViewModel.navigate(Routes.error_fragment, args = Bundle().apply {
+            putString(NavArguments.option, viewModel.getErrorMessage(it))
+        })
     }
 
     /**

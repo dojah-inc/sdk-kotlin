@@ -14,6 +14,7 @@ import com.dojah.sdk_kyc.domain.request.ImageAnalysisRequest
 import com.dojah.sdk_kyc.domain.request.LivenessCheckRequest
 import com.dojah.sdk_kyc.domain.request.LivenessVerifyRequest
 import com.dojah.sdk_kyc.domain.request.OtpRequest
+import com.dojah.sdk_kyc.domain.request.UserDataRequest
 import com.dojah.sdk_kyc.domain.responses.AuthResponse
 import com.dojah.sdk_kyc.domain.responses.BvnLookUpResponse
 import com.dojah.sdk_kyc.domain.responses.CheckIpResponse
@@ -268,6 +269,21 @@ class DojahRepository @Inject constructor(
 
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun sendUserData(
+        request: UserDataRequest
+    ): Flow<Result<SimpleResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.sendUserData(request)
+                response.getResult(SimpleResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     fun <T> getLocalResponse(key: String, responseClass: Class<T>): Result.Success<T>? {
         val savedResponse: Response<ResponseBody>? =

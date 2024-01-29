@@ -2,14 +2,20 @@ package com.dojah.sdk_kyc.ui.main.fragment.datacollection
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.core.text.toSpannable
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
+import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.databinding.FragmentBioDataBinding
+import com.dojah.sdk_kyc.domain.request.UserDataRequest
+import com.dojah.sdk_kyc.domain.responses.SimpleResponse
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.CalendarDialogFragment
@@ -39,7 +45,7 @@ import java.time.temporal.ChronoUnit
 class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
     private val binding by viewBinding { FragmentBioDataBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route){defaultViewModelProviderFactory}
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 
@@ -85,14 +91,37 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        viewModel.countryLiveData.observe(this) {
-//        }
+        viewModel.submitUserLiveData.observe(this) {
+            when (it) {
+                is Result.Loading -> {
+                    showLoading()
+                    Timber.d("submitUserLiveData>> Result.Loading")
+                }
+
+                is Result.Success -> {
+                    dismissLoading()
+                    navViewModel.navigateNextStep()
+                    Timber.d("submitUserLiveData>> Result.Success")
+                }
+
+                is Result.Error -> {
+                    navigateToErrorPage(it)
+                    Timber.d("submitUserLiveData>> Result.Error")
+                }
+
+                else -> {
+                    Timber.d("submitUserLiveData>> else")
+                }
+            }
+        }
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Timber.d("onViewCreated")
         binding.apply {
+            checkEmptyFields()
+            listenToTextChanges()
             (getString(R.string.policy_term_text)).toSpannable().apply {
                 val policyTxt = "Privacy Policy"
                 val termsTxt = "Terms of Use"
@@ -112,9 +141,14 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
                     Toast.makeText(context, "policy", Toast.LENGTH_SHORT).show()
                 }
             }
-
             btnContinue.setOnClickListener {
-                navViewModel.navigateNextStep()
+
+                viewModel.sendUserData(
+                    dob = spinnerTextDob.text.toString(),
+                    firstName = textEdtFirstName.text.toString(),
+                    lastName = textEdtLastName.text.toString(),
+                    middleName = textEdtMiddleName.text.toString(),
+                )
             }
             textInputDate.setEndIconOnClickListener {
                 CalendarDialogFragment.getInstance(viewModel).apply {
@@ -137,6 +171,28 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
 
             Timber.d("onCreateView>> toggleRewardBanner")
         }
+    }
+
+    fun FragmentBioDataBinding.listenToTextChanges() {
+        textEdtFirstName.addTextChangedListener {
+            checkEmptyFields()
+        }
+        textEdtLastName.addTextChangedListener {
+            checkEmptyFields()
+        }
+        textEdtMiddleName.addTextChangedListener {
+            checkEmptyFields()
+        }
+        spinnerTextDob.addTextChangedListener {
+            checkEmptyFields()
+        }
+    }
+
+    private fun FragmentBioDataBinding.checkEmptyFields() {
+        btnContinue.isEnabled = textEdtFirstName.text?.isNotEmpty() == true &&
+                textEdtLastName.text?.isNotEmpty() == true &&
+                textEdtMiddleName.text?.isNotEmpty() == true &&
+                spinnerTextDob.text?.isNotEmpty() == true
     }
 
 

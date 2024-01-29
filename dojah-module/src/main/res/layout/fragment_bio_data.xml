@@ -49,6 +49,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_edt_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
@@ -68,6 +69,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_edt_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
@@ -87,6 +89,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_edt_middle_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Dojah.ParagraphSmall"

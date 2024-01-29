@@ -19,10 +19,14 @@ import com.dojah.sdk_kyc.data.repository.DojahRepository
 import com.dojah.sdk_kyc.domain.Country
 import com.dojah.sdk_kyc.domain.request.CheckIpRequest
 import com.dojah.sdk_kyc.domain.request.EventRequest
+import com.dojah.sdk_kyc.domain.request.UserDataRequest
 import com.dojah.sdk_kyc.domain.responses.*
 import com.dojah.sdk_kyc.ui.utils.*
+import com.google.gson.annotations.SerializedName
 import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import okhttp3.logging.HttpLoggingInterceptor
@@ -113,6 +117,10 @@ class VerificationViewModel @Inject constructor(
     private val _submitGovLiveData = MutableLiveData<Result<String>>()
     val submitGovLiveData: LiveData<Result<String>>
         get() = _submitGovLiveData
+
+    private val _submitUserLiveData = MutableLiveData<Result<SimpleResponse>>()
+    val submitUserLiveData: LiveData<Result<SimpleResponse>>
+        get() = _submitUserLiveData
 
 
     val dojahEnum
@@ -219,26 +227,65 @@ class VerificationViewModel @Inject constructor(
         }
     }
 
-    fun buildEventRequest(
-        services: List<String>,
-        eventType: String,
-        eventValue: String,
-        stepNumber: Int,
-    ): EventRequest {
-        val authData = repo.getLocalResponse(
-            SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
-        )?.data
-        val verificationId =
-            authData?.initData?.authData?.verificationId
-                ?: throw Exception("Verification id is null")
-        return EventRequest(
-            stepNumber = stepNumber,
-            services = services,
-            eventType = eventType,
-            eventValue = eventValue,
-            verificationId = verificationId
-        ).apply {
-            logger.log("EventRequest: $this")
+    //send user data with UserDataRequest as param
+    fun sendUserData(
+        dob: String, // 1996-04-30
+        firstName: String, // Osarumen
+        lastName: String, // Alohan
+        middleName: String, // Eleojo
+    ) {
+        viewModelScope.launch {
+            val verificationId =
+                authDataFromPref?.initData?.authData?.verificationId
+                    ?: throw Exception("Verification id is null")
+            val stepNumber = getCurrentPage(KycPages.USER_DATA.serverKey)?.id
+                ?: throw Exception("No stepNumber")
+            repo.sendUserData(
+                UserDataRequest(
+                    appId = authDataFromPref?.app?.id,
+                    sessionId = prefManager.getSessionId(),
+                    country = selectedCountryLiveData.value?.code,
+                    stepNumber = stepNumber,
+                    verificationId = verificationId,
+                    dob = dob,
+                    firstName = firstName,
+                    lastName = lastName,
+                    middleName = middleName,
+                    mobile = null,
+                    residenceCountry = null
+                )
+            )
+                .onStart { _submitUserLiveData.postValue(Result.Loading) }
+                .collect { userResult ->
+                    if (userResult is Result.Success) {
+                        logStepEvent(
+                            page = KycPages.USER_DATA,
+                            event = EventTypes.STEP_COMPLETED
+                        ).collect { eventResult ->
+                            _submitUserLiveData.postValue(eventResult)
+                        }
+                    } else {
+                        logStepEvent(
+                            page = KycPages.USER_DATA,
+                            event = EventTypes.STEP_FAILED
+                        ).collect { _ ->
+                            _submitUserLiveData.postValue(userResult)
+                        }
+                    }
+                }
+        }
+    }
+
+
+    private suspend fun logStepEvent(
+        page: KycPages,
+        event: EventTypes
+    ): Flow<Result<SimpleResponse>> {
+        val request = buildStepEventRequest(page, event)
+        return repo.logEvent(request).apply {
+            collect {
+                _eventLiveData.postValue(request to it)
+            }
         }
     }
 
@@ -258,6 +305,47 @@ class VerificationViewModel @Inject constructor(
         }
     }
 
+
+    private fun buildStepEventRequest(
+        page: KycPages,
+        event: EventTypes
+    ): EventRequest {
+        val verificationId =
+            authDataFromPref?.initData?.authData?.verificationId
+                ?: throw Exception("Verification id is null")
+        val stepNumber =
+            getCurrentPage(page.serverKey)?.id
+                ?: throw Exception("No stepNumber")
+        return EventRequest(
+            stepNumber = stepNumber,
+            eventType = event.serverKey,
+            eventValue = page.serverKey,
+            verificationId = verificationId
+        ).apply {
+            logger.log("EventRequest: $this")
+        }
+    }
+
+    fun buildEventRequest(
+        services: List<String>,
+        eventType: String,
+        eventValue: String,
+        stepNumber: Int,
+    ): EventRequest {
+        val verificationId =
+            authDataFromPref?.initData?.authData?.verificationId
+                ?: throw Exception("Verification id is null")
+        return EventRequest(
+            stepNumber = stepNumber,
+            services = services,
+            eventType = eventType,
+            eventValue = eventValue,
+            verificationId = verificationId
+        ).apply {
+            logger.log("EventRequest: $this")
+        }
+    }
+
     fun getErrorMessage(
         error: Result.Error,
     ): String {
@@ -267,7 +355,7 @@ class VerificationViewModel @Inject constructor(
             is Result.Error.NoDataError -> "Data not received"
             else -> {
                 (error as Result.Error.ApiError).error?.let {
-                    if(it.isEmpty()){
+                    if (it.isEmpty()) {
                         return "Data not received"
                     }
                     val tmpErr = it["error"]
@@ -317,12 +405,19 @@ class VerificationViewModel @Inject constructor(
     }
 
     fun getPagesFromPrefs(): List<Step>? {
-        val steps = repo.getLocalResponse(
-            SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
-        )?.data?.initData?.authData?.steps
+        val steps = authDataFromPref?.initData?.authData?.steps
         _pages.postValue(steps)
         return steps
     }
+
+
+    private val authDataFromPref: AuthResponse?
+        get() {
+            return repo.getLocalResponse(
+                SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
+            )?.data
+        }
+
 
     fun getCurrentPage(currentPage: String): Step? {
         return getPagesFromPrefs()?.find { it.name == currentPage }

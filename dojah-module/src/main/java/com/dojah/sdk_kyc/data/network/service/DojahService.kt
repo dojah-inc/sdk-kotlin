@@ -8,6 +8,7 @@ import com.dojah.sdk_kyc.domain.request.ImageAnalysisRequest
 import com.dojah.sdk_kyc.domain.request.LivenessCheckRequest
 import com.dojah.sdk_kyc.domain.request.LivenessVerifyRequest
 import com.dojah.sdk_kyc.domain.request.OtpRequest
+import com.dojah.sdk_kyc.domain.request.UserDataRequest
 import kotlinx.coroutines.delay
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -72,6 +73,11 @@ interface DojahService {
     @POST("${prefix}/kyc/image/verify")
     suspend fun verifyLiveness(
         @Body request: LivenessVerifyRequest,
+    ): Response<ResponseBody>
+
+    @POST("${prefix}/kyc/user-data")
+    suspend fun sendUserData(
+        @Body request: UserDataRequest,
     ): Response<ResponseBody>
 
 }
@@ -171,6 +177,12 @@ class DojahServiceMock : DojahService {
     override suspend fun verifyLiveness(request: LivenessVerifyRequest): Response<ResponseBody> {
         delay(1000)
         val responseBody = livenessVerifyResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun sendUserData(request: UserDataRequest): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = simpleEventResponse().replace("\n", "").toResponseBody()
         return Response.success(responseBody)
     }
 
