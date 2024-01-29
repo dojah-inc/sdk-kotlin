@@ -32,7 +32,8 @@ data class Config(
     @SerializedName("type") var type: String? = null,
     @SerializedName("version") var version: Int? = null,
     @SerializedName("instruction") var instruction: String? = null,
-
+    @SerializedName("brightnessThreshold") var brightnessThreshold: Int = 40,
+    @SerializedName("glassesCheck") var glassesCheck: Boolean = true,
     ) {
     val ids: List<Boolean?>
         get() {
@@ -73,7 +74,10 @@ data class Config(
                 if (otp == true)
                     add("otp")
                 if (selfie == true)
-                    add("selfie")
+                    if (version == 3)
+                        add("selfie")
+                    else
+                        add("selfie-video")
             }
         }
 }

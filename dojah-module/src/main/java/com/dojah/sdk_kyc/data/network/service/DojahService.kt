@@ -4,6 +4,9 @@ import com.dojah.sdk_kyc.core.mock_data.*
 import com.dojah.sdk_kyc.domain.request.AuthRequest
 import com.dojah.sdk_kyc.domain.request.CheckIpRequest
 import com.dojah.sdk_kyc.domain.request.EventRequest
+import com.dojah.sdk_kyc.domain.request.ImageAnalysisRequest
+import com.dojah.sdk_kyc.domain.request.LivenessCheckRequest
+import com.dojah.sdk_kyc.domain.request.LivenessVerifyRequest
 import com.dojah.sdk_kyc.domain.request.OtpRequest
 import kotlinx.coroutines.delay
 import okhttp3.ResponseBody
@@ -54,6 +57,21 @@ interface DojahService {
     suspend fun validateOtp(
         @Query("code") code: String,
         @Query("reference_id") referenceId: String
+    ): Response<ResponseBody>
+
+    @POST("${prefix}/kyc/image/analysis")
+    suspend fun performImageAnalysis(
+        @Body request: ImageAnalysisRequest,
+    ): Response<ResponseBody>
+
+    @POST("${prefix}/kyc/image/check")
+    suspend fun livenessCheck(
+        @Body request: LivenessCheckRequest,
+    ): Response<ResponseBody>
+
+    @POST("${prefix}/kyc/image/verify")
+    suspend fun verifyLiveness(
+        @Body request: LivenessVerifyRequest,
     ): Response<ResponseBody>
 
 }
@@ -135,6 +153,24 @@ class DojahServiceMock : DojahService {
     override suspend fun validateOtp(code: String, referenceId: String): Response<ResponseBody> {
         delay(1000)
         val responseBody = validateOtpResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun performImageAnalysis(request: ImageAnalysisRequest): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = imageAnalysisResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun livenessCheck(request: LivenessCheckRequest): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = livenessCheckResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun verifyLiveness(request: LivenessVerifyRequest): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = livenessVerifyResponse().replace("\n", "").toResponseBody()
         return Response.success(responseBody)
     }
 

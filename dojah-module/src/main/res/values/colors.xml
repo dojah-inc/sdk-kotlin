@@ -105,6 +105,7 @@
     <color name="black_100">#CECED2</color>
     <color name="black_200">#84858D</color>
     <color name="black_main">#080917</color>
+    <color name="error_bg_color">#FCDFDF</color>
 
 
 </resources>

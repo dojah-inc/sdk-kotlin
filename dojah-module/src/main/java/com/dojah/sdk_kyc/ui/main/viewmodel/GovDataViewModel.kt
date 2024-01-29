@@ -9,6 +9,9 @@ import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.data.io.CountryManager
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.repository.DojahRepository
+import com.dojah.sdk_kyc.domain.request.EventRequest
+import com.dojah.sdk_kyc.domain.request.LivenessCheckRequest
+import com.dojah.sdk_kyc.domain.request.LivenessVerifyRequest
 import com.dojah.sdk_kyc.domain.request.OtpRequest
 import com.dojah.sdk_kyc.domain.responses.*
 import dagger.Lazy
@@ -21,6 +24,8 @@ import javax.inject.Inject
 import com.dojah.sdk_kyc.ui.utils.*
 import kotlinx.coroutines.flow.collect
 
+const val analysisRetryMax = 3
+const val checkRetryMax = 2
 
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
@@ -64,6 +69,30 @@ class GovDataViewModel @Inject constructor(
         get() = _isResentOtpLiveData
 
 
+    private val _imageAnalysisLiveData = MutableLiveData<Result<ImageAnalysisResponse?>>()
+    val imageAnalysisLiveData: LiveData<Result<ImageAnalysisResponse?>>
+        get() = _imageAnalysisLiveData
+
+    private val _livenessCheckLiveData = MutableLiveData<Result<LivenessCheckResponse?>>()
+    val livenessCheckLiveData: LiveData<Result<LivenessCheckResponse?>>
+        get() = _livenessCheckLiveData
+
+    private val _verifyLiveData = MutableLiveData<Result<LivenessVerifyResponse?>>()
+    val verifyLiveData: LiveData<Result<LivenessVerifyResponse?>>
+        get() = _verifyLiveData
+
+
+    //a single event to listen to all liveness chained events
+    private val _submitLivenessLiveData = MutableLiveData<Result<SimpleResponse?>>()
+    val submitLivenessLiveData: LiveData<Result<SimpleResponse?>>
+        get() = _submitLivenessLiveData
+
+    private val _analysisRetryCountLiveData = MutableLiveData<Int>(0)
+    val analysisRetryCountLiveData: LiveData<Int>
+        get() = _analysisRetryCountLiveData
+
+    private val _verifyCheckRetryCountLiveData = MutableLiveData<Int>(0)
+
     val dojahEnum
         get(): DojahEnum {
             return repo.getDojahEnum.data
@@ -81,6 +110,7 @@ class GovDataViewModel @Inject constructor(
         }
     }
 
+    //get verification methods from current page config
     fun getVerifyMethods(
         verificationVm: VerificationViewModel
     ): List<String>? {
@@ -190,6 +220,7 @@ class GovDataViewModel @Inject constructor(
             KycPages.GOVERNMENT_DATA.serverKey,
             stepNumber
         )
+        ///log step completed event
         return repo.logEvent(request).apply {
             collect {
                 if (it is Result.Success) {
@@ -253,15 +284,18 @@ class GovDataViewModel @Inject constructor(
         stepNumber: Int,
     ): Flow<Result<SimpleResponse>> {
 
-        var verifyTpe = verificationTypeLiveData.value?.serverKey
-        if (verifyTpe == "selfie") {
-            verifyTpe = "LIVENESS"
+        val verificationType = verificationTypeLiveData.value
+        var verifyTypeKey = verificationType?.serverKey
+        if (verificationType == VerificationType.Selfie || verificationType == VerificationType.SelfieVideo) {
+            verifyTypeKey = "LIVENESS"
+            _analysisRetryCountLiveData.value = 0
+            _verifyCheckRetryCountLiveData.value = 0
         }
         return repo.logEvent(
             verificationVm.buildEventRequest(
                 services,
                 EventTypes.VERIFICATION_MODE_SELECTED.serverKey,
-                "${verifyTpe?.uppercase()}", //e.g selfie
+                "${verifyTypeKey?.uppercase()}", //e.g selfie
                 stepNumber = stepNumber
             )
         ).apply {
@@ -379,6 +413,163 @@ class GovDataViewModel @Inject constructor(
                     _validateOtpLiveData.postValue(it)
                 }
         }
+    }
+
+    fun performImageAnalysis(image: String) {
+        viewModelScope.launch {
+            val verificationType = verificationTypeLiveData.value
+                ?: throw Exception("verification type is null")
+            repo.performImageAnalysis(image, verificationType.actualServerKey)
+                .onStart {
+                    _imageAnalysisLiveData.postValue(Result.Loading)
+                }
+                .collect {
+                    if (it is Result.Success) {
+                        val faceResult = it.data.entity?.face
+                        val config =
+                            getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)?.config
+                        if (faceResult?.faceSuccess(config) == false) {
+                            if (_analysisRetryCountLiveData.value!! < analysisRetryMax) {
+                                _analysisRetryCountLiveData.value =
+                                    _analysisRetryCountLiveData.value?.plus(1)
+                            }
+                        }
+                    }
+                    _imageAnalysisLiveData.postValue(it)
+                }
+        }
+    }
+
+    fun checkLiveness(
+        image: String,
+        param: String = "face",
+        selfieType: String = "selfie_type",
+        docType: String = "image",
+    ) {
+        viewModelScope.launch {
+            val verificationId =
+                getAuthDataFromPref()?.initData?.authData?.verificationId
+                    ?: throw Exception("Verification id is null")
+            val stepNumber = getCurrentPage(KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey)?.id
+            val continueVerification = _analysisRetryCountLiveData.value!! >= analysisRetryMax
+            repo.checkLiveness(
+                LivenessCheckRequest(
+                    image,
+                    verificationId,
+                    stepNumber,
+                    param,
+                    selfieType,
+                    docType,
+                    continueVerification
+                )
+            ).onStart {
+                /// start loading @check, and stop @ step event
+                /// or on error
+                _submitLivenessLiveData.postValue(Result.Loading)
+            }.collect {
+                _livenessCheckLiveData.postValue(it)
+                if (it is Result.Error) {
+                    _submitLivenessLiveData.postValue(it)
+                    return@collect
+                }
+                if (it is Result.Success) {
+                    if (it.data.entity?.match == true) {
+                        //then verify liveness
+                        verifyLiveness().collect { verifyResult ->
+                            if (verifyResult is Result.Success) {
+                                //then log step completed event
+                                logStepEvent(
+                                    KycPages.GOVERNMENT_DATA_VERIFICATION,
+                                    EventTypes.STEP_COMPLETED
+                                ).collect { eventResult ->
+                                    /// fire event for all liveness process
+                                    _submitLivenessLiveData.postValue(eventResult)
+                                }
+                            }
+                        }
+                    } else {
+                        if (_verifyCheckRetryCountLiveData.value!! < checkRetryMax) {
+                            _verifyCheckRetryCountLiveData.value =
+                                _verifyCheckRetryCountLiveData.value?.plus(1)
+                            ///Retry verification
+                            checkLiveness(image)
+                        } else {
+                            verifyLiveness().collect { verifyResult ->
+                                if (verifyResult is Result.Success) {
+                                    //then log step failed event
+                                    logStepEvent(
+                                        KycPages.GOVERNMENT_DATA_VERIFICATION,
+                                        EventTypes.STEP_FAILED
+                                    ).collect { eventResult ->
+                                        /// fire event for all liveness process
+                                        _submitLivenessLiveData.postValue(eventResult)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun verifyLiveness(): Flow<Result<LivenessVerifyResponse>> {
+        val verificationId =
+            getAuthDataFromPref()?.initData?.authData?.verificationId
+                ?: throw Exception("Verification id is null")
+        return repo.verifyLiveness(
+            LivenessVerifyRequest(
+                appId = prefManager.getAppId(),
+                prefManager.getSessionId(),
+                verificationId = verificationId
+            )
+        ).apply {
+            collect {
+                if (it is Result.Error) {
+                    /// fire error event for all liveness process
+                    _submitLivenessLiveData.postValue(it)
+                }
+                _verifyLiveData.postValue(it)
+            }
+        }
+    }
+
+
+    private suspend fun logStepEvent(
+        page: KycPages,
+        event: EventTypes
+    ): Flow<Result<SimpleResponse>> {
+        val verificationId =
+            getAuthDataFromPref()?.initData?.authData?.verificationId
+                ?: throw Exception("Verification id is null")
+        val stepNumber =
+            getCurrentPage(page.serverKey)?.id
+                ?: throw Exception("No stepNumber")
+        return repo.logEvent(
+            EventRequest(
+                verificationId,
+                stepNumber,
+                event.serverKey,
+                page.serverKey,
+            )
+        ).apply {
+            collect {
+                if (it is Result.Error) {
+                    _submitGovLiveData.postValue(it)
+                }
+            }
+        }
+    }
+
+    private fun getCurrentPage(currentPage: String): Step? {
+        val steps = getAuthDataFromPref()?.initData?.authData?.steps
+        return steps?.find { it.name == currentPage }
+    }
+
+    private fun getAuthDataFromPref(): AuthResponse? {
+        return repo.getLocalResponse(
+            SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
+        )?.data
     }
 
 

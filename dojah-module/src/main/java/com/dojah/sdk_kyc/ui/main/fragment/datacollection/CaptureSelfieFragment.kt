@@ -35,8 +35,9 @@ import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.CameraPermissionDialogFragment
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
-import com.dojah.sdk_kyc.ui.utils.*
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
+import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.openAppSystemSettings
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,11 +61,8 @@ class CaptureSelfieFragment : ErrorFragment() {
     private var cameraProvider: ProcessCameraProvider? = null
 
 
-//    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.selfie_nav_graph) { defaultViewModelProviderFactory }
-private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route){defaultViewModelProviderFactory}
-
-//    private val govViewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_nav_graph) { defaultViewModelProviderFactory }
-//    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route){defaultViewModelProviderFactory}
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val govDataViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
     private fun startCamera() {
@@ -83,7 +81,8 @@ private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verifi
 
             val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
 
-            val isVideo = viewModel.verificationTypeLiveData.value == VerificationType.Video
+            val isVideo =
+                govDataViewModel.verificationTypeLiveData.value == VerificationType.SelfieVideo
             if (isVideo) {
 
                 val qualitySelector = QualitySelector.fromOrderedList(
@@ -160,10 +159,10 @@ private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verifi
 
         cameraContract.launch(Manifest.permission.CAMERA)
         binding.apply {
-            val type = viewModel.verificationTypeLiveData.value
+            val type = govDataViewModel.verificationTypeLiveData.value
             titleText.text = type?.title
-            (type == VerificationType.Video).also {
-                if (it) {
+            (type == VerificationType.SelfieVideo).also { isVideo ->
+                if (isVideo) {
                     startRecording.isVisible = true
                     captureBtn.isVisible = false
                 }
@@ -172,76 +171,98 @@ private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verifi
                 cameraContract.launch(Manifest.permission.CAMERA)
             }
             captureBtn.setOnClickListener {
-                navViewModel.navigateNextStep()
-                return@setOnClickListener
-
-                val photoFile =
-                    File.createTempFile("capture_selfie", ".jpg", requireContext().cacheDir)
-
-                // Create output options object which contains file + metadata
-                val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-
-                imageCapture?.takePicture(
-                    outputOptions,
-                    ContextCompat.getMainExecutor(requireContext()),
-                    object : ImageCapture.OnImageSavedCallback {
-                        override fun onError(exc: ImageCaptureException) {
-                            cameraProvider?.unbindAll()
-                            Toast.makeText(requireContext(), exc.message, Toast.LENGTH_SHORT).show()
-                        }
-
-                        override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                            cameraProvider?.unbindAll()
-
-                            val savedUri = Uri.fromFile(photoFile)
-                            viewModel.setSelfieUri(savedUri)
-
-                            navViewModel.navigateOld(R.id.frag_preview_selfie)
-
-                        }
+                takePicture(
+                    onSaved = {
+                        val savedUri = Uri.fromFile(it)
+                        viewModel.setSelfieUri(savedUri)
+                        previewSelfie()
                     })
             }
-            var recording: Recording? = null
+            var recordingObj: Recording? = null
             startRecording.setOnClickListener {
                 startRecording.isVisible = false
                 doneBtn.isVisible = true
 
-                // Create MediaStoreOutputOptions for our recorder
-                val name = "Dojah-video_verify-recording-" +
-                        SimpleDateFormat("dd-mm-yy", Locale.US)
-                            .format(System.currentTimeMillis()) + ".mp4"
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.Video.Media.DISPLAY_NAME, name)
-                }
-
-
-                val mediaStoreOutput = MediaStoreOutputOptions.Builder(
-                    requireActivity().contentResolver,
-                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                ).setContentValues(contentValues).build()
-
-                // 2. Configure Recorder and Start recording to the mediaStoreOutput.
-                recording =
-                    videoCapture?.output?.prepareRecording(requireContext(), mediaStoreOutput)
-                        ?.start(
-                            ContextCompat.getMainExecutor(requireContext()),
-                        ) {
-                            if (it is VideoRecordEvent.Finalize) {
-                                ///take path and send to preview screen
-                                val videoUri = it.outputResults.outputUri
-                                viewModel.setSelfieUri(videoUri)
-                                navViewModel.navigateOld(R.id.frag_preview_selfie)
-                            }
-                        }
+                recordingObj = recordVideo(onSaved = { videoUri ->
+                    viewModel.setSelfieUri(videoUri)
+                    previewSelfie()
+                })
             }
             doneBtn.setOnClickListener {
-                if (recording != null) {
-                    recording!!.close()
+                if (recordingObj != null) {
+                    recordingObj!!.close()
                     cameraProvider?.unbindAll()
                 }
             }
 
         }
+    }
+
+    private fun previewSelfie() {
+        navViewModel.navigate(Routes.preview_selfie_fragment)
+    }
+
+    private fun recordVideo(
+        tmpFileNamePrefix: String = "Dojah-video_verify-recording-",
+        photoExtension: String = ".mp4",
+        onSaved: (photoFile: Uri) -> Unit
+    ): Recording? {
+        // Create MediaStoreOutputOptions for our recorder
+        val name = tmpFileNamePrefix +
+                SimpleDateFormat("dd-mm-yy", Locale.US)
+                    .format(System.currentTimeMillis()) + photoExtension
+        val contentValues = ContentValues().apply {
+            put(MediaStore.Video.Media.DISPLAY_NAME, name)
+        }
+
+
+        val mediaStoreOutput = MediaStoreOutputOptions.Builder(
+            requireActivity().contentResolver,
+            MediaStore.Video.Media.INTERNAL_CONTENT_URI
+        ).setContentValues(contentValues).build()
+
+        // 2. Configure Recorder and Start recording to the mediaStoreOutput.
+        val recording =
+            videoCapture?.output?.prepareRecording(requireContext(), mediaStoreOutput)
+                ?.start(
+                    ContextCompat.getMainExecutor(requireContext()),
+                ) {
+                    if (it is VideoRecordEvent.Finalize) {
+                        ///take path and send to preview screen
+                        val videoUri = it.outputResults.outputUri
+                        onSaved(videoUri)
+                    }
+                }
+        return recording
+    }
+
+    private fun takePicture(
+        tmpFileNamePrefix: String = "capture_selfie",
+        photoExtension: String = ".jpg",
+        onSaved: (photoFile: File) -> Unit
+    ) {
+        val photoFile =
+            File.createTempFile(tmpFileNamePrefix, photoExtension, requireContext().cacheDir)
+
+        // Create output options object which contains file + metadata
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+
+        imageCapture?.takePicture(
+            outputOptions,
+            ContextCompat.getMainExecutor(requireContext()),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onError(exc: ImageCaptureException) {
+                    cameraProvider?.unbindAll()
+                    Toast.makeText(requireContext(), exc.message, Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    cameraProvider?.unbindAll()
+
+                    onSaved(photoFile)
+
+                }
+            })
     }
 
 

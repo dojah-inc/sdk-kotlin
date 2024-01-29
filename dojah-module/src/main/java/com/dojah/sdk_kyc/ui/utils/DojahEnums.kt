@@ -30,22 +30,31 @@ enum class BusinessDataType(val value: String) {
 enum class VerificationType(
     val value: String,
     val serverKey: String,
-    val details: String? = "",
+    val actualServerKey: String="",
+    val type: String? = "",
     val title: String = "",
     val preview: String = ""
 ) {
     Selfie(
-        "Selfie", "Place your face in the circle and click Capture", "Preview your Selfie"
-    ),
-    Video(
-        "Video KYC",
+        "Selfie",
         "selfie",
-        "Place your face in the circle and click Record",
-        "Preview your Video"
+        actualServerKey = "selfie",
+        type = "capture",
+        title = "Place your face in the circle and click Capture",
+        preview = "Preview your Selfie",
     ),
-    OTP("OTP", "otp"), PHONE_OTP("Phone Number OTP", "phone number"), EMAIL_OTP(
-        "Email OTP", "email"
+    SelfieVideo(
+        "Video KYC",
+        "selfie-video",
+        actualServerKey = "selfie",
+        type = "video",
+        title = "Place your face in the circle and click Record",
+        preview = "Preview your Video"
     ),
+    OTP("OTP", serverKey = "otp"),
+
+    PHONE_OTP("Phone Number OTP", "phone number"),
+    EMAIL_OTP("Email OTP", "email"),
     HOME_ADDRESS("Home Address", "home address");
 
     companion object {
@@ -187,7 +196,7 @@ enum class GovDocType(
 enum class KycPages(
     val serverKey: String,
     val fragmentClassName: String,
-    val optionpages: List<Pair<String, String>>? = null
+    val optionPages: List<Pair<String, String>>? = null
 ) {
     INDEX(
         "index", IndexDisclaimerFragment::class.java.name
@@ -206,8 +215,18 @@ enum class KycPages(
     ),
     GOVERNMENT_DATA_VERIFICATION(
         "government-data-verification", "", listOf(
-            VerificationType.Video.serverKey to SelfieDisclaimerFragment::class.java.name,
-            VerificationType.OTP.serverKey to EnterOtpFragment::class.java.name,
+            Pair(
+                VerificationType.Selfie.serverKey,
+                SelfieDisclaimerFragment::class.java.name,
+            ),
+            Pair(
+                VerificationType.SelfieVideo.serverKey,
+                SelfieDisclaimerFragment::class.java.name,
+            ),
+            Pair(
+                VerificationType.OTP.serverKey,
+                SelfieDisclaimerFragment::class.java.name,
+            ),
         )
     ),
     ID_OPTION(

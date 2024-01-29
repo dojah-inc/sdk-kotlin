@@ -309,6 +309,7 @@ fun ninResponse(): String = """{
     }
 }
 """.trimIndent()
+
 fun vNinResponse(): String = """{
     "entity": {
         "vnin": "AB012345678910YZ",
@@ -362,3 +363,123 @@ fun validateOtpResponse(): String = """{
 }
 """.trimIndent()
 
+fun imageAnalysisResponse(): String = """{
+      "entity": {
+        "face": {
+          "face_detected": true,
+          "message": "face detected",
+          "multiface_detected": false,
+          "details": {
+            "age_range": {
+              "low": 25,
+              "high": 33
+            },
+            "smile": {
+              "value": false,
+              "confidence": 99.9901123046875
+            },
+            "gender": {
+              "value": "Male",
+              "confidence": 99.9473876953125
+            },
+            "eyeglasses": {
+              "value": true,
+              "confidence": 100
+            },
+            "sunglasses": {
+              "value": false,
+              "confidence": 99.99800109863281
+            },
+            "beard": {
+              "value": true,
+              "confidence": 77.6823959350586
+            },
+            "mustache": {
+              "value": false,
+              "confidence": 94.59651947021484
+            },
+            "eyes_open": {
+              "value": true,
+              "confidence": 98.76229858398438
+            },
+            "mouth_open": {
+              "value": false,
+              "confidence": 95.53598022460938
+            },
+            "emotions": [
+              {
+                "type": "CALM",
+                "confidence": 92.67578125
+              },
+              {
+                "type": "FEAR",
+                "confidence": 3.662109375
+              },
+              {
+                "type": "CONFUSED",
+                "confidence": 0.01208186149597168
+              },
+              {
+                "type": "DISGUSTED",
+                "confidence": 0.0005543231964111328
+              },
+              {
+                "type": "SAD",
+                "confidence": 0.00006556510925292969
+              },
+              {
+                "type": "ANGRY",
+                "confidence": 0.0000059604644775390625
+              },
+              {
+                "type": "HAPPY",
+                "confidence": 0
+              },
+              {
+                "type": "SURPRISED",
+                "confidence": 0
+              }
+            ]
+          },
+          "quality": {
+            "brightness": 65.3563461303711,
+            "sharpness": 98.08562469482422
+          },
+          "confidence": 99.99983215332031,
+          "bounding_box": {
+            "width": 0.17492765188217163,
+            "height": 0.41968902945518494,
+            "left": 0.40705186128616333,
+            "top": 0.3246147930622101
+          }
+        }
+      }
+    }
+""".trimIndent()
+
+fun livenessCheckResponse(): String = """{
+  "entity": {
+    "match": false,
+    "reason": "Failed Liveness Check",
+    "continue_verification": true
+  }
+}
+""".trimIndent()
+
+fun livenessVerifyResponse(): String = """{
+  "entity": {
+    "person": {
+      "url": "https://dojah-images.s3.amazonaws.com/65b0f14c909cc10031733141face.jpeg",
+      "confidence_value": 99.99991607666016
+    },
+    "id": {},
+    "overall": {
+      "confidence_value": 100
+    },
+    "business": {},
+    "device": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "ip": "{'status': 'success', 'country': 'Nigeria', 'regionName': 'Osun State', 'city': 'Osogbo', 'district': '', 'zip': '', 'lat': 7.7614, 'lon': 4.5424, 'timezone': 'Africa/Lagos', 'isp': 'MTN NIGERIA Communication limited', 'org': 'MTN Nigeria', 'as': 'AS29465 MTN NIGERIA Communication limited', 'mobile': True, 'proxy': False, 'hosting': True, 'query': '2c0f:f5c0:732:4377:d959:f963:a836:bdbe'}",
+    "reference_id": "DJ-91C56E4EEC"
+  }
+}
+""".trimIndent()

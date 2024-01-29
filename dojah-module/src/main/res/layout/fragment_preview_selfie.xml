@@ -62,11 +62,12 @@
                     android:src="@color/card_stroke_color"
                     android:visibility="gone"
                     tools:visibility="visible" />
+
                 <eightbitlab.com.blurview.BlurView
                     android:id="@+id/blurView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
+                    android:layout_height="match_parent">
+
                 </eightbitlab.com.blurview.BlurView>
             </androidx.cardview.widget.CardView>
 
@@ -79,7 +80,9 @@
                 android:gravity="center"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="6dp"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:visibility="visible"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -94,6 +97,29 @@
                     android:text="@string/processing_load"
                     android:textColor="@color/primary" />
             </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/error_tag"
+                style="@style/TextAppearance.Dojah.ParagraphSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"
+                android:background="@color/white"
+                android:drawablePadding="@dimen/margin_8dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="8dp"
+                android:paddingVertical="4dp"
+                tools:text="No face detected"
+                android:textAlignment="center"
+                android:textColor="?attr/errorMessageColor"
+                app:drawableStartCompat="?attr/infoIcon"
+                app:drawableTint="?attr/errorMessageColor"
+                android:visibility="gone"
+                tools:visibility="visible"
+                />
         </RelativeLayout>
 
         <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
@@ -146,11 +172,12 @@
             app:strokeColor="@color/black"
             app:strokeWidth="1dp" />
 
-        <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
+        <com.dojah.sdk_kyc.ui.utils.widget.LoadingButton
             android:id="@+id/btn_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/_continue" />
+            android:text="@string/_continue"
+            app:buttonText="@string/_continue" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

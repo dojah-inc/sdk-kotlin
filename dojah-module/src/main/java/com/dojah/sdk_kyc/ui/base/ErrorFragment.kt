@@ -79,7 +79,7 @@ open class ErrorFragment : Fragment {
         useToast: Boolean = true,
         errorTitle: String = "",
         errorTitleField: String = "title",
-        errorField: String = "msg",
+        errorField: String = "error",
         onDismiss: (() -> Unit)? = null,
         action: (() -> Unit)? = null
     ) {

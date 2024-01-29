@@ -11,7 +11,8 @@ import com.dojah.sdk_kyc.databinding.WidgetButtonWithProgressIndicatorBinding
 
 class LoadingButton : FrameLayout {
 
-    private val binding = WidgetButtonWithProgressIndicatorBinding.inflate(LayoutInflater.from(context), this)
+    private val binding =
+        WidgetButtonWithProgressIndicatorBinding.inflate(LayoutInflater.from(context), this)
 
     var text = ""
         set(value) {
@@ -23,6 +24,11 @@ class LoadingButton : FrameLayout {
         set(value) {
             field = value
             binding.button.isEnabled = value
+            if (value) binding.button.alpha = 1f
+            else
+                if (!isLoading) {
+                    binding.button.alpha = 0.4f
+                }
         }
 
     var isLoading = false
@@ -35,14 +41,31 @@ class LoadingButton : FrameLayout {
 
     constructor(context: Context) : this(context, null, 0, 0)
 
-    constructor(context: Context, attributeSet: AttributeSet? = null) : this(context, attributeSet, 0, 0)
+    constructor(context: Context, attributeSet: AttributeSet? = null) : this(
+        context,
+        attributeSet,
+        0,
+        0
+    )
 
-    constructor(context: Context, attributeSet: AttributeSet? = null, defAttrStyle: Int) : this(context, attributeSet, defAttrStyle, 0)
+    constructor(context: Context, attributeSet: AttributeSet? = null, defAttrStyle: Int) : this(
+        context,
+        attributeSet,
+        defAttrStyle,
+        0
+    )
 
-    constructor(context: Context, attributeSet: AttributeSet? = null,
-                defStyleAttr: Int, defStyleRes: Int) : super(context, attributeSet, defStyleAttr, defStyleRes) {
+    constructor(
+        context: Context, attributeSet: AttributeSet? = null,
+        defStyleAttr: Int, defStyleRes: Int
+    ) : super(context, attributeSet, defStyleAttr, defStyleRes) {
 
-        context.obtainStyledAttributes(attributeSet, R.styleable.LoadingButton, defStyleAttr, defStyleRes).use {
+        context.obtainStyledAttributes(
+            attributeSet,
+            R.styleable.LoadingButton,
+            defStyleAttr,
+            defStyleRes
+        ).use {
             text = it.getString(R.styleable.LoadingButton_buttonText) ?: ""
             isButtonEnabled = it.getBoolean(R.styleable.LoadingButton_buttonEnabled, false)
         }

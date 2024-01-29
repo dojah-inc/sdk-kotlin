@@ -4,16 +4,15 @@ import com.dojah.sdk_kyc.domain.request.AuthReqSteps
 import com.dojah.sdk_kyc.domain.request.AuthRequest
 import com.dojah.sdk_kyc.ui.utils.*
 import com.google.gson.annotations.SerializedName
-import okhttp3.logging.HttpLoggingInterceptor
 import java.lang.Exception
 
 private val USER_DATA = "user-data"
 
-private val GOVERNMENT_DATA = KycPages.GOVERNMENT_DATA.serverKey
-private val ID_PAGE = KycPages.ID.serverKey
-private val ID_OPTION_PAGE = KycPages.ID_OPTION.serverKey
+private val governmentData = KycPages.GOVERNMENT_DATA.serverKey
+private val idPage = KycPages.ID.serverKey
+private val idOptionPage = KycPages.ID_OPTION.serverKey
 
-private val GOV_VERIFICATION = KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
+private val govVerification = KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
 
 data class PreAuthResponse(
     @SerializedName("widget") var widget: Widget? = Widget(),
@@ -40,29 +39,34 @@ data class PreAuthResponse(
 
             ).plus(preAuthPages.map { preAuthPage ->
                 val config = preAuthPage.config
+                if (config == null) {
+                    throw Exception("Config can't be null")
+                }
                 AuthReqSteps(
                     name = preAuthPage.page,
                     authReqConfigConfig = Config(
-                        default = config?.default,
-                        passport = config?.passport,
-                        dl = config?.dl,
-                        voter = config?.voter,
-                        vnin = config?.vnin,
-                        bvn = config?.bvn,
-                        selfie = config?.selfie,
-                        otp = config?.otp,
-                        national = config?.national,
-                        nin = config?.nin,
-                        cac = config?.cac,
-                        verification = config?.verification,
-                        type = config?.type,
-                        version = config?.version,
-                        instruction = config?.instruction
+                        default = config.default,
+                        passport = config.passport,
+                        dl = config.dl,
+                        voter = config.voter,
+                        vnin = config.vnin,
+                        bvn = config.bvn,
+                        selfie = config.selfie,
+                        otp = config.otp,
+                        national = config.national,
+                        nin = config.nin,
+                        cac = config.cac,
+                        verification = config.verification,
+                        type = config.type,
+                        version = config.version,
+                        instruction = config.instruction,
+                        brightnessThreshold = config.brightnessThreshold,
+                        glassesCheck = config.glassesCheck,
                     )
                 )
             }).toMutableList().apply {
 //                HttpLoggingInterceptor.Logger.DEFAULT.log("PreAuthResponse toAuthRequest ${this}")
-                val govDataPage = this.findLast { it.name == GOVERNMENT_DATA }
+                val govDataPage = this.findLast { it.name == governmentData }
                 val verificationEnabled =
                     govDataPage?.authReqConfigConfig?.selfie == true || govDataPage?.authReqConfigConfig?.otp == true
 
@@ -74,16 +78,17 @@ data class PreAuthResponse(
                     this.add(
                         govVerifyIndex,
                         AuthReqSteps(
-                            name = GOV_VERIFICATION,
+                            name = govVerification,
                             authReqConfigConfig = Config(
                                 selfie = config?.selfie,
                                 otp = config?.otp,
+                                version = config?.version,
                             ),
                         )
                     )
                 }
 
-                val idPage = this.findLast { it.name == ID_PAGE }
+                val idPage = this.findLast { it.name == idPage }
                 val oneIdEnabled = idPage?.authReqConfigConfig?.ids?.reduce() { previous, next ->
                     previous == true || next == true
                 } == true
@@ -96,7 +101,7 @@ data class PreAuthResponse(
                     this.add(
                         idOptionsIndex,
                         AuthReqSteps(
-                            name = ID_OPTION_PAGE,
+                            name = idOptionPage,
                             authReqConfigConfig = Config(
                                 passport = config?.passport,
                                 dl = config?.dl,
@@ -131,8 +136,18 @@ data class Widget(
     @SerializedName("pages") var pages: ArrayList<Pages> = arrayListOf(),
     @SerializedName("country") var country: ArrayList<String> = arrayListOf(),
     @SerializedName("env") var env: String? = null,
-    @SerializedName("company") var company: Company? = Company()
-)
+    @SerializedName("company") var company: Company? = Company(),
+    @SerializedName("aml_screening") var amlScreening: AmlScreening? = AmlScreening(),
+    @SerializedName("ip_screening") var ipScreening: IpScreening? = IpScreening(),
+) {
+    data class AmlScreening(
+        @SerializedName("action_returned") var actionReturned: String? = null,
+    )
+
+    data class IpScreening(
+        @SerializedName("action_blacklisted") var actionBlacklisted: String? = null,
+    )
+}
 
 data class App(
     @SerializedName("name") var name: String? = null,

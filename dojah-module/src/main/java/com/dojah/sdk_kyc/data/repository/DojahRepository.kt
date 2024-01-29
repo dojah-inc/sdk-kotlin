@@ -10,14 +10,19 @@ import com.dojah.sdk_kyc.data.repository.base.BaseRepository
 import com.dojah.sdk_kyc.domain.request.AuthRequest
 import com.dojah.sdk_kyc.domain.request.CheckIpRequest
 import com.dojah.sdk_kyc.domain.request.EventRequest
+import com.dojah.sdk_kyc.domain.request.ImageAnalysisRequest
+import com.dojah.sdk_kyc.domain.request.LivenessCheckRequest
+import com.dojah.sdk_kyc.domain.request.LivenessVerifyRequest
 import com.dojah.sdk_kyc.domain.request.OtpRequest
 import com.dojah.sdk_kyc.domain.responses.AuthResponse
-import com.dojah.sdk_kyc.domain.responses.BvnLookUpEntity
 import com.dojah.sdk_kyc.domain.responses.BvnLookUpResponse
 import com.dojah.sdk_kyc.domain.responses.CheckIpResponse
 import com.dojah.sdk_kyc.domain.responses.DojahEnum
 import com.dojah.sdk_kyc.domain.responses.DriverLicenceResponse
 import com.dojah.sdk_kyc.domain.responses.GetIpResponse
+import com.dojah.sdk_kyc.domain.responses.ImageAnalysisResponse
+import com.dojah.sdk_kyc.domain.responses.LivenessCheckResponse
+import com.dojah.sdk_kyc.domain.responses.LivenessVerifyResponse
 import com.dojah.sdk_kyc.domain.responses.NinLookUpResponse
 import com.dojah.sdk_kyc.domain.responses.PreAuthResponse
 import com.dojah.sdk_kyc.domain.responses.SendOtpResponse
@@ -31,7 +36,6 @@ import kotlinx.coroutines.flow.flowOn
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
-import retrofit2.http.Query
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
@@ -217,6 +221,48 @@ class DojahRepository @Inject constructor(
                 val response =
                     service.validateOtp(code, referenceId)
                 response.getResult(ValidateOtpResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun performImageAnalysis(
+        image: String, imageType: String
+    ): Flow<Result<ImageAnalysisResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.performImageAnalysis(ImageAnalysisRequest(image, imageType))
+                response.getResult(ImageAnalysisResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun checkLiveness(
+        request: LivenessCheckRequest
+    ): Flow<Result<LivenessCheckResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.livenessCheck(request)
+                response.getResult(LivenessCheckResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun verifyLiveness(
+        request: LivenessVerifyRequest
+    ): Flow<Result<LivenessVerifyResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.verifyLiveness(request)
+                response.getResult(LivenessVerifyResponse::class.java)
             }
             emit(result)
 

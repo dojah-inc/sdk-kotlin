@@ -40,10 +40,15 @@ object Routes {
     const val error_fragment = "error_fragment"
     const val success_route = "success_route"
 
-    fun getOptionRoute(pageName: String, optionPageName: String?, arg: Bundle? = null): String {
+    fun getOptionRoute(
+        pageName: String,
+        optionPageName: String?,
+        arg: Bundle? = null
+    ): String {
         if (optionPageName == null) {
             return "${pageName}/${NavArguments.next_page}"
         }
+
         return "${pageName}_${optionPageName}/${NavArguments.next_page}"
     }
 
@@ -53,6 +58,7 @@ object NavArguments {
     const val next_page = "index_next_page"
     const val plant_name = "plant_name"
     const val option = "option"
+    const val optionType = "option_type"
 }
 
 class DojahNavGraph {
@@ -115,7 +121,7 @@ class DojahNavGraph {
                             (index + 1).coerceAtMost(pages.size - 1)
                         val nextStep = pages[nextIndex]
                         if (findPageEnum != null) {
-                            if (findPageEnum.optionpages == null) {
+                            if (findPageEnum.optionPages == null) {
                                 val customDestination =
                                     controller.navigatorProvider[FragmentNavigator::class].createDestination()
                                         .apply {
@@ -127,31 +133,19 @@ class DojahNavGraph {
                                                 NavArgument.Builder().apply {
                                                     setType(NavType.StringType)
                                                     setIsNullable(true)
-//                                                    if (index <= pages.size - 1) {
-//                                                        val nextArgIndex =
-//                                                            (nextIndex + 1).coerceAtMost(pages.size - 1)
-//                                                        var nextArg = ""
-//                                                        if (nextArgIndex <= pages.size - 1) {
-//                                                            nextArg =
-//                                                                "/${pages[nextArgIndex].name}"
-//                                                        }
-//                                                        HttpLoggingInterceptor.Logger.DEFAULT.log(
-//                                                            "next step is ${nextStep.name}$nextArg"
-//                                                        )
-//                                                        setDefaultValue("${nextStep.name}$nextArg")
-//                                                    }
                                                 }.build()
                                             )
 
                                         }
                                 addDestination(customDestination)
                             } else {
-                                findPageEnum.optionpages.forEach { optionPage ->
+                                findPageEnum.optionPages.forEach { optionPage ->
                                     val firstDestination =
                                         controller.navigatorProvider[FragmentNavigator::class].createDestination()
                                             .apply {
                                                 route = Routes.getOptionRoute(
-                                                    findPageEnum.serverKey, optionPage.first
+                                                    findPageEnum.serverKey,
+                                                    optionPageName = optionPage.first,
                                                 )
                                                 setClassName(optionPage.second)
                                                 addArgument(

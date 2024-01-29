@@ -121,8 +121,10 @@ class SplashActivity : AppCompatActivity() {
         }
 
         //ours sandbox
+        viewModel.authenticate("65ae97f4afee1c0040c9df6a")
 //        viewModel.authenticate("6568cae99806dc0040cb372b")
-        viewModel.authenticate("64e46e763a47c3003ff04266")
+        //safe
+//        viewModel.authenticate("64e46e763a47c3003ff04266")
 
     }
 

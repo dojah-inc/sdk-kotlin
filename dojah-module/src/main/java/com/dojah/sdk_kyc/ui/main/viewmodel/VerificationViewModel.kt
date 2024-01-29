@@ -228,7 +228,6 @@ class VerificationViewModel @Inject constructor(
         val authData = repo.getLocalResponse(
             SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
         )?.data
-//            authData?.initData?.authData?.stepNumber ?: throw Exception("Step number is null")
         val verificationId =
             authData?.initData?.authData?.verificationId
                 ?: throw Exception("Verification id is null")
@@ -239,7 +238,7 @@ class VerificationViewModel @Inject constructor(
             eventValue = eventValue,
             verificationId = verificationId
         ).apply {
-            logger.log("EventRequest: ${this}")
+            logger.log("EventRequest: $this")
         }
     }
 
@@ -268,7 +267,9 @@ class VerificationViewModel @Inject constructor(
             is Result.Error.NoDataError -> "Data not received"
             else -> {
                 (error as Result.Error.ApiError).error?.let {
-                    //extract the message
+                    if(it.isEmpty()){
+                        return "Data not received"
+                    }
                     val tmpErr = it["error"]
                     if (tmpErr is Map<*, *>) {
                         tmpErr["message"].toString()

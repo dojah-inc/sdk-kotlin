@@ -2,14 +2,12 @@ package com.dojah.sdk_kyc.ui.main
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -23,7 +21,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
@@ -262,11 +259,17 @@ class MainActivity : AppCompatActivity() {
                             }
                             navViewModel.pushNextDojahRoute(nextRoute)
                             val destination =
-                                if (it.first == null) nextRoute else Routes.getOptionRoute(
-                                    nextRoute, it.first?.getString(
+                                if (it.first == null) {
+                                    nextRoute
+                                } else {
+                                    val bundleOptionName = it.first?.getString(
                                         NavArguments.option, null
                                     )
-                                )
+                                    Routes.getOptionRoute(
+                                        nextRoute,
+                                        optionPageName = bundleOptionName,
+                                    )
+                                }
                             navController.navigate(
                                 destination, createNavOptions(it.second)
                             )
@@ -372,6 +375,7 @@ class MainActivity : AppCompatActivity() {
             getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
+
     private val keyboardLayoutListener =
         ViewTreeObserver.OnGlobalLayoutListener { // navigation bar height
             var navigationBarHeight = 0
