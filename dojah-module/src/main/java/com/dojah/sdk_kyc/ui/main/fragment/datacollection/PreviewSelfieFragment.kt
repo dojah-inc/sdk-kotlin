@@ -1,5 +1,7 @@
 package com.dojah.sdk_kyc.ui.main.fragment.datacollection
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
@@ -18,19 +20,19 @@ import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.databinding.FragmentPreviewSelfieBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
-import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
 import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
-import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.main.viewmodel.analysisRetryMax
+import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
-import com.dojah.sdk_kyc.ui.utils.load
 import com.google.android.material.shape.MaterialShapeDrawable
 import dagger.hilt.android.AndroidEntryPoint
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import me.echodev.resizer.Resizer
+import okhttp3.logging.HttpLoggingInterceptor
 import okio.ByteString.Companion.toByteString
 
 
@@ -58,26 +60,45 @@ class PreviewSelfieFragment : ErrorFragment() {
         govViewModel.imageAnalysisLiveData.observe(this) { result ->
             binding.root.post {
                 binding.apply {
+                    val (rootView: ViewGroup, windowBackground: Drawable?) = getBlurView()
+                    val verificationType = govViewModel.verificationTypeLiveData.value
 
+                    errorTag.isVisible = false
                     btnContinue.isLoading = result is Result.Loading
+                    showLoadingProgress(
+                        verificationType = verificationType,
+                        uri = viewModel.selfieUriLiveData.value,
+                        rootView = rootView,
+                        windowBackground = windowBackground,
+                        loading = result is Result.Loading
+                    )
                     if (result is Result.Error || result is Result.Loading) {
                         btnContinue.isButtonEnabled = false
                     }
+                    HttpLoggingInterceptor.Logger.DEFAULT.log("faceResult def frag ${result}")
+
                     if (result is Result.Success) {
                         val faceResult = result.data?.entity?.face
                         val config =
-                            viewModel.getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)?.config
-                        if (faceResult?.faceSuccess(config) == false) {
-                            errorTag.text = faceResult.faceMessage(config)
+                            viewModel.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config
+                        HttpLoggingInterceptor.Logger.DEFAULT.log("faceResult $faceResult")
+                        if (faceResult == null) {
+                            errorTag.text = FailedReasons.SELFIE_NO_CAPTURE.message
                             errorTag.isVisible = true
-                        } else {
+                            btnContinue.isButtonEnabled = false
+                        } else if (faceResult.faceSuccess(config)) {
                             errorTag.isVisible = false
                             btnContinue.isButtonEnabled = true
+                            errorTag.isVisible = false
+                        } else {
+                            errorTag.text = faceResult.getFaceErrorMessage(config)
+                            errorTag.isVisible = true
                         }
                     } else if (result is Result.Error) {
-                        errorTag.text = viewModel.getErrorMessage(result)
+                        errorTag.text = FailedReasons.SELFIE_NO_CAPTURE.message
                         errorTag.isVisible = true
                     }
+//                    govViewModel.resetImageAnalysisLiveData()
                 }
             }
         }
@@ -86,6 +107,7 @@ class PreviewSelfieFragment : ErrorFragment() {
             binding.root.post {
                 binding.apply {
                     if (it >= analysisRetryMax) {
+                        errorTag.isVisible = false
                         btnRetake.isEnabled = false
                         btnContinue.isButtonEnabled = true
                     } else {
@@ -96,29 +118,18 @@ class PreviewSelfieFragment : ErrorFragment() {
             }
         }
         govViewModel.submitLivenessLiveData.observe(this) {
-            if (it is Result.Loading) {
-                showLoading("Loading...")
-            } else {
-                dismissLoading()
-                if (it is Result.Error) {
-                    ///show error
-                    navViewModel.navigate(Routes.error_fragment, args = Bundle().apply {
-                        putString(NavArguments.option, viewModel.getErrorMessage(it))
-                    })
-                } else if (it is Result.Success) {
+            binding.root.post {
+                binding.processing.isVisible = it is Result.Loading
+                binding.btnContinue.isLoading = it is Result.Loading
+            }
 
-                    val liveNessStep = Routes.getOptionRoute(
-                        KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey,
-                        optionPageName = govViewModel.verificationTypeLiveData.value?.serverKey,
-                    )
-                    if (navViewModel.currentStepLiveData.value?.lastOrNull() == liveNessStep) {
-                        //TODO:if no more steps, make decision
-                        showLongToast("This is the last step, hence, make decision")
-                    } else {
-                        // else continue to next step
-                        navViewModel.navigateNextStep()
-                    }
-                }
+            if (it is Result.Error) {
+                govViewModel.resetDocTypeLiveData()
+                ///show error
+                navigateToErrorPage(it)
+            } else if (it is Result.Success) {
+                govViewModel.resetDocTypeLiveData()
+                navViewModel.navigateNextStep()
             }
 
         }
@@ -133,8 +144,17 @@ class PreviewSelfieFragment : ErrorFragment() {
             if (uri == null) {
                 throw Exception("Uri is null")
             }
-            verificationImage = uri.toFile().readBytes().toByteString().base64()
-            govViewModel.performImageAnalysis(verificationImage!!)
+            govViewModel.startLoadingImageAnalysis()
+            govViewModel.viewModelScope.launch {
+                val resizedImage = Resizer(requireContext())
+                    .setTargetLength(1080)
+                    .setQuality(80)
+                    .setOutputFilename("resized_image")
+                    .setSourceImage(uri.toFile())
+                    .resizedFile
+                verificationImage = resizedImage.readBytes().toByteString().base64()
+                govViewModel.performImageAnalysis(verificationImage!!)
+            }
         } else {
             viewModel.viewModelScope.launch {
                 delay(2000)
@@ -155,6 +175,13 @@ class PreviewSelfieFragment : ErrorFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
+            viewModel.prefManager.getMaterialButtonBgColor?.also {
+                try {
+                    innerDot.backgroundTintList = ColorStateList.valueOf(Color.parseColor(it))
+                } catch (e: Exception) {
+                    HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
+                }
+            }
             val verificationType = govViewModel.verificationTypeLiveData.value
             val uri: Uri? =
                 viewModel.selfieUriLiveData.value
@@ -175,31 +202,15 @@ class PreviewSelfieFragment : ErrorFragment() {
                 navViewModel.popBackStack()
             }
             btnContinue.setOnClickListener {
-                if (verificationType == VerificationType.SelfieVideo) {
-                    videoPreview.pause()
-
-                    val mediaReceiver = MediaMetadataRetriever()
-                    mediaReceiver.setDataSource(requireContext(), uri)
-                    val frameAtTime =
-                        mediaReceiver.getFrameAtTime(videoPreview.currentPosition.toLong())
-                    videoPreview.isVisible = false
-                    cameraPreview.isVisible = true
-                    cameraPreview.load(frameAtTime, isCenterCrop = true)
-
-                }
-                val radius = 20f
-                blurView.setupWith(
-                    rootView,
-                    RenderScriptBlur(requireContext())
-                ) // or RenderEffectBlur
-                    .setFrameClearDrawable(windowBackground) // Optional
-                    .setBlurRadius(radius)
-                processing.visibility = View.VISIBLE
+                showLoadingProgress(verificationType, uri, rootView, windowBackground)
 
 
                 if (verificationType == VerificationType.Selfie) {
                     verificationImage?.let { image ->
-                        govViewModel.checkLiveness(image)
+                        govViewModel.checkLiveness(
+                            image,
+                            page = KycPages.GOVERNMENT_DATA_VERIFICATION
+                        )
                     }
                 } else {
                     viewModel.viewModelScope.launch {
@@ -216,6 +227,36 @@ class PreviewSelfieFragment : ErrorFragment() {
 
             }
         }
+    }
+
+    private fun FragmentPreviewSelfieBinding.showLoadingProgress(
+        verificationType: VerificationType?,
+        uri: Uri?,
+        rootView: ViewGroup,
+        windowBackground: Drawable?,
+        loading: Boolean = true,
+    ) {
+        processing.isVisible = loading
+        blurView.isVisible = loading
+        if (verificationType == VerificationType.SelfieVideo) {
+            videoPreview.pause()
+
+            val mediaReceiver = MediaMetadataRetriever()
+            mediaReceiver.setDataSource(requireContext(), uri)
+            val frameAtTime =
+                mediaReceiver.getFrameAtTime(videoPreview.currentPosition.toLong())
+            videoPreview.isVisible = false
+            cameraPreview.isVisible = true
+            cameraPreview.load(frameAtTime, isCenterCrop = true)
+
+        }
+        val radius = 20f
+        blurView.setupWith(
+            rootView,
+            RenderScriptBlur(requireContext())
+        ) // or RenderEffectBlur
+            .setFrameClearDrawable(windowBackground) // Optional
+            .setBlurRadius(radius)
     }
 
     private fun FragmentPreviewSelfieBinding.displayCapturedView(

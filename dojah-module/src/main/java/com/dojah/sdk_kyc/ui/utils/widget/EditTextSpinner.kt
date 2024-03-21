@@ -49,6 +49,9 @@ class EditTextSpinner : LinearLayout {
             recyclerView.adapter = SpinnerAdapter()
         }
 
+    val spinnerPopUp: PopupWindow
+        get() = spinnerPopup
+
     private var strokeWidthFocused = 0
 
     private var strokeWidth = 0
@@ -208,13 +211,11 @@ class EditTextSpinner : LinearLayout {
         doOnLayout {
             val popupHeight =
                 context.resources.getDimension(R.dimen.height_dropdown_spinner_dialog).toInt()
-            spinnerPopup = PopupWindow(spinnerLayout.root, measuredWidth, popupHeight).apply {
+            spinnerPopup = PopupWindow(spinnerLayout.root, measuredWidth, WindowManager.LayoutParams.WRAP_CONTENT).apply {
                 elevation = 1.0.toFloat()
                 isOutsideTouchable = true
                 isTouchable = true
-
-                inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED;
-
+                inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
                 setOnDismissListener { onSpinnerDialogDismiss() }
 
                 contentView.post {
@@ -308,7 +309,11 @@ class EditTextSpinner : LinearLayout {
 
             changeDrawable()
 
-            spinnerPopup.showAsDropDown(layoutSpinner, 0, 0, Gravity.BOTTOM)
+            if (spinnerPopup.isShowing) {
+                spinnerPopup.dismiss()
+            } else {
+                spinnerPopup.showAsDropDown(layoutSpinner, 0, 0, Gravity.BOTTOM)
+            }
         }
     }
 

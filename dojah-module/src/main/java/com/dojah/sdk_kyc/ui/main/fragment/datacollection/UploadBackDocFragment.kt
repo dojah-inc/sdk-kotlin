@@ -17,6 +17,8 @@ import com.dojah.sdk_kyc.databinding.FragmentUploadDocBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.GalleryPermissionDialogFragment
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.getAttr
@@ -24,6 +26,7 @@ import com.dojah.sdk_kyc.ui.utils.load
 import com.dojah.sdk_kyc.ui.utils.openAppSystemSettings
 import com.dojah.sdk_kyc.ui.utils.setClickableText
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.logging.HttpLoggingInterceptor
 
 
 @AndroidEntryPoint
@@ -32,13 +35,17 @@ class UploadBackDocFragment : ErrorFragment() {
 
     private val binding by viewBinding { FragmentUploadDocBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_id_nav_graph) { defaultViewModelProviderFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
 
-    private lateinit var permissionContract: ActivityResultLauncher<Array<String>>
-
     private lateinit var fileContract: ActivityResultLauncher<Array<String>>
+
+    private var readImagePermissionString: String? = null
+    private var permissionContract: ActivityResultLauncher<Array<String>>? = null
+    private val logger = HttpLoggingInterceptor.Logger.DEFAULT
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,27 +56,35 @@ class UploadBackDocFragment : ErrorFragment() {
                     docPreview.isVisible = true
                     docPreview.load(it, isCenterCrop = true)
                     btnUpload.isButtonEnabled = true
-                    viewModel.setBackDocUri(it)
+                    val backDocInfo =
+                    viewModel.setBackDocUri(requireContext(),it, isUpload = true)
+                    backDocInfo?.also {info ->
+                        logger.log("file name: $info")
+                        if (info.docType != "pdf") {
+                            pdfNameTv.isVisible = false
+                            docPreview.isVisible = true
+                            docPreview.load(it, isCenterCrop = true)
+                        } else {
+                            textDocument.isVisible = false
+                            pdfNameTv.isVisible = true
+                            pdfNameTv.text = info.fullName
+                        }
+                    }
                 }
             }
         }
-
         permissionContract =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-
-                val readPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    Manifest.permission.READ_MEDIA_IMAGES
+                if (it.getOrDefault(readImagePermissionString, false)) {
+                    fileContract.launch(arrayOf("image/*", "application/pdf"))
                 } else {
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                }
-
-                if (it.getOrDefault(readPermission, false)) {
-                    fileContract.launch(arrayOf("image/*"))
-                } else {
-                    showPermissionError(readPermission)
+                    showPermissionError {
+                        fileContract.launch(arrayOf("image/*", "application/pdf"))
+                    }
                 }
 
             }
+
 
     }
 
@@ -93,19 +108,15 @@ class UploadBackDocFragment : ErrorFragment() {
                     indexOf(painted) + painted.length,
                     context?.getAttr(androidx.appcompat.R.attr.colorPrimary)
                 ) {
-                    val readPermission =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            Manifest.permission.READ_MEDIA_IMAGES
-                        } else {
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        }
-                    permissionContract.launch(arrayOf(readPermission))
-
-//                    Toast.makeText(context, "term", Toast.LENGTH_SHORT).show()
+                    showFilePicker()
                 }
             }
+
+            layoutUpload.setOnClickListener {
+                showFilePicker()
+            }
             btnUpload.setOnClickListener {
-                navViewModel.navigateOld(R.id.frag_preview_doc)
+                navViewModel.navigate(Routes.preview_doc_route)
             }
 
             btnCapture.setOnClickListener {
@@ -116,19 +127,29 @@ class UploadBackDocFragment : ErrorFragment() {
     }
 
 
-    private fun showPermissionError(permission: String) {
+    private fun showPermissionError(onAllowClicked: () -> Unit) {
         GalleryPermissionDialogFragment.getInstance(
         ).apply {
-            onAllow = {
-                requireContext().openAppSystemSettings()
-            }
+            onAllow = onAllowClicked
             onExitClick = {
-//                navViewModel.popBackStack()
             }
 
             show(this@UploadBackDocFragment.childFragmentManager, null)
         }
+    }
 
 
+    private fun showFilePicker() {
+        //                showPermissionError {
+//                    fileContract.launch(arrayOf("image/*", "application/pdf"))
+//                }
+        readImagePermissionString = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+        readImagePermissionString?.also {
+            permissionContract?.launch(arrayOf(it))
+        }
     }
 }

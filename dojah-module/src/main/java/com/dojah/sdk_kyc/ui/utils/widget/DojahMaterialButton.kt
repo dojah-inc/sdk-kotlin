@@ -44,7 +44,11 @@ class DojahMaterialButton : MaterialButton {
         val brandColor = SharedPreferenceManager(context).getMaterialButtonBgColor
         HttpLoggingInterceptor.Logger.DEFAULT.log("BTN: Brand color: ${brandColor}");
         if (brandColor != null) {
-            setBackgroundColor(Color.parseColor(brandColor))
+            try {
+                setBackgroundColor(Color.parseColor(brandColor))
+            } catch (e: Exception) {
+                HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
+            }
         }
     }
 

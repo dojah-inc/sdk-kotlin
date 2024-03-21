@@ -137,6 +137,7 @@
         <attr name="locationPermissionAvatar" format="reference" />
         <!--        Error anim must be in .gif format-->
         <attr name="errorAnim" format="reference" />
+        <attr name="failedAnim" format="reference" />
         <!--        facialVerificationAnim must be in .gif format-->
         <attr name="facialVerificationAnim" format="reference" />
         <!--        verified anim must be in .gif format-->
@@ -171,5 +172,13 @@
         <attr name="spinBoxStrokeSizeFocused" format="dimension|reference" />
         <attr name="spinStrokeTint" format="color|reference" />
         <attr name="spinCornerLength" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SimpleEditTextSpinner">
+
+        <attr name="sboxStrokeSize" format="dimension|reference" />
+        <attr name="sboxStrokeSizeFocused" format="dimension|reference" />
+        <attr name="sstrokeTint" format="color|reference" />
+        <attr name="scornerLength" format="dimension|reference" />
     </declare-styleable>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.dojah_test_2.ui.theme
+package com.dojah.demoapp.ui.theme
 
 import android.app.Activity
 import android.os.Build

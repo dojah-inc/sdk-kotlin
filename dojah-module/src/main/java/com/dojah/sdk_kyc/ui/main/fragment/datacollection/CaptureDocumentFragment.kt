@@ -1,34 +1,25 @@
 package com.dojah.sdk_kyc.ui.main.fragment.datacollection
 
-import android.Manifest
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.content.ContextCompat
+import androidx.camera.view.PreviewView
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.databinding.FragmentCaptureDocumentBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
-import com.dojah.sdk_kyc.ui.dialog.CameraPermissionDialogFragment
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
-import com.dojah.sdk_kyc.ui.utils.openAppSystemSettings
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
-import java.io.File
+import okhttp3.logging.HttpLoggingInterceptor
 
 
 @AndroidEntryPoint
@@ -36,60 +27,12 @@ class CaptureDocumentFragment : ErrorFragment() {
 
     private val binding by viewBinding { FragmentCaptureDocumentBinding.bind(it) }
 
-    private lateinit var cameraContract: ActivityResultLauncher<String>
-
-    private var imageCapture: ImageCapture? = null
-
-    private var cameraProvider: ProcessCameraProvider? = null
-
-
-    private lateinit var permissionContract: ActivityResultLauncher<Array<String>>
-
-    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_id_nav_graph) { defaultViewModelProviderFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val logger: HttpLoggingInterceptor.Logger = HttpLoggingInterceptor.Logger.DEFAULT
 
-    private var currentPermission: String? = null
-    private lateinit var documentContract: ActivityResultLauncher<Array<String>>
-    private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this.requireActivity())
-
-        cameraProviderFuture.addListener(Runnable {
-            // Used to bind the lifecycle of cameras to the lifecycle owner
-            cameraProvider = cameraProviderFuture.get()
-
-            // Preview
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(binding.camera.surfaceProvider)
-                }
-            imageCapture = ImageCapture.Builder()
-                .build()
-
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            try {
-                // Unbind use cases before rebinding
-                cameraProvider?.unbindAll()
-
-                // Bind use cases to camera
-                cameraProvider?.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
-                )
-
-            } catch (exc: Exception) {
-                Timber.e("Use case binding failed")
-            }
-
-        }, ContextCompat.getMainExecutor(this.requireContext()))
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -100,75 +43,46 @@ class CaptureDocumentFragment : ErrorFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        cameraContract =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-                if (granted) {
-                    startCamera()
-                } else {
-//                    cameraContract.launch(Manifest.permission.CAMERA)
-                    showPermissionError()
-                }
+
+        binding.apply {
+            //start camera
+            CameraUtil.startCamera(requireParentFragment(), binding.camera, isFront = false) {
+                progressBg.isVisible = it == PreviewView.StreamState.IDLE
+                progress.isVisible = it == PreviewView.StreamState.IDLE
             }
 
-        cameraContract.launch(Manifest.permission.CAMERA)
-        binding.apply {
-            val selectedDoc = viewModel.docTypeLiveData.value
-            if (selectedDoc != GovDocType.DL) {
+            logger.log("current page @frag capture: ${navViewModel.currentPage}")
+            if (navViewModel.currentPage == KycPages.OTHER_DOCUMENT.serverKey) {
+                val otherDocStep =
+                    viewModel.getStepWithPageName(KycPages.OTHER_DOCUMENT.serverKey)
+                title.text = otherDocStep?.config?.title
+                infoText.text = otherDocStep?.config?.instruction
+                logger.log("title: ${otherDocStep?.config?.title}")
+                logger.log("info: ${otherDocStep?.config?.instruction}")
+
+            } else {
+                val selectedDoc = viewModel.docTypeLiveData.value
                 title.text = selectedDoc?.title
                 infoText.text = selectedDoc?.info
             }
-            camera.setOnClickListener {
-                cameraContract.launch(Manifest.permission.CAMERA)
-            }
+
+
             captureBtn.setOnClickListener {
-
-                val photoFile =
-                    File.createTempFile("driveLicence", ".jpg", requireContext().cacheDir)
-
-                // Create output options object which contains file + metadata
-                val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-
-                imageCapture?.takePicture(
-                    outputOptions,
-                    ContextCompat.getMainExecutor(requireContext()),
-                    object : ImageCapture.OnImageSavedCallback {
-                        override fun onError(exc: ImageCaptureException) {
-                            cameraProvider?.unbindAll()
-                            Toast.makeText(requireContext(), exc.message, Toast.LENGTH_SHORT).show()
-                        }
-
-                        override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                            cameraProvider?.unbindAll()
-
-                            val savedUri = Uri.fromFile(photoFile)
-                            viewModel.setFrontDocUri(savedUri)
-                            navViewModel.navigateOld(R.id.frag_preview_doc)
-
-                        }
+                CameraUtil.takePicture(
+                    context = requireContext(),
+                    tmpFileNamePrefix = "doc_type_${viewModel.docTypeLiveData.value?.id}",
+                    onSaved = {
+                        val savedUri = Uri.fromFile(it)
+                        viewModel.setFrontDocUri(requireContext(),savedUri, isUpload = false)
+                        navViewModel.navigate(Routes.preview_doc_route)
                     })
 
             }
 
             uploadBtn.setOnClickListener {
-                navViewModel.navigateOld(R.id.frag_upload_front_doc)
+                navViewModel.navigate(Routes.upload_doc_route)
             }
 
-        }
-    }
-
-
-    private fun showPermissionError() {
-
-        CameraPermissionDialogFragment.getInstance(
-        ).apply {
-            onAllow = {
-                requireContext().openAppSystemSettings()
-            }
-            onExitClick = {
-//                navViewModel.popBackStack()
-            }
-
-            show(this@CaptureDocumentFragment.childFragmentManager, null)
         }
     }
 }

@@ -15,6 +15,7 @@ import com.dojah.sdk_kyc.data.io.FileManager
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.ui.main.MainActivity
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
+import com.dojah.sdk_kyc.ui.utils.FailedReasons
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
@@ -91,7 +92,7 @@ class SplashActivity : AppCompatActivity() {
 //                    Toast.makeText(this, "$userFullCountry is not supported", Toast.LENGTH_LONG)
 //                        .show()
                     val error =
-                        COUNTRY_ERROR to getString(R.string.verification_is_not_allowed_in_your_country)
+                        COUNTRY_ERROR to FailedReasons.GOV_DATA_NOT_AVAILABLE.message
                     if (atomic.get().second) nextScreen(
                         errorType = error.first,
                         message = error.second
@@ -120,8 +121,9 @@ class SplashActivity : AppCompatActivity() {
             else atomic.set(Triple(first = false, second = true, third = null))
         }
 
-        //ours sandbox
-        viewModel.authenticate("65ae97f4afee1c0040c9df6a")
+        val widgetId = intent.getStringExtra("widget_id") ?: throw Exception("Empty Widget ID")
+        viewModel.prefManager.setWidgetId(widgetId)
+        viewModel.authenticate(widgetId)
 //        viewModel.authenticate("6568cae99806dc0040cb372b")
         //safe
 //        viewModel.authenticate("64e46e763a47c3003ff04266")
@@ -129,7 +131,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun nextScreen(errorType: String? = null, message: String? = null) {
-        val booleanExtra = intent.getBooleanExtra("sandbox", false)
         onBackPressedDispatcher.onBackPressed()
         startActivity(Intent(this, MainActivity::class.java).apply {
             val preAuthResponseResult = viewModel.preAuthDataLiveData.value

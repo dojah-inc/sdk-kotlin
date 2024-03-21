@@ -2,8 +2,6 @@ package com.dojah.sdk_kyc.domain.responses
 
 
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
 data class LivenessVerifyResponse(
     val entity: Entity?
@@ -20,11 +18,11 @@ data class LivenessVerifyResponse(
         class Business
 
         data class Overall(
-            @SerialName("confidence_value") val confidenceValue: Int? // 100
+            @SerializedName("confidence_value") val confidenceValue: Int? // 100
         )
 
         data class Person(
-            @SerialName("confidence_value") val confidenceValue: Double?, // 99.99991607666016
+            @SerializedName("confidence_value") val confidenceValue: Double?, // 99.99991607666016
             val url: String? // https://dojah-images.s3.amazonaws.com/65b0f14c909cc10031733141face.jpeg
         )
     }

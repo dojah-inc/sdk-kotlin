@@ -63,6 +63,7 @@ fun TextView.setClickableText(
     startIndex: Int,
     endIndex: Int,
     color: Int? = null,
+    changeSize: Boolean = true,
     onClick: () -> Unit
 ) {
     val span = text.toSpannable().apply {
@@ -77,7 +78,8 @@ fun TextView.setClickableText(
                     }
                 }
                 ds.isUnderlineText = false
-                ds.textSize = 40f
+                if (changeSize)
+                    ds.textSize = 30f
             }
 
 

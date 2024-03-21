@@ -3,7 +3,6 @@ package com.dojah.sdk_kyc.data.repository.base
 import com.google.gson.Gson
 import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.data.network.NetworkManager
-import io.ktor.utils.io.core.use
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -78,14 +77,15 @@ open class BaseRepository(private val networkManager: NetworkManager, private va
 
         } ?: (errorBody().use {
             if (it == null) {
-                Result.Error.NoDataError
+                Result.Error.NoDataError(code = code())
             } else {
                 val stringMap = it.string()
                 Result.Error.ApiError(
                     gson.fromJson<Map<Any, Any>>(
                         stringMap,
                         Map::class.java
-                    )
+                    ),
+                    code = code()
                 )
             }
         })

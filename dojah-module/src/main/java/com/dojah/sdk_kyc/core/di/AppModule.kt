@@ -1,12 +1,12 @@
 package com.dojah.sdk_kyc.core.di
 
 import android.content.Context
-import androidx.room.Room
+//import androidx.room.Room
 import com.google.gson.Gson
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.dojah.sdk_kyc.BuildConfig
 import com.dojah.sdk_kyc.core.Constants
-import com.dojah.sdk_kyc.data.io.DojahDatabase
+//import com.dojah.sdk_kyc.data.io.DojahDatabase
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.network.interceptor.HeaderInterceptor
 import com.dojah.sdk_kyc.data.network.service.*
@@ -76,15 +76,15 @@ AppModule {
         return retrofit.create(DojahService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun provideDatabase(@ApplicationContext context: Context): DojahDatabase {
-        return Room.databaseBuilder(context, DojahDatabase::class.java, DojahDatabase.DB_NAME)
-            .run {
-                addMigrations(DojahDatabase.migration_1_2)
-                build()
-            }
-    }
+//    @Singleton
+//    @Provides
+//    fun provideDatabase(@ApplicationContext context: Context): DojahDatabase {
+//        return Room.databaseBuilder(context, DojahDatabase::class.java, DojahDatabase.DB_NAME)
+//            .run {
+//                addMigrations(DojahDatabase.migration_1_2)
+//                build()
+//            }
+//    }
 
     @Provides
     @Singleton

@@ -34,8 +34,13 @@ data class BvnLookUpEntity(
     @SerializedName("state_of_residence") var stateOfResidence: String? = null,
     @SerializedName("title") var title: String? = null,
     @SerializedName("watch_listed") var watchListed: String? = null,
+    val uuid: String? = null,
+    val customer: String? = null
 ) : GovIdEntityInterface{
     override val phoneNumber: String?
         get() = phoneNumber1?:phoneNumber2
+
+    override val customerID: String?
+        get() = uuid?:customer
 }
 

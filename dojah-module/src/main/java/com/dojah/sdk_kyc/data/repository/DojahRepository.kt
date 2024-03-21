@@ -7,7 +7,10 @@ import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.network.NetworkManager
 import com.dojah.sdk_kyc.data.network.service.DojahService
 import com.dojah.sdk_kyc.data.repository.base.BaseRepository
+import com.dojah.sdk_kyc.domain.request.AdditionalDocRequest
+import com.dojah.sdk_kyc.domain.request.AddressRequest
 import com.dojah.sdk_kyc.domain.request.AuthRequest
+import com.dojah.sdk_kyc.domain.request.BaseAddressRequest
 import com.dojah.sdk_kyc.domain.request.CheckIpRequest
 import com.dojah.sdk_kyc.domain.request.EventRequest
 import com.dojah.sdk_kyc.domain.request.ImageAnalysisRequest
@@ -16,8 +19,11 @@ import com.dojah.sdk_kyc.domain.request.LivenessVerifyRequest
 import com.dojah.sdk_kyc.domain.request.OtpRequest
 import com.dojah.sdk_kyc.domain.request.UserDataRequest
 import com.dojah.sdk_kyc.domain.responses.AuthResponse
+import com.dojah.sdk_kyc.domain.responses.BizLookupResponse
 import com.dojah.sdk_kyc.domain.responses.BvnLookUpResponse
 import com.dojah.sdk_kyc.domain.responses.CheckIpResponse
+import com.dojah.sdk_kyc.domain.responses.DecisionResponse
+import com.dojah.sdk_kyc.domain.responses.DocImageAnalysisResponse
 import com.dojah.sdk_kyc.domain.responses.DojahEnum
 import com.dojah.sdk_kyc.domain.responses.DriverLicenceResponse
 import com.dojah.sdk_kyc.domain.responses.GetIpResponse
@@ -34,9 +40,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import okhttp3.Dispatcher
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.Query
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
@@ -93,6 +102,7 @@ class DojahRepository @Inject constructor(
                     result.toJson,
                     SharedPreferenceManager.KEY_AUTH_RESPONSE
                 )
+                prefManager.addIdToHistory(result.data)
                 prefManager.setSessionId(result.data.sessionId ?: "")
                 prefManager.setReference(result.data.initData?.authData?.referenceId ?: "")
 
@@ -146,7 +156,12 @@ class DojahRepository @Inject constructor(
         return flow {
             val result = checkNetworkAndStartRequest {
                 val response =
-                    service.logEvent(data)
+                    service.logEvent(
+                        data.copy(
+                            appId = prefManager.getAppId(),
+                            sessionId = prefManager.getSessionId()
+                        )
+                    )
                 response.getResult(SimpleResponse::class.java)
             }
             emit(result)
@@ -242,6 +257,20 @@ class DojahRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    suspend fun performDocImageAnalysis(
+        image: String,
+    ): Flow<Result<DocImageAnalysisResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.performImageAnalysis(ImageAnalysisRequest(image, "id"))
+                response.getResult(DocImageAnalysisResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun checkLiveness(
         request: LivenessCheckRequest
     ): Flow<Result<LivenessCheckResponse>> {
@@ -281,6 +310,111 @@ class DojahRepository @Inject constructor(
             }
             emit(result)
 
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun uploadAdditionalFile(
+        request: AdditionalDocRequest
+    ): Flow<Result<SimpleResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.uploadAdditionalFile(request)
+                response.getResult(SimpleResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun makeFinalDecision(
+        verificationId: Int,
+        sessionId: String
+    ): Flow<Result<DecisionResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.makeFinalDecision(verificationId, sessionId)
+                response.getResult(DecisionResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun sendBaseAddress(
+        selectedAddressLatitude: Double,
+        selectedAddressLongitude: Double,
+        addressName: String,
+    ): Flow<Result<SimpleResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.sendBaseAddress(
+                        BaseAddressRequest(
+                            prefManager.getAppId() ?: throw Exception("AppId not found"),
+                            selectedAddressLatitude,
+                            selectedAddressLongitude,
+                            addressName,
+                            sessionId = prefManager.getSessionId()
+                                ?: throw Exception("SessionId not found"),
+                        )
+                    )
+                response.getResult(SimpleResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun sendAddress(
+        match: Boolean,
+    ): Flow<Result<SimpleResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val location = prefManager.location
+                val response =
+                    service.sendAddress(
+                        AddressRequest(
+                            prefManager.getAppId() ?: throw Exception("AppId not found"),
+                            location?.first ?: throw Exception("Latitude not found"),
+                            location.second,
+                            match,
+                            sessionId = prefManager.getSessionId()
+                                ?: throw Exception("SessionId not found"),
+                        )
+                    )
+                response.getResult(SimpleResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun lookupCac(
+        rcNumber: String,
+        companyName: String,
+    ): Flow<Result<BizLookupResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response = service.lookupCac(rcNumber, companyName)
+                response.getResult(BizLookupResponse::class.java)
+            }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+
+    suspend fun lookupTin(
+        tin: String,
+        companyName: String,
+    ): Flow<Result<BizLookupResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response = service.lookUpTin(tin, companyName)
+                response.getResult(BizLookupResponse::class.java)
+            }
+            emit(result)
         }.flowOn(Dispatchers.IO)
     }
 

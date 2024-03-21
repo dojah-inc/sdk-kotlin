@@ -24,6 +24,10 @@ data class PreAuthResponse(
             throw Exception("Widget can't be null")
         }
         val preAuthPages = widget!!.pages
+//        ToDO: temporarily removed this,
+//        preAuthPages.removeAll {
+//            it.page == "selfie"
+//        }
         return AuthRequest(
             publicKey = publicKey,
             appId = app?.id,
@@ -60,12 +64,13 @@ data class PreAuthResponse(
                         type = config.type,
                         version = config.version,
                         instruction = config.instruction,
+                        information = config.information,
+                        title = config.title,
                         brightnessThreshold = config.brightnessThreshold,
                         glassesCheck = config.glassesCheck,
                     )
                 )
             }).toMutableList().apply {
-//                HttpLoggingInterceptor.Logger.DEFAULT.log("PreAuthResponse toAuthRequest ${this}")
                 val govDataPage = this.findLast { it.name == governmentData }
                 val verificationEnabled =
                     govDataPage?.authReqConfigConfig?.selfie == true || govDataPage?.authReqConfigConfig?.otp == true

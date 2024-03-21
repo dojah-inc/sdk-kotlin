@@ -69,7 +69,7 @@
             android:text="@string/to_ensure_the_security_gallery"
             android:textColor="@color/body_color" />
 
-        <TextView
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
             android:id="@+id/text_subtitle"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
             android:textColor="@color/body_color"
             app:drawableStartCompat="@drawable/ic_check" />
 
-        <TextView
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
             android:id="@+id/text_subtitle2"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
             android:layout_width="match_parent"
@@ -93,7 +93,7 @@
             android:textColor="@color/body_color"
             app:drawableStartCompat="@drawable/ic_check" />
 
-        <TextView
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
             android:id="@+id/text_subtitle3"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
             android:layout_width="match_parent"
@@ -113,7 +113,7 @@
             android:text="@string/allow_permission" />
 
 
-        <TextView
+        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
             android:id="@+id/how_to_permit"
             style="@style/TextAppearance.Dojah.Header6"
             android:layout_width="wrap_content"

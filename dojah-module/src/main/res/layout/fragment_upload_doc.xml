@@ -54,7 +54,24 @@
                     android:layout_height="match_parent"
                     android:contentDescription="@string/image_thumbnails" />
             </androidx.cardview.widget.CardView>
-
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/pdf_name_tv"
+                style="@style/TextAppearance.Dojah.ParagraphSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_12dp"
+                android:gravity="center"
+                android:paddingVertical="4dp"
+                android:paddingStart="4dp"
+                android:layout_centerInParent="true"
+                android:paddingEnd="8dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:alpha="0.8"
+                android:visibility="gone"
+                tools:text="something.jpg"
+                tools:visibility="visible" />
         </RelativeLayout>
 
         <com.dojah.sdk_kyc.ui.utils.widget.LoadingButton
@@ -65,11 +82,13 @@
             app:buttonEnabled="false"
             app:buttonText="@string/upload" />
 
-        <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_capture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
+            android:layout_marginBottom="@dimen/margin_16dp"
             android:text="@string/capture_instead"
             android:textColor="@color/black"
             app:backgroundTint="@color/card_back_color"

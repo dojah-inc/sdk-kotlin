@@ -164,8 +164,6 @@ dependencies {
 
     implementation(libs.preference)
 
-    implementation(libs.bundles.room)
-
     kapt(libs.bundles.compiler)
 
     implementation(libs.bundles.network)
@@ -182,25 +180,17 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-
-    implementation 'androidx.browser:browser:1.5.0'
-
-    implementation 'id.zelory:compressor:3.0.1'
-
-    implementation("androidx.paging:paging-runtime:3.1.1")
-
-    implementation('com.metamap:android-sdk:3.34.1')
-
-    implementation 'com.google.android.play:review-ktx:2.0.1'
-
     implementation libs.bundles.camera
 
     implementation libs.otp.view
 
     implementation libs.lottie
     implementation 'com.github.Dimezis:BlurView:version-2.0.3'
-    implementation 'com.kizitonwose.calendar:view:2.4.0'
-
+    implementation libs.view
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    implementation 'com.google.android.libraries.places:places:3.3.0'
+    implementation 'com.github.devsideal:VectorChildFinder:1.0.0'
+    implementation 'com.github.hkk595:Resizer:v1.5'
 
 }

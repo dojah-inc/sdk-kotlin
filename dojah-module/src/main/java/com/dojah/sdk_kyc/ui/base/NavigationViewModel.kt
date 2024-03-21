@@ -8,8 +8,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavType
 import com.dojah.sdk_kyc.core.Event
+import com.dojah.sdk_kyc.core.Result
+import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
+import com.dojah.sdk_kyc.data.repository.DojahRepository
+import com.dojah.sdk_kyc.domain.responses.AuthResponse
+import com.dojah.sdk_kyc.domain.responses.DecisionResponse
+import com.dojah.sdk_kyc.domain.responses.Step
+import com.dojah.sdk_kyc.ui.utils.KycPages
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * A ViewModel created in the Activity and used in every Fragment that
@@ -17,7 +27,14 @@ import kotlinx.coroutines.launch
  * to the Activity who will then handle the navigation. This ensures all
  * navigations are performed from one point
  */
-class NavigationViewModel : ViewModel() {
+@HiltViewModel
+class NavigationViewModel @Inject constructor(
+    private val prefManager: SharedPreferenceManager,
+    private val repo: DojahRepository,
+) : ViewModel() {
+    val currentPage: String?
+        get() =
+            _currentStepLiveData.value?.lastOrNull()
 
     private val _currentStepLiveData = MutableLiveData<ArrayDeque<String>>(ArrayDeque())
 
@@ -38,6 +55,15 @@ class NavigationViewModel : ViewModel() {
 
     val popBackStackLiveData: LiveData<Event<Pair<Int, Boolean>>>
         get() = _popBackStackLiveData
+
+    private val _finalDecisionLiveData = MutableLiveData<Result<DecisionResponse>?>()
+    val finalDecisionLiveData: LiveData<Result<DecisionResponse>?>
+        get() = _finalDecisionLiveData
+
+    fun resetDecisionLiveData() {
+        _finalDecisionLiveData.value = null
+    }
+
 
     fun navigateOld(destination: Int, args: Bundle? = null, popAction: PopAction? = null) {
         viewModelScope.launch(Dispatchers.Main) {
@@ -61,9 +87,17 @@ class NavigationViewModel : ViewModel() {
         _currentStepLiveData.value?.addLast(currentRoute)
         _currentStepLiveData.postValue(_currentStepLiveData.value)
     }
+
     fun popLastDojahRoute() {
-        _currentStepLiveData.value?.removeLast()
-        _currentStepLiveData.postValue(_currentStepLiveData.value)
+        val removeLastOrNull = _currentStepLiveData.value?.removeLastOrNull()
+        if (removeLastOrNull != null) {
+            _currentStepLiveData.postValue(_currentStepLiveData.value)
+        }
+    }
+
+    fun popDojahBackStack() {
+        popLastDojahRoute()
+        popBackStack()
     }
 
     /**
@@ -76,6 +110,31 @@ class NavigationViewModel : ViewModel() {
             _popBackStackLiveData.postValue(Event(Pair(destination, inclusive)))
         }
     }
+
+
+    fun makeFinalDecision() {
+        val verificationId = authDataFromPref?.initData?.authData?.verificationId
+            ?: throw Exception("Verification id is null")
+        val sessionId = authDataFromPref?.sessionId
+            ?: throw Exception("session id is null")
+        viewModelScope.launch {
+            ///make the API call to decision
+            repo.makeFinalDecision(verificationId, sessionId)
+                .onStart {
+                    _finalDecisionLiveData.postValue(Result.Loading)
+                }
+                .collect {
+                    _finalDecisionLiveData.postValue(it)
+                }
+        }
+    }
+
+    private val authDataFromPref: AuthResponse?
+        get() {
+            return repo.getLocalResponse(
+                SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
+            )?.data
+        }
 
     data class PopAction(@IdRes val popupTo: Int, val inclusive: Boolean)
 }

@@ -54,25 +54,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/text_tin_number"
-            style="@style/TextView.InputLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tin_number" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_tin_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/tin_number"
-                android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
             android:id="@+id/text_biz_name"
             style="@style/TextView.InputLabel"
             android:layout_width="wrap_content"
@@ -87,8 +68,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/business_name"
-                android:inputType="number" />
+                android:hint="@string/business_name" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -97,7 +77,7 @@
             android:id="@+id/btn_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/margin_16dp"
             android:text="@string/_continue"
             app:iconGravity="textEnd"
             app:iconPadding="11dp" />

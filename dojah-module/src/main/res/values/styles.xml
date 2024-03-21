@@ -130,7 +130,9 @@
     </style>
 
     <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
-        <item name="behavior_expandedOffset">30dp</item>
+        <item name="behavior_expandedOffset">10dp</item>
+<!--        <item name="behavior_fitToContents">true</item>-->
+<!--        <item name="behavior_halfExpandedRatio">0.15</item>-->
         <item name="backgroundTint">?android:attr/colorBackground</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.BottomSheet</item>
     </style>

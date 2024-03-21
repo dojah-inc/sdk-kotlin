@@ -9,18 +9,15 @@ sealed class Result<out R> {
     sealed class Error : Result<Nothing>() {
         object NetworkError : Error()
 
-        object NoDataError : Error()
-
         object TimeoutError : Error()
 
-        object DuplicateTransactionError: Error()
-
+        data class NoDataError(val code:Int?=null) : Error()
         /**
          * Error gotten from the response body
          * It sends the entire result unlike other errors so the receiver will know exactly
          * how to handle it
          * It is very similar to Success, but the fact that it is an error completely changes its usage
          * */
-        data class ApiError(val error: Map<Any, Any>?) : Error()
+        data class ApiError(val error: Map<Any, Any>?,val code:Int?=null) : Error()
     }
 }

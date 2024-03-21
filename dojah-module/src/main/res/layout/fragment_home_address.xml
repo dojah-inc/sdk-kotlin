@@ -25,18 +25,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/home_address" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_input_bvn"
+            <com.dojah.sdk_kyc.ui.utils.widget.SimpleEditTextSpinner
+                android:id="@+id/address_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/home_address"
-                    style="@style/TextAppearance.Dojah.ParagraphSmall"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8dp"
+                app:sboxStrokeSize="0.5dp"
+                app:sboxStrokeSizeFocused="0.5dp"
+                app:scornerLength="@dimen/margin_4dp"
+                app:sstrokeTint="@color/card_stroke_color"
+                />
 
 
             <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton

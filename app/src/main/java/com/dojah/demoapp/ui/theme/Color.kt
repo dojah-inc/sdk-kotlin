@@ -1,4 +1,4 @@
-package com.example.dojah_test_2.ui.theme
+package com.dojah.demoapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

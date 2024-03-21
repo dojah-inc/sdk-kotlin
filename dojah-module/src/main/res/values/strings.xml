@@ -30,7 +30,7 @@
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="middle_name">Middle name</string>
-    <string name="b_date_format">dd/mm/yyyy</string>
+    <string name="b_date_format">dd-mm-yyyy</string>
     <string name="fill_as_shown_id">Fill the form as it appears on your valid ID</string>
     <string name="gov_id">Government Identification</string>
     <string name="verify_with">Verify with</string>
@@ -71,7 +71,7 @@
     <string name="may_we_access_picture">May We Access Your Picture Gallery for Security Verification?</string>
     <string name="to_ensure_the_security">To ensure the security and integrity of your account, we request access to your device\'s camera for:</string>
     <string name="to_ensure_the_security_gallery">To ensure the security and integrity of your account, we request access to your device\'s picture gallery for:</string>
-    <string name="allow_permission">Allow in Settings</string>
+    <string name="allow_permission">Allow</string>
     <string name="try_again">Try again</string>
     <string name="how_to_allow_permission">How to allow permission</string>
     <string name="take_moment_ensure_readable">Please take a moment to review the captured image to ensure it is clear and readable.</string>
@@ -96,5 +96,18 @@
     <string name="verification_is_not_allowed_in_your_country">Verification is not allowed in\nyour country</string>
     <string name="something_is_broken">Something is broken</string>
     <string name="it_looks_like_something_isn_t_connecting_right_please_verify_your_entry_or_give_a_page_refresh_a_try">It looks like something isn\'t connecting right. Please verify your entry or give a page refresh a try.</string>
+    <string name="no_face_detected">No face detected</string>
+    <string name="error_verification_failed">Your identification cannot be verified.</string>
+    <string name="error_verification_success">Your identification has been successfully verified.|verify99|Verification successful</string>
+    <string name="error_verification_pending">Your identification process is awaiting approval.|verify99|Verification awaiting approval</string>
+    <string name="location_permission_required">Location Permission Required</string>
+    <string name="may_we_access_your_location">May We Access Your Location for Security Verification?</string>
+    <string name="location_address_and_ip_address_for_a_successful_verification">Location address and IP address for a successful verification</string>
+    <string name="prediction_api_key">AIzaSyBPfgDIpFoCXlMk_qPQnFrV-BC4yrlHA5k</string>
+    <string name="sign_and_confirm_document">Sign and confirm document</string>
+    <string name="input_name_to_sign_and_confirm">Input name to sign and confirm</string>
+    <string name="name">Name</string>
+    <string name="verification_status">Verification Status</string>
+    <string name="verification_failed">Verification failed</string>
 
 </resources>

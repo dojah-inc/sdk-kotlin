@@ -17,15 +17,16 @@ import com.dojah.sdk_kyc.databinding.FragmentEnterOtp2Binding
 import com.dojah.sdk_kyc.domain.responses.SendOtpEntity
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
-import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
 import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
+import com.dojah.sdk_kyc.ui.utils.FailedReasons
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.getAttr
 import com.dojah.sdk_kyc.ui.utils.setClickableText
 import com.otpview.OTPListener
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.logging.HttpLoggingInterceptor
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -33,13 +34,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
     private val binding by viewBinding { FragmentEnterOtp2Binding.bind(it) }
 
-    //    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_nav_graph) { defaultViewModelProviderFactory }
     private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
 
     private var otpCode: String? = null
+    private val logger = HttpLoggingInterceptor.Logger.DEFAULT
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,20 +70,22 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
                 }
             }
             govViewModel.validateOtpLiveData.observe(requireActivity()) {
+                if (it == null) {
+                    return@observe
+                }
                 if (it is Result.Loading) {
                     showLoading()
                 } else {
                     dismissLoading()
                     if (it is Result.Success) {
+                        govViewModel.resetValidateOtpLiveData()
                         if (it.data?.entity?.valid == false) {
-                            showLongToast("Invalid Otp")
+                            showLongToast(FailedReasons.INVALID_OTP.message)
                             return@observe
                         }
                         navViewModel.navigateNextStep()
                     } else if (it is Result.Error) {
-                        navViewModel.navigate(Routes.error_fragment, Bundle().apply {
-                            putString(NavArguments.option, getErrorMessage(it))
-                        })
+                        navigateToErrorPage(it)
                     }
                 }
             }
@@ -120,10 +124,33 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
             val id =
                 otpEntity?.first()?.destination
                     ?: "..."
-            (getString(R.string.enter_the_code_sent, id)).toSpannable().apply {
 
-                val startIndex = indexOf(id)
-                val endIndex = indexOf(id) + id.length
+            var start = 0
+            var end: Int? = null
+            if (id.length >= 12) {
+                start = 4
+                end = id.length - 3
+            } else if (id.length > 3) {
+                start = 0
+                end = id.length - 3
+            }
+            logger.log("actual id: $id")
+            logger.log("start: $start")
+            logger.log("end: $end")
+            val resolvedId = if (end != null) {
+                val aestericks = (start..end).map {
+                    "*"
+                }.joinToString("")
+                id.replaceRange(start, end, aestericks)
+            } else {
+                id
+            }
+            logger.log("resolved id: $resolvedId")
+
+            (getString(R.string.enter_the_code_sent, resolvedId)).toSpannable().apply {
+
+                val startIndex = indexOf(resolvedId)
+                val endIndex = indexOf(resolvedId) + id.length
                 setSpan(
                     TextAppearanceSpan(requireContext(), R.style.TextAppearance_Dojah_Header5),
                     startIndex,

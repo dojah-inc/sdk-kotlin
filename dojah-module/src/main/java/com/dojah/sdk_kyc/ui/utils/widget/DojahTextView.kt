@@ -42,22 +42,30 @@ class DojahTextView : AppCompatTextView {
         defStyleAttr
     ) {
         val brandColor = SharedPreferenceManager(context).getMaterialButtonBgColor
-        HttpLoggingInterceptor.Logger.DEFAULT.log("TXT: Brand color: ${brandColor}");
+        HttpLoggingInterceptor.Logger.DEFAULT.log("TXT: Brand color: $brandColor");
         if (brandColor != null) {
             for (drawable in compoundDrawables) {
                 if (drawable != null) {
-                    drawable.colorFilter = PorterDuffColorFilter(
-                        Color.parseColor(brandColor),
-                        PorterDuff.Mode.SRC_IN
-                    )
+                    try {
+                        drawable.colorFilter = PorterDuffColorFilter(
+                            Color.parseColor(brandColor),
+                            PorterDuff.Mode.SRC_IN
+                        )
+                    } catch (e: Exception) {
+                        HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
+                    }
                 }
             }
             for (drawable in compoundDrawablesRelative) {
                 if (drawable != null) {
-                    drawable.colorFilter = PorterDuffColorFilter(
-                        Color.parseColor(brandColor),
-                        PorterDuff.Mode.SRC_IN
-                    )
+                    try {
+                        drawable.colorFilter = PorterDuffColorFilter(
+                            Color.parseColor(brandColor),
+                            PorterDuff.Mode.SRC_IN
+                        )
+                    } catch (e: Exception) {
+                        HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
+                    }
                 }
             }
         }

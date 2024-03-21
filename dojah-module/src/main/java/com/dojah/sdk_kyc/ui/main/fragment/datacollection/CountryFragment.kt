@@ -4,14 +4,17 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.text.toSpannable
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
+import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.databinding.FragmentCountryBinding
 import com.dojah.sdk_kyc.domain.Country
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
+import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
 import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
@@ -21,7 +24,6 @@ import com.dojah.sdk_kyc.ui.utils.performOperationOnActivityAvailable
 import com.dojah.sdk_kyc.ui.utils.setClickableText
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.logging.HttpLoggingInterceptor
-import timber.log.Timber
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -32,6 +34,7 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
     private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
+    val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
     private var selectedCountry: Country? = null
 
@@ -39,23 +42,35 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
         super.onCreate(savedInstanceState)
 
         observeEvents(KycPages.COUNTRY.serverKey)
+        viewModel.eventLiveData.observe(this) {
+            if (it?.first?.pageKey != KycPages.COUNTRY.serverKey) {
+                return@observe
+            }
+            val response = it.second
+            if (response is Result.Loading) {
+                showLoading()
+            } else {
+                dismissLoading()
+                logger.log("Country not loading")
+                if (response is Result.Success) {
+                    logger.log("SUCCESS Country")
+                    if (viewModel.selectedCountryLiveData.value?.id?.lowercase() == "ng") {
+                        navViewModel.navigateNextStep()
+                    } else {
+                        logger.log(" test Country ${viewModel.selectedCountryLiveData.value?.name}")
+                        navViewModel.navigate(Routes.country_error_fragment, args = Bundle().apply {
+                            putString(
+                                NavArguments.option,
+                                FailedReasons.GOV_DATA_NOT_AVAILABLE.message
+                            )
+                        })
+                    }
+                } else if (response is Result.Error) {
+                    navigateToErrorPage(response)
+                }
 
-//        viewModel.eventLiveData.observe(this) {
-//            if (it.second is Result.Loading) {
-//                showLoading("Loading...")
-//            } else {
-//                dismissLoading()
-//                if (it.second is Result.Success) {
-//                    when (it.first.eventType) {
-//                        EventTypes.COUNTRY_SELECTED.serverKey -> {
-//                            navViewModel.navigateNextStep()
-//                        }
-//                    }
-//                } else {
-//                    navViewModel.navigate(Routes.error_fragment)
-//                }
-//            }
-//        }
+            }
+        }
     }
 
 
@@ -64,41 +79,41 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
         reloadCountries()
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Timber.d("onViewCreated")
         reloadCountries()
         binding.apply {
-            (getString(R.string.policy_term_text)).toSpannable().apply {
-                val policyTxt = "Privacy Policy"
-                val termsTxt = "Terms of Use"
-                policyTv.setClickableText(
-                    indexOf(termsTxt),
-                    indexOf(termsTxt) + termsTxt.length,
-                    context?.getAttr(androidx.appcompat.R.attr.colorPrimary)
-                ) {
-                    Toast.makeText(context, "term", Toast.LENGTH_SHORT).show()
+            requireActivity().onBackPressedDispatcher.addCallback {
+                if (layoutSpinner.spinnerPopUp.isShowing) {
+                    layoutSpinner.spinnerPopUp.dismiss()
+                } else {
+                    navViewModel.popDojahBackStack()
                 }
+            }
+            val policyTxt = "Privacy Policy"
+            val termsTxt = "Terms of Use"
+            policyTv.setClickableText(
+                policyTv.text.indexOf(termsTxt),
+                policyTv.text.indexOf(termsTxt) + termsTxt.length,
+                context?.getAttr(androidx.appcompat.R.attr.colorPrimary)
+            ) {
+                Toast.makeText(context, "term", Toast.LENGTH_SHORT).show()
+            }
 
-                policyTv.setClickableText(
-                    indexOf(policyTxt),
-                    indexOf(policyTxt) + policyTxt.length,
-                    context?.getAttr(androidx.appcompat.R.attr.colorPrimary)
-                ) {
-                    Toast.makeText(context, "policy", Toast.LENGTH_SHORT).show()
-                }
+            policyTv.setClickableText(
+                policyTv.text.indexOf(policyTxt),
+                policyTv.text.indexOf(policyTxt) + policyTxt.length,
+                context?.getAttr(androidx.appcompat.R.attr.colorPrimary)
+            ) {
+                Toast.makeText(context, "policy", Toast.LENGTH_SHORT).show()
+            }
+            (getString(R.string.policy_term_text)).toSpannable().apply {
+
             }
 
             btnContinue.setOnClickListener {
-                val stepNumber = viewModel.getCurrentPage(KycPages.INDEX.serverKey)?.id
-                    ?: throw Exception("No stepNumber")
 
-                viewModel.logEvent(
-                    EventTypes.COUNTRY_SELECTED.serverKey,
-                    viewModel.selectedCountryLiveData.value?.name ?: "",
-                    stepNumber = stepNumber
-                )
-//                navViewModel.navigateNextStep()
+                viewModel.logCountryEvents()
+
             }
 
             performOperationOnActivityAvailable {
@@ -106,9 +121,11 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
 //                setAppBarData(viewModel.profileLiveData.value)
             }
 
-
-            Timber.d("onCreateView>> toggleRewardBanner")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     private fun reloadCountries() {
@@ -122,7 +139,6 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
                 }
 
                 val tmpItems = it.filter {
-//                    HttpLoggingInterceptor.Logger.DEFAULT.log(" nonTest Country ${it.name} == $userCountry")
                     it.name.equals(
                         userCountry,
                         ignoreCase = true
@@ -133,18 +149,7 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
                     return@filter serverCountries
                         ?.contains(it.name) == true
                 }
-//                setSelectedItem(viewModel.getUserCountryFromPrefs(requireContext()))
                 items = tmpItems.ifEmpty { it }
-//                it.forEach {
-//                    HttpLoggingInterceptor.Logger.DEFAULT.log(" nonTest Country ${it.name} == $userCountry")
-//                    it.name.equals(
-//                        userCountry,
-//                        ignoreCase = true
-//                    ).let { _ ->
-//                        HttpLoggingInterceptor.Logger.DEFAULT.log(" test Country ${it.name} == $userCountry")
-//                        setSelectedItem(it)
-//                    }
-//                }
 
             }
         }

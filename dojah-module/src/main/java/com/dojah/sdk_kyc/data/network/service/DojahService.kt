@@ -1,7 +1,10 @@
 package com.dojah.sdk_kyc.data.network.service
 
 import com.dojah.sdk_kyc.core.mock_data.*
+import com.dojah.sdk_kyc.domain.request.AdditionalDocRequest
+import com.dojah.sdk_kyc.domain.request.AddressRequest
 import com.dojah.sdk_kyc.domain.request.AuthRequest
+import com.dojah.sdk_kyc.domain.request.BaseAddressRequest
 import com.dojah.sdk_kyc.domain.request.CheckIpRequest
 import com.dojah.sdk_kyc.domain.request.EventRequest
 import com.dojah.sdk_kyc.domain.request.ImageAnalysisRequest
@@ -78,6 +81,41 @@ interface DojahService {
     @POST("${prefix}/kyc/user-data")
     suspend fun sendUserData(
         @Body request: UserDataRequest,
+    ): Response<ResponseBody>
+
+    @POST("${prefix}/kyc/files")
+    suspend fun uploadAdditionalFile(
+        @Body request: AdditionalDocRequest,
+    ): Response<ResponseBody>
+
+    @GET("${prefix}/decision")
+    suspend fun makeFinalDecision(
+        @Query("verification_id") verificationId: Int,
+        @Query("session_id") sessionId: String,
+    ): Response<ResponseBody>
+
+    @POST("${prefix}/kyc/base-address")
+    suspend fun sendBaseAddress(
+        @Body request: BaseAddressRequest,
+    ): Response<ResponseBody>
+
+    @POST("${prefix}/kyc/address")
+    suspend fun sendAddress(
+        @Body request: AddressRequest,
+    ): Response<ResponseBody>
+
+
+    //http://api-dev.dojah.services/widget/kyc/cac?rc_number=805396&company_name=EFO GLOBAL SYSTEMS LIMITED
+    @GET("${prefix}/kyc/cac")
+    suspend fun lookupCac(
+        @Query("rc_number") rcNumber: String,
+        @Query("company_name") companyName: String,
+    ): Response<ResponseBody>
+
+    @GET("${prefix}/kyc/tin")
+    suspend fun lookUpTin(
+        @Query("tin") tin: String,
+        @Query("company_name") companyName: String,
     ): Response<ResponseBody>
 
 }
@@ -183,6 +221,49 @@ class DojahServiceMock : DojahService {
     override suspend fun sendUserData(request: UserDataRequest): Response<ResponseBody> {
         delay(1000)
         val responseBody = simpleEventResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun uploadAdditionalFile(request: AdditionalDocRequest): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = additionalDocResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun makeFinalDecision(
+        verificationId: Int,
+        sessionId: String
+    ): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = decisionResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun sendBaseAddress(
+        @Body request: BaseAddressRequest,
+    ): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = simpleEventResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun sendAddress(
+        @Body request: AddressRequest,
+    ): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = simpleEventResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun lookupCac(rcNumber: String, companyName: String): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = cacLookUpResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun lookUpTin(tin: String, companyName: String): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = cacLookUpResponse().replace("\n", "").toResponseBody()
         return Response.success(responseBody)
     }
 

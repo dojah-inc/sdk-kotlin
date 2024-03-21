@@ -152,7 +152,7 @@ class CalendarDialogFragment : SpinnerDialogFragment(R.layout.dojah_calender_fra
                         }
 
                         val date =
-                            "${selectedDate?.dayOfMonth}/${selectedMonth?.value}/${selectedYear}"
+                            "${selectedDate?.dayOfMonth}-${selectedMonth?.value}-${selectedYear}"
                         updateCalenderLabel()
                         mViewModel?.viewModelScope?.launch {
                             delay(1000)

@@ -9,6 +9,7 @@ otp-view = "1.0"
 retrofit = "2.9.0"
 glide = "4.13.2"
 room = "2.4.3"
+view = "2.4.0"
 
 [libraries]
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "camera" }
@@ -58,6 +59,7 @@ retrofit-gson = { module = 'com.squareup.retrofit2:converter-gson', version.ref 
 gson = { module = 'com.google.code.gson:gson', version = "2.9.0" }
 
 materialdesign = { module = 'com.google.android.material:material', version = "1.6.1" }
+view = { module = "com.kizitonwose.calendar:view", version.ref = "view" }
 
 
 [bundles]

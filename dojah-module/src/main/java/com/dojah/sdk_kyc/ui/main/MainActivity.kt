@@ -2,6 +2,9 @@ package com.dojah.sdk_kyc.ui.main
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
@@ -11,7 +14,6 @@ import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,13 +29,18 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.get
 import androidx.navigation.navOptions
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.SimpleColorFilter
+import com.airbnb.lottie.model.KeyPath
 import com.dojah.sdk_kyc.R
+import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.databinding.ActivityMainDojahBinding
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.main.fragment.DojahNavGraph
 import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.DecisionStatus
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.splash.COUNTRY_ERROR
 import com.dojah.sdk_kyc.ui.utils.KycPages
@@ -81,16 +88,7 @@ class MainActivity : AppCompatActivity() {
             val msgExtra = intent.getStringExtra("message")
             if (errorExtra != null) {
                 ///If there is an auth error redirect to error page.
-                findViewById<View>(R.id.nav_host_fragment).isVisible = false
-                if (errorExtra == COUNTRY_ERROR) {
-                    errorStub.layoutInflater.inflate(R.layout.fragment_error_country, root).apply {
-                        findViewById<TextView>(R.id.msg).text = msgExtra
-                    }
-                } else {
-                    errorStub.layoutInflater.inflate(R.layout.fragment_error, root).apply {
-                        findViewById<TextView>(R.id.msg).text = msgExtra
-                    }
-                }
+                displayErrorStub(errorExtra, msgExtra)
                 return@apply
             } else {
 //                Toast.makeText(this@MainActivity, "Error is null", Toast.LENGTH_SHORT)
@@ -126,6 +124,20 @@ class MainActivity : AppCompatActivity() {
                 onDestinationChanged(destination.id)
             }
 
+            val brandColor = SharedPreferenceManager(this@MainActivity).getMaterialButtonBgColor
+            HttpLoggingInterceptor.Logger.DEFAULT.log("BTN: Brand color: ${brandColor}")
+            if (brandColor != null) {
+                try {
+                    progressIndicator.trackColor = Color.parseColor(brandColor)
+                } catch (e: Exception) {
+                    HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
+                }
+//                progressIndicator.indeterminateDrawable?.colorFilter = PorterDuffColorFilter(
+//                    Color.parseColor(brandColor),
+//                    PorterDuff.Mode.SRC_ATOP
+//                )
+            }
+
             if (intent.hasExtra(EXTRA_DESTINATION)) handleDestinationIntent()
 
             onBackPressedDispatcher.addCallback(this@MainActivity) {
@@ -156,6 +168,30 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun ActivityMainDojahBinding.displayErrorStub(
+        errorExtra: String?,
+        msgExtra: String?
+    ) {
+        findViewById<View>(R.id.nav_host_fragment).isVisible = false
+        toolbar.backView.setOnClickListener {
+            finish()
+        }
+        toolbar.closeView.setOnClickListener {
+            finish()
+        }
+        sandboxTag.isVisible = false
+        if (errorExtra == COUNTRY_ERROR) {
+            errorStub.layoutInflater.inflate(R.layout.fragment_error_country, root).apply {
+                findViewById<TextView>(R.id.msg).text = msgExtra
+            }
+        } else {
+            errorStub.layoutInflater.inflate(R.layout.fragment_error, root).apply {
+                findViewById<TextView>(R.id.msg).text = msgExtra
+            }
+        }
+        return
     }
 
     private fun changeStatusBarIconToDark() {
@@ -220,18 +256,75 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showLoading() {
+        binding?.overlay?.apply {
+            background= ContextCompat.getDrawable(this@MainActivity, R.color.black)
+            background?.alpha = 10
+            setOnTouchListener { _, _ -> true }
+        }
+        binding?.progressIndicator?.isVisible = true
+    }
+
+    fun dismissLoading() {
+        binding?.overlay?.apply {
+            background= ContextCompat.getDrawable(this@MainActivity, R.color.transparent)
+            background?.alpha = 0
+            setOnTouchListener { _, _ -> false }
+        }
+        binding?.progressIndicator?.isVisible = false
+    }
+
     private fun observeNavigation() {
         val navController =
             findNavController(R.id.nav_host_fragment)
 
 
+        navViewModel.finalDecisionLiveData.observe(this) {
+            if (it == null) return@observe
+            if (it is Result.Loading) {
+                showLoading()
+            } else {
+                dismissLoading()
+                if (it is Result.Success) {
+                    when (it.data.entity?.overallCheck) {
+                        DecisionStatus.approved.name -> {
+                            navController.navigate(
+                                "${Routes.success_route}/${getString(R.string.error_verification_success)}"
+                            )
+                        }
 
+                        DecisionStatus.pending.name -> {
+                            navController.navigate(
+                                "${Routes.success_route}/${getString(R.string.error_verification_pending)}"
+                            )
+                        }
+
+                        DecisionStatus.failed.name -> {
+                            navController.navigate(
+                                "${Routes.decision_error_fragment}/${getString(R.string.error_verification_failed)}"
+                            )
+                        }
+
+                        else -> {
+                            navController.navigate(
+                                "${Routes.error_fragment}/${getString(R.string.error_verification_failed)}"
+                            )
+                        }
+                    }
+                } else if (it is Result.Error) {
+                    navController.navigate(
+                        "${Routes.error_fragment}/${viewModel.getErrorMessage(it)}"
+                    )
+                }
+                navViewModel.resetDecisionLiveData()
+            }
+        }
         navViewModel.currentStepLiveData.observe(this) { it ->
-            HttpLoggingInterceptor.Logger.DEFAULT.log("all routes click is ${it.toString()}")
+            HttpLoggingInterceptor.Logger.DEFAULT.log("all routes click is $it")
         }
         navViewModel.autoNavigateLiveData.observe(this) { event ->
             if (!event.hasBeenHandled) {
-                event.getContentIfNotHandled()?.also {
+                event.getContentIfNotHandled()?.also { eventValue ->
                     val lastStoredRoute = navViewModel.currentStepLiveData.value
                         ?.lastOrNull()
                     val currentRoute = lastStoredRoute ?: navController.currentDestination?.route
@@ -258,11 +351,12 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
                             navViewModel.pushNextDojahRoute(nextRoute)
+                            val bundle = eventValue.first
                             val destination =
-                                if (it.first == null) {
+                                if (bundle == null) {
                                     nextRoute
                                 } else {
-                                    val bundleOptionName = it.first?.getString(
+                                    val bundleOptionName = bundle.getString(
                                         NavArguments.option, null
                                     )
                                     Routes.getOptionRoute(
@@ -271,10 +365,11 @@ class MainActivity : AppCompatActivity() {
                                     )
                                 }
                             navController.navigate(
-                                destination, createNavOptions(it.second)
+                                destination, createNavOptions(eventValue.second)
                             )
                         } else {
-                            Toast.makeText(this, "No more steps!", Toast.LENGTH_SHORT).show()
+                            //This is the last step, make a decision
+                            navViewModel.makeFinalDecision()
                         }
                     }
                 }
@@ -359,7 +454,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         preferenceManager.clearTemporaryPref()
-
+        dismissLoading()
         if (keyboardListenersAttached) {
             rootLayout?.viewTreeObserver?.removeOnGlobalLayoutListener(keyboardLayoutListener);
         }

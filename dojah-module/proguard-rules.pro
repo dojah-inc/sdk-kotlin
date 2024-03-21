@@ -21,6 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.dojah.sdk_kyc.domain.** { *; }
+-keep class com.dojah.sdk_kyc.core.Result
 
 #For retrofit
 -keepattributes Signature, InnerClasses, EnclosingMethod

@@ -282,6 +282,11 @@
         <item name="android:textAppearance">@style/TextAppearance.Dojah.Header6</item>
         <item name="android:textColor">@color/body_color</item>
     </style>
+    <style name="TextView.SignatureLabel" parent="TextView.InputLabel">
+        <item name="lineHeight">@dimen/line_height_22sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.ParagraphMedium</item>
+        <item name="fontFamily">@font/atakk_regular_500</item>
+    </style>
 
 
     <!--    Dojah Styles    -->

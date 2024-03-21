@@ -1,8 +1,11 @@
 package com.dojah.sdk_kyc.ui.main.fragment.datacollection
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.text.toSpannable
 import androidx.core.view.isVisible
+import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
@@ -17,6 +21,8 @@ import com.dojah.sdk_kyc.databinding.FragmentUploadDocBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.GalleryPermissionDialogFragment
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
@@ -25,6 +31,7 @@ import com.dojah.sdk_kyc.ui.utils.load
 import com.dojah.sdk_kyc.ui.utils.openAppSystemSettings
 import com.dojah.sdk_kyc.ui.utils.setClickableText
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.logging.HttpLoggingInterceptor
 
 
 @AndroidEntryPoint
@@ -33,43 +40,48 @@ class UploadFrontDocFragment : ErrorFragment() {
 
     private val binding by viewBinding { FragmentUploadDocBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_id_nav_graph) { defaultViewModelProviderFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private var permissionContract: ActivityResultLauncher<Array<String>>? = null
+    private var readImagePermissionString: String? = null
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
-
-    private lateinit var documentContract: ActivityResultLauncher<Array<String>>
-
-    private lateinit var permissionContract: ActivityResultLauncher<Array<String>>
-
     private lateinit var fileContract: ActivityResultLauncher<Array<String>>
+    private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fileContract = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
-
             if (it != null) {
                 binding.apply {
-                    docPreview.isVisible = true
-                    docPreview.load(it, isCenterCrop = true)
+
                     btnUpload.isButtonEnabled = true
-                    viewModel.setFrontDocUri(it)
+                    val frontDocInfo =
+                        viewModel.setFrontDocUri(requireContext(), it, isUpload = true)
+                    frontDocInfo?.also { info ->
+                        logger.log("file name: $info")
+                        if (info.docType != "pdf") {
+                            pdfNameTv.isVisible = false
+                            docPreview.isVisible = true
+                            docPreview.load(it, isCenterCrop = true)
+                        } else {
+                            textDocument.isVisible = false
+                            pdfNameTv.isVisible = true
+                            pdfNameTv.text = info.fullName
+                        }
+                    }
+
                 }
             }
         }
-
         permissionContract =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-
-                val readPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    Manifest.permission.READ_MEDIA_IMAGES
+                if (it.getOrDefault(readImagePermissionString, false)) {
+                    fileContract.launch(arrayOf("image/*", "application/pdf"))
                 } else {
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                }
-
-                if (it.getOrDefault(readPermission, false)) {
-                    fileContract.launch(arrayOf("image/*"))
-                } else {
-                    showPermissionError()
+                    showPermissionError {
+                        fileContract.launch(arrayOf("image/*", "application/pdf"))
+                    }
                 }
 
             }
@@ -89,10 +101,7 @@ class UploadFrontDocFragment : ErrorFragment() {
 
         binding.apply {
             val selectedDoc = viewModel.docTypeLiveData.value
-            if (selectedDoc != GovDocType.DL) {
-                textTitle.text = selectedDoc?.title
-//                infoText.text = selectedDoc?.info
-            }
+            textTitle.text = selectedDoc?.title
             (getString(R.string.click__select_from_device)).toSpannable().apply {
                 val painted = "Click here to select"
                 textDocument.setClickableText(
@@ -100,20 +109,15 @@ class UploadFrontDocFragment : ErrorFragment() {
                     indexOf(painted) + painted.length,
                     context?.getAttr(androidx.appcompat.R.attr.colorPrimary)
                 ) {
-                    val readPermission =
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            Manifest.permission.READ_MEDIA_IMAGES
-                        } else {
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        }
-                    permissionContract.launch(arrayOf(readPermission))
+                    showFilePicker()
                 }
+            }
+            layoutUpload.setOnClickListener {
+                showFilePicker()
             }
 
             btnUpload.setOnClickListener {
-                navViewModel.navigateOld(R.id.frag_preview_doc, Bundle().apply {
-                    putBoolean("isUpload", true)
-                })
+                navViewModel.navigate(Routes.preview_doc_route)
             }
 
             btnCapture.setOnClickListener {
@@ -122,13 +126,25 @@ class UploadFrontDocFragment : ErrorFragment() {
         }
     }
 
+    private fun showFilePicker() {
+        //                showPermissionError {
+//                    fileContract.launch(arrayOf("image/*", "application/pdf"))
+//                }
+        readImagePermissionString = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+        readImagePermissionString?.also {
+            permissionContract?.launch(arrayOf(it))
+        }
+    }
 
-    private fun showPermissionError() {
+
+    private fun showPermissionError(onAllowClicked: () -> Unit) {
         GalleryPermissionDialogFragment.getInstance(
         ).apply {
-            onAllow = {
-                requireContext().openAppSystemSettings()
-            }
+            onAllow = onAllowClicked
             onExitClick = {
             }
 

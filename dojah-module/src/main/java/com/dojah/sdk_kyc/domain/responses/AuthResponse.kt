@@ -1,5 +1,8 @@
 package com.dojah.sdk_kyc.domain.responses
 
+import com.dojah.sdk_kyc.ui.utils.BusinessType
+import com.dojah.sdk_kyc.ui.utils.GovDocType
+import com.dojah.sdk_kyc.ui.utils.KycPages
 import com.google.gson.annotations.SerializedName
 
 
@@ -28,13 +31,16 @@ data class Config(
     @SerializedName("national") var national: Boolean? = null,
     @SerializedName("nin") var nin: Boolean? = null,
     @SerializedName("cac") var cac: Boolean? = null,
+    @SerializedName("tin") var tin: Boolean? = null,
     @SerializedName("verification") var verification: Boolean? = null,
     @SerializedName("type") var type: String? = null,
     @SerializedName("version") var version: Int? = null,
     @SerializedName("instruction") var instruction: String? = null,
+    @SerializedName("information") var information: String? = null,
+    @SerializedName("title") var title: String? = null,
     @SerializedName("brightnessThreshold") var brightnessThreshold: Int = 40,
     @SerializedName("glassesCheck") var glassesCheck: Boolean = true,
-    ) {
+) {
     val ids: List<Boolean?>
         get() {
             return listOf(
@@ -52,19 +58,19 @@ data class Config(
             return mutableListOf<String>(
             ).apply {
                 if (passport == true)
-                    add("passport")
+                    add(GovDocType.PASSPORT.serverKey)
                 if (dl == true)
-                    add("dl")
+                    add(GovDocType.DL.serverKey)
                 if (bvn == true)
-                    add("bvn")
+                    add(GovDocType.BVN.serverKey)
                 if (voter == true)
-                    add("voter")
+                    add(GovDocType.VOTER.serverKey)
                 if (nin == true)
-                    add("nin")
+                    add(GovDocType.NIN.serverKey)
                 if (vnin == true)
-                    add("vnin")
+                    add(GovDocType.VNIN.serverKey)
                 if (national == true)
-                    add("national")
+                    add(GovDocType.NATIONAL.serverKey)
             }
         }
     val verificationMethods: List<String>
@@ -78,6 +84,16 @@ data class Config(
                         add("selfie")
                     else
                         add("selfie-video")
+            }
+        }
+    val businessTypes: List<String>
+        get() {
+            return mutableListOf<String>(
+            ).apply {
+                if (cac == true)
+                    add(BusinessType.CAC.serverKey)
+                if (tin == true)
+                    add(BusinessType.TIN.serverKey)
             }
         }
 }
@@ -96,7 +112,20 @@ data class AuthData(
     @SerializedName("verification_id") var verificationId: Int? = null,
     @SerializedName("steps") var steps: List<Step> = listOf()
 
-)
+) {
+    val pages: List<Step>
+        get() {
+            return steps
+            //ToDO: temporarily removed this,
+//                .filter {
+//                    it.name != KycPages.GOVERNMENT_DATA.serverKey
+//                            && it.name != KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
+//                            && it.name != KycPages.ID.serverKey
+//                            && it.name != KycPages.ID_OPTION.serverKey
+//                            && it.name != KycPages.BUSINESS_ID.serverKey
+//                }
+        }
+}
 
 data class InitData(
 

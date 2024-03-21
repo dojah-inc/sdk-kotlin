@@ -1,36 +1,35 @@
 package com.dojah.sdk_kyc.ui.utils.widget
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.text.InputType
-import android.text.Spannable
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.*
+import android.view.View.OnFocusChangeListener
+import android.view.inputmethod.InputMethodManager
+import android.widget.AutoCompleteTextView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.window.OnBackInvokedDispatcher
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.res.use
-import androidx.core.text.toSpannable
 import androidx.core.view.doOnAttach
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.android.material.shape.ShapeAppearanceModel
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.databinding.ItemSpinnerBinding
 import com.dojah.sdk_kyc.databinding.PopupSpinnerBinding
-import com.dojah.sdk_kyc.databinding.WidgetEditTextWithCountryBinding
 import com.dojah.sdk_kyc.databinding.WidgetSpinnerCountryBinding
 import com.dojah.sdk_kyc.domain.Country
 import com.dojah.sdk_kyc.ui.utils.*
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
+import okhttp3.logging.HttpLoggingInterceptor
+
 
 class CountryPickSpinner : LinearLayout {
     companion object {
@@ -46,6 +45,21 @@ class CountryPickSpinner : LinearLayout {
 
     private var spinnerLayout =
         PopupSpinnerBinding.inflate(LayoutInflater.from(context), null, false).apply {
+            edtSearchInput.isVisible = true
+            edtSearchInput.editText?.addTextChangedListener { edt ->
+                val filteredList =
+                    items.filter { it.name.contains(edt.toString(), ignoreCase = true) }
+
+                (recyclerView.adapter as SpinnerAdapter).submitList(filteredList)
+            }
+            edtSearchInput.editText?.setOnClickListener {
+                edtSearchInput.editText?.clearFocus()
+                edtSearchInput.editText?.requestFocus()
+                HttpLoggingInterceptor.Logger.DEFAULT.log("edt clicked")
+                val inputMgr =
+                    getSystemService(context, InputMethodManager::class.java)
+                inputMgr?.showSoftInput(edtSearchInput.editText, InputMethodManager.SHOW_IMPLICIT)
+            }
             recyclerView.adapter = SpinnerAdapter()
         }
 
@@ -69,6 +83,9 @@ class CountryPickSpinner : LinearLayout {
 
             binding.layoutSpinner.isEnabled = value
         }
+
+    val spinnerPopUp: PopupWindow
+        get() = spinnerPopup
 
     var items: List<Country> = mutableListOf()
         set(value) {
@@ -167,38 +184,41 @@ class CountryPickSpinner : LinearLayout {
                 context.resources.getDimension(R.dimen.height_dropdown_spinner_dialog).toInt()
             spinnerPopup = PopupWindow(spinnerLayout.root, measuredWidth, popupHeight).apply {
                 elevation = 1.0.toFloat()
-                isOutsideTouchable = true
+                isOutsideTouchable = false
                 isTouchable = true
+                isFocusable = true
+//                update()
 
-                inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED;
+//                inputMethodMode = PopupWindow.INPUT_METHOD_FROM_FOCUSABLE
+//                softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
 
                 setOnDismissListener { onSpinnerDialogDismiss() }
 
                 contentView.post {
-
-                    setTouchInterceptor { _: View?, motionEvent: MotionEvent ->
-                        val spinnerLoc = IntArray(2)
-                        this@CountryPickSpinner.getLocationOnScreen(spinnerLoc)
-
-                        val popupLoc = IntArray(2)
-                        contentView.getLocationOnScreen(popupLoc)
-                        val x1 = contentView.x
-                        val x2 = contentView.x + contentView.width
-                        val y1 = contentView.y
-                        val y2 = contentView.y + contentView.height
-                        val y1WithTextField =
-                            y1 + if (popupLoc[1] > spinnerLoc[1]) measuredHeight.unaryMinus() else 0
-                        val y2WithTextField =
-                            y2 + if (popupLoc[1] > spinnerLoc[1]) 0 else measuredHeight
-
-                        val isWithinY = motionEvent.y in y1..y2
-                        val isWithinTextFieldY: Boolean =
-                            motionEvent.y in y1WithTextField..y2WithTextField
-                        val isWithinX: Boolean = motionEvent.x in x1..x2
-
-                        if (isWithinX && isWithinY) contentView.performClick()
-                        else isWithinX && isWithinTextFieldY //it auto dismisses if false is returned
-                    }
+//
+//                    setTouchInterceptor { _: View?, motionEvent: MotionEvent ->
+//                        val spinnerLoc = IntArray(2)
+//                        this@CountryPickSpinner.getLocationOnScreen(spinnerLoc)
+//
+//                        val popupLoc = IntArray(2)
+//                        contentView.getLocationOnScreen(popupLoc)
+//                        val x1 = contentView.x
+//                        val x2 = contentView.x + contentView.width
+//                        val y1 = contentView.y
+//                        val y2 = contentView.y + contentView.height
+//                        val y1WithTextField =
+//                            y1 + if (popupLoc[1] > spinnerLoc[1]) measuredHeight.unaryMinus() else 0
+//                        val y2WithTextField =
+//                            y2 + if (popupLoc[1] > spinnerLoc[1]) 0 else measuredHeight
+//
+//                        val isWithinY = motionEvent.y in y1..y2
+//                        val isWithinTextFieldY: Boolean =
+//                            motionEvent.y in y1WithTextField..y2WithTextField
+//                        val isWithinX: Boolean = motionEvent.x in x1..x2
+//
+//                        if (isWithinX && isWithinY) contentView.performClick()
+//                        else isWithinX && isWithinTextFieldY //it auto dismisses if false is returned
+//                    }
                 }
             }
         }
@@ -220,15 +240,31 @@ class CountryPickSpinner : LinearLayout {
         }
     }
 
+    override fun findOnBackInvokedDispatcherForChild(
+        child: View,
+        requester: View
+    ): OnBackInvokedDispatcher? {
+        if (spinnerPopup.isShowing) {
+            spinnerPopup.dismiss()
+            return super.findOnBackInvokedDispatcherForChild(child, requester)
+        }
+        return super.findOnBackInvokedDispatcherForChild(child, requester)
+    }
+
     private fun onSpinnerClicked() {
         binding.apply {
-
-//            layoutSpinner.isVisible = false
-
-
             changeDrawable()
 
-            spinnerPopup.showAsDropDown(layoutSpinner, 0, 0, Gravity.BOTTOM)
+            if (spinnerPopup.isShowing) {
+                spinnerPopup.dismiss()
+            } else {
+//                spinnerPopup.showAtLocation(layoutSpinner, Gravity.CENTER, 0, 0)
+                spinnerPopup.showAsDropDown(layoutSpinner, 0, 0, Gravity.BOTTOM)
+//                spinnerPopUp.contentView?.clearFocus()
+//                spinnerPopUp.contentView.findViewById<AutoCompleteTextView>(R.id.edt_search)?.requestFocus()
+
+            }
+
         }
     }
 

@@ -19,7 +19,7 @@
         android:textColor="@color/black"
         app:backgroundTint="@color/white"
         app:cornerRadius="24dp"
-        app:icon="@drawable/ic_reward_badge"
+        app:icon="@drawable/ic_info"
         app:iconPadding="6dp"
         app:iconSize="@dimen/padding_top_default_2"
         app:iconTint="@color/transparent"

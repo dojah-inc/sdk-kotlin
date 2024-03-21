@@ -1,6 +1,8 @@
 package com.dojah.sdk_kyc.ui.base
 
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.databinding.ItemSpinnerBinding
 import com.dojah.sdk_kyc.databinding.PopupSpinnerBinding
+import okhttp3.logging.HttpLoggingInterceptor
 
 open class SpinnerFragment : ErrorFragment {
     companion object {
@@ -31,6 +34,7 @@ open class SpinnerFragment : ErrorFragment {
     protected var popupWindow: PopupWindow? = null
 
     private var spinnerBinding: PopupSpinnerBinding? = null
+    private val errLogger = HttpLoggingInterceptor.Logger.DEFAULT
 
     /**
      * Displays a dropdown window anchored to the provided anchor
@@ -41,10 +45,18 @@ open class SpinnerFragment : ErrorFragment {
      *        it works together with the data to determine the progress indicator visibility
      * @param onItemClick The callback to be used when an item is clicked, it passes the index of the clicked item
      */
-    protected fun displaySpinnerDropdown(anchor: View, data: List<String>?, hideProgress: Boolean, onItemClick: (Int) -> Unit) {
+    protected fun displaySpinnerDropdown(
+        anchor: View,
+        data: List<String>?,
+        hideProgress: Boolean,
+        onItemClick: (Int) -> Unit
+    ) {
         val width = anchor.measuredWidth
         val height = LinearLayout.LayoutParams.WRAP_CONTENT
-
+        if (popupWindow?.isShowing == true) {
+            popupWindow?.dismiss()
+            return
+        }
         if (popupWindow == null) {
             spinnerBinding = PopupSpinnerBinding.inflate(layoutInflater, null, false).apply {
                 progressIndicator.isVisible = data.isNullOrEmpty() && !hideProgress
@@ -60,13 +72,44 @@ open class SpinnerFragment : ErrorFragment {
 
             popupWindow = PopupWindow(spinnerBinding!!.root, width, height).apply {
                 isOutsideTouchable = true
-                setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.popup_window_background))
+                setBackgroundDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.popup_window_background
+                    )
+                )
 
                 setOnDismissListener {
                     (spinnerBinding?.recyclerView?.adapter as PopupAdapter?)?.submitList(null)
                 }
+                contentView.post {
 
-                showAsDropDown(anchor, 0, 0)
+                    setTouchInterceptor { _: View?, motionEvent: MotionEvent ->
+                        val spinnerLoc = IntArray(2)
+                        anchor.getLocationOnScreen(spinnerLoc)
+
+                        val popupLoc = IntArray(2)
+                        contentView.getLocationOnScreen(popupLoc)
+                        val x1 = contentView.x
+                        val x2 = contentView.x + contentView.width
+                        val y1 = contentView.y
+                        val y2 = contentView.y + contentView.height
+                        val y1WithTextField =
+                            y1 + if (popupLoc[1] > spinnerLoc[1]) anchor.measuredHeight.unaryMinus() else 0
+                        val y2WithTextField =
+                            y2 + if (popupLoc[1] > spinnerLoc[1]) 0 else anchor.measuredHeight
+
+                        val isWithinY = motionEvent.y in y1..y2
+                        val isWithinTextFieldY: Boolean =
+                            motionEvent.y in y1WithTextField..y2WithTextField
+                        val isWithinX: Boolean = motionEvent.x in x1..x2
+
+                        if (isWithinX && isWithinY) contentView.performClick()
+                        else isWithinX && isWithinTextFieldY //it auto dismisses if false is returned
+                    }
+                }
+
+                showAsDropDown(anchor, 0, 0, Gravity.BOTTOM)
             }
 
         } else {
@@ -82,9 +125,9 @@ open class SpinnerFragment : ErrorFragment {
 
                 progressIndicator.isVisible = data.isNullOrEmpty() && !hideProgress
             }
-
-            popupWindow!!.showAsDropDown(anchor, 0, 0)
+            popupWindow!!.showAsDropDown(anchor, 0, 0, Gravity.BOTTOM)
         }
+
     }
 
     override fun onDestroy() {
@@ -98,9 +141,10 @@ open class SpinnerFragment : ErrorFragment {
         var onClick: ((Int) -> Unit)? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return LayoutInflater.from(requireContext()).inflate(R.layout.item_spinner, parent, false).run {
-                ViewHolder(this)
-            }
+            return LayoutInflater.from(requireContext())
+                .inflate(R.layout.item_spinner, parent, false).run {
+                    ViewHolder(this)
+                }
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {

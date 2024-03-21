@@ -9,6 +9,10 @@ data class EventRequest(
     @SerializedName("step_number") var stepNumber: Int? = null,
     @SerializedName("event_type") var eventType: String? = null,
     @SerializedName("event_value") var eventValue: String? = null,
-    @SerializedName("services") var services: List<String> = listOf()
+    @SerializedName("services") var services: List<String> = listOf(),
+    @SerializedName("session_id") var sessionId: String? = null,
+    @SerializedName("app_id") var appId: String? = null,
+    @SerializedName("cost") var cost: Int? = 0,
+    var pageKey: String? = null,
 
-)
+    )

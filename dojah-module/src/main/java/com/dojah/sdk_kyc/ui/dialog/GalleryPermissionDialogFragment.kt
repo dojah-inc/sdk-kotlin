@@ -4,12 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.databinding.DialogCameraPermissionBinding
 import com.dojah.sdk_kyc.databinding.DialogGalleryPermissionBinding
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
+import com.dojah.sdk_kyc.ui.utils.setClickableText
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class GalleryPermissionDialogFragment : BottomSheetDialogFragment() {
@@ -23,6 +28,7 @@ class GalleryPermissionDialogFragment : BottomSheetDialogFragment() {
     }
 
     private val binding by viewBinding { DialogGalleryPermissionBinding.bind(it) }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     var onAllow: (() -> Unit)? = null
 
@@ -38,7 +44,16 @@ class GalleryPermissionDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
-
+            viewModel.getDojahAppAttribute(requireContext())?.let {
+                toolbar.logoUrl = it.logo
+            }
+            howToPermit.setClickableText(
+                0,
+                howToPermit.text.length,
+                changeSize = false
+            ){
+                Toast.makeText(context, "help clicked", Toast.LENGTH_SHORT).show()
+            }
 
             toolbar.backView.setOnClickListener {
                 onExitClick?.invoke()

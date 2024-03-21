@@ -2,7 +2,6 @@ package com.dojah.sdk_kyc.domain.request
 
 
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.SerialName
 
 data class LivenessVerifyRequest(
     @SerializedName("app_id") val appId: String?, // 65379278cb72d65ba457f93f

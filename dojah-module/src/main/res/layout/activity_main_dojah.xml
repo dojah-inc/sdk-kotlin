@@ -34,12 +34,12 @@
 
                 <LinearLayout
                     android:id="@+id/sandbox_tag"
-                    tools:visibility="visible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/margin_48dp"
-                    android:background="?attr/sandboxBg">
+                    android:background="?attr/sandboxBg"
+                    tools:visibility="visible">
 
                     <TextView
                         android:id="@+id/sandbox_text"
@@ -59,15 +59,15 @@
                     android:name="androidx.navigation.fragment.NavHostFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
+
                 <fragment
                     android:id="@+id/nav_host_fragment"
                     android:name="androidx.navigation.fragment.NavHostFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:defaultNavHost="true"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    app:defaultNavHost="true" />
 
                 <View
                     android:layout_width="match_parent"
@@ -80,11 +80,11 @@
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="40dp"
-        android:paddingBottom="24dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="40dp"
+        android:paddingBottom="24dp">
 
         <TextView
             style="@style/TextAppearance.Dojah.ParagraphSmall"
@@ -102,4 +102,22 @@
             android:src="@drawable/dojah_logo" />
 
     </LinearLayout>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_indicator"
+        style="@style/CircularProgressIndicator.Dojah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:indicatorSize="@dimen/size_indicator_dialog_loading"
+        app:trackThickness="6dp"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 </RelativeLayout>

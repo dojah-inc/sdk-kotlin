@@ -9,6 +9,7 @@ import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.data.io.CountryManager
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.repository.DojahRepository
+import com.dojah.sdk_kyc.domain.request.AdditionalDocRequest
 import com.dojah.sdk_kyc.domain.request.EventRequest
 import com.dojah.sdk_kyc.domain.request.LivenessCheckRequest
 import com.dojah.sdk_kyc.domain.request.LivenessVerifyRequest
@@ -22,7 +23,11 @@ import kotlinx.coroutines.launch
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Inject
 import com.dojah.sdk_kyc.ui.utils.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.zip
 
 const val analysisRetryMax = 3
 const val checkRetryMax = 2
@@ -45,33 +50,54 @@ class GovDataViewModel @Inject constructor(
         get() = _selectedGovIdDataLiveData
 
 
-    private val _submitGovLiveData = MutableLiveData<Result<String>>()
-    val submitGovLiveData: LiveData<Result<String>>
+    private val _selectedBizIdDataLiveData = MutableLiveData<EnumAttr?>()
+    val selectedBizDataLiveData: LiveData<EnumAttr?>
+        get() = _selectedBizIdDataLiveData
+
+
+    private val _submitGovLiveData = MutableLiveData<Result<String>?>()
+    val submitGovLiveData: LiveData<Result<String>?>
         get() = _submitGovLiveData
 
-    private val _lookUpLiveData = MutableLiveData<GovIdEntityInterface>()
-    val lookUpLiveData: LiveData<GovIdEntityInterface>
-        get() = _lookUpLiveData
+    fun resetSubmitGovLiveData() {
+        _submitGovLiveData.postValue(null)
+    }
 
+    private val _lookUpLiveData = MutableLiveData<GovIdEntityInterface>()
 
     private val _sendOtpLiveData = MutableLiveData<Result<SendOtpResponse?>>()
     val sendOtpLiveData: LiveData<Result<SendOtpResponse?>>
         get() = _sendOtpLiveData
 
 
-    private val _validateOtpLiveData = MutableLiveData<Result<ValidateOtpResponse?>>()
-    val validateOtpLiveData: LiveData<Result<ValidateOtpResponse?>>
+    private val _validateOtpLiveData = MutableLiveData<Result<ValidateOtpResponse?>?>()
+    val validateOtpLiveData: LiveData<Result<ValidateOtpResponse?>?>
         get() = _validateOtpLiveData
 
+    fun resetValidateOtpLiveData() {
+        _validateOtpLiveData.postValue(null)
+    }
 
     private val _isResentOtpLiveData = MutableLiveData<Boolean>()
     val isResentOtpLiveData: LiveData<Boolean>
         get() = _isResentOtpLiveData
 
 
-    private val _imageAnalysisLiveData = MutableLiveData<Result<ImageAnalysisResponse?>>()
-    val imageAnalysisLiveData: LiveData<Result<ImageAnalysisResponse?>>
+    private val _imageAnalysisLiveData = MutableLiveData<Result<ImageAnalysisResponse?>?>()
+    val imageAnalysisLiveData: LiveData<Result<ImageAnalysisResponse?>?>
         get() = _imageAnalysisLiveData
+
+    fun resetImageAnalysisLiveData() {
+        _imageAnalysisLiveData.postValue(null)
+    }
+
+    private val _docImageAnalysisLiveData = MutableLiveData<Result<DocImageAnalysisResponse?>?>()
+    val docImageAnalysisLiveData: LiveData<Result<DocImageAnalysisResponse?>?>
+        get() = _docImageAnalysisLiveData
+
+    fun resetDocImageAnalysisLiveData() {
+        _docImageAnalysisLiveData.postValue(null)
+    }
 
     private val _livenessCheckLiveData = MutableLiveData<Result<LivenessCheckResponse?>>()
     val livenessCheckLiveData: LiveData<Result<LivenessCheckResponse?>>
@@ -83,127 +109,226 @@ class GovDataViewModel @Inject constructor(
 
 
     //a single event to listen to all liveness chained events
-    private val _submitLivenessLiveData = MutableLiveData<Result<SimpleResponse?>>()
-    val submitLivenessLiveData: LiveData<Result<SimpleResponse?>>
+    private val _submitLivenessLiveData = MutableLiveData<Result<SimpleResponse?>?>()
+    val submitLivenessLiveData: LiveData<Result<SimpleResponse?>?>
         get() = _submitLivenessLiveData
 
     private val _analysisRetryCountLiveData = MutableLiveData<Int>(0)
     val analysisRetryCountLiveData: LiveData<Int>
         get() = _analysisRetryCountLiveData
 
+    private val _docAnalysisRetryCountLiveData = MutableLiveData(Pair(0, 0))
+    val docAnalysisRetryCountLiveData: LiveData<Pair<Int, Int>>
+        get() = _docAnalysisRetryCountLiveData
+
+    private val _submitBizLiveData = MutableLiveData<Result<SimpleResponse?>?>()
+    val submitBizLiveData: LiveData<Result<SimpleResponse?>?>
+        get() = _submitBizLiveData
+
+
+    private val _submitSignatureLiveData = MutableLiveData<Result<SimpleResponse>?>()
+    val submitSignatureLiveData: LiveData<Result<SimpleResponse>?>
+        get() = _submitSignatureLiveData
+
+    fun resetDocTypeLiveData() {
+        _analysisRetryCountLiveData.postValue(0)
+        _docAnalysisRetryCountLiveData.postValue(null)
+        _submitLivenessLiveData.postValue(null)
+    }
+
     private val _verifyCheckRetryCountLiveData = MutableLiveData<Int>(0)
 
-    val dojahEnum
+    private val dojahEnum
         get(): DojahEnum {
             return repo.getDojahEnum.data
         }
 
-    fun selectVerificationType(type: String) {
-        _verificationTypeLiveData.postValue(VerificationType.enumOfValue(type))
+    fun selectVerificationType(type: String?) {
+        type?.also {
+            _verificationTypeLiveData.postValue(VerificationType.enumOfValue(type))
+        }
     }
 
+    //get gov id types from GOVERNMENT_DATA page config
     fun getGovIdTypes(
         verificationVm: VerificationViewModel
     ): List<EnumAttr?>? {
-        return verificationVm.getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)?.config?.govIds?.map { govIdKey ->
+        return verificationVm.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config?.govIds?.map { govIdKey ->
             verificationVm.dojahEnum.toMap()[govIdKey]
         }
     }
 
-    //get verification methods from current page config
+    //get verification methods from GOVERNMENT_DATA page config
     fun getVerifyMethods(
         verificationVm: VerificationViewModel
     ): List<String>? {
-        return verificationVm.getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)?.config?.verificationMethods?.map { method ->
+        return verificationVm.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config?.verificationMethods?.map { method ->
             VerificationType.findEnumWithKey(method)?.value ?: method
         }
+    }
+
+
+    ///get doc id types from ID_OPTION page config
+    fun getDocIDTypes(
+        verificationVm: VerificationViewModel
+    ): List<EnumAttr?>? {
+        return verificationVm.getStepWithPageName(KycPages.ID_OPTION.serverKey)?.config?.govIds?.map { govIdKey ->
+            verificationVm.dojahEnum.toMap()[govIdKey]
+        }
+    }
+
+    ///get biz data types from Business_data page config
+    fun getBusinessTypes(
+        verificationVm: VerificationViewModel
+    ): List<EnumAttr?>? {
+        return getCurrentPage(KycPages.BUSINESS_DATA.serverKey)?.config?.businessTypes?.map { idKey ->
+            verificationVm.dojahEnum.toMap()[idKey]
+        }
+    }
+
+    fun prefillGovIdentity(id: EnumAttr?) {
+        _selectedGovIdDataLiveData.postValue(_selectedGovIdDataLiveData.value ?: id)
+    }
+
+    fun prefillBizId(id: EnumAttr?) {
+        selectBizIdentity(_selectedBizIdDataLiveData.value ?: id)
     }
 
     fun selectGovIdentity(id: EnumAttr?) {
         _selectedGovIdDataLiveData.postValue(id)
     }
 
+    fun selectBizIdentity(id: EnumAttr?) {
+        _selectedBizIdDataLiveData.postValue(id)
+    }
+
 
     /** do chain request to conclude gov data submission*/
     fun submitGovDataForm(
         verifyVm: VerificationViewModel,
-        userId: String,
+        userInputId: String,
         services: List<String> = listOf(),
     ) {
         val dojahConstants = dojahEnum
-        val stepNumber = verifyVm.getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)?.id
+        val stepNumber = verifyVm.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.id
             ?: throw Exception("No stepNumber")
         viewModelScope.launch {
             val selectedIdEnum =
                 selectedGovDataLiveData.value?.enum ?: throw Exception("Selected id is null")
-            /** log [EventTypes.VERIFICATION_TYPE_SELECTED] event*/
-            logGovTypeSelected(
+            /** log [EventTypes.VERIFICATION_TYPE_SELECTED] event
+             * zipped with GovId lookUp call
+             * */
+            logVerifyTypeSelected(
                 verifyVm,
                 services,
                 selectedIdEnum,
-                userId,
+                userInputId,
                 stepNumber = stepNumber,
             ).onStart {
                 /** startLoading */
                 _submitGovLiveData.postValue(Result.Loading)
+            }.zip(
+                doGovIdLookUp(
+                    selectedIdEnum, dojahConstants, userInputId,
+                )
+            ) { typeSelectResult, lookUpResult ->
+                return@zip typeSelectResult to lookUpResult
             }.collect {
-                if (it is Result.Success) {
-                    /** then look up gov ID*/
-                    doGovIdLookUp(
-                        selectedIdEnum, dojahConstants, userId,
-                    ).collect { lookUpResult ->
-                        if (lookUpResult is Result.Success) {
-                            _lookUpLiveData.postValue(lookUpResult.data.entity)
-                            val lookUpEntity = lookUpResult.data.entity
-                            /** then log [EventTypes.CUSTOMER_GOVERNMENT_DATA_COLLECTED] event*/
-                            logGovDataCollected(
+                val lookUpResult = it.second
+                if (lookUpResult is Result.Error) {
+                    logStepEvent(
+                        page = KycPages.GOVERNMENT_DATA,
+                        event = EventTypes.STEP_FAILED,
+                        error = lookUpResult
+                    ).collect { _ ->
+                        _submitGovLiveData.postValue(lookUpResult)
+                    }
+                    return@collect
+                }
+                if (it.first is Result.Error) {
+                    _submitGovLiveData.postValue(it.first as Result.Error)
+                    return@collect
+                }
+                if (lookUpResult is Result.Success && it.first is Result.Success) {
+                    val lookUpEntity = lookUpResult.data.entity
+                    lookUpEntity?.also { entity ->
+                        _lookUpLiveData.postValue(entity)
+                    }
+                    /** then log [EventTypes.CUSTOMER_GOVERNMENT_DATA_COLLECTED] event
+                     *
+                     */
+                    logGovDataCollected(
+                        verifyVm,
+                        services,
+                        userInputId,
+                        lookUpEntity,
+                        stepNumber = stepNumber,
+                    ).collect { dataCollected ->
+                        if (dataCollected is Result.Success) {
+                            /** After gov data is collected,
+                             *  then zip [EventTypes.GOVERNMENT_IMAGE_COLLECTED], with
+                             *  [EventTypes.STEP_COMPLETED] or [EventTypes.VERIFICATION_MODE_SELECTED] event
+                             * */
+                            logGovImageCollected(
                                 verifyVm,
                                 services,
-                                userId,
                                 lookUpEntity,
                                 stepNumber = stepNumber,
-                            ).collect { govDataResult ->
-                                if (govDataResult is Result.Success) {
-                                    /** then log [EventTypes.GOVERNMENT_IMAGE_COLLECTED] event*/
-                                    logGovImageCollected(
-                                        verifyVm,
-                                        services,
-                                        lookUpEntity,
-                                        stepNumber = stepNumber,
-                                    ).collect { imageEventResult ->
-                                        if (imageEventResult is Result.Success) {
-                                            if (getVerifyMethods(verifyVm)?.isEmpty() == true) {
-                                                /** if there are no gov verification options*/
-                                                /** log [EventTypes.STEP_COMPLETED] directly*/
-                                                logGovDataCompleted(
-                                                    verifyVm, services, stepNumber
-                                                )
-                                            } else {
-                                                /**
-                                                 * else if there are options
-                                                 * log [EventTypes.VERIFICATION_MODE_SELECTED]
-                                                 * first
-                                                 **/
-                                                logVerifyMethodSelected(
-                                                    verifyVm,
-                                                    services,
-                                                    stepNumber,
-                                                ).collect { modeSelectResult ->
-                                                    if (modeSelectResult is Result.Success) {
-                                                        /** then log [EventTypes.STEP_COMPLETED]*/
-                                                        logGovDataCompleted(
-                                                            verifyVm, services, stepNumber
-                                                        )
-                                                    }
-                                                }
-                                            }
-                                        }
+                            ).zip(
+                                logDataCompletedOrModeSelected(verifyVm, services, stepNumber)
+                            ) { imageCollectedResult, govCompleteResult ->
+                                return@zip imageCollectedResult to govCompleteResult
+                            }.collect { mergedResult ->
+                                val govCompleteResult = mergedResult.second
+                                if (govCompleteResult is Result.Success) {
+                                    if (_verificationTypeLiveData.value == VerificationType.OTP) {
+                                        sendOtp(verifyVm)
+                                    } else {
+                                        _submitGovLiveData.postValue(
+                                            Result.Success(
+                                                govCompleteResult.data.entity?.msg ?: ""
+                                            )
+                                        )
                                     }
+                                } else if (govCompleteResult is Result.Error) {
+                                    _submitGovLiveData.postValue(govCompleteResult)
                                 }
+
                             }
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private suspend fun logDataCompletedOrModeSelected(
+        verifyVm: VerificationViewModel,
+        services: List<String>,
+        stepNumber: Int
+    ): Flow<Result<SimpleResponse>> {
+        return if (getVerifyMethods(verifyVm)?.isEmpty() == true) {
+            /** if there are no gov verification options*/
+            /** log [EventTypes.STEP_COMPLETED] directly*/
+            logGovDataCompleted(
+                verifyVm, services, stepNumber
+            )
+        } else {
+            /**
+             * else if there are options
+             * log [EventTypes.VERIFICATION_MODE_SELECTED]
+             * first
+             **/
+            logVerifyMethodSelected(
+                verifyVm,
+                services,
+                stepNumber,
+            ).zip(
+                logGovDataCompleted(
+                    verifyVm, services, stepNumber
+                )
+            ) { _, govDataResult ->
+                return@zip govDataResult
             }
         }
     }
@@ -221,20 +346,12 @@ class GovDataViewModel @Inject constructor(
             stepNumber
         )
         ///log step completed event
-        return repo.logEvent(request).apply {
-            collect {
-                if (it is Result.Success) {
-                    sendOtp(verificationVm)
-                } else if (it is Result.Error) {
-                    _submitGovLiveData.postValue(it)
-                }
-            }
-        }
+        return repo.logEvent(request)
     }
 
-    private suspend fun logGovTypeSelected(
+    private suspend fun logVerifyTypeSelected(
         verificationVm: VerificationViewModel,
-        services: List<String>,
+        services: List<String> = listOf(),
         selectedIdEnum: String,
         userId: String,
         stepNumber: Int,
@@ -269,13 +386,6 @@ class GovDataViewModel @Inject constructor(
         dojahConstants.dl.enum -> repo.lookUpDriverLicense(userId)
 
         else -> throw Exception("This id enum is not valid")
-
-    }.apply {
-        collect {
-            if (it is Result.Error) {
-                _submitGovLiveData.postValue(it)
-            }
-        }
     }
 
     private suspend fun logVerifyMethodSelected(
@@ -334,19 +444,16 @@ class GovDataViewModel @Inject constructor(
     private suspend fun logGovDataCollected(
         verificationVm: VerificationViewModel,
         services: List<String>,
-        userId: String,
+        userInputId: String,
         lookUpEntity: GovIdEntityInterface?,
         stepNumber: Int,
     ): Flow<Result<SimpleResponse>> {
-        val selectedIdEnum =
-            selectedGovDataLiveData.value?.enum ?: throw Exception("Selected id is null")
         val countryId = verificationVm.selectedCountryLiveData.value?.id?.uppercase()
-        val selectedGovIdType = selectedIdEnum.lowercase()
         return repo.logEvent(
             verificationVm.buildEventRequest(
                 services,
                 EventTypes.CUSTOMER_GOVERNMENT_DATA_COLLECTED.serverKey,
-                "$userId|$selectedGovIdType|$countryId|${lookUpEntity?.fName}|${lookUpEntity?.mName}|${lookUpEntity?.lName}|${lookUpEntity?.dob}", //e.g 2222222|bvn|NG|firstname|middlename|lastname|dob
+                "${lookUpEntity?.customerID}|$userInputId|$countryId|${lookUpEntity?.fName}|${lookUpEntity?.mName}|${lookUpEntity?.lName}|${lookUpEntity?.dob}", //e.g 2222222|bvn|NG|firstname|middlename|lastname|dob
                 stepNumber = stepNumber
             )
         ).apply {
@@ -361,17 +468,38 @@ class GovDataViewModel @Inject constructor(
     private suspend fun sendOtp(
         verifyVm: VerificationViewModel,
         resent: Boolean = false
-    ): Flow<Result<SendOtpResponse>> {
-        var phoneNumber = _lookUpLiveData.value?.phoneNumber ?: ""
-        if (phoneNumber.startsWith("0")) {
-            val countryCode = verifyVm.selectedCountryLiveData.value?.code ?: ""
-            phoneNumber = phoneNumber.replaceFirst("0", countryCode)
+    ): Flow<Result<SendOtpResponse>>? {
+        var phoneNumber = _lookUpLiveData.value?.phoneNumber
+        if (phoneNumber == null) {
+            _submitGovLiveData.postValue(
+                Result.Error.ApiError(
+                    mapOf(
+                        "error" to "can't fetch phone number for this id, hence can't send otp. Please use other verification methods.",
+                    )
+                )
+            )
+            return null
+        }
+        logger.log("sendOtp phoneNumber: $phoneNumber")
+        val countryCode = verifyVm.selectedCountryLiveData.value?.code ?: ""
+        logger.log("sendOtp countryCode: $countryCode")
+        phoneNumber = if (phoneNumber.startsWith("0")) {
+            val alteredPhoneNumber = phoneNumber.replaceFirst("0", countryCode)
+            logger.log("sendOtp alteredPhoneNumber @ 0: $alteredPhoneNumber")
+            alteredPhoneNumber
+        } else if (phoneNumber.length <= 10) {
+            val alteredPhone = "$countryCode$phoneNumber"
+            logger.log("sendOtp alteredPhone @ <=10: $alteredPhone")
+            alteredPhone
+        } else {
+            phoneNumber
         }
         val payload = OtpRequest(
             phoneNumber, "kedesa", channel = "sms", 4
         )
         logger.log("Send Otp request: $payload")
         _isResentOtpLiveData.postValue(resent)
+
         return repo.sendOtp(
             payload
         ).onStart {
@@ -385,8 +513,20 @@ class GovDataViewModel @Inject constructor(
                     )
                     verifyVm.startTimer()
                 } else if (otpResponse is Result.Error) {
-                    _sendOtpLiveData.postValue(otpResponse)
-                    _submitGovLiveData.postValue(otpResponse)
+                    logStepEvent(
+                        page = KycPages.GOVERNMENT_DATA_VERIFICATION,
+                        event = EventTypes.STEP_FAILED,
+                        failedReasons = FailedReasons.OTP_NOT_SENT
+                    ).collect {
+                        _sendOtpLiveData.postValue(otpResponse)
+                        _submitGovLiveData.postValue(
+                            Result.Error.ApiError(
+                                code = -111, error = mapOf(
+                                    "error" to FailedReasons.OTP_NOT_SENT.message
+                                )
+                            )
+                        )
+                    }
                 }
             }
         }
@@ -410,57 +550,198 @@ class GovDataViewModel @Inject constructor(
                     _validateOtpLiveData.postValue(Result.Loading)
                 }
                 .collect {
-                    _validateOtpLiveData.postValue(it)
+                    if (it is Result.Success) {
+                        if (it.data.entity.valid) {
+                            logStepEvent(
+                                KycPages.GOVERNMENT_DATA_VERIFICATION,
+                                EventTypes.STEP_COMPLETED
+                            ).collect { _ ->
+                                _validateOtpLiveData.postValue(it)
+                            }
+                        } else {
+                            logStepEvent(
+                                page = KycPages.GOVERNMENT_DATA_VERIFICATION,
+                                event = EventTypes.STEP_FAILED,
+                                failedReasons = FailedReasons.INVALID_OTP
+                            ).collect { _ ->
+                                _validateOtpLiveData.postValue(it)
+                            }
+                        }
+                    } else if (it is Result.Error) {
+                        logStepEvent(
+                            page = KycPages.GOVERNMENT_DATA_VERIFICATION,
+                            event = EventTypes.STEP_FAILED,
+                            error = it
+                        ).collect { _ ->
+                            _validateOtpLiveData.postValue(it)
+                        }
+                    }
                 }
         }
     }
 
-    fun performImageAnalysis(image: String) {
+    fun startLoadingImageAnalysis(){
+        _imageAnalysisLiveData.postValue(Result.Loading)
+    }
+    fun performImageAnalysis(
+        image: String,
+        imageType: String? = verificationTypeLiveData.value?.actualServerKey
+    ) {
         viewModelScope.launch {
-            val verificationType = verificationTypeLiveData.value
-                ?: throw Exception("verification type is null")
-            repo.performImageAnalysis(image, verificationType.actualServerKey)
-                .onStart {
-                    _imageAnalysisLiveData.postValue(Result.Loading)
-                }
+            if (imageType == null) throw Exception("verification type is null")
+            repo.performImageAnalysis(image, imageType)
                 .collect {
+                    _imageAnalysisLiveData.postValue(it)
+
                     if (it is Result.Success) {
                         val faceResult = it.data.entity?.face
                         val config =
                             getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)?.config
                         if (faceResult?.faceSuccess(config) == false) {
                             if (_analysisRetryCountLiveData.value!! < analysisRetryMax) {
-                                _analysisRetryCountLiveData.value =
+                                _analysisRetryCountLiveData.postValue(
                                     _analysisRetryCountLiveData.value?.plus(1)
+                                )
                             }
                         }
                     }
-                    _imageAnalysisLiveData.postValue(it)
                 }
         }
     }
 
+    fun performDocImageAnalysis(
+        mainVm: VerificationViewModel,
+        image: String,
+    ) {
+        viewModelScope.launch {
+            repo.performDocImageAnalysis(image)
+                .onStart {
+                    _docImageAnalysisLiveData.postValue(Result.Loading)
+                }
+                .collect {
+
+                    if (it is Result.Success) {
+                        val docDetails = it.data.entity?.id?.details
+                        val docType = mainVm.docTypeLiveData.value
+                        if (docDetails?.docSucceed(docType) == true) {
+                            _docImageAnalysisLiveData.postValue(it)
+                        } else {
+                            if (mainVm.isBackDocLiveData.value == true) {
+                                // if back doc analysis fails the 0...max times
+                                val backCount =
+                                    _docAnalysisRetryCountLiveData.value?.second ?: 0
+                                //TODO: this is a quick fix, we need to refactor this
+                                if (backCount < analysisRetryMax - 1) {
+                                    // increment back doc analysis count
+                                    _docAnalysisRetryCountLiveData.postValue(
+                                        Pair(
+                                            _docAnalysisRetryCountLiveData.value?.first ?: 0,
+                                            backCount.plus(1)
+                                        )
+                                    )
+                                } else {
+                                    _docImageAnalysisLiveData.postValue(it)
+                                    return@collect
+                                }
+                            } else {
+                                // if front doc analysis fails the 0...max times
+                                val firstCount =
+                                    _docAnalysisRetryCountLiveData.value?.first ?: 0
+                                //TODO: this is a quick fix, we need to refactor this
+                                if (firstCount < analysisRetryMax - 1) {
+                                    // increment front doc analysis count
+                                    _docAnalysisRetryCountLiveData.postValue(
+                                        Pair(
+                                            firstCount.plus(1),
+                                            _docAnalysisRetryCountLiveData.value?.second ?: 0
+                                        )
+                                    )
+                                } else {
+                                    _docImageAnalysisLiveData.postValue(it)
+                                    return@collect
+                                }
+                            }
+
+                            _docImageAnalysisLiveData.postValue(
+                                Result.Error.ApiError(
+                                    mapOf(
+                                        "error" to (it.data.entity?.id?.details?.analysisErrorMsg(
+                                            docType
+                                        ) ?: it.data.entity?.id?.message
+                                        ?: "No ID card detected, please try again")
+                                    )
+                                )
+                            )
+
+                        }
+                    } else {
+                        _docImageAnalysisLiveData.postValue(it)
+                    }
+                }
+        }
+    }
+
+    fun doCheckForDocId(
+        mainVm: VerificationViewModel,
+        image: String,
+        image2: String? = null,
+        page: KycPages = KycPages.ID,
+        selfieType: String?,
+    ) {
+        val param =
+            if (page == KycPages.BUSINESS_ID) "BUSINESS"
+            else
+                getServerEnumValueOfDocType(
+                    docType = mainVm.docTypeLiveData.value ?: throw Exception("Doc type is null"),
+                    selectedCountryCode = mainVm.selectedCountryLiveData.value?.id
+                        ?: throw Exception("Country code is null")
+                )
+        val fileInfo = mainVm.docInfoLiveData.value?.first ?: mainVm.docInfoLiveData.value?.second
+        ?: throw Exception("can't fetch doc info")
+        val retryCount = _docAnalysisRetryCountLiveData.value ?: Pair(0, 0)
+        val continueVerify =
+            retryCount.first >= analysisRetryMax &&
+                    retryCount.second >= analysisRetryMax
+
+        val docType = if (fileInfo.docType != "pdf") "image" else fileInfo.docType
+        checkLiveness(
+            image,
+            image2,
+            page = page,
+            param = param,
+            selfieType = selfieType,
+            continueVerification = continueVerify,
+            docType = docType,
+        )
+    }
+
     fun checkLiveness(
         image: String,
+        image2: String? = null,
+        page: KycPages,
         param: String = "face",
-        selfieType: String = "selfie_type",
-        docType: String = "image",
+        selfieType: String? = "selfie_type",
+        continueVerification: Boolean? = null,
+        docType: String? = "image",
     ) {
         viewModelScope.launch {
             val verificationId =
                 getAuthDataFromPref()?.initData?.authData?.verificationId
                     ?: throw Exception("Verification id is null")
-            val stepNumber = getCurrentPage(KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey)?.id
-            val continueVerification = _analysisRetryCountLiveData.value!! >= analysisRetryMax
+            val stepNumber = getCurrentPage(page.serverKey)?.id
+            val continueVerify =
+                continueVerification ?: ((_analysisRetryCountLiveData.value
+                    ?: 0) >= analysisRetryMax)
             repo.checkLiveness(
                 LivenessCheckRequest(
                     image,
+                    image2,
                     verificationId,
                     stepNumber,
                     param,
                     selfieType,
                     docType,
-                    continueVerification
+                    continueVerify
                 )
             ).onStart {
                 /// start loading @check, and stop @ step event
@@ -470,6 +751,14 @@ class GovDataViewModel @Inject constructor(
                 _livenessCheckLiveData.postValue(it)
                 if (it is Result.Error) {
                     _submitLivenessLiveData.postValue(it)
+                    logStepEvent(
+                        page,
+                        EventTypes.STEP_FAILED,
+                        error = it,
+                    ).collect { _ ->
+                        /// fire event for all liveness process
+                        _submitLivenessLiveData.postValue(it)
+                    }
                     return@collect
                 }
                 if (it is Result.Success) {
@@ -479,7 +768,7 @@ class GovDataViewModel @Inject constructor(
                             if (verifyResult is Result.Success) {
                                 //then log step completed event
                                 logStepEvent(
-                                    KycPages.GOVERNMENT_DATA_VERIFICATION,
+                                    page,
                                     EventTypes.STEP_COMPLETED
                                 ).collect { eventResult ->
                                     /// fire event for all liveness process
@@ -492,19 +781,24 @@ class GovDataViewModel @Inject constructor(
                             _verifyCheckRetryCountLiveData.value =
                                 _verifyCheckRetryCountLiveData.value?.plus(1)
                             ///Retry verification
-                            checkLiveness(image)
+                            checkLiveness(
+                                image,
+                                image2,
+                                page,
+                                param,
+                                selfieType,
+                                continueVerification,
+                                docType
+                            )
                         } else {
-                            verifyLiveness().collect { verifyResult ->
-                                if (verifyResult is Result.Success) {
-                                    //then log step failed event
-                                    logStepEvent(
-                                        KycPages.GOVERNMENT_DATA_VERIFICATION,
-                                        EventTypes.STEP_FAILED
-                                    ).collect { eventResult ->
-                                        /// fire event for all liveness process
-                                        _submitLivenessLiveData.postValue(eventResult)
-                                    }
-                                }
+                            //log step failed event
+                            logStepEvent(
+                                page,
+                                EventTypes.STEP_FAILED,
+                                failedReasons = FailedReasons.ID_FAILED_MAX_TIME
+                            ).collect { eventResult ->
+                                /// fire event for all liveness process
+                                _submitLivenessLiveData.postValue(eventResult)
                             }
                         }
                     }
@@ -535,22 +829,297 @@ class GovDataViewModel @Inject constructor(
     }
 
 
+    fun sendAdditionalDoc(
+        mainVm: VerificationViewModel,
+        fileBase64: String,
+    ) {
+        viewModelScope.launch {
+            val verificationId = getAuthDataFromPref()?.initData?.authData?.verificationId
+                ?: throw Exception("Verification id is null")
+            val uri = mainVm.frontDocUriLiveData.value ?: throw Exception("Uri is null")
+            logger.log("uri is: ${uri.path}")
+            val fileInfo =
+                mainVm.docInfoLiveData.value?.first ?: throw Exception("can't fetch doc info")
+            val docType = if (fileInfo.docType != "pdf") "image" else fileInfo.docType
+            logger.log("fileName is: ${fileInfo.docName}")
+            logger.log("fileExt is: $docType")
+            repo.uploadAdditionalFile(
+                AdditionalDocRequest(
+                    fileBase64,
+                    fileInfo.docName,
+                    docType,
+                    verificationId,
+                    title = mainVm.getStepWithPageName(KycPages.OTHER_DOCUMENT.serverKey)?.config?.title
+                        ?: throw Exception("No title")
+                )
+            )
+                .onStart { _submitLivenessLiveData.postValue(Result.Loading) }
+                .collect { govResult ->
+                    if (govResult is Result.Success) {
+                        logStepEvent(
+                            page = KycPages.OTHER_DOCUMENT,
+                            event = EventTypes.STEP_COMPLETED
+                        ).collect { eventResult ->
+                            _submitLivenessLiveData.postValue(eventResult)
+                        }
+                    } else if (govResult is Result.Error) {
+                        logStepEvent(
+                            page = KycPages.OTHER_DOCUMENT,
+                            event = EventTypes.STEP_FAILED,
+                            error = govResult
+                        ).collect { _ ->
+                            _submitLivenessLiveData.postValue(govResult)
+                        }
+                    }
+                }
+        }
+    }
+
+    fun submitBusinessData(
+        verificationVm: VerificationViewModel,
+        number: String,
+        companyName: String,
+    ) {
+        viewModelScope.launch {
+            val selectedTypeEnum =
+                _selectedBizIdDataLiveData.value?.enum
+                    ?: throw Exception("No option selected")
+            val stepNumber =
+                getCurrentPage(KycPages.BUSINESS_DATA.serverKey)?.id
+                    ?: throw Exception("No stepNumber")
+            logVerifyTypeSelected(
+                verificationVm,
+                selectedIdEnum = selectedTypeEnum,
+                userId = number,
+                stepNumber = stepNumber
+
+            ).onStart {
+                _submitBizLiveData.postValue(Result.Loading)
+            }.collect {
+                if (it is Result.Error) {
+                    _submitBizLiveData.postValue(it)
+                } else if (it is Result.Success) {
+                    val selectedTypeIdName =
+                        _selectedBizIdDataLiveData.value?.idName?.lowercase()
+                            ?: throw Exception("No option selected")
+                    when (selectedTypeIdName) {
+                        BusinessType.CAC.serverKey -> {
+                            repo.lookupCac(number, companyName)
+                        }
+
+                        BusinessType.TIN.serverKey -> {
+                            repo.lookupTin(number, companyName)
+                        }
+
+                        else -> throw Exception("Type not currently supported")
+                    }.collect { lookUpResult ->
+                        if (lookUpResult is Result.Error) {
+                            _submitBizLiveData.postValue(it)
+                        } else if (lookUpResult is Result.Success) {
+                            val verificationId =
+                                getAuthDataFromPref()?.initData?.authData?.verificationId
+                                    ?: throw Exception("Verification id is null")
+
+                            val bizEntity = lookUpResult.data.entity
+                            repo.logEvent(
+                                EventRequest(
+                                    stepNumber = stepNumber,
+                                    services = listOf(),
+                                    eventType = EventTypes.CUSTOMER_BUSINESS_DATA_COLLECTED.serverKey,
+                                    eventValue = "${bizEntity?.business},${selectedTypeEnum},${verificationVm.selectedCountryLiveData.value?.id?.uppercase()},${bizEntity?.companyName}",
+                                    verificationId = verificationId
+                                )
+                            ).collect { bizCollectedResult ->
+                                if (bizCollectedResult is Result.Success) {
+                                    logStepEvent(
+                                        KycPages.BUSINESS_DATA,
+                                        EventTypes.STEP_COMPLETED
+                                    ).collect { _ ->
+                                        _submitBizLiveData.postValue(bizCollectedResult)
+                                    }
+                                } else if (bizCollectedResult is Result.Error) {
+                                    logStepEvent(
+                                        page = KycPages.BUSINESS_DATA,
+                                        event = EventTypes.STEP_FAILED,
+                                        error = bizCollectedResult
+                                    ).collect { _ ->
+                                        _submitBizLiveData.postValue(bizCollectedResult)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        }
+    }
+
+    fun submitSignature(mainVm: VerificationViewModel, name: String) {
+        viewModelScope.launch {
+            val stepNumber =
+                getCurrentPage(KycPages.SIGNATURE.serverKey)?.id
+                    ?: throw Exception("No stepNumber")
+            repo.logEvent(
+                mainVm.buildEventRequest(
+                    listOf(),
+                    KycPages.SIGNATURE.serverKey,
+                    "$name|${signatureInfo}", //e.g BVN,2222222
+                    stepNumber = stepNumber
+                )
+            ).onStart {
+                _submitSignatureLiveData.postValue(Result.Loading)
+            }.collect {
+                if (it is Result.Success) {
+                    logStepEvent(KycPages.SIGNATURE, EventTypes.STEP_COMPLETED).collect { _ ->
+                        _submitSignatureLiveData.postValue(it)
+                    }
+                } else if (it is Result.Error) {
+                    logStepEvent(
+                        page = KycPages.SIGNATURE,
+                        event = EventTypes.STEP_FAILED,
+                        error = it,
+                    ).collect { _ ->
+                        _submitSignatureLiveData.postValue(it)
+                    }
+
+                }
+            }
+        }
+    }
+
+    val signatureInfo: String
+        get() =
+            getCurrentPage(KycPages.SIGNATURE.serverKey)?.config?.information?.replace("|", "")
+                ?: throw Exception("No information")
+
+
+    fun logIdOptionEvents(mainVm: VerificationViewModel) {
+        viewModelScope.launch {
+            val stepNumber = getCurrentPage(KycPages.ID_OPTION.serverKey)?.id
+                ?: throw Exception("No stepNumber")
+
+            val selectedTypeServerEnum = getServerEnumOfDocType(
+                mainVm.docTypeLiveData.value ?: throw Exception("Doc type is null"),
+                selectedCountryCode = mainVm.selectedCountryLiveData.value?.id
+                    ?: throw Exception("Country code is null")
+            )
+            val typeSelectEventRequest = mainVm.buildEventRequest(
+                eventType = EventTypes.VERIFICATION_TYPE_SELECTED.serverKey,
+                eventValue = selectedTypeServerEnum,
+                stepNumber = stepNumber,
+            )
+            val modeSelectEventRequest = mainVm.buildEventRequest(
+                eventType = EventTypes.VERIFICATION_MODE_SELECTED.serverKey,
+                eventValue = "LIVENESS",
+                stepNumber = stepNumber,
+            )
+            repo.logEvent(typeSelectEventRequest)
+                .onStart { _submitGovLiveData.postValue(Result.Loading) }
+                .zip(repo.logEvent(modeSelectEventRequest)) { typeSelect, modeSelect ->
+                    return@zip typeSelect to modeSelect
+                }.collect {
+                    val (typeSelect, modeSelect) = it
+                    if (typeSelect is Result.Success && modeSelect is Result.Success) {
+                        logStepEvent(
+                            KycPages.ID_OPTION,
+                            EventTypes.STEP_COMPLETED
+                        ).collect { eventResult ->
+                            if (eventResult is Result.Success) {
+                                _submitGovLiveData.postValue(
+                                    Result.Success(
+                                        eventResult.data.entity?.msg ?: ""
+                                    )
+                                )
+                            }
+                        }
+                    } else {
+                        _submitGovLiveData.postValue(
+                            Result.Error.ApiError(
+                                mapOf(
+                                    "error" to "Error logging events"
+                                )
+                            )
+                        )
+                    }
+                }
+        }
+    }
+
+    private fun getServerEnumOfDocType(
+        docType: GovDocType,
+        selectedCountryCode: String
+    ): String {
+        return dojahEnum.toMap().entries.find { entry ->
+            logger.log("key ${entry.key} value ${entry.value.id} docType ${docType.serverKey}, selectedCountryCode $selectedCountryCode")
+            entry.key.lowercase()
+                .startsWith(selectedCountryCode.lowercase())
+                    && entry.value.id == docType.serverKey
+        }?.value?.enum ?: throw Exception("No enum found for this doc type")
+    }
+
+    private fun getServerEnumValueOfDocType(
+        docType: GovDocType,
+        selectedCountryCode: String
+    ): String {
+        val defaultValue = dojahEnum.toMap()[docType.serverKey]?.value
+        val firstValueSplit = defaultValue?.split("-")?.firstOrNull()
+            ?: throw Exception("No enum found for this doc type")
+        logger.log("firstValueSplit $firstValueSplit, selectedCountryCode $selectedCountryCode")
+        logger.log(
+            "new enumValue is: ${
+                defaultValue.replace(
+                    firstValueSplit,
+                    selectedCountryCode
+                )
+            }"
+        )
+        return defaultValue.replace(firstValueSplit, selectedCountryCode)
+    }
+
+
     private suspend fun logStepEvent(
         page: KycPages,
-        event: EventTypes
+        event: EventTypes,
+        failedReasons: FailedReasons? = null,
+        error: Result.Error? = null
     ): Flow<Result<SimpleResponse>> {
+        var failureCode: String? = null
+
+        if (event == EventTypes.STEP_FAILED) {
+            failureCode = failedReasons?.code ?: FailedReasons.UNKNOWN.code
+            if (error is Result.Error.NetworkError || error is Result.Error.TimeoutError) {
+                return flow {
+                    emit(error)
+                }.flowOn(Dispatchers.IO)
+            } else if (error != null && error is Result.Error.ApiError) {
+                val statusCodeReason = FailedReasons.getStatusCodeReason(error)
+                if (statusCodeReason != null) {
+                    failureCode = if (statusCodeReason == FailedReasons.THIRD_PARTY
+                        && (page == KycPages.GOVERNMENT_DATA || page == KycPages.BUSINESS_DATA)
+                    ) {
+                        FailedReasons.THIRD_PARTY.code
+                    } else {
+                        statusCodeReason.code
+                    }
+                }
+            }
+
+        }
         val verificationId =
             getAuthDataFromPref()?.initData?.authData?.verificationId
                 ?: throw Exception("Verification id is null")
         val stepNumber =
             getCurrentPage(page.serverKey)?.id
                 ?: throw Exception("No stepNumber")
+
         return repo.logEvent(
             EventRequest(
                 verificationId,
                 stepNumber,
                 event.serverKey,
-                page.serverKey,
+                eventValue = failureCode ?: page.serverKey,
             )
         ).apply {
             collect {
@@ -562,7 +1131,7 @@ class GovDataViewModel @Inject constructor(
     }
 
     private fun getCurrentPage(currentPage: String): Step? {
-        val steps = getAuthDataFromPref()?.initData?.authData?.steps
+        val steps = getAuthDataFromPref()?.initData?.authData?.pages
         return steps?.find { it.name == currentPage }
     }
 
@@ -571,6 +1140,5 @@ class GovDataViewModel @Inject constructor(
             SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
         )?.data
     }
-
 
 }

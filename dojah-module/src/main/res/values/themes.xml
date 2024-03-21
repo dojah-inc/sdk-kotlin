@@ -61,6 +61,7 @@
 <!--        <item name="verifiedAnim">@raw/verified_anim</item>-->
         <item name="verifiedAnim">@raw/check_1</item>
         <item name="errorAnim">@raw/error</item>
+        <item name="failedAnim">@raw/failed</item>
         <item name="splashAnim">@raw/circle_loader</item>
         <item name="infoMessageCorneredBg">@drawable/message_corned_bg</item>
         <item name="errorMessageCorneredBg">@drawable/ic_verification_warning</item>

@@ -483,3 +483,31 @@ fun livenessVerifyResponse(): String = """{
   }
 }
 """.trimIndent()
+fun additionalDocResponse(): String = """{
+    "file_base64": "string",
+    "file_type": "string",
+    "file_name": "string",
+    "verification_id": 0
+}
+""".trimIndent()
+
+fun decisionResponse():String = """{
+  "entity": {
+    "overallCheck": "approved",
+    "reason": "Verification successful"
+  }
+}
+""".trimIndent()
+
+fun cacLookUpResponse():String = """{
+      "entity": {
+        "company_name": "EFO GLOBAL SYSTEMS LIMITED",
+        "rc_number": "805396",
+        "date_of_registration": "2009-03-04T23:00:00+00:00",
+        "address": "7,PIPELINELAYOU,BESIDEREFINARY,EKPAN,DELTA",
+        "type_of_company": "COMPANY",
+        "business": "263c2027-793f-4c10-9d08-04abced2f1c7",
+        "status": "ACTIVE"
+      }
+    }
+""".trimIndent()

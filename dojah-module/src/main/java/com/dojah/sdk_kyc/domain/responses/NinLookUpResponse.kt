@@ -10,10 +10,14 @@ data class NinLookUpResponse(
 data class NinLookUpEntity(
     @SerializedName("nin") var nin: String? = null,
     @SerializedName("firstname") var firstname: String? = null,
+    @SerializedName("first_name") var firstName: String? = null,
     @SerializedName("middlename") var middlename: String? = null,
+    @SerializedName("middle_name") var middleName: String? = null,
     @SerializedName("surname") var surname: String? = null,
+    @SerializedName("last_name") var lastName: String? = null,
     @SerializedName("maidenname") var maidenname: String? = null,
     @SerializedName("telephoneno") var telephoneno: String? = null,
+    @SerializedName("phone_number") var phoneNum: String? = null,
     @SerializedName("state") var state: String? = null,
     @SerializedName("place") var place: String? = null,
     @SerializedName("profession") var profession: String? = null,
@@ -21,6 +25,7 @@ data class NinLookUpEntity(
     @SerializedName("height") var height: String? = null,
     @SerializedName("email") var email: String? = null,
     @SerializedName("birthdate") var birthdate: String? = null,
+    @SerializedName("date_of_birth") var dateOfBirth: String? = null,
     @SerializedName("birthstate") var birthstate: String? = null,
     @SerializedName("birthcountry") var birthcountry: String? = null,
     @SerializedName("centralID") var centralID: String? = null,
@@ -56,22 +61,26 @@ data class NinLookUpEntity(
     @SerializedName("signature") var signature: String? = null,
     @SerializedName("nationality") var nationality: String? = null,
     @SerializedName("gender") var gender: String? = null,
-    @SerializedName("trackingId") var trackingId: String? = null
+    @SerializedName("trackingId") var trackingId: String? = null,
+    val customer: String? = null,
+    val uuid: String? = null
 ) : GovIdEntityInterface {
     override val dob: String?
-        get() = birthdate
+        get() = dateOfBirth?:birthdate
     override val fName: String?
-        get() = firstname
+        get() = firstname?:firstName
     override val mName: String?
-        get() = middlename
+        get() = middlename?:middleName
     override val licenseNum: String?
         get() = null
     override val lName: String?
-        get() = surname
+        get() = surname?:lastName
     override val image: String?
         get() = photo
     override val phoneNumber: String?
-        get() = telephoneno
+        get() = telephoneno?:phoneNum
+    override val customerID: String?
+        get() = customer?:uuid
 
 }
 

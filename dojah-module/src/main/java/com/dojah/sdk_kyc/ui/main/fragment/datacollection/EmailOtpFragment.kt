@@ -10,6 +10,8 @@ import com.dojah.sdk_kyc.core.Constants
 import com.dojah.sdk_kyc.databinding.FragmentOtpEmailBinding
 import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import com.dojah.sdk_kyc.ui.utils.getText
@@ -21,7 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class EmailOtpFragment : ErrorFragment(R.layout.fragment_otp_email) {
     private val binding by viewBinding { FragmentOtpEmailBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(R.id.gov_nav_graph) { defaultViewModelProviderFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
 

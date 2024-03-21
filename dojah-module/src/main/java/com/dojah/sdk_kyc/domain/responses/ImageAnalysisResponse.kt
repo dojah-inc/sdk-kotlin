@@ -1,6 +1,7 @@
 package com.dojah.sdk_kyc.domain.responses
 
 
+import com.dojah.sdk_kyc.ui.utils.FailedReasons
 import com.google.gson.annotations.SerializedName
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -20,44 +21,57 @@ data class ImageAnalysisResponse(
             val quality: ImageAnalysisQuality?
         ) {
 
-            fun faceMessage(preAuthConfig: Config?): String {
-                return if (message != null) {
-                    message
-                } else {
-                    if (preAuthConfig == null) {
-                        throw Exception("Config can't be null")
-                    }
-                    val brightness = quality?.brightness
-                    val isBright =
-                        brightness != null && brightness >= preAuthConfig.brightnessThreshold
-                    val hasGlasses =
-                        preAuthConfig.glassesCheck == (details?.eyeglasses?.value ?: false || details?.sunglasses?.value ?: false)
-
-                    if (faceDetected == false) {
-                        "No face detected"
-                    } else if (multifaceDetected == true) {
-                        "Multiple faces detected"
-                    } else if (!isBright) {
-                        "Not bright enough. Please move to a brighter area"
-                    } else if (!hasGlasses) {
-                        "Glasses detected. Retake selfie without your glasses"
-                    } else
-                        "Something went wrong"
+            fun getFaceErrorMessage(preAuthConfig: Config?): String {
+//                if (message != null) {
+//                    return message
+//                } else {
+                if (preAuthConfig == null) {
+                    throw Exception("Config can't be null")
                 }
+                val brightness = quality?.brightness
+                val isBright =
+                    brightness != null && brightness >= preAuthConfig.brightnessThreshold
+                val glassCheckIsOn = preAuthConfig.glassesCheck
+                val userHasGlassesOn =
+                    (details?.eyeglasses?.value ?: false
+                            || details?.sunglasses?.value ?: false)
+                val glassCheckFailed = glassCheckIsOn && userHasGlassesOn
+
+                return if (faceDetected == false) {
+                    FailedReasons.SELFIE_NO_CAPTURE.message
+                } else if (multifaceDetected == true) {
+                    "Multiple faces detected"
+//                    FailedReasons.SELFIE_NO_CAPTURE.message
+                } else if (!isBright) {
+                    FailedReasons.SELFIE_NO_CAPTURE.message
+                } else if (glassCheckFailed) {
+                    "Glasses detected. Retake selfie without your glasses"
+                } else
+                    FailedReasons.SELFIE_NO_CAPTURE.message
             }
 
             fun faceSuccess(preAuthConfig: Config?): Boolean {
+
                 if (preAuthConfig == null) {
                     throw Exception("Config can't be null")
                 }
                 val brightness = quality?.brightness
                 val isBright = brightness != null && brightness >= preAuthConfig.brightnessThreshold
-                val hasGlasses =
-                    preAuthConfig.glassesCheck == (details?.eyeglasses?.value ?: false || details?.sunglasses?.value ?: false)
+                val glassCheckIsOn = preAuthConfig.glassesCheck
+                val userHasGlassesOn =
+                    (details?.eyeglasses?.value ?: false
+                            || details?.sunglasses?.value ?: false)
+
+
+                val glassCheckFailed = glassCheckIsOn && userHasGlassesOn
+                HttpLoggingInterceptor.Logger.DEFAULT.log("faceSuccess>> $faceDetected $multifaceDetected $isBright ${!glassCheckFailed}")
                 return faceDetected == true
                         && multifaceDetected == false
                         && isBright
-                        && hasGlasses
+                        /// case 1: !(glassCheckIsOn= false && userHasGlassesOn=true) = true
+                        /// case 2: !(glassCheckIsOn= true && userHasGlassesOn=false) = true
+                        /// case 3: !(glassCheckIsOn= true && userHasGlassesOn=true) = false
+                        && !glassCheckFailed
 
             }
 
@@ -83,8 +97,8 @@ data class ImageAnalysisResponse(
             ) {
 
                 data class ImageAnalysisAgeRange(
-                    val high: Int?, // 33
-                    val low: Int? // 25
+                    val high: Double?, // 33
+                    val low: Double? // 25
                 )
 
 
@@ -101,7 +115,7 @@ data class ImageAnalysisResponse(
 
 
                 data class ImageAnalysisEyeglasses(
-                    val confidence: Int?, // 100
+                    val confidence: Double?, // 100.0
                     val value: Boolean? // true
                 )
 

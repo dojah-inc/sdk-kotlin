@@ -15,6 +15,8 @@ import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureBackDocFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureDocumentFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureSelfieFragment
+import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DecisionErrorFragment
+import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DojahCountryErrorFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DojahErrorFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.EmptyFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.PreviewDocFragment
@@ -38,6 +40,8 @@ object Routes {
     const val capture_selfie_fragment = "capture_selfie_fragment"
     const val preview_selfie_fragment = "preview_selfie_fragment"
     const val error_fragment = "error_fragment"
+    const val decision_error_fragment = "decision_error_fragment"
+    const val country_error_fragment = "country_error_fragment"
     const val success_route = "success_route"
 
     fun getOptionRoute(
@@ -94,14 +98,26 @@ class DojahNavGraph {
                     Routes.verification_route
                 ) {
 
+                    fragment<CaptureSelfieFragment>(Routes.capture_selfie_fragment)
                     fragment<CaptureDocumentFragment>(Routes.capture_doc_route)
                     fragment<CaptureBackDocFragment>(Routes.capture_back_doc_route)
-                    fragment<PreviewDocFragment>(Routes.preview_doc_route)
                     fragment<UploadFrontDocFragment>(Routes.upload_doc_route)
                     fragment<UploadBackDocFragment>(Routes.upload_back_doc_route)
-                    fragment<CaptureSelfieFragment>(Routes.capture_selfie_fragment)
                     fragment<PreviewSelfieFragment>(Routes.preview_selfie_fragment)
+                    fragment<PreviewDocFragment>(Routes.preview_doc_route)
                     fragment<DojahErrorFragment>("${Routes.error_fragment}/{${NavArguments.option}}") {
+                        argument(NavArguments.option) {
+                            type = NavType.StringType
+                            nullable = true
+                        }
+                    }
+                    fragment<DecisionErrorFragment>("${Routes.decision_error_fragment}/{${NavArguments.option}}") {
+                        argument(NavArguments.option) {
+                            type = NavType.StringType
+                            nullable = true
+                        }
+                    }
+                    fragment<DojahCountryErrorFragment>("${Routes.country_error_fragment}/{${NavArguments.option}}") {
                         argument(NavArguments.option) {
                             type = NavType.StringType
                             nullable = true

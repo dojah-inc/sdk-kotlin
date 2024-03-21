@@ -1,10 +1,10 @@
 package com.dojah.sdk_kyc.ui.utils
 
 import android.text.InputType
+import com.dojah.sdk_kyc.core.Result
+import com.dojah.sdk_kyc.domain.responses.EnumAttr
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.BioDataFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.BizDocTypeFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.BusinessDataFragment
-import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CaptureDocumentFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.CountryFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DisclaimerFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DocTypeFragment
@@ -15,22 +15,14 @@ import com.dojah.sdk_kyc.ui.main.fragment.datacollection.HomeAddressFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.IndexDisclaimerFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.PhoneOtpFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.SelfieDisclaimerFragment
+import com.dojah.sdk_kyc.ui.main.fragment.datacollection.SignatureFragment
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 
-
-enum class BusinessDataType(val value: String) {
-    RC_NUMBER("RC Number"), TIN("TIN Number");
-
-    companion object {
-        fun enumOfValue(value: String): VerificationType? {
-            return VerificationType.values().find { it.value == value }
-        }
-    }
-}
 
 enum class VerificationType(
     val value: String,
     val serverKey: String,
-    val actualServerKey: String="",
+    val actualServerKey: String = "",
     val type: String? = "",
     val title: String = "",
     val preview: String = ""
@@ -74,47 +66,30 @@ enum class GovDocType(
     val serverKey: String,
     val title: String = "",
     val info: String = "",
-    val abbr: String = "",
-    val subtext: String = "",
-    val subtext2: String = "",
-    val placeholder: String = "",
-    val spanid: String = "",
     val inputType: Int = InputType.TYPE_CLASS_TEXT,
-    val inputMode: String = "",
-    val minLength: Int? = null,
-    val maxLength: Int? = null,
     val id: String = "",
     val value: String = "",
+    val hasBack: Boolean = true,
 ) {
 
     DL(
-        "Driver’s License",
+        "Driver\'s License",
         "dl",
         "Capture the Driver’s License Document",
         "Make sure your Driver’s License Document is properly placed, and hold it still for a few seconds",
-        abbr = "Driver's License",
-        placeholder = "ABC98765AA77",
         inputType = InputType.TYPE_CLASS_TEXT,
-        inputMode = "text",
         id = "drivers-license",
         value = "NG-DLI",
-        spanid = "d-none"
     ),
     BVN(
         "Bank Verification Number",
         "bvn",
         "Capture the CAC Document",
         "Make sure your CAC Document is properly placed, and hold it still for a few seconds",
-        abbr = "BVN",
-        placeholder = "22398337867",
-        spanid = "d-none",
         inputType = InputType.TYPE_CLASS_NUMBER,
-        inputMode = "numeric",
-        minLength = 11,
-        maxLength = 11,
     ),
     VOTER(
-        "Voter’s Card",
+        "Voter\'s Card",
         "voter",
         "Capture the Voter’s Card Document",
         "Make sure your Voter’s Card Document is properly placed, and hold it still for a few seconds",
@@ -125,24 +100,20 @@ enum class GovDocType(
         "International Passport",
         "passport",
         "Capture your International Passport",
-        "Make sure your International Passpor Document is properly placed, and hold it still for a few seconds",
+        "Make sure your International Passport Document is properly placed, and hold it still for a few seconds",
         value = "NG-PASS",
-        id = "international-passport"
+        id = "international-passport",
+        hasBack = false,
     ),
     NIN(
         "National Identification Number",
         "nin",
         "Capture the NIN Document",
         "Make sure your NIN Document is properly placed, and hold it still for a few seconds",
-        abbr = "NIN",
-        placeholder = "56743378909",
-        spanid = "d-none",
         inputType = InputType.TYPE_CLASS_NUMBER,
-        inputMode = "numeric",
-        minLength = 11,
-        maxLength = 11,
         id = "nin-slip",
         value = "NG-NIN-SLIP",
+        hasBack = false,
     ),
     NATIONAL(
         "National ID",
@@ -157,29 +128,23 @@ enum class GovDocType(
         "vnin",
         "Capture the VNIN Document",
         "Make sure your VNIN Document is properly placed, and hold it still for a few seconds",
-        abbr = "VNIN",
-        subtext = "Dial *346*3*NIN*1138183# to generate your VNIN",
-        subtext2 = "Note, you can only use the VNIN generated once",
-        placeholder = "SE426838975455SC",
-        spanid = "d-none",
         inputType = InputType.TYPE_CLASS_NUMBER,
-        inputMode = "numeric",
-        minLength = 11,
-        maxLength = 11,
         id = "vnin",
         value = "NG-VNIN",
+    ),
+    BUSINESS(
+        "CAC",
+        "cac",
+        "Capture the CAC Document",
+        "Make sure your CAC Document is properly placed, and hold it still for a few seconds",
+        hasBack = false,
+    ),
+    OTHER(
+        "Other Doc",
+        "other",
+        "Upload Document",
+        hasBack = false,
     );
-//    BUSINESS(
-//        "CAC",
-//        "cac",
-//        "Capture the CAC Document",
-//        "Make sure your CAC Document is properly placed, and hold it still for a few seconds"
-//    ),
-//    OTHER(
-//        "Other Doc",
-//        "Upload Document",
-//        "Make sure your Document is properly placed, and hold it still for a few seconds"
-//    );
 
     companion object {
         fun enumOfValue(value: String): GovDocType? {
@@ -191,6 +156,18 @@ enum class GovDocType(
         }
     }
 
+}
+
+
+enum class BusinessType(
+    val serverKey: String,
+) {
+    CAC(
+        "cac",
+    ),
+    TIN(
+        "tin",
+    ),
 }
 
 enum class KycPages(
@@ -225,7 +202,7 @@ enum class KycPages(
             ),
             Pair(
                 VerificationType.OTP.serverKey,
-                SelfieDisclaimerFragment::class.java.name,
+                EnterOtpFragment::class.java.name,
             ),
         )
     ),
@@ -251,7 +228,7 @@ enum class KycPages(
     ),
     BUSINESS_ID(
         "business-id",
-        BizDocTypeFragment::class.java.name,
+        DisclaimerFragment::class.java.name,
     ),
     ADDRESS(
         "address",
@@ -263,7 +240,11 @@ enum class KycPages(
     ),
     OTHER_DOCUMENT(
         "additional-document",
-        CaptureDocumentFragment::class.java.name,
+        DisclaimerFragment::class.java.name,
+    ),
+    SIGNATURE(
+        "signature",
+        SignatureFragment::class.java.name,
     );
 
     companion object {
@@ -285,4 +266,59 @@ enum class EventTypes(val serverKey: String) {
     CUSTOMER_GOVERNMENT_DATA_COLLECTED("customer_government_data_collected"),
     EMAIL_COLLECTED("email_collected"),
     CUSTOMER_BUSINESS_DATA_COLLECTED("customer_business_data_collected"),
+}
+
+const val govIDTemplateKey = "%ID%"
+
+enum class FailedReasons(val code: String, val message: String, val statusCode: Int = -1000) {
+    LOW_BALANCE("00", "An error occurred. Try again later", 402),
+    UNKNOWN("01", "An error occurred. Try again later", 500),
+    ID_INVALID_NOT_FOUND(
+        "02",
+        "Invalid $govIDTemplateKey Number. Input a valid $govIDTemplateKey Number or try another means \nof Identification",
+        404,
+    ),
+    THIRD_PARTY(
+        "03",
+        "$govIDTemplateKey Number is currently not available. Please try another means of identification",
+        424,
+    ),
+    INVALID_OTP("04", "Invalid OTP entered. Please, input the correct OTP"),
+    OTP_NOT_SENT("05", "OTP Could not be sent, please try again"),
+    ID_FAILED_MAX_TIME("10", "Your verification is awaiting approval"),
+    SELFIE_NO_CAPTURE("06", "Please move to a well lit environment and try again"),
+    VIDEO_NO_CAPTURE("07", "Please move to a well lit environment and try again"),
+    GOV_ID_CAPTURE("08", "Document is not clear enough, please try again"),
+    WIDGET_NOT_AVAILABLE("15", "Widget is not supported in your country"),
+    GOV_DATA_NOT_AVAILABLE("20", "Verification is not available \nin your country");
+
+
+    fun getGovBizMsg(idType: EnumAttr?): String {
+        if (this == ID_INVALID_NOT_FOUND || this == THIRD_PARTY) {
+            val govIdName = idType?.name?.replace("Number", "")?.trim()
+            return this.message.replace(govIDTemplateKey, govIdName ?: "ID")
+        } else {
+            throw Exception("This not ID_INVALID_NOT_FOUND Reason")
+        }
+    }
+
+    companion object {
+        fun getStatusCodeReason(
+            error: Result.Error.ApiError,
+        ): FailedReasons? {
+            return when (error.code ?: -1000) {
+                LOW_BALANCE.statusCode ->  LOW_BALANCE
+
+                ID_INVALID_NOT_FOUND.statusCode -> ID_INVALID_NOT_FOUND
+
+                THIRD_PARTY.statusCode ->  THIRD_PARTY
+
+                in UNKNOWN.statusCode..599 ->  UNKNOWN
+
+
+                else -> null
+            }
+
+        }
+    }
 }

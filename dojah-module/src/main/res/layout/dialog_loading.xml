@@ -26,5 +26,6 @@
         android:layout_marginTop="@dimen/padding_drawable_style_text_view_success_title"
         android:gravity="center_horizontal"
         app:drawableTopCompat="@null"
+        android:visibility="gone"
         tools:text="Loading..."/>
 </LinearLayout>

@@ -13,4 +13,5 @@ interface GovIdEntityInterface {
     val lName: String?
     val image: String?
     val phoneNumber: String?
+    val customerID: String?
 }

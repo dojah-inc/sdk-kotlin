@@ -81,7 +81,7 @@ val enumData: String = """
         },
         "voter": {
           "id": "voter-id",
-          "name": "Voter\"s Card",
+          "name": "Voter\'s Card",
           "value": "NG-VCARD"
         },
         "mobile": {
@@ -97,15 +97,18 @@ val enumData: String = """
         },
         "NG-DLI": {
           "enum": "DL_ID",
-          "idName": "Driver\"s License"
+          "idName": "Driver\'s License",
+          "id": "dl"
         },
         "NG-PASS": {
           "enum": "PASSPORT_ID",
-          "idName": "International Passport"
+          "idName": "International Passport",
+          "id": "passport"
         },
         "NG-NAT": {
           "enum": "NATIONAL_ID",
-          "idName": "National ID"
+          "idName": "National ID",
+          "id": "national"
         },
         "UK-RP": {
           "enum": "RESIDENCE_PERMIT",
@@ -117,11 +120,13 @@ val enumData: String = """
         },
         "NG-VCARD": {
           "enum": "NG-VCARD",
-          "idName": "Voter\"s Card"
+          "idName": "Voter\'s Card",
+          "id": "voter"
         },
         "NG-NIN-SLIP": {
           "enum": "NG-NIN-SLIP",
-          "idName": "NIN Slip"
+          "idName": "NIN Slip",
+          "id": "nin"
         },
         "selfie": {
           "name": "Take a selfie"
@@ -130,21 +135,21 @@ val enumData: String = """
           "name": "OTP (One-time Password)"
         },
         "gh-dl": {
-          "name": "Driver\"s License",
-          "abbr": "Driver\"s License",
+          "name": "Driver\'s License",
+          "abbr": "Driver\'s License",
           "subtext": "",
           "subtext2": "",
           "placeholder": "V0000000",
           "enum": "GH-DL",
-          "id": "drivers-license",
+          "id": "dl",
           "value": "GH-DLI",
           "spanid": "d-none",
           "inputType": "text",
           "inputMode": "text"
         },
         "gh-voter": {
-          "name": "Voter\"s Card",
-          "abbr": "Voter\"s Card",
+          "name": "Voter\'s Card",
+          "abbr": "Voter\'s Card",
           "subtext": "",
           "subtext2": "",
           "placeholder": "V0000000",
@@ -152,7 +157,8 @@ val enumData: String = """
           "value": "GH-VOTER",
           "spanid": "d-none",
           "inputType": "text",
-          "inputMode": "text"
+          "inputMode": "text",
+          "id": "voter"
         },
         "tz-nin": {
           "name": "National Identification Number",
@@ -163,7 +169,8 @@ val enumData: String = """
           "enum": "TZ-NIN",
           "spanid": "d-none",
           "inputType": "text",
-          "inputMode": "text"
+          "inputMode": "text",
+          "id": "nin"
         },
         "ug-id": {
           "name": "Voter/National ID",
@@ -188,13 +195,13 @@ val enumData: String = """
           "inputMode": "numeric"
         },
         "ke-dl": {
-          "name": "Driver\"s License",
-          "abbr": "Driver\"s License",
+          "name": "Driver\'s License",
+          "abbr": "Driver\'s License",
           "subtext": "",
           "subtext2": "",
           "placeholder": "V0000000",
           "enum": "KE-DL",
-          "id": "drivers-license",
+          "id": "dl",
           "value": "KE-DLI",
           "spanid": "d-none",
           "inputType": "text",
@@ -210,7 +217,8 @@ val enumData: String = """
           "value": "KE-ID",
           "spanid": "d-none",
           "inputType": "text",
-          "inputMode": "text"
+          "inputMode": "text",
+          "id": "national"
         },
         "ke-kra": {
           "name": "KRA Pin",
@@ -224,13 +232,13 @@ val enumData: String = """
           "inputMode": "text"
         },
         "sa-dl": {
-          "name": "Driver\"s License",
-          "abbr": "Driver\"s License",
+          "name": "Driver\'s License",
+          "abbr": "Driver\'s License",
           "subtext": "",
           "subtext2": "",
           "placeholder": "V0000000",
           "enum": "SA-DL",
-          "id": "drivers-license",
+          "id": "dl",
           "value": "SA-DLI",
           "spanid": "d-none",
           "inputType": "text",
@@ -246,7 +254,8 @@ val enumData: String = """
           "value": "SA-ID",
           "spanid": "d-none",
           "inputType": "text",
-          "inputMode": "text"
+          "inputMode": "text",
+          "id": "national"
         },
         "cac": {
           "name": "Registered Company Number",
@@ -255,7 +264,7 @@ val enumData: String = """
           "placeholder": "805396",
           "enum": "RC-NUMBER",
           "spanid": "d-none",
-          "idName": "CAC document",
+          "idName": "cac",
           "inputType": "text",
           "inputMode": "text"
         },
@@ -266,7 +275,7 @@ val enumData: String = """
           "placeholder": "18609323-0001",
           "enum": "TIN",
           "spanid": "d-none",
-          "idName": "TIN document",
+          "idName": "tin",
           "inputType": "text",
           "inputMode": "text"
         }

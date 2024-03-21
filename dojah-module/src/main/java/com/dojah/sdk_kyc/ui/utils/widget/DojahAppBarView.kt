@@ -74,7 +74,7 @@ class DojahAppBarView : ConstraintLayout {
 
     var logoUrl: String? = null
         set(value) {
-            if (value != null) {
+            if (!value.isNullOrEmpty()) {
                 binding.logo.load(value, isCenterInside = true)
             }
         }

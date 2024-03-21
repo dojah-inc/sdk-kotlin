@@ -13,8 +13,10 @@ import com.dojah.sdk_kyc.BuildConfig
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.ui.dialog.TransactionErrorDialogFragment
+import com.dojah.sdk_kyc.ui.main.MainActivity
 import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.utils.*
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 
@@ -34,19 +36,24 @@ open class ErrorFragment : Fragment {
 
     constructor(@LayoutRes layoutRes: Int) : super(layoutRes)
 
-    fun observeEvents(eventValue: String,argument:Bundle?=null) {
+    fun observeEvents(eventValue: String, argument: Bundle? = null) {
         viewModel.eventLiveData.observe(this) {
+            if (it == null) {
+                return@observe
+            }
             if (it.second is Result.Loading) {
-                showLoading("Loading...")
+                showLoading()
             } else {
                 dismissLoading()
                 if (it.second is Result.Success) {
                     when (it.first.eventType) {
                         EventTypes.STEP_COMPLETED.serverKey -> {
                             when (eventValue) {
-                                KycPages.INDEX.serverKey -> navViewModel.navigateNextStep(args= argument)
+                                KycPages.INDEX.serverKey -> navViewModel.navigateNextStep(args = argument)
 
-                                KycPages.GOVERNMENT_DATA.serverKey -> navViewModel.navigateNextStep(args= argument)
+                                KycPages.GOVERNMENT_DATA.serverKey -> navViewModel.navigateNextStep(
+                                    args = argument
+                                )
 
                             }
                         }
@@ -54,22 +61,33 @@ open class ErrorFragment : Fragment {
                         EventTypes.COUNTRY_SELECTED.serverKey -> {
                             when (eventValue) {
                                 KycPages.COUNTRY.serverKey -> {
-                                    navViewModel.navigateNextStep(args= argument)
+                                    navViewModel.navigateNextStep(args = argument)
                                 }
                             }
                         }
+
                     }
+                    viewModel.resetEventData()
+
                 } else {
                     navViewModel.navigate(Routes.error_fragment)
+                    viewModel.resetEventData()
+
                 }
             }
         }
     }
 
-    fun navigateToErrorPage(it: Result.Error) {
-        dismissLoading()
+    fun navigateToErrorPage(
+        it: Result.Error,
+        page: KycPages? = null,
+        govDataViewModel: GovDataViewModel? = null,
+    ) {
         navViewModel.navigate(Routes.error_fragment, args = Bundle().apply {
-            putString(NavArguments.option, viewModel.getErrorMessage(it))
+            putString(
+                NavArguments.option,
+                viewModel.getErrorMessage(it, page = page, govDataViewModel = govDataViewModel)
+            )
         })
     }
 
@@ -145,24 +163,12 @@ open class ErrorFragment : Fragment {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show()
     }
 
-    fun showLoading(text: String = "Loading...") {
-        if (loadingDialog == null) {
-            loadingDialog = MaterialAlertDialogBuilder(requireContext())
-                .setView(R.layout.dialog_loading)
-                .setCancelable(false)
-                .create()
-        }
-
-        loadingDialog?.apply {
-            setOnShowListener {
-                findViewById<TextView>(R.id.text_title)?.text = text
-            }
-        }
-        loadingDialog?.show()
+    fun showLoading() {
+        (requireActivity() as MainActivity).showLoading()
     }
 
     fun dismissLoading() {
-        loadingDialog?.dismiss()
+        (requireActivity() as MainActivity).dismissLoading()
     }
 
     override fun onDestroy() {

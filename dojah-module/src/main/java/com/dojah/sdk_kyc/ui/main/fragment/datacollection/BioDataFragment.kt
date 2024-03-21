@@ -47,7 +47,7 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
 
     private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
-    private val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+    private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-uuuu")
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
 
@@ -105,6 +105,7 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
                 }
 
                 is Result.Error -> {
+                    dismissLoading()
                     navigateToErrorPage(it)
                     Timber.d("submitUserLiveData>> Result.Error")
                 }

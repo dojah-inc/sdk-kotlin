@@ -1,4 +1,4 @@
-package com.example.dojah_test_2
+package com.dojah.demoapp
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

@@ -63,30 +63,76 @@
                 android:layout_height="256dp"
                 android:layout_gravity="center">
 
-                <com.airbnb.lottie.LottieAnimationView
+                <!--                <com.airbnb.lottie.LottieAnimationView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:visibility="visible"-->
+                <!--                    app:lottie_autoPlay="true"-->
+                <!--                    app:lottie_colorFilter="@color/progress_color"-->
+                <!--                    app:lottie_loop="true"-->
+                <!--                    app:lottie_rawRes="?attr/facialVerificationAnim" />-->
+
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:background="@drawable/dotted_circle"
+                    android:tint="@color/progress_color"
                     android:visibility="visible"
-                    app:lottie_autoPlay="true"
-                    app:lottie_colorFilter="@color/progress_color"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="?attr/facialVerificationAnim" />
+                    app:tint="@color/progress_color"
+
+                    />
 
 
-
-                <androidx.cardview.widget.CardView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/margin_24dp"
-                    app:cardCornerRadius="280dp"
-                    app:cardElevation="0dp">
+                    android:layout_margin="@dimen/margin_18dp">
 
-                    <androidx.camera.view.PreviewView
-                        android:id="@+id/camera"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/inner_dot"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </androidx.cardview.widget.CardView>
+                        android:layout_height="match_parent"
+                        android:background="@drawable/dotted_circle_inner"
+                        android:tint="@color/progress_color"
+                        android:visibility="visible"
+                        app:tint="@color/progress_color"
+                        />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="280dp"
+                        android:layout_margin="2dp"
+                        app:cardElevation="0dp">
+
+                        <androidx.camera.view.PreviewView
+                            android:id="@+id/camera"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <View
+                            android:id="@+id/progress_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:src="@color/black_200"-->
+<!--                            />-->
+
+                    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
             </RelativeLayout>
 
 

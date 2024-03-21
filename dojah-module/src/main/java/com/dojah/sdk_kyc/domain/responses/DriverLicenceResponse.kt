@@ -15,7 +15,8 @@ data class DriverEntity(
     val middleName: String?,
     val photo: String?,
     val stateOfIssue: String?,
-    val uuid: String?
+    val customer: String?,
+    val uuid: String?,
 ) : GovIdEntityInterface {
     override val dob: String?
         get() = birthDate
@@ -32,5 +33,7 @@ data class DriverEntity(
 
     override val phoneNumber: String?
         get() = null
+    override val customerID: String?
+        get() = customer?:uuid //GGE56692AA03
 
 }

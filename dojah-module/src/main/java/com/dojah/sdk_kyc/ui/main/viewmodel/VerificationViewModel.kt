@@ -5,28 +5,29 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.CountDownTimer
+import android.provider.OpenableColumns
 import androidx.core.os.ConfigurationCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dojah.sdk_kyc.BuildConfig
-import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.data.io.CountryManager
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.repository.DojahRepository
 import com.dojah.sdk_kyc.domain.Country
+import com.dojah.sdk_kyc.domain.DocumentInfo
 import com.dojah.sdk_kyc.domain.request.CheckIpRequest
 import com.dojah.sdk_kyc.domain.request.EventRequest
 import com.dojah.sdk_kyc.domain.request.UserDataRequest
 import com.dojah.sdk_kyc.domain.responses.*
 import com.dojah.sdk_kyc.ui.utils.*
-import com.google.gson.annotations.SerializedName
 import dagger.Lazy
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import okhttp3.logging.HttpLoggingInterceptor
@@ -39,15 +40,19 @@ import javax.inject.Inject
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
 class VerificationViewModel @Inject constructor(
-    private val prefManager: SharedPreferenceManager,
+    val prefManager: SharedPreferenceManager,
     private val repo: DojahRepository,
     private val countryManager: Lazy<CountryManager>
 ) : ViewModel() {
     private val logger: HttpLoggingInterceptor.Logger = HttpLoggingInterceptor.Logger.DEFAULT
     private val _countryLiveData = MutableLiveData<List<Country>>()
     private val _frontDocUriLiveData = MutableLiveData<Uri>()
+
+    //this stores the front and back doc uri info
+    private val _docInfoLiveData = MutableLiveData<Pair<DocumentInfo?, DocumentInfo?>>()
     private val _backDocUriLiveData = MutableLiveData<Uri>()
-    private val _isBackDocLiveData = MutableLiveData<Boolean>(false)
+    private val _isBackDocLiveData = MutableLiveData(false)
+    private val _isUploadDocLiveData = MutableLiveData(false)
     private val _docTypeLiveData = MutableLiveData<GovDocType?>()
     private val _verificationTypeLiveData = MutableLiveData<VerificationType?>()
     private val _selfiePhotoUriLiveData = MutableLiveData<Uri>()
@@ -80,16 +85,24 @@ class VerificationViewModel @Inject constructor(
     val countryLiveData: LiveData<List<Country>>
         get() = _countryLiveData
 
-    private val _eventLiveData = MutableLiveData<Pair<EventRequest, Result<SimpleResponse>>>()
-    val eventLiveData: LiveData<Pair<EventRequest, Result<SimpleResponse>>>
+    private val _eventLiveData = MutableLiveData<Pair<EventRequest, Result<SimpleResponse>>?>()
+    val eventLiveData: LiveData<Pair<EventRequest, Result<SimpleResponse>>?>
         get() = _eventLiveData
+
+    fun resetEventData() {
+        _eventLiveData.postValue(null)
+    }
+
     val frontDocUriLiveData: LiveData<Uri>
         get() = _frontDocUriLiveData
     val backDocUriLiveData: LiveData<Uri>
         get() = _backDocUriLiveData
-
+    val docInfoLiveData: LiveData<Pair<DocumentInfo?, DocumentInfo?>>
+        get() = _docInfoLiveData
     val isBackDocLiveData: LiveData<Boolean>
         get() = _isBackDocLiveData
+    val isUploadDocLiveData: LiveData<Boolean>
+        get() = _isUploadDocLiveData
 
     val docTypeLiveData: LiveData<GovDocType?>
         get() = _docTypeLiveData
@@ -118,10 +131,13 @@ class VerificationViewModel @Inject constructor(
     val submitGovLiveData: LiveData<Result<String>>
         get() = _submitGovLiveData
 
+    private val _submitAddressLiveData = MutableLiveData<Result<SimpleResponse>>()
+    val submitAddressLiveData: LiveData<Result<SimpleResponse>>
+        get() = _submitAddressLiveData
+
     private val _submitUserLiveData = MutableLiveData<Result<SimpleResponse>>()
     val submitUserLiveData: LiveData<Result<SimpleResponse>>
         get() = _submitUserLiveData
-
 
     val dojahEnum
         get(): DojahEnum {
@@ -129,22 +145,40 @@ class VerificationViewModel @Inject constructor(
         }
 
     private fun saveBrandColor(color: String?) {
-        logger.log("Brand color: $color")
-        prefManager.setMaterialButtonBgColor(color)
+        var newColor = color
+        if (color.isNullOrBlank()) {
+            logger.log("Brand color: null")
+            newColor = null
+        }
+        logger.log("Brand color: $newColor")
+        prefManager.setMaterialButtonBgColor(newColor)
     }
 
-    fun setFrontDocUri(uri: Uri) {
+    fun setFrontDocUri(context: Context, uri: Uri, isUpload: Boolean): DocumentInfo? {
+        val frontDocInfo = getDocInfo(context, uri, isUpload)
         _isBackDocLiveData.postValue(false)
+        _isUploadDocLiveData.postValue(isUpload)
         _frontDocUriLiveData.postValue(uri)
+        _docInfoLiveData.postValue(
+            frontDocInfo to _docInfoLiveData.value?.second
+        )
+        return frontDocInfo
     }
 
     fun setSelfieUri(uri: Uri) {
         _selfiePhotoUriLiveData.postValue(uri)
     }
 
-    fun setBackDocUri(uri: Uri) {
+    fun setBackDocUri(context: Context, uri: Uri, isUpload: Boolean): DocumentInfo? {
+        val backDocInfo = getDocInfo(context, uri, isUpload)
+
         _isBackDocLiveData.postValue(true)
+        _isUploadDocLiveData.postValue(isUpload)
         _backDocUriLiveData.postValue(uri)
+        _docInfoLiveData.postValue(
+            _docInfoLiveData.value?.first to backDocInfo
+        )
+        return backDocInfo
     }
 
     fun selectDocType(type: String) {
@@ -155,23 +189,6 @@ class VerificationViewModel @Inject constructor(
         countryManager.get().addCallback {
             _countryLiveData.postValue(it)
         }
-    }
-
-    fun getGIDs(context: Context): List<String> {
-        return context.resources.getStringArray(R.array.gov_ids).toList()
-    }
-
-    fun getDocType(): List<String> {
-        return GovDocType.values().map { it.sName }
-    }
-
-
-    fun getBussinessTypes(): List<String> {
-        return BusinessDataType.values().map { it.value }
-    }
-
-    fun selectGovIdentity(id: EnumAttr?) {
-        _selectedGovIdDataLiveData.postValue(id)
     }
 
     fun authenticate(widgetId: String) {
@@ -195,6 +212,7 @@ class VerificationViewModel @Inject constructor(
                                     _getIpDataLiveData.postValue(ipResult)
                                     if (ipResult is Result.Success) {
                                         //verify UserIp
+
                                         repo.checkUserIp(
                                             CheckIpRequest(
                                                 ipResult.data.ip!!,
@@ -238,7 +256,7 @@ class VerificationViewModel @Inject constructor(
             val verificationId =
                 authDataFromPref?.initData?.authData?.verificationId
                     ?: throw Exception("Verification id is null")
-            val stepNumber = getCurrentPage(KycPages.USER_DATA.serverKey)?.id
+            val stepNumber = getStepWithPageName(KycPages.USER_DATA.serverKey)?.id
                 ?: throw Exception("No stepNumber")
             repo.sendUserData(
                 UserDataRequest(
@@ -264,10 +282,11 @@ class VerificationViewModel @Inject constructor(
                         ).collect { eventResult ->
                             _submitUserLiveData.postValue(eventResult)
                         }
-                    } else {
+                    } else if (userResult is Result.Error) {
                         logStepEvent(
                             page = KycPages.USER_DATA,
-                            event = EventTypes.STEP_FAILED
+                            event = EventTypes.STEP_FAILED,
+                            error = userResult
                         ).collect { _ ->
                             _submitUserLiveData.postValue(userResult)
                         }
@@ -276,12 +295,94 @@ class VerificationViewModel @Inject constructor(
         }
     }
 
+    fun sendAddress(
+        selectedAddressLatitude: Double,
+        selectedAddressLongitude: Double,
+        addressName: String,
+        match: Boolean
+    ) {
+        val doVerification =
+            getStepWithPageName(KycPages.ADDRESS.serverKey)?.config?.verification ?: false
+        viewModelScope.launch {
+            repo.sendBaseAddress(
+                selectedAddressLatitude,
+                selectedAddressLongitude,
+                addressName
+            ).onStart {
+                _submitAddressLiveData.postValue(Result.Loading)
+            }.collect {
+                if (it is Result.Success) {
+                    if (doVerification) {
+                        repo.sendAddress(
+                            match,
+                        ).collect { sendAddressResult ->
+                            if (sendAddressResult is Result.Success) {
+                                logStepEvent(
+                                    page = KycPages.ADDRESS,
+                                    event = EventTypes.STEP_COMPLETED
+                                ).collect { eventResult ->
+                                    _submitAddressLiveData.postValue(eventResult)
+                                }
+                            } else if (sendAddressResult is Result.Error) {
+                                _submitAddressLiveData.postValue(it)
+                                logStepEvent(
+                                    page = KycPages.ADDRESS,
+                                    event = EventTypes.STEP_FAILED,
+                                    error = sendAddressResult
+                                )
+                            }
+                        }
+                    } else {
+                        logStepEvent(
+                            page = KycPages.ADDRESS,
+                            event = EventTypes.STEP_COMPLETED
+                        ).collect { eventResult ->
+                            _submitAddressLiveData.postValue(eventResult)
+                        }
+                    }
+                } else if (it is Result.Error) {
+                    _submitAddressLiveData.postValue(it)
+                    logStepEvent(
+                        page = KycPages.ADDRESS,
+                        event = EventTypes.STEP_FAILED,
+                        error = it
+                    )
+                }
+            }
+        }
+    }
+
 
     private suspend fun logStepEvent(
         page: KycPages,
-        event: EventTypes
+        event: EventTypes,
+        failedReasons: FailedReasons? = null,
+        error: Result.Error? = null
     ): Flow<Result<SimpleResponse>> {
-        val request = buildStepEventRequest(page, event)
+        var failureCode: String? = null
+
+        if (event == EventTypes.STEP_FAILED) {
+            failureCode = failedReasons?.code ?: FailedReasons.UNKNOWN.code
+            if (error is Result.Error.NetworkError || error is Result.Error.TimeoutError) {
+                return flow {
+                    emit(error)
+                }.flowOn(Dispatchers.IO)
+            } else if (error != null) {
+
+                if (error is Result.Error.ApiError) {
+                    val statusCodeReason = FailedReasons.getStatusCodeReason(error)
+                    failureCode = if (statusCodeReason == FailedReasons.THIRD_PARTY
+                        && (page == KycPages.GOVERNMENT_DATA || page == KycPages.BUSINESS_DATA)
+                    ) {
+                        FailedReasons.THIRD_PARTY.code
+                    } else {
+                        statusCodeReason?.code
+                    }
+                }
+            }
+
+        }
+        val request = buildStepEventRequest(page, event, failureCode = failureCode)
         return repo.logEvent(request).apply {
             collect {
                 _eventLiveData.postValue(request to it)
@@ -305,29 +406,68 @@ class VerificationViewModel @Inject constructor(
         }
     }
 
+    fun logCountryEvents(
+    ) {
+        viewModelScope.launch {
+            val stepNumber = getStepWithPageName(KycPages.COUNTRY.serverKey)?.id
+                ?: throw Exception("No stepNumber")
+            val selectedCountry = selectedCountryLiveData.value
+            val request = buildEventRequest(
+                listOf(),
+                EventTypes.COUNTRY_SELECTED.serverKey,
+                selectedCountry?.name ?: "",
+                stepNumber
+            )
+            repo.logEvent(request)
+                .onStart { _eventLiveData.postValue(request to Result.Loading) }
+                .collect {
+                    logger.log("Country else")
+                    if (it is Result.Success) {
+                        logger.log("Country success")
+                        if (selectedCountry?.id?.lowercase() == "ng") {
+                            logger.log("Country success ng")
+                            logStepEvent(KycPages.COUNTRY, EventTypes.STEP_COMPLETED)
+                        } else {
+                            logger.log("Country success ng else")
+                            logStepEvent(
+                                KycPages.COUNTRY,
+                                EventTypes.STEP_FAILED,
+                                failedReasons = FailedReasons.GOV_DATA_NOT_AVAILABLE
+                            )
+                        }
+                    } else if (it is Result.Error) {
+                        logStepEvent(KycPages.COUNTRY, EventTypes.STEP_FAILED, error = it)
+                    }
+                }
+        }
+    }
+
 
     private fun buildStepEventRequest(
         page: KycPages,
-        event: EventTypes
+        event: EventTypes,
+        failureCode: String? = null,
     ): EventRequest {
         val verificationId =
             authDataFromPref?.initData?.authData?.verificationId
                 ?: throw Exception("Verification id is null")
         val stepNumber =
-            getCurrentPage(page.serverKey)?.id
+            getStepWithPageName(page.serverKey)?.id
                 ?: throw Exception("No stepNumber")
+
         return EventRequest(
             stepNumber = stepNumber,
             eventType = event.serverKey,
-            eventValue = page.serverKey,
-            verificationId = verificationId
+            eventValue = failureCode ?: page.serverKey,
+            verificationId = verificationId,
+            pageKey = page.serverKey
         ).apply {
             logger.log("EventRequest: $this")
         }
     }
 
     fun buildEventRequest(
-        services: List<String>,
+        services: List<String> = listOf(),
         eventType: String,
         eventValue: String,
         stepNumber: Int,
@@ -348,23 +488,46 @@ class VerificationViewModel @Inject constructor(
 
     fun getErrorMessage(
         error: Result.Error,
+        page: KycPages? = null,
+        verifyType: VerificationType? = null,
+        govDataViewModel: GovDataViewModel? = null,
     ): String {
         return when (error) {
             is Result.Error.NetworkError -> "Check your internet connection and try again."
             is Result.Error.TimeoutError -> "Timeout, Check your network and try again later."
             is Result.Error.NoDataError -> "Data not received"
-            else -> {
-                (error as Result.Error.ApiError).error?.let {
-                    if (it.isEmpty()) {
-                        return "Data not received"
+            is Result.Error.ApiError -> {
+
+                return FailedReasons.getStatusCodeReason(error).let { reason ->
+                    if (reason == FailedReasons.THIRD_PARTY) {
+                        if (page == KycPages.GOVERNMENT_DATA) {
+                            return FailedReasons.THIRD_PARTY.getGovBizMsg(idType = govDataViewModel?.selectedGovDataLiveData?.value)
+                        } else if (page == KycPages.BUSINESS_DATA) {
+                            return FailedReasons.THIRD_PARTY.getGovBizMsg(idType = govDataViewModel?.selectedBizDataLiveData?.value)
+                        }
+                    } else if (reason == FailedReasons.ID_INVALID_NOT_FOUND) {
+                        if (page == KycPages.GOVERNMENT_DATA) {
+                            return FailedReasons.ID_INVALID_NOT_FOUND.getGovBizMsg(idType = govDataViewModel?.selectedGovDataLiveData?.value)
+                        } else if (page == KycPages.BUSINESS_DATA) {
+                            return FailedReasons.ID_INVALID_NOT_FOUND.getGovBizMsg(idType = govDataViewModel?.selectedBizDataLiveData?.value)
+                        }
                     }
-                    val tmpErr = it["error"]
-                    if (tmpErr is Map<*, *>) {
-                        tmpErr["message"].toString()
-                    }
-                    tmpErr.toString()
-                } ?: if (BuildConfig.DEBUG) "Something went wrong" else "Unknown error"
+                    reason?.message
+                        ?: (error.error?.let { actualError ->
+                            if (actualError.isEmpty()) {
+                                return FailedReasons.UNKNOWN.message
+                            }
+                            val tmpErr = actualError["error"]
+                            if (tmpErr is Map<*, *>) {
+                                return tmpErr["message"].toString()
+                            } else {
+                                return tmpErr.toString()
+                            }
+                        } ?: FailedReasons.UNKNOWN.message)
+                }
             }
+
+            else -> FailedReasons.UNKNOWN.message
         }
 
     }
@@ -405,11 +568,21 @@ class VerificationViewModel @Inject constructor(
     }
 
     fun getPagesFromPrefs(): List<Step>? {
-        val steps = authDataFromPref?.initData?.authData?.steps
+        val steps = authDataFromPref?.initData?.authData?.pages
         _pages.postValue(steps)
         return steps
     }
 
+    val lastStep: Step?
+        get() =
+            getPagesFromPrefs()?.sortedBy {
+                it.id
+            }?.lastOrNull()
+
+
+    fun isLastPage(page: KycPages): Boolean {
+        return lastStep?.name == page.serverKey
+    }
 
     private val authDataFromPref: AuthResponse?
         get() {
@@ -419,8 +592,38 @@ class VerificationViewModel @Inject constructor(
         }
 
 
-    fun getCurrentPage(currentPage: String): Step? {
+    fun getStepWithPageName(currentPage: String): Step? {
         return getPagesFromPrefs()?.find { it.name == currentPage }
+    }
+
+
+    private fun getDocInfo(context: Context, uri: Uri, isUpload: Boolean): DocumentInfo? {
+        if (!isUpload) {
+            val filePath = uri.path ?: throw Exception("can't get file path from uri")
+            val fileName = filePath.substringAfterLast("/").substringBeforeLast(".")
+            logger.log("getDocInfo capture: $filePath")
+            logger.log("capture name: $fileName")
+            return DocumentInfo(
+                fileName,
+                filePath.substringAfterLast(".")
+            )
+        }
+        context.contentResolver.apply {
+            query(uri, null, null, null, null)?.use { cursor ->
+                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                cursor.moveToFirst()
+                cursor.getString(nameIndex)
+            }?.let { fileName ->
+                logger.log("file name: $fileName")
+                return fileName.let { fullName ->
+                    DocumentInfo(
+                        fullName.substringBeforeLast("."),
+                        fullName.substringAfterLast(".")
+                    )
+                }
+            }
+        }
+        return null
     }
 
     //    val targetDuration: Duration = Duration.ofMinutes(0).plusSeconds(13)
@@ -447,4 +650,8 @@ class VerificationViewModel @Inject constructor(
         _selectedCountryLiveData.postValue(country)
     }
 
+}
+
+enum class DecisionStatus {
+    approved, failed, pending,
 }

@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
 import android.view.View
+import androidx.activity.addCallback
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.navGraphViewModels
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Result
@@ -23,6 +26,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import com.dojah.sdk_kyc.ui.utils.*
+import com.google.android.material.shape.MaterialShapeDrawable
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -40,10 +46,12 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
         super.onCreate(savedInstanceState)
         govViewModel.submitGovLiveData.observe(this) {
             if (it is Result.Loading) {
-                showLoading("Loading...")
+                showLoading()
             } else {
                 dismissLoading()
+                govViewModel.resetSubmitGovLiveData()
                 if (it is Result.Success) {
+                    hideError()
                     navViewModel.navigateNextStep(args = Bundle().apply {
                         putString(
                             NavArguments.option,
@@ -51,10 +59,36 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                         )
                     })
                 } else if (it is Result.Error) {
-                    navViewModel.navigate(Routes.error_fragment, args = Bundle().apply {
-                        putString(NavArguments.option, viewModel.getErrorMessage(it))
-                    })
+                    if (it is Result.Error.ApiError) {
+                        binding.root.post {
+                            binding.apply {
+                                errorTag.text = viewModel.getErrorMessage(
+                                    it,
+                                    page = KycPages.GOVERNMENT_DATA,
+                                    govDataViewModel = govViewModel
+                                )
+                                errorTag.isVisible = true
+                                infoTag.isVisible = false
+                            }
+                        }
+                        return@observe
+                    }
+                    hideError()
+                    navigateToErrorPage(
+                        it,
+                        page = KycPages.GOVERNMENT_DATA,
+                        govDataViewModel = govViewModel
+                    )
                 }
+            }
+        }
+    }
+
+    private fun hideError() {
+        binding.root.post {
+            binding.apply {
+                errorTag.isVisible = false
+                infoTag.isVisible = false
             }
         }
     }
@@ -65,28 +99,47 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
         val verificationMethods = govViewModel.getVerifyMethods(viewModel)
 
         binding.apply {
+            errorTag.background = MaterialShapeDrawable().apply {
+                setTint(ContextCompat.getColor(requireContext(), R.color.error_bg_color))
+
+                setCornerSize(30.toFloat())
+
+            }
+            errorTag.isVisible = false
+            requireActivity().onBackPressedDispatcher.addCallback {
+                if (popupWindow?.isShowing == true) {
+                    popupWindow?.dismiss()
+                } else {
+                    navViewModel.popBackStack()
+                }
+            }
             govViewModel.selectedGovDataLiveData.observe(viewLifecycleOwner) {
                 spinnerTextGid.setText(it?.name)
                 updateUIwithSelectedGovId(it)
             }
 
-            govViewModel.selectGovIdentity(gIds?.first())
+            govViewModel.prefillGovIdentity(gIds?.first())
+            prefillVerificationMethod(verificationMethods)
 
-            verificationMethods?.isNotEmpty().also { noVerifyMethod ->
+            (verificationMethods?.isNotEmpty() == true && verificationMethods.size > 1).also { noVerifyMethod ->
                 inputVerifyWith.isVisible = noVerifyMethod == true
                 textVerifyWith.isVisible = noVerifyMethod == true
             }
             spinnerTextGid.setOnClickListener {
+
                 displaySpinnerDropdown(it, gIds?.map { enum -> enum?.name ?: "" }, false) { index ->
                     val type = gIds?.get(index)
                     govViewModel.selectGovIdentity(type)
+                    prefillVerificationMethod(verificationMethods)
                 }
             }
 
             spinnerVerifyWith.setOnClickListener {
-                displaySpinnerDropdown(it, verificationMethods, false) { index ->
+//                logger.log("popupWindow?.isShowing: ${popupWindow?.isShowing}}")
+                val tmpMethods = getFilteredMethods(verificationMethods)
+                displaySpinnerDropdown(it, tmpMethods, false) { index ->
                     val verifyType =
-                        verificationMethods?.get(index) ?: return@displaySpinnerDropdown
+                        tmpMethods?.get(index) ?: return@displaySpinnerDropdown
                     govViewModel.selectVerificationType(verifyType)
                     spinnerVerifyWith.setText(verifyType)
                 }
@@ -102,16 +155,18 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                     showShortToast("Please select a verification method")
                     return@setOnClickListener
                 }
+
                 val selectedID = govViewModel.selectedGovDataLiveData.value
                 val maxLength = selectedID?.maxLength?.toIntOrNull()
                 val minLength = selectedID?.minLength?.toIntOrNull()
 
                 val inputText = textEdtBvn.text
-                if (maxLength == null || minLength == null) {
-                    textEdtBvn.error = null
-                } else if (inputText.isNullOrBlank()) {
+                if (inputText.isNullOrBlank()) {
                     textEdtBvn.error = "Invalid input"
                     return@setOnClickListener
+                }
+                if (maxLength == null || minLength == null) {
+                    textEdtBvn.error = null
                 } else if ((inputText.length > maxLength)) {
                     textEdtBvn.error = "Invalid input, maximum value is $maxLength"
                     return@setOnClickListener
@@ -130,7 +185,34 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
 //            performOperationOnActivityAvailable {}
 
 
-            Timber.d("onCreateView>> toggleRewardBanner")
+        }
+    }
+
+    private fun FragmentGovDataBinding.prefillVerificationMethod(verificationMethods: List<String>?) {
+        govViewModel.viewModelScope.launch {
+            delay(200)
+            val tmpMethods = getFilteredMethods(verificationMethods)
+            if (tmpMethods?.size == 1) {
+                val verifyType =
+                    tmpMethods.first()
+                govViewModel.selectVerificationType(verifyType)
+                spinnerVerifyWith.setText(verifyType)
+            } else {
+                govViewModel.selectVerificationType(null)
+                spinnerVerifyWith.text = null
+            }
+        }
+    }
+
+    private fun getFilteredMethods(verificationMethods: List<String>?): List<String>? {
+        if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id) {
+            return verificationMethods?.filter { method ->
+                logger.log("prefillVerificationMethod each origin: $method")
+
+                return@filter method.lowercase() != VerificationType.OTP.serverKey.lowercase()
+            }
+        } else {
+            return verificationMethods
         }
     }
 

@@ -18,7 +18,7 @@ data class VninEntity(
     val surname: String?,
     @SerializedName("user_id")
     val userIdd: String?,
-    val vnin: String?
+    val vnin: String?,
 ) : GovIdEntityInterface {
     override val dob: String?
         get() = dateOfBirth
@@ -34,4 +34,6 @@ data class VninEntity(
         get() = photo
     override val phoneNumber: String?
         get() = mobile
+    override val customerID: String?
+        get() = userIdd
 }

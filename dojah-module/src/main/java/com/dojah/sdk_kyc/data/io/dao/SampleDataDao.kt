@@ -1,12 +1,12 @@
-package com.dojah.sdk_kyc.data.io.dao
-
-import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteQuery
-import kotlinx.coroutines.flow.Flow
-
-@Dao
-interface SampleDataDao {
-
+//package com.dojah.sdk_kyc.data.io.dao
+//
+//import androidx.room.*
+//import androidx.sqlite.db.SupportSQLiteQuery
+//import kotlinx.coroutines.flow.Flow
+//
+//@Dao
+//interface SampleDataDao {
+//
 //    @Insert
 //    suspend fun insertNotifications(notifications: List<Notification>)
 //
@@ -18,4 +18,4 @@ interface SampleDataDao {
 //
 //    @RawQuery(observedEntities = [Notification::class])
 //    fun unseenCount(query: SupportSQLiteQuery): Flow<Int>
-}
+//}
