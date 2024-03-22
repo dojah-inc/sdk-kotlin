@@ -145,16 +145,8 @@ class PreviewSelfieFragment : ErrorFragment() {
                 throw Exception("Uri is null")
             }
             govViewModel.startLoadingImageAnalysis()
-            govViewModel.viewModelScope.launch {
-                val resizedImage = Resizer(requireContext())
-                    .setTargetLength(1080)
-                    .setQuality(80)
-                    .setOutputFilename("resized_image")
-                    .setSourceImage(uri.toFile())
-                    .resizedFile
-                verificationImage = resizedImage.readBytes().toByteString().base64()
-                govViewModel.performImageAnalysis(verificationImage!!)
-            }
+            verificationImage = uri.toFile().readBytes().toByteString().base64()
+            govViewModel.performImageAnalysis(verificationImage!!)
         } else {
             viewModel.viewModelScope.launch {
                 delay(2000)

@@ -1,5 +1,7 @@
 package com.dojah.sdk_kyc.ui.main.fragment.datacollection
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -106,11 +108,11 @@ class PreviewDocFragment : ErrorFragment() {
             }
 
             if (it is Result.Error) {
-            govViewModel.resetDocTypeLiveData()
+                govViewModel.resetDocTypeLiveData()
                 ///show error
                 navigateToErrorPage(it)
             } else if (it is Result.Success) {
-            govViewModel.resetDocTypeLiveData()
+                govViewModel.resetDocTypeLiveData()
                 navViewModel.navigateNextStep()
             }
 
@@ -193,6 +195,7 @@ class PreviewDocFragment : ErrorFragment() {
                         navViewModel.navigate(Routes.capture_back_doc_route)
                     }
                 } else {
+                    //start loading
                     val (verificationImage1, image2) = getActualUriImages(isDocUpload)
                     verificationImage1?.let { image1 ->
                         if (isOtherDocPage) {
