@@ -151,6 +151,14 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                     showShortToast("Please select a government ID")
                     return@setOnClickListener
                 }
+
+                if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id &&
+                    verificationMethods?.size == 1 &&
+                    verificationMethods.first().lowercase() == VerificationType.OTP.serverKey.lowercase()
+                    ) {
+                    showShortToast("No verification method available for Driver's License")
+                    return@setOnClickListener
+                }
                 if (govViewModel.verificationTypeLiveData.value == null) {
                     showShortToast("Please select a verification method")
                     return@setOnClickListener
