@@ -2,19 +2,22 @@ package com.dojah.sdk_kyc.ui.base
 
 import android.os.Bundle
 import androidx.annotation.IdRes
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavType
+import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Event
 import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.repository.DojahRepository
 import com.dojah.sdk_kyc.domain.responses.AuthResponse
 import com.dojah.sdk_kyc.domain.responses.DecisionResponse
-import com.dojah.sdk_kyc.domain.responses.Step
-import com.dojah.sdk_kyc.ui.utils.KycPages
+import com.dojah.sdk_kyc.domain.responses.SimpleResponseEntity
+import com.dojah.sdk_kyc.ui.main.MainActivity
+import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.DecisionStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.onStart
@@ -127,6 +130,47 @@ class NavigationViewModel @Inject constructor(
                     _finalDecisionLiveData.postValue(it)
                 }
         }
+    }
+
+    fun resumeOngoingVerification(
+        activity: MainActivity,
+        emailEntity: SimpleResponseEntity?,
+    ) {
+        if (emailEntity?.continueVerification == true) {
+            updateCurrentSteps(
+                emptyList()
+            )
+
+            activity.handleNavigations(isReset = true)
+
+        } else if (emailEntity?.duplicateReference == true) {
+            if (emailEntity.result?.entity?.verificationStatus?.lowercase() == DecisionStatus.pending.name) {
+                navigate(
+                    "${Routes.success_route}/${
+                        ContextCompat.getString(
+                            activity,
+                            R.string.error_verification_pending
+                        )
+                    }"
+                )
+            } else {
+                navigate(
+                    "${Routes.success_route}/${
+                        ContextCompat.getString(
+                            activity,
+                            R.string.error_verification_success
+                        )
+                    }"
+                )
+            }
+        } else {
+           navigateNextStep()
+        }
+    }
+
+    fun updateCurrentSteps(steps: List<String>) {
+        val stepsDeque = ArrayDeque(steps)
+        _currentStepLiveData.postValue(stepsDeque)
     }
 
     private val authDataFromPref: AuthResponse?

@@ -30,6 +30,7 @@ class DocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
 
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
     private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val viewModelActivity by activityViewModels<VerificationViewModel> { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
     private var verificationType: String? = null
@@ -38,13 +39,18 @@ class DocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.getString(NavArguments.option).also {
+            logger.log("doc Args: $it")
+        }
+
         govViewModel.submitGovLiveData.observe(this) {
             if (it is Result.Loading) {
                 showLoading()
-            }else{
+            } else {
                 dismissLoading()
                 if (it is Result.Success) {
                     navViewModel.navigateNextStep()
+                    logger.log("id options triggered")
                     govViewModel.resetSubmitGovLiveData()
                 } else if (it is Result.Error) {
                     navigateToErrorPage(it)
@@ -83,7 +89,10 @@ class DocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
                     showShortToast("Please select a document type")
                     return@setOnClickListener
                 }
-                govViewModel.logIdOptionEvents(viewModel)
+                govViewModel.logIdOptionEvents(
+                    navGraphVm = viewModel,
+                    activityVm = viewModelActivity
+                )
             }
 
             performOperationOnActivityAvailable {

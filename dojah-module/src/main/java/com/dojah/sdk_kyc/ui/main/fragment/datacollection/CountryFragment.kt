@@ -131,7 +131,7 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
     private fun reloadCountries() {
         val serverCountries = viewModel.getCountriesFullFromPrefs(requireContext())
         val userCountry = viewModel.getUserCountryFromPrefs()
-        viewModel.getCountries()
+        viewModel.loadCountries()
         viewModel.countryLiveData.observe(viewLifecycleOwner) {
             binding.layoutSpinner.apply {
                 onCountrySelected = { country ->

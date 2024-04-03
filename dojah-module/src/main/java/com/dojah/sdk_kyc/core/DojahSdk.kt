@@ -23,12 +23,14 @@ object DojahSdk {
         return this
     }
 
-    fun launch(widgetId: String) {
+    fun launch(widgetId: String, referenceId: String?=null, email: String?=null) {
         if (context == null) {
-            throw Exception("You have to call with function first")
+            throw Exception("You have to call the with(...) function first")
         }
         context!!.startActivity(Intent(context, SplashActivity::class.java).apply {
             putExtra("widget_id", widgetId)
+            putExtra("reference_id", referenceId)
+            putExtra("email", email)
         })
     }
 }

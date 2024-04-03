@@ -94,8 +94,11 @@ class CaptureSelfieFragment : ErrorFragment() {
                 }
             }
 
+//            val currentPageName =
+//                navViewModel.currentPage ?: KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
+//            val isFront = viewModel.getStepWithPageName(currentPageName)?.config?.flipCamera?:false
             //start camera
-            CameraUtil.startCamera(requireParentFragment(), binding.camera, isVideo = isVideo) {
+            CameraUtil.startCamera(requireParentFragment(), binding.camera, isVideo = isVideo ) {
                 progressBg.isVisible = it == PreviewView.StreamState.IDLE
                 progress.isVisible = it == PreviewView.StreamState.IDLE
             }

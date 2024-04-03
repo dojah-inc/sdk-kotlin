@@ -1,14 +1,12 @@
 package com.dojah.sdk_kyc.ui.base
 
 import android.os.Bundle
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.dojah.sdk_kyc.BuildConfig
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Result
@@ -79,14 +77,23 @@ open class ErrorFragment : Fragment {
     }
 
     fun navigateToErrorPage(
-        it: Result.Error,
+        errorObject: Result.Error,
         page: KycPages? = null,
         govDataViewModel: GovDataViewModel? = null,
     ) {
         navViewModel.navigate(Routes.error_fragment, args = Bundle().apply {
             putString(
                 NavArguments.option,
-                viewModel.getErrorMessage(it, page = page, govDataViewModel = govDataViewModel)
+                viewModel.getErrorMessage(errorObject, page = page, govDataViewModel = govDataViewModel)
+            )
+        })
+    }
+
+    fun navigateToErrorPage(errorMessage: String) {
+        navViewModel.navigate(Routes.error_fragment, args = Bundle().apply {
+            putString(
+                NavArguments.option,
+                errorMessage
             )
         })
     }
@@ -164,11 +171,15 @@ open class ErrorFragment : Fragment {
     }
 
     fun showLoading() {
-        (requireActivity() as MainActivity).showLoading()
+        performOperationOnActivityAvailable {
+            (requireActivity() as MainActivity).showLoading()
+        }
     }
 
     fun dismissLoading() {
-        (requireActivity() as MainActivity).dismissLoading()
+        performOperationOnActivityAvailable {
+            (requireActivity() as MainActivity).dismissLoading()
+        }
     }
 
     override fun onDestroy() {

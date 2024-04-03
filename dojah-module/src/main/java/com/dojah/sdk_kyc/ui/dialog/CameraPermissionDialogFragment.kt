@@ -22,7 +22,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CameraPermissionDialogFragment : BottomSheetDialogFragment() {
     companion object {
-        const val EXTRA_MESSAGE = "com.dojah.sdk_kyc.EXTRA_MESSAGE"
 
         fun getInstance(): CameraPermissionDialogFragment {
             return CameraPermissionDialogFragment()

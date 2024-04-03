@@ -97,6 +97,8 @@
     <string name="something_is_broken">Something is broken</string>
     <string name="it_looks_like_something_isn_t_connecting_right_please_verify_your_entry_or_give_a_page_refresh_a_try">It looks like something isn\'t connecting right. Please verify your entry or give a page refresh a try.</string>
     <string name="no_face_detected">No face detected</string>
+    <string name="success_title">Verification successful</string>
+    <string name="success_details">Your identification has been successfully verified.</string>
     <string name="error_verification_failed">Your identification cannot be verified.</string>
     <string name="error_verification_success">Your identification has been successfully verified.|verify99|Verification successful</string>
     <string name="error_verification_pending">Your identification process is awaiting approval.|verify99|Verification awaiting approval</string>

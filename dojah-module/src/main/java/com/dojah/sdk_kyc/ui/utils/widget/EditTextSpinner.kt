@@ -9,6 +9,7 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.*
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.core.content.ContextCompat
@@ -52,6 +53,9 @@ class EditTextSpinner : LinearLayout {
     val spinnerPopUp: PopupWindow
         get() = spinnerPopup
 
+    val editText: EditText
+        get() = binding.textInputDigits.editText!!
+
     private var strokeWidthFocused = 0
 
     private var strokeWidth = 0
@@ -63,6 +67,7 @@ class EditTextSpinner : LinearLayout {
     private var textInputText = ""
 
     private var selectedCountryId = ""
+    private var selectedCountry: Country? = null
 
     private val errorColor by lazy { ContextCompat.getColor(context, R.color.red) }
 
@@ -211,7 +216,11 @@ class EditTextSpinner : LinearLayout {
         doOnLayout {
             val popupHeight =
                 context.resources.getDimension(R.dimen.height_dropdown_spinner_dialog).toInt()
-            spinnerPopup = PopupWindow(spinnerLayout.root, measuredWidth, WindowManager.LayoutParams.WRAP_CONTENT).apply {
+            spinnerPopup = PopupWindow(
+                spinnerLayout.root,
+                measuredWidth,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            ).apply {
                 elevation = 1.0.toFloat()
                 isOutsideTouchable = true
                 isTouchable = true
@@ -364,6 +373,7 @@ class EditTextSpinner : LinearLayout {
 
     private fun setSelectedItem(item: Country) {
         binding.apply {
+            selectedCountry = item
             selectedCountryId = item.id
             code.text = item.code.removePrefix("+")
             imageCountry.load(item.path)
@@ -388,7 +398,19 @@ class EditTextSpinner : LinearLayout {
         }
     }
 
-    fun getText() = binding.textInputDigits.getText(withPrefix = false, withoutWhitespace = true)
+    fun getText() = binding.textInputDigits.getText(withPrefix = false, withoutWhitespace = true).trim()
+    fun getTextWithPrefix() = if (getText().startsWith("0")) {
+        val alteredPhoneNumber = getText().replaceFirst("0", selectedCountry?.code ?: "")
+//        logger.log("sendOtp alteredPhoneNumber @ 0: $alteredPhoneNumber")
+        alteredPhoneNumber
+    } else if (getText().length <= 10) {
+        val alteredPhone = "${selectedCountry?.code ?: ""}${getText()}".trim()
+//        logger.log("sendOtp alteredPhone @ <=10: $alteredPhone")
+        alteredPhone
+    } else {
+        getText()
+    }
+
 
     fun setText(phone: String) {
         binding.textInputDigits.setText(phone)

@@ -19,6 +19,7 @@ import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DecisionErrorFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DojahCountryErrorFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.DojahErrorFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.EmptyFragment
+import com.dojah.sdk_kyc.ui.main.fragment.datacollection.EnterOtpFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.PreviewDocFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.PreviewSelfieFragment
 import com.dojah.sdk_kyc.ui.main.fragment.datacollection.SuccessFragment
@@ -43,17 +44,17 @@ object Routes {
     const val decision_error_fragment = "decision_error_fragment"
     const val country_error_fragment = "country_error_fragment"
     const val success_route = "success_route"
+    const val otp_route = "otp_route"
 
     fun getOptionRoute(
         pageName: String,
-        optionPageName: String?,
-        arg: Bundle? = null
+        optionPageName: String? = null,
     ): String {
         if (optionPageName == null) {
-            return "${pageName}/${NavArguments.next_page}"
+            return "$pageName"
         }
 
-        return "${pageName}_${optionPageName}/${NavArguments.next_page}"
+        return "${pageName}_${optionPageName}"
     }
 
 }
@@ -62,6 +63,7 @@ object NavArguments {
     const val next_page = "index_next_page"
     const val plant_name = "plant_name"
     const val option = "option"
+    const val option2 = "option2"
     const val optionType = "option_type"
 }
 
@@ -81,23 +83,41 @@ class DojahNavGraph {
         }
 
         fun createRoutes(
-            controller: NavController, singleCountry: Boolean, pages: List<Step>
+            controller: NavController, pages: List<Step>, isReset: Boolean = false
         ): NavGraph {
-
+            HttpLoggingInterceptor.Logger.DEFAULT.log("pages $pages")
             controller.graph = controller.createGraph(
                 startDestination = Routes.verification_route
             ) {
-                fragment<EmptyFragment>("${Routes.index_page}/${NavArguments.next_page}") {
-                    argument(NavArguments.next_page) {
-                        type = NavType.StringType
-                    }
-                }
 
+//                val firstRoute =
+//                    if (isReset) Routes.index_page
+//                    else pages.first().let { firstPage ->
+//                        val optionPages = KycPages.findPageEnum(firstPage.name!!)?.optionPages
+//                        if (optionPages?.isNotEmpty() == true) {
+//                            Routes.getOptionRoute(
+//                                firstPage.name!!,
+//                                optionPageName = (firstPage.config?.mode
+//                                    ?: optionPages.first().first).lowercase(),
+//                            )
+//                        } else {
+//                            firstPage.name ?: KycPages.INDEX.serverKey
+//                        }
+//                    }
                 navigation(
-                    startDestination = KycPages.INDEX.serverKey,
+                    startDestination = Routes.index_page,
                     Routes.verification_route
                 ) {
 
+//                    fragment<EmptyFragment>("${Routes.index_page}/{${NavArguments.option}}/{${NavArguments.option2}}") {
+//                        argument(NavArguments.option) {
+//                            type = NavType.StringType
+//                        }
+//                        argument(NavArguments.option2) {
+//                            type = NavType.StringType
+//                        }
+//                    }
+                    fragment<EmptyFragment>(Routes.index_page)
                     fragment<CaptureSelfieFragment>(Routes.capture_selfie_fragment)
                     fragment<CaptureDocumentFragment>(Routes.capture_doc_route)
                     fragment<CaptureBackDocFragment>(Routes.capture_back_doc_route)
@@ -105,6 +125,7 @@ class DojahNavGraph {
                     fragment<UploadBackDocFragment>(Routes.upload_back_doc_route)
                     fragment<PreviewSelfieFragment>(Routes.preview_selfie_fragment)
                     fragment<PreviewDocFragment>(Routes.preview_doc_route)
+                    fragment<EnterOtpFragment>(Routes.otp_route)
                     fragment<DojahErrorFragment>("${Routes.error_fragment}/{${NavArguments.option}}") {
                         argument(NavArguments.option) {
                             type = NavType.StringType
@@ -141,8 +162,11 @@ class DojahNavGraph {
                                 val customDestination =
                                     controller.navigatorProvider[FragmentNavigator::class].createDestination()
                                         .apply {
-                                            route =
-                                                findPageEnum.serverKey
+                                            route = Routes.getOptionRoute(
+                                                findPageEnum.serverKey,
+//                                                optionPageName = optionPage.first,
+                                            )
+//                                                findPageEnum.serverKey
                                             setClassName(findPageEnum.fragmentClassName)
                                             addArgument(
                                                 NavArguments.next_page,

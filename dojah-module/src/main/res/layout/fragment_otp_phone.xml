@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
     <androidx.core.widget.NestedScrollView
@@ -15,6 +16,27 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/margin_24dp"
             android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/error_tag"
+                style="@style/TextAppearance.Dojah.ParagraphSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_16dp"
+                android:background="@color/light_error_bg"
+                android:drawablePadding="@dimen/margin_8dp"
+                android:gravity="center"
+                android:paddingVertical="4dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:textAlignment="center"
+                android:textColor="?attr/errorMessageColor"
+                android:visibility="gone"
+                app:drawableStartCompat="?attr/infoIcon"
+                app:drawableTint="?attr/errorMessageColor"
+                tools:text="Email not sent."
+                tools:visibility="visible" />
 
 
             <TextView

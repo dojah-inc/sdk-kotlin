@@ -98,19 +98,22 @@ class DojahRepository @Inject constructor(
             }
             if (result is Result.Success) {
                 //save response to sharedPref if successful
-                prefManager.saveJsonResponse(
-                    result.toJson,
-                    SharedPreferenceManager.KEY_AUTH_RESPONSE
-                )
                 prefManager.addIdToHistory(result.data)
-                prefManager.setSessionId(result.data.sessionId ?: "")
-                prefManager.setReference(result.data.initData?.authData?.referenceId ?: "")
-
+                saveAuthDetailsToPrefs(result)
             }
 
             emit(result)
 
         }.flowOn(Dispatchers.IO)
+    }
+
+    fun saveAuthDetailsToPrefs(result: Result.Success<AuthResponse>) {
+        prefManager.saveJsonResponse(
+            result.toJson,
+            SharedPreferenceManager.KEY_AUTH_RESPONSE
+        )
+        prefManager.setSessionId(result.data.sessionId ?: "")
+        prefManager.setReference(result.data.initData?.authData?.referenceId ?: "")
     }
 
     suspend fun getUserIp(): Flow<Result<GetIpResponse>> {

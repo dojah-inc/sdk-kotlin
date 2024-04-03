@@ -262,6 +262,7 @@ enum class EventTypes(val serverKey: String) {
     PHONE_NUMBER_VALIDATION("phone_number_validation"),
     VERIFICATION_TYPE_SELECTED("verification_type_selected"),
     VERIFICATION_MODE_SELECTED("verification_mode_selected"),
+    VERIFICATION_PAGE_CONFIG_COLLECTED("verifications_page_config_collected"),
     GOVERNMENT_IMAGE_COLLECTED("government_image_collected"),
     CUSTOMER_GOVERNMENT_DATA_COLLECTED("customer_government_data_collected"),
     EMAIL_COLLECTED("email_collected"),
@@ -307,13 +308,13 @@ enum class FailedReasons(val code: String, val message: String, val statusCode: 
             error: Result.Error.ApiError,
         ): FailedReasons? {
             return when (error.code ?: -1000) {
-                LOW_BALANCE.statusCode ->  LOW_BALANCE
+                LOW_BALANCE.statusCode -> LOW_BALANCE
 
                 ID_INVALID_NOT_FOUND.statusCode -> ID_INVALID_NOT_FOUND
 
-                THIRD_PARTY.statusCode ->  THIRD_PARTY
+                THIRD_PARTY.statusCode -> THIRD_PARTY
 
-                in UNKNOWN.statusCode..599 ->  UNKNOWN
+                in UNKNOWN.statusCode..599 -> UNKNOWN
 
 
                 else -> null
@@ -321,4 +322,9 @@ enum class FailedReasons(val code: String, val message: String, val statusCode: 
 
         }
     }
+}
+
+enum class StepStatus(val serverKey: String) {
+    DONE("done"),
+    NOT_DONE("notdone"),
 }

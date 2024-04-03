@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.data.io.CountryManager
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
@@ -31,11 +32,15 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import okhttp3.logging.HttpLoggingInterceptor
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.math.log
 
 @SuppressLint("StaticFieldLeak")
 @HiltViewModel
@@ -60,6 +65,7 @@ class VerificationViewModel @Inject constructor(
     private val _timerOtpDoneLiveData = MutableLiveData<Boolean>(false)
     private val _preAuthDataLiveData = MutableLiveData<Result<PreAuthResponse>>()
     private val _authDataLiveData = MutableLiveData<Result<AuthResponse>>()
+    private val _authVerificationCompletedLD = MutableLiveData<Boolean>(false)
     private val _checkIpDataLiveData = MutableLiveData<Result<CheckIpResponse>>()
     private val _getIpDataLiveData = MutableLiveData<Result<GetIpResponse>>()
     private val _authErrLiveData = MutableLiveData<String>()
@@ -72,6 +78,8 @@ class VerificationViewModel @Inject constructor(
         get() = _preAuthDataLiveData
     val authDataLiveData: LiveData<Result<AuthResponse>>
         get() = _authDataLiveData
+    val authVerificationCompletedLD: LiveData<Boolean>
+        get() = _authVerificationCompletedLD
 
     val checkIpDataLiveData: LiveData<Result<CheckIpResponse>>
         get() = _checkIpDataLiveData
@@ -89,9 +97,19 @@ class VerificationViewModel @Inject constructor(
     val eventLiveData: LiveData<Pair<EventRequest, Result<SimpleResponse>>?>
         get() = _eventLiveData
 
+    private val _mailLiveData = MutableLiveData<Pair<List<String>?, List<String>?>>()
+    val mailLiveData: LiveData<Pair<List<String>?, List<String>?>>
+        get() = _mailLiveData
+
     fun resetEventData() {
         _eventLiveData.postValue(null)
     }
+
+    fun resetAuthVerificationCompleted() {
+        //clear necessary event
+        _authVerificationCompletedLD.postValue(false)
+    }
+
 
     val frontDocUriLiveData: LiveData<Uri>
         get() = _frontDocUriLiveData
@@ -185,13 +203,20 @@ class VerificationViewModel @Inject constructor(
         _docTypeLiveData.postValue(GovDocType.enumOfValue(type))
     }
 
-    fun getCountries() {
-        countryManager.get().addCallback {
+    fun loadCountries() {
+        getCountries()?.addCallback {
             _countryLiveData.postValue(it)
         }
     }
+    fun getCountries(): CountryManager? {
+        return countryManager.get()
+    }
 
-    fun authenticate(widgetId: String) {
+    fun authenticate(
+        widgetId: String,
+        referenceId: String? = null,
+        email: String? = null,
+    ) {
         val showLoader = true
         viewModelScope.launch {
             //first delete all auth-local data
@@ -204,7 +229,12 @@ class VerificationViewModel @Inject constructor(
                     if (preAuthResult is Result.Success) {
                         saveBrandColor(preAuthResult.data.app?.colorCode)
                         //do Auth
-                        repo.doAuth(preAuthResult.data.toAuthRequest()).collect { authResult ->
+                        repo.doAuth(
+                            preAuthResult.data.toAuthRequest(
+                                referenceId = referenceId,
+                                email = email,
+                            )
+                        ).collect { authResult ->
                             _authDataLiveData.postValue(authResult)
                             if (authResult is Result.Success) {
                                 //getUserIp
@@ -212,7 +242,6 @@ class VerificationViewModel @Inject constructor(
                                     _getIpDataLiveData.postValue(ipResult)
                                     if (ipResult is Result.Success) {
                                         //verify UserIp
-
                                         repo.checkUserIp(
                                             CheckIpRequest(
                                                 ipResult.data.ip!!,
@@ -235,7 +264,14 @@ class VerificationViewModel @Inject constructor(
                                 }
 
                             } else if (authResult is Result.Error) {
-                                _authErrLiveData.postValue(getErrorMessage(authResult))
+                                if (getBodyErrorCode(authResult)?.toInt() == 402) {
+                                    logger.log("Verification resume success vm")
+                                    //show verification success screen
+                                    _authVerificationCompletedLD.postValue(true)
+                                } else {
+                                    logger.log("Verification resume fail vm")
+                                    _authErrLiveData.postValue(getErrorMessage(authResult))
+                                }
                             }
                         }
                     } else if (preAuthResult is Result.Error) {
@@ -486,6 +522,29 @@ class VerificationViewModel @Inject constructor(
         }
     }
 
+    private fun getBodyErrorCode(
+        error: Result.Error,
+    ): Number? {
+        if (error !is Result.Error.ApiError) {
+            return null
+        }
+        logger.log("Verification resume code vm actual: ${error.code}")
+        return error.error?.let { actualError ->
+            if (actualError.isEmpty()) {
+                return null
+            }
+            val tmpErr = actualError["error"]
+            logger.log("Verification resume code vm tmpErr: ${tmpErr}")
+
+            if (tmpErr is Map<*, *>) {
+            logger.log("Verification resume code vm tmpErr code: ${tmpErr["code"]}")
+                return tmpErr["code"] as Number?
+            } else {
+                return null
+            }
+        }
+    }
+
     fun getErrorMessage(
         error: Result.Error,
         page: KycPages? = null,
@@ -584,7 +643,7 @@ class VerificationViewModel @Inject constructor(
         return lastStep?.name == page.serverKey
     }
 
-    private val authDataFromPref: AuthResponse?
+     val authDataFromPref: AuthResponse?
         get() {
             return repo.getLocalResponse(
                 SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
@@ -650,7 +709,66 @@ class VerificationViewModel @Inject constructor(
         _selectedCountryLiveData.postValue(country)
     }
 
+
+    fun readMailList(context: Context) {
+        _mailLiveData.postValue(
+            readRawFile(context, R.raw.disposable) to readRawFile(context, R.raw.free)
+        )
+    }
+
+    fun isDisposableMail(searchItem: String?): Boolean {
+        val mailConfig = getStepWithPageName(KycPages.EMAIL.serverKey)?.config
+        if (mailConfig?.disposable != true) {
+            return false
+        }
+        val search = searchItem?.replaceBefore("@", "")?.replace("@", "")
+
+        return if (search?.isNotEmpty() == true) {
+            logger.log("searchItem is $search")
+            _mailLiveData.value?.first?.any { it.equals(search, ignoreCase = true) } ?: false
+        } else {
+            logger.log("searchItem is null")
+            false
+        }
+    }
+
+    fun isFreeMail(searchItem: String): Boolean {
+        val mailConfig = getStepWithPageName(KycPages.EMAIL.serverKey)?.config
+        if (mailConfig?.freeProvider != true) {
+            return false
+        }
+        val search = searchItem.replaceBefore("@", "").replace("@", "")
+        return if (search.isNotEmpty()) {
+            _mailLiveData.value?.second?.any { it.equals(search, ignoreCase = true) } ?: false
+        } else {
+            false
+        }
+    }
+
 }
+
+
+private fun readRawFile(context: Context, fileInt: Int): List<String>? {
+    val searchList = mutableListOf<String>()
+    try {
+        val inputStream = context.resources.openRawResource(fileInt)
+        val reader = BufferedReader(InputStreamReader(inputStream))
+
+        var line: String?
+        while (reader.readLine().also { line = it } != null) {
+            if (line.isNullOrBlank()) continue
+            searchList.add(line!!) // Add each line to the searchList
+        }
+
+        reader.close()
+        inputStream.close()
+        return searchList
+    } catch (e: IOException) {
+        e.printStackTrace()
+        return null
+    }
+}
+
 
 enum class DecisionStatus {
     approved, failed, pending,

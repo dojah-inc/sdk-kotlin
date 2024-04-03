@@ -24,7 +24,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Inject
 import com.dojah.sdk_kyc.ui.utils.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.zip
@@ -74,8 +73,16 @@ class GovDataViewModel @Inject constructor(
     val validateOtpLiveData: LiveData<Result<ValidateOtpResponse?>?>
         get() = _validateOtpLiveData
 
+    private val _collectEmailLiveData = MutableLiveData<Result<SimpleResponse?>?>()
+    val collectEmailLiveData: LiveData<Result<SimpleResponse?>?>
+        get() = _collectEmailLiveData
+
     fun resetValidateOtpLiveData() {
         _validateOtpLiveData.postValue(null)
+    }
+
+    fun resetCollectedEmailLiveData() {
+        _collectEmailLiveData.postValue(null)
     }
 
     private val _isResentOtpLiveData = MutableLiveData<Boolean>()
@@ -254,6 +261,9 @@ class GovDataViewModel @Inject constructor(
                     lookUpEntity?.also { entity ->
                         _lookUpLiveData.postValue(entity)
                     }
+
+                    val destination =
+                        getlookUpPhoneNumberForGovData(verifyVm, lookUpEntity?.phoneNumber)
                     /** then log [EventTypes.CUSTOMER_GOVERNMENT_DATA_COLLECTED] event
                      *
                      */
@@ -263,7 +273,18 @@ class GovDataViewModel @Inject constructor(
                         userInputId,
                         lookUpEntity,
                         stepNumber = stepNumber,
-                    ).collect { dataCollected ->
+                    ).zip(
+                        repo.logEvent(
+                            verifyVm.buildEventRequest(
+                                services,
+                                EventTypes.VERIFICATION_PAGE_CONFIG_COLLECTED.serverKey,
+                                "${_verificationTypeLiveData.value},$destination",
+                                stepNumber
+                            )
+                        )
+                    ) { dataCollected, _ ->
+                        return@zip dataCollected
+                    }.collect { dataCollected ->
                         if (dataCollected is Result.Success) {
                             /** After gov data is collected,
                              *  then zip [EventTypes.GOVERNMENT_IMAGE_COLLECTED], with
@@ -282,7 +303,13 @@ class GovDataViewModel @Inject constructor(
                                 val govCompleteResult = mergedResult.second
                                 if (govCompleteResult is Result.Success) {
                                     if (_verificationTypeLiveData.value == VerificationType.OTP) {
-                                        sendOtp(verifyVm)
+                                        if (destination != null) {
+                                            sendOtp(
+                                                verifyVm,
+                                                destination = destination,
+                                                currentRoute = KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
+                                            )
+                                        }
                                     } else {
                                         _submitGovLiveData.postValue(
                                             Result.Success(
@@ -465,16 +492,16 @@ class GovDataViewModel @Inject constructor(
         }
     }
 
-    private suspend fun sendOtp(
+    private fun getlookUpPhoneNumberForGovData(
         verifyVm: VerificationViewModel,
-        resent: Boolean = false
-    ): Flow<Result<SendOtpResponse>>? {
-        var phoneNumber = _lookUpLiveData.value?.phoneNumber
+        phone: String? = null,
+    ): String? {
+        var phoneNumber = phone ?: _lookUpLiveData.value?.phoneNumber
         if (phoneNumber == null) {
             _submitGovLiveData.postValue(
                 Result.Error.ApiError(
                     mapOf(
-                        "error" to "can't fetch phone number for this id, hence can't send otp. Please use other verification methods.",
+                        "error" to FailedReasons.OTP_NOT_SENT.message,
                     )
                 )
             )
@@ -494,8 +521,30 @@ class GovDataViewModel @Inject constructor(
         } else {
             phoneNumber
         }
-        val payload = OtpRequest(
-            phoneNumber, "kedesa", channel = "sms", 4
+        return phoneNumber
+    }
+
+    suspend fun sendOtp(
+        verifyVm: VerificationViewModel,
+        destination: String,
+        currentRoute: String,
+        resent: Boolean = false,
+        isEmail: Boolean = false,
+        onSuccess: () -> Unit? = {},
+        onError: () -> Unit? = {},
+    ): Flow<Result<SendOtpResponse>> {
+
+        //Options        ['sms', 'whatsapp', 'voice'], or 'email'
+        val payload = if (isEmail) OtpRequest(
+            email = destination,
+            senderId = "kedesa",
+            channel = "email",
+            length = 4
+        ) else OtpRequest(
+            destination = destination,
+            senderId = "kedesa",
+            channel = "sms",
+            length = 4
         )
         logger.log("Send Otp request: $payload")
         _isResentOtpLiveData.postValue(resent)
@@ -512,80 +561,269 @@ class GovDataViewModel @Inject constructor(
                         Result.Success(otpResponse.data.entity.first().status)
                     )
                     verifyVm.startTimer()
+                    onSuccess.invoke()
                 } else if (otpResponse is Result.Error) {
+                    val page = (KycPages.findPageEnum(currentRoute)
+                        ?: KycPages.GOVERNMENT_DATA_VERIFICATION)
                     logStepEvent(
-                        page = KycPages.GOVERNMENT_DATA_VERIFICATION,
+                        page = page,
                         event = EventTypes.STEP_FAILED,
                         failedReasons = FailedReasons.OTP_NOT_SENT
                     ).collect {
-                        _sendOtpLiveData.postValue(otpResponse)
-                        _submitGovLiveData.postValue(
-                            Result.Error.ApiError(
-                                code = -111, error = mapOf(
-                                    "error" to FailedReasons.OTP_NOT_SENT.message
-                                )
+                        val otpError = Result.Error.ApiError(
+                            code = -111, error = mapOf(
+                                "error" to FailedReasons.OTP_NOT_SENT.message
                             )
                         )
+                        _sendOtpLiveData.postValue(otpError)
+                        _submitGovLiveData.postValue(otpError)
+                        onError.invoke()
                     }
                 }
             }
         }
     }
 
-    fun sendOtpSync(verificationVm: VerificationViewModel, resent: Boolean = false) {
+    fun sendOtpSync(
+        verificationVm: VerificationViewModel,
+        destination: String,
+        currentRoute: String,
+        resent: Boolean = false,
+        isEmail: Boolean = false,
+    ) {
         viewModelScope.launch {
-            sendOtp(verificationVm, resent)
+            sendOtp(
+                verificationVm,
+                destination,
+                currentRoute = currentRoute,
+                resent,
+                isEmail = isEmail
+            )
         }
     }
 
-    fun validateOtp(code: String) {
-        if (_sendOtpLiveData.value !is Result.Success) {
-            throw Exception("can't fetch otp reference")
-        }
-        val sendOtpData = (_sendOtpLiveData.value as Result.Success).data
-        val referenceId = sendOtpData?.entity?.first()?.referenceId ?: ""
+    fun validateGovDataPhoneOtp(
+        code: String,
+        currentRoute: String,
+        referenceId: String,
+    ) {
         viewModelScope.launch {
             repo.validateOtp(code, referenceId)
                 .onStart {
                     _validateOtpLiveData.postValue(Result.Loading)
-                }
-                .collect {
-                    if (it is Result.Success) {
-                        if (it.data.entity.valid) {
-                            logStepEvent(
-                                KycPages.GOVERNMENT_DATA_VERIFICATION,
-                                EventTypes.STEP_COMPLETED
-                            ).collect { _ ->
-                                _validateOtpLiveData.postValue(it)
-                            }
-                        } else {
-                            logStepEvent(
-                                page = KycPages.GOVERNMENT_DATA_VERIFICATION,
-                                event = EventTypes.STEP_FAILED,
-                                failedReasons = FailedReasons.INVALID_OTP
-                            ).collect { _ ->
-                                _validateOtpLiveData.postValue(it)
-                            }
-                        }
-                    } else if (it is Result.Error) {
+                }.collect {
+                    if (it is Result.Success && it.data.entity.valid) {
                         logStepEvent(
-                            page = KycPages.GOVERNMENT_DATA_VERIFICATION,
-                            event = EventTypes.STEP_FAILED,
-                            error = it
+                            KycPages.GOVERNMENT_DATA_VERIFICATION,
+                            EventTypes.STEP_COMPLETED
                         ).collect { _ ->
                             _validateOtpLiveData.postValue(it)
                         }
+                    } else {
+                        logInvalidOtpFailedEvent(currentRoute, it)
                     }
                 }
         }
     }
 
-    fun startLoadingImageAnalysis(){
+
+    fun validateEmailOtp(
+        viewModel: VerificationViewModel, code: String, currentRoute: String,
+        sentOtpEntity: SendOtpEntity?
+    ) {
+        viewModelScope.launch {
+            if (sentOtpEntity == null) {
+                throw Exception("can't fetch otp reference")
+            }
+            val referenceId = sentOtpEntity.referenceId
+
+            repo.validateOtp(code, referenceId)
+                .onStart {
+                    _validateOtpLiveData.postValue(Result.Loading)
+                }.collect {
+                    if (it is Result.Success && it.data.entity.valid) {
+                        collectEmail(viewModel, email = sentOtpEntity.destination, it)
+                    } else {
+                        logInvalidOtpFailedEvent(currentRoute, it)
+                    }
+                }
+
+        }
+    }
+
+    fun collectEmailWithoutOtp(
+        viewModel: VerificationViewModel,
+        email: String,
+    ) {
+        viewModelScope.launch {
+            _validateOtpLiveData.postValue(Result.Loading)
+            _collectEmailLiveData.postValue(Result.Loading)
+            collectEmail(
+                viewModel,
+                email = email,
+                null
+            )
+        }
+    }
+
+
+    fun validatePhoneOtp(
+        viewModel: VerificationViewModel,
+        code: String,
+        currentRoute: String,
+        sentOtpEntity: SendOtpEntity?
+    ) {
+        viewModelScope.launch {
+            if (sentOtpEntity == null) {
+                throw Exception("can't fetch otp reference")
+            }
+            val referenceId = sentOtpEntity.referenceId
+
+            repo.validateOtp(code, referenceId)
+                .onStart {
+                    _validateOtpLiveData.postValue(Result.Loading)
+                }.collect {
+                    if (it is Result.Success && it.data.entity.valid) {
+                        collectPhoneNumber(viewModel, sentOtpEntity.destination, it)
+                    } else {
+                        logInvalidOtpFailedEvent(currentRoute, it)
+                    }
+                }
+        }
+    }
+
+    fun collectPhoneNumber(
+        viewModel: VerificationViewModel,
+        phone: String,
+    ) {
+        viewModelScope.launch {
+            _validateOtpLiveData.postValue(Result.Loading)
+            collectPhoneNumber(
+                viewModel,
+                phone,
+                Result.Success(ValidateOtpResponse(entity = ValidateOtpEntity(valid = true)))
+            )
+        }
+    }
+
+    private suspend fun collectEmail(
+        viewModel: VerificationViewModel,
+        email: String,
+        it: Result<ValidateOtpResponse>?
+    ) {
+        val stepNumber = getCurrentPage(KycPages.EMAIL.serverKey)?.id
+            ?: throw Exception("No stepNumber")
+        val duplicate = getPreAuthDataFromPref()?.widget?.duplicateCheck
+        repo.logEvent(
+            viewModel.buildEventRequest(
+                eventType = EventTypes.EMAIL_COLLECTED.serverKey,
+                eventValue = "$email,Successful,$duplicate",
+                stepNumber = stepNumber
+            )
+        ).collect { emailResponse ->
+            if (emailResponse is Result.Success) {
+                logStepEvent(
+                    KycPages.EMAIL,
+                    EventTypes.STEP_COMPLETED
+                ).collect { _ ->
+                    ///update auth data
+                    val emailEntity = emailResponse.data.entity
+                    if (emailEntity?.continueVerification == true) {
+                        val authDataFromPref =
+                            getAuthDataFromPref() ?: throw Exception("No auth data")
+
+                        repo.saveAuthDetailsToPrefs(
+                            Result.Success(
+                                authDataFromPref.copyUpdateFromEmail(emailResponse.data)
+                            )
+                        )
+                    }
+
+                    _validateOtpLiveData.postValue(it)
+                    _collectEmailLiveData.postValue(emailResponse)
+                }
+            } else if (emailResponse is Result.Error) {
+                logStepEvent(
+                    KycPages.EMAIL,
+                    EventTypes.STEP_FAILED
+                ).collect { _ ->
+                    _validateOtpLiveData.postValue(emailResponse)
+                    _collectEmailLiveData.postValue(emailResponse)
+                }
+
+            }
+        }
+    }
+
+    private suspend fun collectPhoneNumber(
+        viewModel: VerificationViewModel,
+        phone: String,
+        it: Result<ValidateOtpResponse>
+    ) {
+        val stepNumber = getCurrentPage(KycPages.PHONE_NUMBER.serverKey)?.id
+            ?: throw Exception("No stepNumber")
+        repo.logEvent(
+            viewModel.buildEventRequest(
+                eventType = EventTypes.PHONE_NUMBER_VALIDATION.serverKey,
+                eventValue = "${phone.replace("+", "")},Successful",
+                stepNumber = stepNumber
+            )
+        ).collect { phoneResponse ->
+            if (phoneResponse is Result.Success) {
+                logStepEvent(
+                    KycPages.PHONE_NUMBER,
+                    EventTypes.STEP_COMPLETED
+                ).collect { _ ->
+                    _validateOtpLiveData.postValue(it)
+                }
+            } else if (phoneResponse is Result.Error) {
+                logStepEvent(
+                    KycPages.PHONE_NUMBER,
+                    EventTypes.STEP_FAILED
+                ).collect { _ ->
+                    _validateOtpLiveData.postValue(phoneResponse)
+                }
+
+            }
+        }
+    }
+
+
+    private suspend fun logInvalidOtpFailedEvent(
+        currentRoute: String,
+        it: Result<ValidateOtpResponse>
+    ) {
+        val page = (KycPages.findPageEnum(currentRoute)
+            ?: KycPages.GOVERNMENT_DATA_VERIFICATION)
+        if (it is Result.Success) {
+            if (!it.data.entity.valid) {
+                logStepEvent(
+                    page = page,
+                    event = EventTypes.STEP_FAILED,
+                    failedReasons = FailedReasons.INVALID_OTP
+                ).collect { _ ->
+                    _validateOtpLiveData.postValue(it)
+                }
+            }
+        } else if (it is Result.Error) {
+            logStepEvent(
+                page = page,
+                event = EventTypes.STEP_FAILED,
+                error = it
+            ).collect { _ ->
+                _validateOtpLiveData.postValue(it)
+            }
+        }
+    }
+
+    fun startLoadingImageAnalysis() {
         _imageAnalysisLiveData.postValue(Result.Loading)
     }
+
     fun performImageAnalysis(
         image: String,
-        imageType: String? = verificationTypeLiveData.value?.actualServerKey
+        imageType: String? = verificationTypeLiveData.value?.actualServerKey,
+        currentRoute: String?= null
     ) {
         viewModelScope.launch {
             if (imageType == null) throw Exception("verification type is null")
@@ -596,7 +834,7 @@ class GovDataViewModel @Inject constructor(
                     if (it is Result.Success) {
                         val faceResult = it.data.entity?.face
                         val config =
-                            getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)?.config
+                            getCurrentPage(currentRoute?:KycPages.GOVERNMENT_DATA.serverKey)?.config
                         if (faceResult?.faceSuccess(config) == false) {
                             if (_analysisRetryCountLiveData.value!! < analysisRetryMax) {
                                 _analysisRetryCountLiveData.postValue(
@@ -692,12 +930,14 @@ class GovDataViewModel @Inject constructor(
             if (page == KycPages.BUSINESS_ID) "BUSINESS"
             else
                 getServerEnumValueOfDocType(
-                    docType = mainVm.docTypeLiveData.value ?: throw Exception("Doc type is null"),
+                    docType = mainVm.docTypeLiveData.value
+                        ?: throw Exception("Doc type is null"),
                     selectedCountryCode = mainVm.selectedCountryLiveData.value?.id
                         ?: throw Exception("Country code is null")
                 )
-        val fileInfo = mainVm.docInfoLiveData.value?.first ?: mainVm.docInfoLiveData.value?.second
-        ?: throw Exception("can't fetch doc info")
+        val fileInfo =
+            mainVm.docInfoLiveData.value?.first ?: mainVm.docInfoLiveData.value?.second
+            ?: throw Exception("can't fetch doc info")
         val retryCount = _docAnalysisRetryCountLiveData.value ?: Pair(0, 0)
         val continueVerify =
             retryCount.first >= analysisRetryMax &&
@@ -995,22 +1235,24 @@ class GovDataViewModel @Inject constructor(
                 ?: throw Exception("No information")
 
 
-    fun logIdOptionEvents(mainVm: VerificationViewModel) {
+    fun logIdOptionEvents(navGraphVm: VerificationViewModel, activityVm: VerificationViewModel) {
         viewModelScope.launch {
             val stepNumber = getCurrentPage(KycPages.ID_OPTION.serverKey)?.id
                 ?: throw Exception("No stepNumber")
 
             val selectedTypeServerEnum = getServerEnumOfDocType(
-                mainVm.docTypeLiveData.value ?: throw Exception("Doc type is null"),
-                selectedCountryCode = mainVm.selectedCountryLiveData.value?.id
+                navGraphVm.docTypeLiveData.value ?: activityVm.docTypeLiveData.value
+                ?: throw Exception("Doc type is null"),
+                selectedCountryCode = navGraphVm.selectedCountryLiveData.value?.id
+                    ?: activityVm.selectedCountryLiveData.value?.id
                     ?: throw Exception("Country code is null")
             )
-            val typeSelectEventRequest = mainVm.buildEventRequest(
+            val typeSelectEventRequest = navGraphVm.buildEventRequest(
                 eventType = EventTypes.VERIFICATION_TYPE_SELECTED.serverKey,
                 eventValue = selectedTypeServerEnum,
                 stepNumber = stepNumber,
             )
-            val modeSelectEventRequest = mainVm.buildEventRequest(
+            val modeSelectEventRequest = navGraphVm.buildEventRequest(
                 eventType = EventTypes.VERIFICATION_MODE_SELECTED.serverKey,
                 eventValue = "LIVENESS",
                 stepNumber = stepNumber,
@@ -1138,6 +1380,12 @@ class GovDataViewModel @Inject constructor(
     private fun getAuthDataFromPref(): AuthResponse? {
         return repo.getLocalResponse(
             SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
+        )?.data
+    }
+
+    private fun getPreAuthDataFromPref(): PreAuthResponse? {
+        return repo.getLocalResponse(
+            SharedPreferenceManager.KEY_PRE_AUTH_RESPONSE, PreAuthResponse::class.java
         )?.data
     }
 

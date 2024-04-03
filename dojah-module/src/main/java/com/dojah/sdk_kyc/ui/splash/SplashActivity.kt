@@ -24,6 +24,8 @@ import javax.inject.Inject
 
 const val COUNTRY_ERROR = "country_error"
 
+const val VERIFICATION_COMPLETE_ERROR = "verification_complete_error"
+
 private const val DEFAULT_ERROR = "default_error"
 
 @SuppressLint("CustomSplashScreen")
@@ -69,6 +71,27 @@ class SplashActivity : AppCompatActivity() {
 
         //observe authentication progress
 
+        viewModel.authVerificationCompletedLD.observe(this) {
+            if (it == false) {
+                return@observe
+            } else {
+                //if verification has already been completed, show success message
+                val error =
+                    VERIFICATION_COMPLETE_ERROR to getString(R.string.error_verification_success)
+                if (atomic.get().second) nextScreen(
+                    errorType = error.first,
+                    message = error.second
+                ) else {
+                    atomic.set(
+                        Triple(
+                            first = true, second = false, third = error
+                        )
+                    )
+                }
+                viewModel.resetAuthVerificationCompleted()
+            }
+        }
+
         viewModel.authErrLiveData.observe(this) {
             val error = DEFAULT_ERROR to it
             if (atomic.get().second) nextScreen(errorType = error.first, message = error.second)
@@ -96,8 +119,7 @@ class SplashActivity : AppCompatActivity() {
                     if (atomic.get().second) nextScreen(
                         errorType = error.first,
                         message = error.second
-                    )
-                    else {
+                    ) else {
                         atomic.set(
                             Triple(
                                 first = true, second = false, third = error
@@ -122,8 +144,10 @@ class SplashActivity : AppCompatActivity() {
         }
 
         val widgetId = intent.getStringExtra("widget_id") ?: throw Exception("Empty Widget ID")
+        val referenceId = intent.getStringExtra("reference_id")
+        val email = intent.getStringExtra("email")
         viewModel.prefManager.setWidgetId(widgetId)
-        viewModel.authenticate(widgetId)
+        viewModel.authenticate(widgetId, referenceId = referenceId, email = email)
 //        viewModel.authenticate("6568cae99806dc0040cb372b")
         //safe
 //        viewModel.authenticate("64e46e763a47c3003ff04266")

@@ -3,8 +3,6 @@ package com.dojah.sdk_kyc.ui.main
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
@@ -23,15 +21,14 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.get
+import androidx.navigation.navGraphViewModels
 import androidx.navigation.navOptions
-import com.airbnb.lottie.LottieProperty
-import com.airbnb.lottie.SimpleColorFilter
-import com.airbnb.lottie.model.KeyPath
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
@@ -41,9 +38,13 @@ import com.dojah.sdk_kyc.ui.main.fragment.DojahNavGraph
 import com.dojah.sdk_kyc.ui.main.fragment.NavArguments
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
 import com.dojah.sdk_kyc.ui.main.viewmodel.DecisionStatus
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.splash.COUNTRY_ERROR
+import com.dojah.sdk_kyc.ui.splash.VERIFICATION_COMPLETE_ERROR
+import com.dojah.sdk_kyc.ui.utils.FailedReasons
 import com.dojah.sdk_kyc.ui.utils.KycPages
+import com.dojah.sdk_kyc.ui.utils.VerificationType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -66,6 +67,10 @@ class MainActivity : AppCompatActivity() {
     private val navViewModel by viewModels<NavigationViewModel>()
 
     private val viewModel by viewModels<VerificationViewModel>()
+    private val govViewModel by viewModels<GovDataViewModel>()
+
+    private val logger = HttpLoggingInterceptor.Logger.DEFAULT
+
 
     @Inject
     lateinit var preferenceManager: SharedPreferenceManager
@@ -102,72 +107,93 @@ class MainActivity : AppCompatActivity() {
             val booleanExtra = intent.getBooleanExtra("sandbox", false)
             sandboxTag.isVisible = booleanExtra
 
-            val navController = findNavController(R.id.nav_host_fragment)
-            val isSingleCountry = viewModel.getCountriesFullFromPrefs(this@MainActivity)?.size == 1
-            val pages = viewModel.getPagesFromPrefs()!!
-            DojahNavGraph.createRoutes(
-                navController,
-                isSingleCountry,
-                pages
-            )
-            navController.restoreState(savedInstanceState)
-
-            observeNavigation()
-
-            setupToolbarForNavigation(navController)
-
             viewModel.getDojahAppAttribute(this@MainActivity)?.let {
                 toolbar.logoUrl = it.logo
             }
-//            this@MainActivity.updatePrimaryColor("")
-            navController.addOnDestinationChangedListener { _, destination, _ ->
-                onDestinationChanged(destination.id)
-            }
+            val navController = findNavController(R.id.nav_host_fragment)
 
-            val brandColor = SharedPreferenceManager(this@MainActivity).getMaterialButtonBgColor
-            HttpLoggingInterceptor.Logger.DEFAULT.log("BTN: Brand color: ${brandColor}")
-            if (brandColor != null) {
-                try {
-                    progressIndicator.trackColor = Color.parseColor(brandColor)
-                } catch (e: Exception) {
-                    HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
-                }
-//                progressIndicator.indeterminateDrawable?.colorFilter = PorterDuffColorFilter(
-//                    Color.parseColor(brandColor),
-//                    PorterDuff.Mode.SRC_ATOP
-//                )
-            }
+            handleNavigations(navController, savedInstanceState)
 
-            if (intent.hasExtra(EXTRA_DESTINATION)) handleDestinationIntent()
-
-            onBackPressedDispatcher.addCallback(this@MainActivity) {
+            toolbar.backView.setOnClickListener {
+                val currentRoute = navController.currentDestination?.route
                 val startDestinationRoute =
                     (navController.graph[Routes.verification_route] as NavGraph).startDestinationRoute
-                val currentRoute = navController.currentDestination?.route
-                if (currentRoute == startDestinationRoute) {
-                    //if current route is first route, exist Dojah SDK
-                    finish()
+                logger.log("start route is $startDestinationRoute")
+                if (currentRoute != startDestinationRoute) {
+                    onBackPressedDispatcher.onBackPressed()
                 } else {
-                    val isDojahRoute =
-                        pages.find { currentRoute?.contains(it.name ?: "") == true } != null
-                    // first check if current route is part of pages
-                    // fetched from server
-                    if (isDojahRoute) {
-                        //pop last route from dojah routes
-                        navViewModel.popLastDojahRoute()
-                    }
-                    //if current route is not first route, pop back stack
-                    navController.popBackStack()
+                    finish()
                 }
-            }
-            toolbar.backView.setOnClickListener {
-                onBackPressedDispatcher.onBackPressed()
             }
             toolbar.closeView.setOnClickListener {
                 finish()
             }
 
+            val brandColor = SharedPreferenceManager(this@MainActivity).getMaterialButtonBgColor
+            logger.log("BTN: Brand color: ${brandColor}")
+            if (brandColor != null) {
+                try {
+                    progressIndicator.trackColor = Color.parseColor(brandColor)
+                } catch (e: Exception) {
+                    logger.log("${e.message}")
+                }
+            }
+//            navController.addOnDestinationChangedListener { _, destination, _ ->
+//                onDestinationChanged(destination.id)
+//            }
+            if (intent.hasExtra(EXTRA_DESTINATION)) handleDestinationIntent()
+
+
         }
+    }
+
+    fun handleNavigations(
+        navController: NavController = findNavController(R.id.nav_host_fragment),
+        savedInstanceState: Bundle? = null,
+        isReset: Boolean = false,
+    ) {
+        val pages = viewModel.getPagesFromPrefs()!!
+        logger.log("all pages: $pages")
+        DojahNavGraph.createRoutes(
+            navController,
+            pages,
+            isReset
+        )
+        navController.restoreState(savedInstanceState)
+
+        if (isReset) {
+            navViewModel.finalDecisionLiveData.removeObservers(this)
+            navViewModel.currentStepLiveData.removeObservers(this)
+            navViewModel.autoNavigateLiveData.removeObservers(this)
+            navViewModel.navigationLiveData.removeObservers(this)
+            navViewModel.popBackStackLiveData.removeObservers(this)
+        }
+        observeNavigation()
+
+        setupToolbarForNavigation(navController)
+
+        onBackPressedDispatcher.addCallback(this@MainActivity) {
+            val startDestinationRoute =
+                (navController.graph[Routes.verification_route] as NavGraph).startDestinationRoute
+            HttpLoggingInterceptor.Logger.DEFAULT.log("start route is $startDestinationRoute")
+            val currentRoute = navController.currentDestination?.route
+            if (currentRoute == startDestinationRoute) {
+                //if current route is first route, exist Dojah SDK
+                finish()
+            } else {
+                val isDojahRoute =
+                    pages.find { currentRoute?.contains(it.name ?: "") == true } != null
+                // first check if current route is part of pages
+                // fetched from server
+                if (isDojahRoute) {
+                    //pop last route from dojah routes
+                    navViewModel.popLastDojahRoute()
+                }
+                //if current route is not first route, pop back stack
+                navController.popBackStack()
+            }
+        }
+
     }
 
     private fun ActivityMainDojahBinding.displayErrorStub(
@@ -182,13 +208,24 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         sandboxTag.isVisible = false
-        if (errorExtra == COUNTRY_ERROR) {
-            errorStub.layoutInflater.inflate(R.layout.fragment_error_country, root).apply {
-                findViewById<TextView>(R.id.msg).text = msgExtra
+        when (errorExtra) {
+            COUNTRY_ERROR -> {
+                errorStub.layoutInflater.inflate(R.layout.fragment_error_country, root).apply {
+                    findViewById<TextView>(R.id.msg).text = msgExtra
+                }
             }
-        } else {
-            errorStub.layoutInflater.inflate(R.layout.fragment_error, root).apply {
-                findViewById<TextView>(R.id.msg).text = msgExtra
+
+            VERIFICATION_COMPLETE_ERROR -> {
+                errorStub.layoutInflater.inflate(R.layout.success_view, root).apply {
+                    findViewById<TextView>(R.id.title).text = getString(R.string.success_title)
+                    findViewById<TextView>(R.id.msg).text = getString(R.string.success_details)
+                }
+            }
+
+            else -> {
+                errorStub.layoutInflater.inflate(R.layout.fragment_error, root).apply {
+                    findViewById<TextView>(R.id.msg).text = msgExtra
+                }
             }
         }
         return
@@ -258,7 +295,7 @@ class MainActivity : AppCompatActivity() {
 
     fun showLoading() {
         binding?.overlay?.apply {
-            background= ContextCompat.getDrawable(this@MainActivity, R.color.black)
+            background = ContextCompat.getDrawable(this@MainActivity, R.color.black)
             background?.alpha = 10
             setOnTouchListener { _, _ -> true }
         }
@@ -267,7 +304,7 @@ class MainActivity : AppCompatActivity() {
 
     fun dismissLoading() {
         binding?.overlay?.apply {
-            background= ContextCompat.getDrawable(this@MainActivity, R.color.transparent)
+            background = ContextCompat.getDrawable(this@MainActivity, R.color.transparent)
             background?.alpha = 0
             setOnTouchListener { _, _ -> false }
         }
@@ -277,7 +314,6 @@ class MainActivity : AppCompatActivity() {
     private fun observeNavigation() {
         val navController =
             findNavController(R.id.nav_host_fragment)
-
 
         navViewModel.finalDecisionLiveData.observe(this) {
             if (it == null) return@observe
@@ -319,6 +355,7 @@ class MainActivity : AppCompatActivity() {
                 navViewModel.resetDecisionLiveData()
             }
         }
+
         navViewModel.currentStepLiveData.observe(this) { it ->
             HttpLoggingInterceptor.Logger.DEFAULT.log("all routes click is $it")
         }
@@ -344,6 +381,7 @@ class MainActivity : AppCompatActivity() {
                                     viewModel.getCountriesFullFromPrefs(this)?.size == 1
 //
                                 if (isSingleCountry) {
+                                    //skip country page and auto-select the country
                                     val nextNextIndex = (nextIndex + 1).coerceAtMost(pages.size - 1)
                                     nextRoute =
                                         pages[nextNextIndex].name
@@ -352,10 +390,12 @@ class MainActivity : AppCompatActivity() {
                             }
                             navViewModel.pushNextDojahRoute(nextRoute)
                             val bundle = eventValue.first
+
                             val destination =
                                 if (bundle == null) {
                                     nextRoute
                                 } else {
+
                                     val bundleOptionName = bundle.getString(
                                         NavArguments.option, null
                                     )
@@ -364,6 +404,7 @@ class MainActivity : AppCompatActivity() {
                                         optionPageName = bundleOptionName,
                                     )
                                 }
+                            logger.log("nextRoute in main is $nextRoute")
                             navController.navigate(
                                 destination, createNavOptions(eventValue.second)
                             )
@@ -398,6 +439,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun createNavOptions(popAction: NavigationViewModel.PopAction?): NavOptions {
         return navOptions {
