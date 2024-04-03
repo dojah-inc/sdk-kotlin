@@ -80,7 +80,9 @@ class PreviewSelfieFragment : ErrorFragment() {
                     if (result is Result.Success) {
                         val faceResult = result.data?.entity?.face
                         val config =
-                            viewModel.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config
+                            viewModel.getStepWithPageName(
+                                navViewModel.currentPage ?: KycPages.GOVERNMENT_DATA.serverKey
+                            )?.config
                         HttpLoggingInterceptor.Logger.DEFAULT.log("faceResult $faceResult")
                         if (faceResult == null) {
                             errorTag.text = FailedReasons.SELFIE_NO_CAPTURE.message
@@ -146,7 +148,10 @@ class PreviewSelfieFragment : ErrorFragment() {
             }
             govViewModel.startLoadingImageAnalysis()
             verificationImage = uri.toFile().readBytes().toByteString().base64()
-            govViewModel.performImageAnalysis(verificationImage!!)
+            govViewModel.performImageAnalysis(
+                verificationImage!!,
+                currentRoute = navViewModel.currentPage
+            )
         } else {
             viewModel.viewModelScope.launch {
                 delay(2000)
@@ -201,7 +206,8 @@ class PreviewSelfieFragment : ErrorFragment() {
                     verificationImage?.let { image ->
                         govViewModel.checkLiveness(
                             image,
-                            page = KycPages.GOVERNMENT_DATA_VERIFICATION
+                            page = navViewModel.currentPage?.let { KycPages.findPageEnum(it) }
+                                ?: KycPages.GOVERNMENT_DATA_VERIFICATION
                         )
                     }
                 } else {

@@ -16,7 +16,10 @@ import com.dojah.sdk_kyc.ui.base.ErrorFragment
 import com.dojah.sdk_kyc.ui.base.NavigationViewModel
 import com.dojah.sdk_kyc.ui.dialog.CameraPermissionDialogFragment
 import com.dojah.sdk_kyc.ui.main.fragment.Routes
+import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
+import com.dojah.sdk_kyc.ui.utils.KycPages
+import com.dojah.sdk_kyc.ui.utils.VerificationType
 import com.dojah.sdk_kyc.ui.utils.delegates.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,12 +31,25 @@ class SelfieDisclaimerFragment : ErrorFragment(R.layout.dialog_selfie_disclaimer
     private lateinit var cameraContract: ActivityResultLauncher<String>
 
     private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val govDataViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (navViewModel.currentPage == KycPages.SELFIE.serverKey) {
+            val version = viewModel.getStepWithPageName(KycPages.SELFIE.serverKey)?.config?.version
+            if (version == 3) {
+                /**auto select [VerificationType.Selfie] if page
+                is standalone selfie page and version is 3 **/
+                govDataViewModel.selectVerificationType(VerificationType.Selfie.value)
+            } else {
+                /**auto select [VerificationType.SelfieVideo] if page
+                is standalone selfie page and version is not 3 **/
+                govDataViewModel.selectVerificationType(VerificationType.SelfieVideo.value)
+            }
+        }
     }
 
 
