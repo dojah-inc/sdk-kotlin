@@ -113,17 +113,17 @@
                 android:visibility="gone"
                 tools:visibility="visible"
                 >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_processing" />
+
 
                 <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
+                    android:id="@+id/processing_text"
                     style="@style/TextAppearance.Dojah.ParagraphSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_4dp"
+                    android:gravity="center"
                     android:text="@string/processing_load"
+                    android:drawableStart="@drawable/ic_processing"
                     android:textColor="@color/primary" />
             </LinearLayout>
         </RelativeLayout>

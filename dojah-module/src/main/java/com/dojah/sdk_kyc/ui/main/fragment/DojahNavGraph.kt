@@ -42,7 +42,7 @@ object Routes {
     const val preview_selfie_fragment = "preview_selfie_fragment"
     const val error_fragment = "error_fragment"
     const val decision_error_fragment = "decision_error_fragment"
-    const val country_error_fragment = "country_error_fragment"
+    const val country_error_fragment = "error_country_fragment"
     const val success_route = "success_route"
     const val otp_route = "otp_route"
 
@@ -82,6 +82,42 @@ class DojahNavGraph {
             controller.navigate("$route/$argument")
         }
 
+        fun createErrorRoutes(
+            controller: NavController,
+        ): NavGraph {
+            controller.graph = controller.createGraph(
+                startDestination = Routes.verification_route
+            ) {
+
+                navigation(
+                    startDestination = "${Routes.error_fragment}/{${NavArguments.option}}",
+                    Routes.verification_route
+                ) {
+                    fragment<DojahErrorFragment>("${Routes.error_fragment}/{${NavArguments.option}}") {
+                        argument(NavArguments.option) {
+                            type = NavType.StringType
+                            nullable = true
+                        }
+                    }
+
+                    fragment<DojahCountryErrorFragment>("${Routes.country_error_fragment}/{${NavArguments.option}}") {
+                        argument(NavArguments.option) {
+                            type = NavType.StringType
+                            nullable = true
+                        }
+                    }
+                    fragment<SuccessFragment>("${Routes.success_route}/{${NavArguments.option}}") {
+                        argument(NavArguments.option) {
+//                            type = NavType.StringType
+                            type = NavType.StringType
+                            nullable = true
+                        }
+                    }
+                }
+            }
+            return controller.graph
+        }
+
         fun createRoutes(
             controller: NavController, pages: List<Step>, isReset: Boolean = false
         ): NavGraph {
@@ -90,33 +126,10 @@ class DojahNavGraph {
                 startDestination = Routes.verification_route
             ) {
 
-//                val firstRoute =
-//                    if (isReset) Routes.index_page
-//                    else pages.first().let { firstPage ->
-//                        val optionPages = KycPages.findPageEnum(firstPage.name!!)?.optionPages
-//                        if (optionPages?.isNotEmpty() == true) {
-//                            Routes.getOptionRoute(
-//                                firstPage.name!!,
-//                                optionPageName = (firstPage.config?.mode
-//                                    ?: optionPages.first().first).lowercase(),
-//                            )
-//                        } else {
-//                            firstPage.name ?: KycPages.INDEX.serverKey
-//                        }
-//                    }
                 navigation(
                     startDestination = Routes.index_page,
                     Routes.verification_route
                 ) {
-
-//                    fragment<EmptyFragment>("${Routes.index_page}/{${NavArguments.option}}/{${NavArguments.option2}}") {
-//                        argument(NavArguments.option) {
-//                            type = NavType.StringType
-//                        }
-//                        argument(NavArguments.option2) {
-//                            type = NavType.StringType
-//                        }
-//                    }
                     fragment<EmptyFragment>(Routes.index_page)
                     fragment<CaptureSelfieFragment>(Routes.capture_selfie_fragment)
                     fragment<CaptureDocumentFragment>(Routes.capture_doc_route)

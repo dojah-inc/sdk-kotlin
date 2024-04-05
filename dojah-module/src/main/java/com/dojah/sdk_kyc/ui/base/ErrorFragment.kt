@@ -67,8 +67,14 @@ open class ErrorFragment : Fragment {
                     }
                     viewModel.resetEventData()
 
-                } else {
-                    navViewModel.navigate(Routes.error_fragment)
+                } else if (it.second is Result.Error) {
+                    val errorObject = it.second as Result.Error
+                    navViewModel.navigate(Routes.error_fragment, args = Bundle().apply {
+                        putString(
+                            NavArguments.option,
+                            viewModel.getErrorMessage(errorObject)
+                        )
+                    })
                     viewModel.resetEventData()
 
                 }
@@ -84,7 +90,11 @@ open class ErrorFragment : Fragment {
         navViewModel.navigate(Routes.error_fragment, args = Bundle().apply {
             putString(
                 NavArguments.option,
-                viewModel.getErrorMessage(errorObject, page = page, govDataViewModel = govDataViewModel)
+                viewModel.getErrorMessage(
+                    errorObject,
+                    page = page,
+                    govDataViewModel = govDataViewModel
+                )
             )
         })
     }

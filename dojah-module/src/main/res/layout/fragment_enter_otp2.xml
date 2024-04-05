@@ -15,7 +15,7 @@
         android:gravity="center"
         android:text="@string/enter_the_code_sent" />
 
-    <com.otpview.OTPTextView
+    <com.dojah.sdk_kyc.ui.utils.widget.otp_view.OTPTextView
         android:id="@+id/otp_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

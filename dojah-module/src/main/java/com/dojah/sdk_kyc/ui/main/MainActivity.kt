@@ -5,29 +5,31 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
+import android.widget.FrameLayout
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.get
-import androidx.navigation.navGraphViewModels
 import androidx.navigation.navOptions
 import com.dojah.sdk_kyc.R
 import com.dojah.sdk_kyc.core.Result
@@ -42,9 +44,8 @@ import com.dojah.sdk_kyc.ui.main.viewmodel.GovDataViewModel
 import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.splash.COUNTRY_ERROR
 import com.dojah.sdk_kyc.ui.splash.VERIFICATION_COMPLETE_ERROR
-import com.dojah.sdk_kyc.ui.utils.FailedReasons
 import com.dojah.sdk_kyc.ui.utils.KycPages
-import com.dojah.sdk_kyc.ui.utils.VerificationType
+import com.squareup.okhttp.Route
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -87,20 +88,15 @@ class MainActivity : AppCompatActivity() {
             binding = this
             setContentView(root)
             attachKeyboardListeners()
-
+            findViewById<View>(R.id.nav_host_fragment).isVisible = true
 
             val errorExtra = intent.getStringExtra("error")
             val msgExtra = intent.getStringExtra("message")
             if (errorExtra != null) {
                 ///If there is an auth error redirect to error page.
-                displayErrorStub(errorExtra, msgExtra)
+                displayError(errorExtra, msgExtra)
                 return@apply
-            } else {
-//                Toast.makeText(this@MainActivity, "Error is null", Toast.LENGTH_SHORT)
-//                    .show()
-                findViewById<View>(R.id.nav_host_fragment).isVisible = true
             }
-
 
             hideKeyboard(root)
 
@@ -138,11 +134,6 @@ class MainActivity : AppCompatActivity() {
                     logger.log("${e.message}")
                 }
             }
-//            navController.addOnDestinationChangedListener { _, destination, _ ->
-//                onDestinationChanged(destination.id)
-//            }
-            if (intent.hasExtra(EXTRA_DESTINATION)) handleDestinationIntent()
-
 
         }
     }
@@ -160,6 +151,9 @@ class MainActivity : AppCompatActivity() {
             isReset
         )
         navController.restoreState(savedInstanceState)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            destination.route?.let { onDestinationChanged(it) }
+        }
 
         if (isReset) {
             navViewModel.finalDecisionLiveData.removeObservers(this)
@@ -196,11 +190,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun ActivityMainDojahBinding.displayErrorStub(
+    private fun ActivityMainDojahBinding.displayError(
         errorExtra: String?,
         msgExtra: String?
     ) {
-        findViewById<View>(R.id.nav_host_fragment).isVisible = false
+        val navController = findNavController(R.id.nav_host_fragment)
+        DojahNavGraph.createErrorRoutes(
+            navController,
+        )
+
+//        findViewById<View>(R.id.nav_host_fragment).isVisible = false
         toolbar.backView.setOnClickListener {
             finish()
         }
@@ -210,25 +209,39 @@ class MainActivity : AppCompatActivity() {
         sandboxTag.isVisible = false
         when (errorExtra) {
             COUNTRY_ERROR -> {
-                errorStub.layoutInflater.inflate(R.layout.fragment_error_country, root).apply {
-                    findViewById<TextView>(R.id.msg).text = msgExtra
-                }
+                navController.navigate("${Routes.country_error_fragment}/$msgExtra")
             }
 
             VERIFICATION_COMPLETE_ERROR -> {
-                errorStub.layoutInflater.inflate(R.layout.success_view, root).apply {
-                    findViewById<TextView>(R.id.title).text = getString(R.string.success_title)
-                    findViewById<TextView>(R.id.msg).text = getString(R.string.success_details)
-                }
+                navController.navigate("${Routes.success_route}/${getString(R.string.error_verification_success)}")
             }
 
             else -> {
-                errorStub.layoutInflater.inflate(R.layout.fragment_error, root).apply {
-                    findViewById<TextView>(R.id.msg).text = msgExtra
-                }
+                navController.navigate("${Routes.error_fragment}/$msgExtra")
             }
         }
         return
+    }
+
+    private fun centerFragmentHost() {
+        findViewById<View>(R.id.scrollable_view).updateLayoutParams {
+            (this as ConstraintLayout.LayoutParams).topMargin = 0
+        }
+        findViewById<View>(R.id.nav_host_fragment).updateLayoutParams {
+            (this as FrameLayout.LayoutParams).gravity = Gravity.CENTER
+        }
+    }
+
+    private fun deCentralizeFragmentHost() {
+        findViewById<View>(R.id.scrollable_view).updateLayoutParams {
+            (this as ConstraintLayout.LayoutParams).topMargin = toPx(48).toInt()
+        }
+        findViewById<View>(R.id.nav_host_fragment).apply {
+            isVisible = true
+            updateLayoutParams {
+                (this as FrameLayout.LayoutParams).gravity = Gravity.TOP
+            }
+        }
     }
 
     private fun changeStatusBarIconToDark() {
@@ -240,37 +253,25 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun handleDestinationIntent() {
-//        makeDebugToast("Has extra")
-//        when (intent.getStringExtra(EXTRA_DESTINATION)) {
-//            DESTINATION_NOTIFICATION -> navViewModel.navigate(R.id.frag_notification)
-//        }
-    }
-
-    private fun onDestinationChanged(id: Int) {
+    private fun onDestinationChanged(route: String) {
         val noAppBarDest = listOf<Int>()
 
         val navView = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.view
 
         fun onChange() {
+            logger.log("Destination changes $route")
             binding!!.apply {
+                val centerRoutes = listOf(
+                    Routes.error_fragment,
+                    Routes.country_error_fragment,
+                )
 
-                toolbar.showBackButton = id != R.id.frag_country
-//                if(id==R.id.frag_country){
-//                    toolbar.alignLogoLeft()
-//                }
-
-//                toolbar.backView.isVisible = id != R.id.frag_country
-
-                navView?.let { toggleAppBarVisibility(it, !noAppBarDest.contains(id)) }
-
-                val marginGone =
-                    resources.getDimension(R.dimen.margin_gone_bottom_widget_toolbar_text_subtitle)
-                        .toInt()
-//                toolbar.setLayoutGoneMarginBottom(
-//                    R.id.text_subtitle,
-//                    if (id == R.id.frag_account) marginGone else 0
-//                )
+                val centerRoute = centerRoutes.find { route.contains(it) }
+                if (centerRoute != null) {
+                    centerFragmentHost()
+                } else {
+                    deCentralizeFragmentHost()
+                }
             }
         }
 
@@ -280,16 +281,6 @@ class MainActivity : AppCompatActivity() {
 
                 onChange()
             }
-        }
-    }
-
-    private fun toggleAppBarVisibility(navView: View, isVisible: Boolean) {
-        binding?.apply {
-//            appBar.isVisible = isVisible
-
-//            navView.updateLayoutParams<CoordinatorLayout.LayoutParams> {
-//                behavior = if (isVisible) AppBarLayout.ScrollingViewBehavior() else null
-//            }
         }
     }
 
@@ -485,7 +476,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResumeFragments() {
-        findNavController(R.id.nav_host_fragment).currentDestination?.let { onDestinationChanged(it.id) }
+        findNavController(R.id.nav_host_fragment).currentDestination?.let { currentDestination ->
+            currentDestination.route?.let { route ->
+                onDestinationChanged(
+                    route
+                )
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -564,3 +561,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
+fun Context.toPx(dp: Int): Float = TypedValue.applyDimension(
+    TypedValue.COMPLEX_UNIT_DIP,
+    dp.toFloat(),
+    resources.displayMetrics
+)

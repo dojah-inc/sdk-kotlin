@@ -49,18 +49,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.splash_loading)
-//        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-//            locationManager.hasPermission = it
-//            if (it) {
-//                locationManager.startLocationUpdates()
-////                onBackPressed()
-////                startActivity(Intent(this, MainActivity::class.java).apply {
-////                    putExtra("sandbox", booleanExtra)
-////                    Timber.d("sandbox extra is : $booleanExtra")
-////                })
-//            }
-//            else finish()
-//        }
 
         //First is splashscreen and second is the asset rewrite
         val atomic = AtomicReference(

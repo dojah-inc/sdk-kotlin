@@ -4,37 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/padding_horizontal_screen_dp">
 
     <TextView
         android:id="@+id/title"
+        style="@style/TextAppearance.Dojah.Header5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_24dp"
-        android:gravity="center"
         android:layout_marginBottom="@dimen/margin_30dp"
-        tools:text="@string/verification_status"
-        style="@style/TextAppearance.Dojah.Header5"
-        />
+        android:gravity="center"
+        tools:text="@string/verification_status" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/logo"
         android:layout_width="122dp"
         android:layout_height="122dp"
-        app:lottie_rawRes="?attr/verifiedAnim"
+        android:layout_gravity="center"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"
         app:lottie_colorFilter="@color/primary"
-        />
+        app:lottie_loop="true"
+        app:lottie_rawRes="?attr/verifiedAnim" />
+
     <TextView
         android:id="@+id/msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_24dp"
         android:gravity="center"
-        tools:text="@string/success_msg"
-        />
+        tools:text="@string/success_msg" />
 
 </LinearLayout>
