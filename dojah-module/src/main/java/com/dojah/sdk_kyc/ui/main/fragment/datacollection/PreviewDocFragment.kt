@@ -2,6 +2,7 @@ package com.dojah.sdk_kyc.ui.main.fragment.datacollection
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -168,6 +169,11 @@ class PreviewDocFragment : ErrorFragment() {
             errorTag.isVisible = false
             ///if analysis is needed, disable continue button
             btnContinue.isButtonEnabled = !analysisNeeded
+            //change processing loader color
+            viewModel.prefManager.getMaterialButtonBgColor?.also {
+                val color = Color.parseColor(it)
+                binding.processingText.setTextColor(color)
+            }
 
 
             val info = if (isBackDoc == true) {

@@ -61,12 +61,12 @@ class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
                 }
             }
             layoutSpinner.editText.addTextChangedListener {
-                if (layoutSpinner.getText().isEmpty()) {
+                if (layoutSpinner.getTextWithPrefix().isEmpty()) {
                     layoutSpinner.editText.error = null
                     btnContinue.isEnabled = false
                     return@addTextChangedListener
                 }
-                if (isValidPhone(layoutSpinner.getText())) {
+                if (isValidPhone(layoutSpinner.getTextWithPrefix())) {
                     layoutSpinner.editText.error = null
                     btnContinue.isEnabled = true
                 } else {

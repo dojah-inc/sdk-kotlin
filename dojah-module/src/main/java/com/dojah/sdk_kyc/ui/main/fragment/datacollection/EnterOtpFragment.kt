@@ -204,7 +204,15 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
                 }
             }
             otpView.requestFocusOTP()
-            otpView.chil
+            otpView.boxBackgroundBorderColorActive =
+                viewModel.prefManager.getMaterialButtonBgColor.let { brandColor ->
+                    if (brandColor == null) {
+                        logger.log("brand color is null")
+                        null
+                    } else {
+                        Color.parseColor(brandColor)
+                    }
+                }
             otpView.otpListener = object : OTPListener {
                 override fun onInteractionListener() {
 

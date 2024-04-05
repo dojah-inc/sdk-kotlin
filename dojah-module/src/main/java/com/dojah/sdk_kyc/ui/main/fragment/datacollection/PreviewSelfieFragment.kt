@@ -191,6 +191,11 @@ class PreviewSelfieFragment : ErrorFragment() {
             }
             errorTag.isVisible = false
             btnContinue.isButtonEnabled = false
+            //change processing loader color
+            viewModel.prefManager.getMaterialButtonBgColor?.also {
+                val color = Color.parseColor(it)
+                binding.processingText.setTextColor(color)
+            }
             title.text = verificationType?.preview
             displayCapturedView(verificationType, uri)
             val (rootView: ViewGroup, windowBackground: Drawable?) = getBlurView()
