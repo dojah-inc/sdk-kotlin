@@ -133,7 +133,7 @@ class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
 
     override fun onDestroy() {
         super.onDestroy()
-        locationManager?.stopLocationUpdates()
+        locationManager.stopLocationUpdates()
     }
 
 

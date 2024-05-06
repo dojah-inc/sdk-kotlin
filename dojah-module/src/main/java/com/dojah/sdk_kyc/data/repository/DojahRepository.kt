@@ -3,6 +3,7 @@ package com.dojah.sdk_kyc.data.repository
 import com.google.gson.Gson
 import com.dojah.sdk_kyc.core.Result
 import com.dojah.sdk_kyc.core.mock_data.enumData
+import com.dojah.sdk_kyc.core.mock_data.pricing
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.network.NetworkManager
 import com.dojah.sdk_kyc.data.network.service.DojahService
@@ -25,6 +26,7 @@ import com.dojah.sdk_kyc.domain.responses.CheckIpResponse
 import com.dojah.sdk_kyc.domain.responses.DecisionResponse
 import com.dojah.sdk_kyc.domain.responses.DocImageAnalysisResponse
 import com.dojah.sdk_kyc.domain.responses.DojahEnum
+import com.dojah.sdk_kyc.domain.responses.DojahPricing
 import com.dojah.sdk_kyc.domain.responses.DriverLicenceResponse
 import com.dojah.sdk_kyc.domain.responses.GetIpResponse
 import com.dojah.sdk_kyc.domain.responses.ImageAnalysisResponse
@@ -64,6 +66,13 @@ class DojahRepository @Inject constructor(
             val savedResponse = enumData.replace("\n", "").toResponseBody()
             return Response.success(savedResponse)
                 .getResult(DojahEnum::class.java) as Result.Success
+        }
+
+    val dojahPricing
+        get(): Result.Success<DojahPricing> {
+            val savedResponse = pricing.trimIndent().toResponseBody()
+            return Response.success(savedResponse)
+                .getResult(DojahPricing::class.java) as Result.Success
         }
 
     suspend fun doPreAuth(widgetId: String): Flow<Result<PreAuthResponse>> {
@@ -397,10 +406,11 @@ class DojahRepository @Inject constructor(
     suspend fun lookupCac(
         rcNumber: String,
         companyName: String,
+        appId: String,
     ): Flow<Result<BizLookupResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
-                val response = service.lookupCac(rcNumber, companyName)
+                val response = service.lookupCac(rcNumber, companyName,appId)
                 response.getResult(BizLookupResponse::class.java)
             }
             emit(result)
@@ -411,10 +421,11 @@ class DojahRepository @Inject constructor(
     suspend fun lookupTin(
         tin: String,
         companyName: String,
+        appId: String,
     ): Flow<Result<BizLookupResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
-                val response = service.lookUpTin(tin, companyName)
+                val response = service.lookUpTin(tin, companyName,appId)
                 response.getResult(BizLookupResponse::class.java)
             }
             emit(result)

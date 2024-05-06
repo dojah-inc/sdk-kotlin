@@ -208,6 +208,7 @@ class VerificationViewModel @Inject constructor(
             _countryLiveData.postValue(it)
         }
     }
+
     fun getCountries(): CountryManager? {
         return countryManager.get()
     }
@@ -396,29 +397,48 @@ class VerificationViewModel @Inject constructor(
         error: Result.Error? = null
     ): Flow<Result<SimpleResponse>> {
         var failureCode: String? = null
+        val services: MutableList<String> = mutableListOf()
 
+        val doVerification =
+            getStepWithPageName(page.serverKey)?.config?.verification
+                ?: false
+        /**log price if event is
+         * [EventTypes.STEP_FAILED]
+         * or [EventTypes.STEP_COMPLETED]
+         * and page == [KycPages.ADDRESS]
+         * **/
+        if (page == KycPages.ADDRESS
+            && (event == EventTypes.STEP_FAILED
+                    || event == EventTypes.STEP_COMPLETED)
+            && doVerification
+        ) {
+            repo.dojahPricing.data.verificationMap()[page.serverKey]?.verification
+                ?.also { price ->
+                    services.add(
+                        price,
+                    )
+                }
+        }
+
+        /** send Failure code if event == [EventTypes.STEP_FAILED]**/
         if (event == EventTypes.STEP_FAILED) {
-            failureCode = failedReasons?.code ?: FailedReasons.UNKNOWN.code
-            if (error is Result.Error.NetworkError || error is Result.Error.TimeoutError) {
-                return flow {
-                    emit(error)
-                }.flowOn(Dispatchers.IO)
-            } else if (error != null) {
-
-                if (error is Result.Error.ApiError) {
-                    val statusCodeReason = FailedReasons.getStatusCodeReason(error)
-                    failureCode = if (statusCodeReason == FailedReasons.THIRD_PARTY
-                        && (page == KycPages.GOVERNMENT_DATA || page == KycPages.BUSINESS_DATA)
-                    ) {
-                        FailedReasons.THIRD_PARTY.code
-                    } else {
-                        statusCodeReason?.code
-                    }
+            getFailureCode(error, page, failedReasons).also { generatedFailureCode ->
+                if (generatedFailureCode != null) {
+                    failureCode = generatedFailureCode
+                } else {
+                    flow {
+                        emit(error)
+                    }.flowOn(Dispatchers.IO)
                 }
             }
-
         }
-        val request = buildStepEventRequest(page, event, failureCode = failureCode)
+
+        val request =
+            buildStepEventRequest(
+                page, event,
+                failureCode = failureCode,
+                services = services,
+            )
         return repo.logEvent(request).apply {
             collect {
                 _eventLiveData.postValue(request to it)
@@ -483,6 +503,7 @@ class VerificationViewModel @Inject constructor(
         page: KycPages,
         event: EventTypes,
         failureCode: String? = null,
+        services: List<String> = listOf(),
     ): EventRequest {
         val verificationId =
             authDataFromPref?.initData?.authData?.verificationId
@@ -496,7 +517,8 @@ class VerificationViewModel @Inject constructor(
             eventType = event.serverKey,
             eventValue = failureCode ?: page.serverKey,
             verificationId = verificationId,
-            pageKey = page.serverKey
+            pageKey = page.serverKey,
+            services = services
         ).apply {
             logger.log("EventRequest: $this")
         }
@@ -537,7 +559,7 @@ class VerificationViewModel @Inject constructor(
             logger.log("Verification resume code vm tmpErr: ${tmpErr}")
 
             if (tmpErr is Map<*, *>) {
-            logger.log("Verification resume code vm tmpErr code: ${tmpErr["code"]}")
+                logger.log("Verification resume code vm tmpErr code: ${tmpErr["code"]}")
                 return tmpErr["code"] as Number?
             } else {
                 return null
@@ -643,7 +665,7 @@ class VerificationViewModel @Inject constructor(
         return lastStep?.name == page.serverKey
     }
 
-     val authDataFromPref: AuthResponse?
+    val authDataFromPref: AuthResponse?
         get() {
             return repo.getLocalResponse(
                 SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
@@ -767,6 +789,28 @@ private fun readRawFile(context: Context, fileInt: Int): List<String>? {
         e.printStackTrace()
         return null
     }
+}
+
+fun getFailureCode(
+    error: Result.Error?,
+    page: KycPages,
+    failedReasons: FailedReasons? = null
+): String? {
+    if (error is Result.Error.NetworkError || error is Result.Error.TimeoutError) {
+        return null
+    } else if (error != null && error is Result.Error.ApiError) {
+        val statusCodeReason = FailedReasons.getStatusCodeReason(error)
+        if (statusCodeReason != null) {
+            return if (statusCodeReason == FailedReasons.THIRD_PARTY
+                && (page == KycPages.GOVERNMENT_DATA || page == KycPages.BUSINESS_DATA)
+            ) {
+                FailedReasons.THIRD_PARTY.code
+            } else {
+                statusCodeReason.code
+            }
+        }
+    }
+    return failedReasons?.code ?: FailedReasons.UNKNOWN.code
 }
 
 

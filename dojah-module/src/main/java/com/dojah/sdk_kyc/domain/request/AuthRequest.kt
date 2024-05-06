@@ -12,11 +12,11 @@ data class AuthRequest(
     @SerializedName("type") var type: String? = null,
     @SerializedName("review_process") var reviewProcess: String? = null,
     @SerializedName("steps") var steps: List<AuthReqSteps> = listOf(),
-    @SerializedName("reference_id") var referenceId: String? = null,
-    @SerializedName("email") var email: String? = null,
     @SerializedName("duplicate_check") var duplicateCheck: Boolean? = null,
     @SerializedName("direct_feedback") var directFeedback: Boolean? = null,
     @SerializedName("rules") var rules: Widget.Rules? = Widget.Rules(),
+    @SerializedName("reference_id") var referenceId: String? = null,
+    @SerializedName("email") var email: String? = null,
 
     )
 

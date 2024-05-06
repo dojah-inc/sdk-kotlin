@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dojah.sdk_kyc.core.Result
+import com.dojah.sdk_kyc.core.util.DojahPricingUtil
 import com.dojah.sdk_kyc.data.io.CountryManager
 import com.dojah.sdk_kyc.data.io.SharedPreferenceManager
 import com.dojah.sdk_kyc.data.repository.DojahRepository
@@ -150,6 +151,11 @@ class GovDataViewModel @Inject constructor(
             return repo.getDojahEnum.data
         }
 
+    private val dojahPricing
+        get(): DojahPricing {
+            return repo.dojahPricing.data
+        }
+
     fun selectVerificationType(type: String?) {
         type?.also {
             _verificationTypeLiveData.postValue(VerificationType.enumOfValue(type))
@@ -252,11 +258,12 @@ class GovDataViewModel @Inject constructor(
                     }
                     return@collect
                 }
-                if (it.first is Result.Error) {
-                    _submitGovLiveData.postValue(it.first as Result.Error)
+                val typeSelectResult = it.first
+                if (typeSelectResult is Result.Error) {
+                    _submitGovLiveData.postValue(typeSelectResult as Result.Error)
                     return@collect
                 }
-                if (lookUpResult is Result.Success && it.first is Result.Success) {
+                if (lookUpResult is Result.Success && typeSelectResult is Result.Success) {
                     val lookUpEntity = lookUpResult.data.entity
                     lookUpEntity?.also { entity ->
                         _lookUpLiveData.postValue(entity)
@@ -337,8 +344,9 @@ class GovDataViewModel @Inject constructor(
         return if (getVerifyMethods(verifyVm)?.isEmpty() == true) {
             /** if there are no gov verification options*/
             /** log [EventTypes.STEP_COMPLETED] directly*/
-            logGovDataCompleted(
-                verifyVm, services, stepNumber
+            logStepEvent(
+                page = KycPages.GOVERNMENT_DATA,
+                event = EventTypes.STEP_COMPLETED
             )
         } else {
             /**
@@ -351,8 +359,9 @@ class GovDataViewModel @Inject constructor(
                 services,
                 stepNumber,
             ).zip(
-                logGovDataCompleted(
-                    verifyVm, services, stepNumber
+                logStepEvent(
+                    page = KycPages.GOVERNMENT_DATA,
+                    event = EventTypes.STEP_COMPLETED
                 )
             ) { _, govDataResult ->
                 return@zip govDataResult
@@ -360,21 +369,6 @@ class GovDataViewModel @Inject constructor(
         }
     }
 
-
-    private suspend fun logGovDataCompleted(
-        verificationVm: VerificationViewModel,
-        services: List<String> = listOf(),
-        stepNumber: Int,
-    ): Flow<Result<SimpleResponse>> {
-        val request = verificationVm.buildEventRequest(
-            services,
-            EventTypes.STEP_COMPLETED.serverKey,
-            KycPages.GOVERNMENT_DATA.serverKey,
-            stepNumber
-        )
-        ///log step completed event
-        return repo.logEvent(request)
-    }
 
     private suspend fun logVerifyTypeSelected(
         verificationVm: VerificationViewModel,
@@ -823,7 +817,7 @@ class GovDataViewModel @Inject constructor(
     fun performImageAnalysis(
         image: String,
         imageType: String? = verificationTypeLiveData.value?.actualServerKey,
-        currentRoute: String?= null
+        currentRoute: String? = null
     ) {
         viewModelScope.launch {
             if (imageType == null) throw Exception("verification type is null")
@@ -834,7 +828,9 @@ class GovDataViewModel @Inject constructor(
                     if (it is Result.Success) {
                         val faceResult = it.data.entity?.face
                         val config =
-                            getCurrentPage(currentRoute?:KycPages.GOVERNMENT_DATA.serverKey)?.config
+                            getCurrentPage(
+                                currentRoute ?: KycPages.GOVERNMENT_DATA.serverKey
+                            )?.config
                         if (faceResult?.faceSuccess(config) == false) {
                             if (_analysisRetryCountLiveData.value!! < analysisRetryMax) {
                                 _analysisRetryCountLiveData.postValue(
@@ -1142,19 +1138,20 @@ class GovDataViewModel @Inject constructor(
                     val selectedTypeIdName =
                         _selectedBizIdDataLiveData.value?.idName?.lowercase()
                             ?: throw Exception("No option selected")
+                    val appId = prefManager.getAppId() ?: throw Exception("App id is null")
                     when (selectedTypeIdName) {
                         BusinessType.CAC.serverKey -> {
-                            repo.lookupCac(number, companyName)
+                            repo.lookupCac(number, companyName, appId)
                         }
 
                         BusinessType.TIN.serverKey -> {
-                            repo.lookupTin(number, companyName)
+                            repo.lookupTin(number, companyName, appId)
                         }
 
                         else -> throw Exception("Type not currently supported")
                     }.collect { lookUpResult ->
                         if (lookUpResult is Result.Error) {
-                            _submitBizLiveData.postValue(it)
+                            _submitBizLiveData.postValue(lookUpResult)
                         } else if (lookUpResult is Result.Success) {
                             val verificationId =
                                 getAuthDataFromPref()?.initData?.authData?.verificationId
@@ -1329,25 +1326,27 @@ class GovDataViewModel @Inject constructor(
     ): Flow<Result<SimpleResponse>> {
         var failureCode: String? = null
 
+        /**send price if event is
+         * [EventTypes.STEP_FAILED]
+         * or [EventTypes.STEP_COMPLETED]
+         * **/
+        val services: List<String> = DojahPricingUtil.getPricingServices(
+            page = page,
+            pricing = dojahPricing,
+            event = event,
+            govViewModel = this
+        )
+
         if (event == EventTypes.STEP_FAILED) {
-            failureCode = failedReasons?.code ?: FailedReasons.UNKNOWN.code
-            if (error is Result.Error.NetworkError || error is Result.Error.TimeoutError) {
-                return flow {
-                    emit(error)
-                }.flowOn(Dispatchers.IO)
-            } else if (error != null && error is Result.Error.ApiError) {
-                val statusCodeReason = FailedReasons.getStatusCodeReason(error)
-                if (statusCodeReason != null) {
-                    failureCode = if (statusCodeReason == FailedReasons.THIRD_PARTY
-                        && (page == KycPages.GOVERNMENT_DATA || page == KycPages.BUSINESS_DATA)
-                    ) {
-                        FailedReasons.THIRD_PARTY.code
-                    } else {
-                        statusCodeReason.code
-                    }
+            getFailureCode(error, page, failedReasons).also { generatedFailureCode ->
+                if (generatedFailureCode != null) {
+                    failureCode = generatedFailureCode
+                } else {
+                    flow {
+                        emit(error)
+                    }.flowOn(Dispatchers.IO)
                 }
             }
-
         }
         val verificationId =
             getAuthDataFromPref()?.initData?.authData?.verificationId
@@ -1362,6 +1361,7 @@ class GovDataViewModel @Inject constructor(
                 stepNumber,
                 event.serverKey,
                 eventValue = failureCode ?: page.serverKey,
+                services = services,
             )
         ).apply {
             collect {
@@ -1372,7 +1372,7 @@ class GovDataViewModel @Inject constructor(
         }
     }
 
-    private fun getCurrentPage(currentPage: String): Step? {
+    fun getCurrentPage(currentPage: String): Step? {
         val steps = getAuthDataFromPref()?.initData?.authData?.pages
         return steps?.find { it.name == currentPage }
     }
@@ -1390,3 +1390,4 @@ class GovDataViewModel @Inject constructor(
     }
 
 }
+

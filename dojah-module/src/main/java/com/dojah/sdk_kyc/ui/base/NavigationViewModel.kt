@@ -164,7 +164,7 @@ class NavigationViewModel @Inject constructor(
                 )
             }
         } else {
-           navigateNextStep()
+            navigateNextStep()
         }
     }
 

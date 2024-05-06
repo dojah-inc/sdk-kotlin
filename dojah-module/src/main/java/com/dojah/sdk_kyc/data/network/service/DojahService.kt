@@ -110,12 +110,14 @@ interface DojahService {
     suspend fun lookupCac(
         @Query("rc_number") rcNumber: String,
         @Query("company_name") companyName: String,
+        @Query("app_id") appId: String,
     ): Response<ResponseBody>
 
     @GET("${prefix}/kyc/tin")
     suspend fun lookUpTin(
         @Query("tin") tin: String,
         @Query("company_name") companyName: String,
+        @Query("app_id") appId: String,
     ): Response<ResponseBody>
 
 }
@@ -255,13 +257,19 @@ class DojahServiceMock : DojahService {
         return Response.success(responseBody)
     }
 
-    override suspend fun lookupCac(rcNumber: String, companyName: String): Response<ResponseBody> {
+    override suspend fun lookupCac(
+        rcNumber: String, companyName: String,
+        appId: String,
+    ): Response<ResponseBody> {
         delay(1000)
         val responseBody = cacLookUpResponse().replace("\n", "").toResponseBody()
         return Response.success(responseBody)
     }
 
-    override suspend fun lookUpTin(tin: String, companyName: String): Response<ResponseBody> {
+    override suspend fun lookUpTin(
+        tin: String, companyName: String,
+        appId: String,
+        ): Response<ResponseBody> {
         delay(1000)
         val responseBody = cacLookUpResponse().replace("\n", "").toResponseBody()
         return Response.success(responseBody)

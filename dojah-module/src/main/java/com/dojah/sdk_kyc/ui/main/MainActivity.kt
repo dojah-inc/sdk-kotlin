@@ -45,7 +45,6 @@ import com.dojah.sdk_kyc.ui.main.viewmodel.VerificationViewModel
 import com.dojah.sdk_kyc.ui.splash.COUNTRY_ERROR
 import com.dojah.sdk_kyc.ui.splash.VERIFICATION_COMPLETE_ERROR
 import com.dojah.sdk_kyc.ui.utils.KycPages
-import com.squareup.okhttp.Route
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -77,6 +76,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var preferenceManager: SharedPreferenceManager
 
     private var idleJob: Job? = null
+    var waitingForOtherFragments = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -272,6 +273,20 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     deCentralizeFragmentHost()
                 }
+
+                val firstPageAfterIndex = viewModel.getPagesFromPrefs()?.first()?.name
+                val hasOnlyOneRouteInNavStack =
+                    (navViewModel.currentStepLiveData.value?.size == 1)
+                if (route == Routes.index_page) {
+                    if (waitingForOtherFragments) {
+                        waitingForOtherFragments = false
+                        ///if the resumed page is the index page, finish the activity
+                        finish()
+                    }
+
+                } else waitingForOtherFragments =
+                    route == firstPageAfterIndex && hasOnlyOneRouteInNavStack
+
             }
         }
 
