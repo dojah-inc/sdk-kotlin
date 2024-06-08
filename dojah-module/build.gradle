@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id "androidx.navigation.safeargs"
     id 'com.google.dagger.hilt.android'
+    id 'maven-publish'
 }
 
 ext {
@@ -55,6 +56,29 @@ ext {
             zxing           : "3.4.0",
             desugar         : "1.1.5",
     ]
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.findByName('release')
+
+            groupId = 'com.dojah-inc'
+            artifactId = 'dojah-android-sdk'
+            version = '1.0.0'
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri("https://maven.pkg.github.com/dojah-inc/dojah-android-sdk")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
+            }
+        }
+    }
 }
 
 android {
