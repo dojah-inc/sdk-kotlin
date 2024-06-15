@@ -1,4 +1,4 @@
-package com.dojah.sdk_kyc
+package com.dojah_inc.dojah_android_sdk
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry

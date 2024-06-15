@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/home_address" />
 
-            <com.dojah.sdk_kyc.ui.utils.widget.SimpleEditTextSpinner
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.SimpleEditTextSpinner
                 android:id="@+id/address_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 />
 
 
-            <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
                 android:id="@+id/btn_continue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

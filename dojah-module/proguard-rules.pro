@@ -20,8 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.dojah.sdk_kyc.domain.** { *; }
--keep class com.dojah.sdk_kyc.core.Result
+-keep class com.dojah_inc.dojah_android_sdk.domain.** { *; }
+-keep class com.dojah_inc.dojah_android_sdk.core.Result
 
 #For retrofit
 -keepattributes Signature, InnerClasses, EnclosingMethod

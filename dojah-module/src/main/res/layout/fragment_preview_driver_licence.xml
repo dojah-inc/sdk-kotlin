@@ -73,7 +73,7 @@
                 android:visibility="gone"
                 tools:visibility="visible">
 
-                <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
+                <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
                     android:id="@+id/processing_text"
                     style="@style/TextAppearance.Dojah.ParagraphSmall"
                     android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
                 tools:visibility="visible" />
         </RelativeLayout>
 
-        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
+        <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
             android:id="@+id/text_subtitle"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
             android:layout_width="match_parent"
@@ -116,7 +116,7 @@
             android:textColor="@color/body_color"
             app:drawableStartCompat="@drawable/ic_check" />
 
-        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
+        <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
             android:id="@+id/text_subtitle2"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
             android:layout_width="match_parent"
@@ -128,7 +128,7 @@
             android:textColor="@color/body_color"
             app:drawableStartCompat="@drawable/ic_check" />
 
-        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
+        <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
             android:id="@+id/text_subtitle3"
             style="@style/TextAppearance.Dojah.ParagraphSmall"
             android:layout_width="match_parent"
@@ -154,7 +154,7 @@
             app:strokeColor="@color/black"
             app:strokeWidth="1dp" />
 
-        <com.dojah.sdk_kyc.ui.utils.widget.LoadingButton
+        <com.dojah_inc.dojah_android_sdk.ui.utils.widget.LoadingButton
             android:id="@+id/btn_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

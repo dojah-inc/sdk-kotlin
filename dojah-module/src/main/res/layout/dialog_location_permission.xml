@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.dojah.sdk_kyc.ui.utils.widget.DojahAppBarView
+    <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahAppBarView
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 android:gravity="center"
                 android:text="@string/location_permission_required" />
 
-            <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
                 android:id="@+id/text_sub"
                 style="@style/TextAppearance.Dojah.ParagraphSmall"
                 android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             app:drawableStartCompat="@drawable/ic_check" />
 
 
-        <com.dojah.sdk_kyc.ui.utils.widget.DojahMaterialButton
+        <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
             android:id="@+id/btn_continue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
             android:text="@string/allow_permission" />
 
 
-        <com.dojah.sdk_kyc.ui.utils.widget.DojahTextView
+        <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
             android:id="@+id/how_to_permit"
             style="@style/TextAppearance.Dojah.Header6"
             android:layout_width="wrap_content"

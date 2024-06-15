@@ -5,18 +5,20 @@ plugins {
     id 'kotlin-parcelize'
     id "androidx.navigation.safeargs"
     id 'com.google.dagger.hilt.android'
+//    id 'org.jetbrains.kotlin.android'
     id 'maven-publish'
+
 }
 
 ext {
     mobileToolsVersion = [
-            applicationId        : "com.dojah.sdk_kyc",
+            applicationId        : "com.dojah_inc.dojah_android_sdk",
             minSdk               : 21,
-            targetSdk            : 33,
-            compileSdk           : 33,
+            targetSdk            : 34,
+            compileSdk           : 34,
             versionCode          : 29,
             versionName          : "1.4.6",
-            fileProviderAuthority: "com.dojah.sdk_kyc.provider"
+            fileProviderAuthority: "com.dojah_inc.dojah_android_sdk.provider"
     ]
 
     configVariable = [
@@ -62,17 +64,46 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.findByName('release')
+            groupId = 'com.dojah_inc'
+            artifactId = 'dojah_android_sdk'
+            version = '1.0.2'
+            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
+//            artifact("$buildDir/outputs/aar/dojah-android-sdk-release.aar")
 
-            groupId = 'com.dojah-inc'
-            artifactId = 'dojah-android-sdk'
-            version = '1.0.0'
+            pom.withXml {
+                final dependenciesNode = asNode().appendNode('dependencies')
+                ext.addDependency = { Dependency dep, String scope ->
+                    if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
+                        return
+                    final dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dep.group)
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', dep.version)
+                    dependencyNode.appendNode('scope', scope)
+                    if (!dep.transitive) {
+                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                        exclusionNode.appendNode('groupId', '*')
+                        exclusionNode.appendNode('artifactId', '*')
+                    } else if (!dep.properties.excludeRules.empty) {
+                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                        dep.properties.excludeRules.each { ExcludeRule rule ->
+                            exclusionNode.appendNode('groupId', rule.group ?: '*')
+                            exclusionNode.appendNode('artifactId', rule.module ?: '*')
+                        }
+                    }
+                }
+                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "implementation") }
+                configurations.api.getDependencies().each { dep -> addDependency(dep, "implementation") }
+                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+            }
+
         }
     }
 
     repositories {
         maven {
             name = 'GitHubPackages'
-            url = uri("https://maven.pkg.github.com/dojah-inc/dojah-android-sdk")
+            url = uri("https://maven.pkg.github.com/dojah-inc/sdk-kotlin")
             credentials {
                 username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
@@ -84,7 +115,7 @@ publishing {
 android {
     compileSdk mobileToolsVersion.compileSdk
 
-    namespace = "com.dojah.sdk_kyc"
+    namespace = "com.dojah_inc.dojah_android_sdk"
 
     lintOptions {
         abortOnError false
@@ -108,7 +139,7 @@ android {
     buildTypes {
         release {
 
-            minifyEnabled true
+            minifyEnabled false
 //            shrinkResources true
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -143,7 +174,6 @@ android {
             versionName mobileToolsVersion.versionName
             manifestPlaceholders += [authority     : mobileToolsVersion.fileProviderAuthority]
 
-            buildConfigField "Boolean", "IS_POS", "false"
             buildConfigField "String", "FILE_PROVIDER_AUTHORITY", "\"${mobileToolsVersion.fileProviderAuthority}\""
             buildConfigField "String", "VERSION_CODE", "\"${configVariable.versionCode}\""
         }
@@ -151,14 +181,26 @@ android {
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+//        toolchain.languageVersion.set(JavaLanguageVersion.of(17))
     }
 
     kotlinOptions {
         jvmTarget = '17'
     }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+//    kotlin{
+//        jvmToolchain {
+//            languageVersion.set(JavaLanguageVersion.of("17"))
+//        }
+//    }
 
     buildFeatures {
         dataBinding = true

@@ -74,7 +74,7 @@
                 tools:visibility="visible" />
         </RelativeLayout>
 
-        <com.dojah.sdk_kyc.ui.utils.widget.LoadingButton
+        <com.dojah_inc.dojah_android_sdk.ui.utils.widget.LoadingButton
             android:id="@+id/btn_upload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
