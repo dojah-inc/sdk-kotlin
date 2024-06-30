@@ -31,6 +31,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.get
 import androidx.navigation.navOptions
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 import com.dojah_inc.dojah_android_sdk.R
 import com.dojah_inc.dojah_android_sdk.core.Result
 import com.dojah_inc.dojah_android_sdk.data.io.SharedPreferenceManager
@@ -45,16 +46,14 @@ import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.splash.COUNTRY_ERROR
 import com.dojah_inc.dojah_android_sdk.ui.splash.VERIFICATION_COMPLETE_ERROR
 import com.dojah_inc.dojah_android_sdk.ui.utils.KycPages
-import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
-import javax.inject.Inject
 
 
-@AndroidEntryPoint
 class DojahMainActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_DESTINATION = "com.dojah.sdk_kyc.MainActivity_Destination"
@@ -64,16 +63,23 @@ class DojahMainActivity : AppCompatActivity() {
 
     private var binding: ActivityMainDojahBinding? = null
 
-    private val navViewModel by viewModels<NavigationViewModel>()
+    private val navViewModel by viewModels<NavigationViewModel>{
+        DojahSdk.dojahContainer.navViewModelFactory
+    }
 
-    private val viewModel by viewModels<VerificationViewModel>()
-    private val govViewModel by viewModels<GovDataViewModel>()
+    private val viewModel by viewModels<VerificationViewModel>{
+        DojahSdk.dojahContainer.verificationViewModelFactory
+    }
+    private val govViewModel by viewModels<GovDataViewModel>{
+        DojahSdk.dojahContainer.govViewModelFactory
+    }
 
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
 
-    @Inject
-    lateinit var preferenceManager: SharedPreferenceManager
+    private val preferenceManager: SharedPreferenceManager  by lazy {
+        DojahSdk.dojahContainer.sharedPreferenceManager
+    }
 
     private var idleJob: Job? = null
     var waitingForOtherFragments = false

@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.annotation.SuppressLint
 import android.graphics.PorterDuff
@@ -15,17 +16,16 @@ import com.dojah_inc.dojah_android_sdk.ui.base.ErrorFragment
 import com.dojah_inc.dojah_android_sdk.ui.base.NavigationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.main.fragment.NavArguments
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
-import dagger.hilt.android.AndroidEntryPoint
+
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
 class DecisionErrorFragment : ErrorFragment(R.layout.fragment_decision_error) {
     private val binding by viewBinding { FragmentDecisionErrorBinding.bind(it) }
 
 //    private val viewModel by viewModels<VerificationViewModel>()
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{ DojahSdk.dojahContainer.navViewModelFactory}
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

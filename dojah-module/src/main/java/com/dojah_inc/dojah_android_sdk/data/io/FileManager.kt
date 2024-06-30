@@ -5,7 +5,6 @@ import android.content.res.AssetManager
 import android.net.Uri
 import androidx.core.content.FileProvider
 import com.dojah_inc.dojah_android_sdk.BuildConfig
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
 import java.io.File
 import javax.inject.Inject
@@ -14,9 +13,7 @@ import javax.inject.Singleton
 /**
  * Its only Job is to rewrite the files from the Assets to a file directory
  */
-@Singleton
-class FileManager @Inject constructor(
-        @ApplicationContext private val context: Context) {
+class FileManager (private val context: Context) {
     companion object {
         const val ASSET_DIR = "assets"
 

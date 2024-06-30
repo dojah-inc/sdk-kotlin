@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.dojah_inc.dojah_android_sdk.domain.responses.AuthResponse
-import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,9 +12,8 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class SharedPreferenceManager @Inject constructor(
-    @ApplicationContext private val context: Context
+class SharedPreferenceManager(
+    private val context: Context
 ) : SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
         ///Dojah keys

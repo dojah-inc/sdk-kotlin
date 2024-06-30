@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -20,20 +21,20 @@ import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.utils.FailedReasons
 import com.dojah_inc.dojah_android_sdk.ui.utils.KycPages
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
-import dagger.hilt.android.AndroidEntryPoint
+
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
+
 class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
     private val binding by viewBinding { FragmentOtpPhoneBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
-    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
 
 
     override fun onResume() {

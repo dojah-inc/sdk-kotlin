@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -22,7 +23,7 @@ import com.dojah_inc.dojah_android_sdk.ui.main.fragment.Routes
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.GovDataViewModel
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
-import dagger.hilt.android.AndroidEntryPoint
+
 import okhttp3.logging.HttpLoggingInterceptor
 import com.dojah_inc.dojah_android_sdk.ui.utils.*
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -31,14 +32,14 @@ import kotlinx.coroutines.launch
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
+
 class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
     private val binding by viewBinding { FragmentGovDataBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
-    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
     override fun onCreate(savedInstanceState: Bundle?) {

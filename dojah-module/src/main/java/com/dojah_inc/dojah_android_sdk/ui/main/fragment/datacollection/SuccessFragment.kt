@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -16,17 +17,17 @@ import com.dojah_inc.dojah_android_sdk.ui.base.ErrorFragment
 import com.dojah_inc.dojah_android_sdk.ui.base.NavigationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.main.fragment.NavArguments
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
-import dagger.hilt.android.AndroidEntryPoint
+
 import okhttp3.logging.HttpLoggingInterceptor
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
+
 class SuccessFragment : ErrorFragment(R.layout.success_view) {
     private val binding by viewBinding { SuccessViewBinding.bind(it) }
 
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

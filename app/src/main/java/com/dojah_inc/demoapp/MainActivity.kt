@@ -73,12 +73,12 @@ fun GreetingMain(context: Activity) {
             Lifecycle.State.STARTED -> {}
             Lifecycle.State.CREATED -> {
                 idHistory.clear()
-                idHistory.addAll(DojahSdk.getIdHistory(context))
+                idHistory.addAll(DojahSdk.with(context).getIdHistory())
             }
 
             Lifecycle.State.RESUMED -> {
                 idHistory.clear()
-                idHistory.addAll(DojahSdk.getIdHistory(context))
+                idHistory.addAll(DojahSdk.with(context).getIdHistory())
             }
         }
     }

@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -20,20 +21,20 @@ import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.GovDataViewModel
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.utils.*
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
-import dagger.hilt.android.AndroidEntryPoint
+
 import okhttp3.logging.HttpLoggingInterceptor
 
 
-@AndroidEntryPoint
+
 class CaptureSelfieFragment : ErrorFragment() {
 
     private val binding by viewBinding { FragmentCaptureSelfieBinding.bind(it) }
 
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govDataViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

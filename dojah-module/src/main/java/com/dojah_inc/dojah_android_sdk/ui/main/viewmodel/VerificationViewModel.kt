@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 import com.dojah_inc.dojah_android_sdk.R
 import com.dojah_inc.dojah_android_sdk.core.Result
 import com.dojah_inc.dojah_android_sdk.data.io.CountryManager
@@ -23,8 +24,6 @@ import com.dojah_inc.dojah_android_sdk.domain.request.EventRequest
 import com.dojah_inc.dojah_android_sdk.domain.request.UserDataRequest
 import com.dojah_inc.dojah_android_sdk.domain.responses.*
 import com.dojah_inc.dojah_android_sdk.ui.utils.*
-import dagger.Lazy
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -42,11 +41,10 @@ import java.util.Locale
 import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-class VerificationViewModel @Inject constructor(
+class VerificationViewModel(
     val prefManager: SharedPreferenceManager,
     private val repo: DojahRepository,
-    private val countryManager: Lazy<CountryManager>
+    private val countryManager: CountryManager
 ) : ViewModel() {
     private val logger: HttpLoggingInterceptor.Logger = HttpLoggingInterceptor.Logger.DEFAULT
     private val _countryLiveData = MutableLiveData<List<Country>>()
@@ -203,13 +201,16 @@ class VerificationViewModel @Inject constructor(
     }
 
     fun loadCountries() {
-        getCountries()?.addCallback {
+        HttpLoggingInterceptor.Logger.DEFAULT.log("Loading countries")
+        getCountries().start(viewModelScope)
+        getCountries().addCallback {
             _countryLiveData.postValue(it)
+            HttpLoggingInterceptor.Logger.DEFAULT.log("loaded countries: ${it.size}")
         }
     }
 
-    fun getCountries(): CountryManager? {
-        return countryManager.get()
+    fun getCountries(): CountryManager {
+        return DojahSdk.dojahContainer.countryManager
     }
 
     fun authenticate(

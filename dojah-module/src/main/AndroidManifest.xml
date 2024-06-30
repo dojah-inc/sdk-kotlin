@@ -54,7 +54,7 @@
 
 <!--        <provider-->
 <!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="${authority}"-->
+<!--            android:authorities="com.dojah_inc.dojah_android_sdk.provider"-->
 <!--            android:exported="false"-->
 <!--            android:grantUriPermissions="true">-->
 <!--            <meta-data-->

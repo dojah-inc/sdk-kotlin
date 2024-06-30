@@ -5,8 +5,8 @@ import androidx.core.os.ConfigurationCompat
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.dojah_inc.dojah_android_sdk.data.io.FileManager.Companion.getAssetDirectory
 import com.dojah_inc.dojah_android_sdk.domain.Country
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
+import okhttp3.logging.HttpLoggingInterceptor
 import java.io.File
 import java.util.*
 import javax.inject.Inject
@@ -14,9 +14,9 @@ import javax.inject.Singleton
 
 typealias CountryCallback = (List<Country>) -> Unit
 
-@Singleton
-class CountryManager @Inject constructor(
-        @ApplicationContext private val context: Context,
+
+class CountryManager (
+        private val context: Context,
         private val phoneNumberUtil: PhoneNumberUtil) {
 
     private val listeners = mutableListOf<CountryCallback>()
@@ -40,6 +40,8 @@ class CountryManager @Inject constructor(
 
     private suspend fun getCountries(): List<Country> {
         return withContext(Dispatchers.Default) {
+            HttpLoggingInterceptor.Logger.DEFAULT.log("countries start fetching")
+
             if (countries != null) countries!!
             else {
                 val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0]!!
@@ -47,6 +49,8 @@ class CountryManager @Inject constructor(
 
                 val countryFiles = baseDir.list()?.toMutableList()
                         ?: mutableListOf()
+                HttpLoggingInterceptor.Logger.DEFAULT.log("countries countryFiles ${countryFiles.size}")
+                HttpLoggingInterceptor.Logger.DEFAULT.log("countries countryFiles ${countryFiles.joinToString { it }}")
 
                 phoneNumberUtil.run {
                     val fetchedCountries = supportedRegions.map {
@@ -58,6 +62,9 @@ class CountryManager @Inject constructor(
                             Country(it, name, phoneCode, "$baseDir/$path")
                         }
                     }.awaitAll()
+
+                    HttpLoggingInterceptor.Logger.DEFAULT.log("countries fetched ${fetchedCountries.size}")
+                    HttpLoggingInterceptor.Logger.DEFAULT.log("countries fetched ${fetchedCountries.joinToString { it.name+it.path }}")
 
                     fetchedCountries.sortedBy { it.name }
                 }

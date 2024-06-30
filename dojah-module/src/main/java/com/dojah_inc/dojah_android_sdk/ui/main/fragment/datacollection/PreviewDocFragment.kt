@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.graphics.Color
 import android.net.Uri
@@ -23,22 +24,22 @@ import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
 import com.dojah_inc.dojah_android_sdk.ui.utils.load
 import com.google.android.material.shape.MaterialShapeDrawable
-import dagger.hilt.android.AndroidEntryPoint
+
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.ByteString.Companion.toByteString
 
 
-@AndroidEntryPoint
+
 class PreviewDocFragment : ErrorFragment() {
 
 
     private val binding by viewBinding { FragmentPreviewDriverLicenceBinding.bind(it) }
 
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
-    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
     private var verificationImage: String? = null

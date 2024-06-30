@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -22,7 +23,6 @@ import com.dojah_inc.dojah_android_sdk.ui.utils.performOperationOnActivityAvaila
 import com.dojah_inc.dojah_android_sdk.ui.utils.setClickableText
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
-import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.time.Instant
 import java.time.LocalDate
@@ -34,15 +34,14 @@ import java.time.temporal.ChronoUnit
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
 class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
     private val binding by viewBinding { FragmentBioDataBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
 
     private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-uuuu")
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
 
     private fun createDatePicker(time: String): MaterialDatePicker<Long> {
 

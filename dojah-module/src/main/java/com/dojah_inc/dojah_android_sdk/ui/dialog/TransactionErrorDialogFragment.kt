@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.dojah_inc.dojah_android_sdk.R
 import com.dojah_inc.dojah_android_sdk.databinding.DialogTransactionErrorBinding
@@ -32,7 +33,7 @@ class TransactionErrorDialogFragment : BottomSheetDialogFragment() {
 
     private val binding by viewBinding { DialogTransactionErrorBinding.bind(it) }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{ DojahSdk.dojahContainer.navViewModelFactory}
 
     var onPositiveButtonClicked: (() -> Unit)? = null
 

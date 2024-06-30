@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah_inc.dojah_android_sdk.BuildConfig
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 import com.dojah_inc.dojah_android_sdk.R
 import com.dojah_inc.dojah_android_sdk.core.Result
 import com.dojah_inc.dojah_android_sdk.ui.dialog.TransactionErrorDialogFragment
@@ -26,8 +27,8 @@ open class ErrorFragment : Fragment {
 
     private var genericDialog: AlertDialog? = null
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
 
 
     constructor() : super()

@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -22,21 +23,19 @@ import com.dojah_inc.dojah_android_sdk.ui.main.fragment.Routes
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
 import com.google.android.libraries.places.api.Places
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
+
 class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
     private val binding by viewBinding { FragmentHomeAddressBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
-    @Inject
-    lateinit var locationManager: LocationManager
-
+    private val locationManager: LocationManager by lazy {
+        DojahSdk.dojahContainer.locationManager
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -17,20 +18,20 @@ import com.dojah_inc.dojah_android_sdk.ui.utils.FailedReasons
 import com.dojah_inc.dojah_android_sdk.ui.utils.KycPages
 import com.dojah_inc.dojah_android_sdk.ui.utils.VerificationType
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
-import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.launch
 import okhttp3.logging.HttpLoggingInterceptor
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
+
 class EmptyFragment : ErrorFragment(R.layout.fragment_empty) {
     private val binding by viewBinding { FragmentEmptyBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
-    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
     val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
 
@@ -53,7 +54,7 @@ class EmptyFragment : ErrorFragment(R.layout.fragment_empty) {
                 // select a country from config before proceeding
                 if (countryStep == null) {
                     logger.log("country page is completed, a country will be selected from config")
-                    viewModel.getCountries()?.addCallback { countries ->
+                    viewModel.getCountries().addCallback { countries ->
                         countries.find {
                             it.id.equals(
                                 viewModel.authDataFromPref?.initData?.authData?.countryAlpha2Code,

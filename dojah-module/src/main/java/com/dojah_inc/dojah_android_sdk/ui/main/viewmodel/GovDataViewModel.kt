@@ -17,7 +17,6 @@ import com.dojah_inc.dojah_android_sdk.domain.request.LivenessVerifyRequest
 import com.dojah_inc.dojah_android_sdk.domain.request.OtpRequest
 import com.dojah_inc.dojah_android_sdk.domain.responses.*
 import dagger.Lazy
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -33,11 +32,9 @@ const val analysisRetryMax = 3
 const val checkRetryMax = 2
 
 @SuppressLint("StaticFieldLeak")
-@HiltViewModel
-class GovDataViewModel @Inject constructor(
+class GovDataViewModel (
     private val prefManager: SharedPreferenceManager,
     private val repo: DojahRepository,
-    private val countryManager: Lazy<CountryManager>
 ) : ViewModel() {
     private val logger: HttpLoggingInterceptor.Logger = HttpLoggingInterceptor.Logger.DEFAULT
     private val _verificationTypeLiveData = MutableLiveData<VerificationType?>()

@@ -4,18 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.google.android.gms.location.*
 import com.dojah_inc.dojah_android_sdk.data.io.SharedPreferenceManager
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
 @SuppressLint("MissingPermission")
-@Singleton
-class LocationManager @Inject constructor(
-    @ApplicationContext private val context: Context,
+class LocationManager (
+    private val context: Context,
     private val prefManager: SharedPreferenceManager
 ) {
 

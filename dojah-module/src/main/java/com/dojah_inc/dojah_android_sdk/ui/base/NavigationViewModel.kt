@@ -18,11 +18,9 @@ import com.dojah_inc.dojah_android_sdk.domain.responses.SimpleResponseEntity
 import com.dojah_inc.dojah_android_sdk.ui.main.DojahMainActivity
 import com.dojah_inc.dojah_android_sdk.ui.main.fragment.Routes
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.DecisionStatus
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * A ViewModel created in the Activity and used in every Fragment that
@@ -30,8 +28,7 @@ import javax.inject.Inject
  * to the Activity who will then handle the navigation. This ensures all
  * navigations are performed from one point
  */
-@HiltViewModel
-class NavigationViewModel @Inject constructor(
+class NavigationViewModel (
     private val prefManager: SharedPreferenceManager,
     private val repo: DojahRepository,
 ) : ViewModel() {

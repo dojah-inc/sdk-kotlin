@@ -5,16 +5,14 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Suppress("DEPRECATION")
-@Singleton
-class NetworkManager @Inject constructor(
-        @ApplicationContext private val context: Context) {
+class NetworkManager(
+    private val context: Context
+) {
 
-    private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     private val callbacks = mutableSetOf<NetworkChangeCallback>()
 
@@ -28,26 +26,28 @@ class NetworkManager @Inject constructor(
     private fun subscribeToNetworkChanges() {
         NetworkCapabilities.TRANSPORT_CELLULAR
         val networkRequest = NetworkRequest.Builder()
-                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                .build()
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            .build()
 
-        connectivityManager.registerNetworkCallback(networkRequest, object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                isConnected = true
-                callbacks.forEach { it.onNetworkChange(true) }
-            }
+        connectivityManager.registerNetworkCallback(
+            networkRequest,
+            object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    isConnected = true
+                    callbacks.forEach { it.onNetworkChange(true) }
+                }
 
-            override fun onLost(network: Network) {
-                isConnected = false
-                callbacks.forEach { it.onNetworkChange(false) }
-            }
+                override fun onLost(network: Network) {
+                    isConnected = false
+                    callbacks.forEach { it.onNetworkChange(false) }
+                }
 
-            override fun onUnavailable() {
-                isConnected = false
-                callbacks.forEach { it.onNetworkChange(false) }
-            }
-        })
+                override fun onUnavailable() {
+                    isConnected = false
+                    callbacks.forEach { it.onNetworkChange(false) }
+                }
+            })
     }
 
     fun addNetworkChangeCallback(callback: NetworkChangeCallback) {
@@ -55,11 +55,11 @@ class NetworkManager @Inject constructor(
         callbacks.add(callback)
     }
 
-    fun removeNetworkCallback(callback: NetworkChangeCallback){
+    fun removeNetworkCallback(callback: NetworkChangeCallback) {
         callbacks.remove(callback)
     }
 
-    fun getDeviceIMEI(): String{
+    fun getDeviceIMEI(): String {
         return ""
     }
 

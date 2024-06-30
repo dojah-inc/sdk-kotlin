@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.net.Uri
 import android.os.Bundle
@@ -20,17 +21,17 @@ import com.dojah_inc.dojah_android_sdk.ui.utils.CameraUtil
 import com.dojah_inc.dojah_android_sdk.ui.utils.KycPages
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
 import com.dojah_inc.dojah_android_sdk.ui.utils.openAppSystemSettings
-import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
+
+
 class CaptureBackDocFragment : ErrorFragment() {
 
     private val binding by viewBinding { FragmentCaptureDocumentBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{ DojahSdk.dojahContainer.navViewModelFactory}
 
     override fun onCreateView(
         inflater: LayoutInflater,

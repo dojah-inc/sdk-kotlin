@@ -3,22 +3,19 @@ package com.dojah_inc.dojah_android_sdk.ui.splash
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 import com.dojah_inc.dojah_android_sdk.R
 import com.dojah_inc.dojah_android_sdk.core.Result
-import com.dojah_inc.dojah_android_sdk.data.LocationManager
 import com.dojah_inc.dojah_android_sdk.data.io.CountryManager
 import com.dojah_inc.dojah_android_sdk.data.io.FileManager
 import com.dojah_inc.dojah_android_sdk.ui.main.DojahMainActivity
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.utils.FailedReasons
-import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.atomic.AtomicReference
-import javax.inject.Inject
 
 const val COUNTRY_ERROR = "country_error"
 
@@ -27,21 +24,25 @@ const val VERIFICATION_COMPLETE_ERROR = "verification_complete_error"
 private const val DEFAULT_ERROR = "default_error"
 
 @SuppressLint("CustomSplashScreen")
-@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var assetRewrite: FileManager
+    val assetRewrite: FileManager by lazy {
+        DojahSdk.dojahContainer.fileManager
+    }
 
-    @Inject
-    lateinit var countryManager: CountryManager //This is only here to init the class and fetch the countries
+    val countryManager: CountryManager by lazy {
+        DojahSdk.dojahContainer.countryManager
+    }
 
-    @Inject
-    lateinit var locationManager: LocationManager
+//    val locationManager: LocationManager by lazy {
+//        DojahSdk.dojahContainer.locationManager
+//    }
 
-    private lateinit var permissionLauncher: ActivityResultLauncher<String>
+//    private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
-    private val viewModel by viewModels<VerificationViewModel>()
+    private val viewModel by viewModels<VerificationViewModel>{
+        DojahSdk.dojahContainer.verificationViewModelFactory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

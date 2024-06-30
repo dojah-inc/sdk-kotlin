@@ -7,11 +7,8 @@ import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SecurityManager @Inject constructor(
+class SecurityManager(
         private val prefManager: SharedPreferenceManager
 ) {
     private companion object {

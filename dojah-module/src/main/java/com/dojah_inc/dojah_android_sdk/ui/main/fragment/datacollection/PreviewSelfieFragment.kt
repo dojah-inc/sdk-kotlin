@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -27,7 +28,7 @@ import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.analysisRetryMax
 import com.dojah_inc.dojah_android_sdk.ui.utils.*
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
 import com.google.android.material.shape.MaterialShapeDrawable
-import dagger.hilt.android.AndroidEntryPoint
+
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -35,17 +36,17 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okio.ByteString.Companion.toByteString
 
 
-@AndroidEntryPoint
+
 class PreviewSelfieFragment : ErrorFragment() {
 
 
     private val binding by viewBinding { FragmentPreviewSelfieBinding.bind(it) }
 
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
-    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
 
     private var verificationImage: String? = null
 

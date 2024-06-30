@@ -1,5 +1,7 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
 
+import com.dojah_inc.dojah_android_sdk.DojahSdk
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
@@ -14,19 +16,19 @@ import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.GovDataViewModel
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
 import com.dojah_inc.dojah_android_sdk.ui.utils.performOperationOnActivityAvailable
-import dagger.hilt.android.AndroidEntryPoint
+
 import timber.log.Timber
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
+
 class BizDocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
     private val binding by viewBinding { FragmentDocTypeBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
-    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
     private var verificationType: String? = null
 
 
@@ -50,14 +52,14 @@ class BizDocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
             }
 
             btnContinue.setOnClickListener {
-                if(viewModel.docTypeLiveData.value == null){
+                if (viewModel.docTypeLiveData.value == null) {
                     showShortToast("Please select a document type")
                     return@setOnClickListener
                 }
 //                if (viewModel.docTypeLiveData.value == GovDocType.BUSINESS) {
 //                    navViewModel.navigate(R.id.frag_biz_data)
 //                } else {
-                    navViewModel.navigateOld(R.id.frag_disclaimer)
+                navViewModel.navigateOld(R.id.frag_disclaimer)
 //                }
             }
             performOperationOnActivityAvailable {

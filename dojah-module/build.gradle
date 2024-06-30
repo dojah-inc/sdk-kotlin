@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id "androidx.navigation.safeargs"
-    id 'com.google.dagger.hilt.android'
+//    id 'com.google.dagger.hilt.android'
 //    id 'org.jetbrains.kotlin.android'
     id 'maven-publish'
 
@@ -48,7 +48,7 @@ ext {
             gson            : "2.9.0",
             okhttp          : "5.0.0-alpha.2",
 
-            hilt            : "2.42",
+//            hilt            : "2.42",
             coil            : "2.1.0",
 
             glide           : "4.13.2",
@@ -66,9 +66,9 @@ publishing {
             from components.findByName('release')
             groupId = 'com.dojah_inc'
             artifactId = 'dojah_android_sdk'
-            version = '1.0.2'
-            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
-//            artifact("$buildDir/outputs/aar/dojah-android-sdk-release.aar")
+            version = 'pre-1.0.12'
+            artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
+//            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
 
             pom.withXml {
                 final dependenciesNode = asNode().appendNode('dependencies')
@@ -119,8 +119,8 @@ android {
 
     lintOptions {
         abortOnError false
+        lintConfig = file("$rootDir/glide_lint_ignore.xml")
     }
-
     defaultConfig {
 //        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -234,11 +234,17 @@ dependencies {
 
     implementation(libs.bundles.network)
 
-    implementation(libs.hilt)
+//    implementation(libs.hilt)
 
     implementation(libs.materialdesign)
 
     implementation(libs.bundles.glide)
+    implementation ('com.github.bumptech.glide:okhttp3-integration:4.16.0'){
+        exclude group: 'glide-parent'
+    }
+    kapt  'com.github.bumptech.glide:compiler:4.16.0'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
+
 
     implementation(libs.timber)
 

@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.Manifest
 import android.os.Build
@@ -19,28 +20,27 @@ import com.dojah_inc.dojah_android_sdk.ui.base.NavigationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.dialog.GalleryPermissionDialogFragment
 import com.dojah_inc.dojah_android_sdk.ui.main.fragment.Routes
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.GovDataViewModel
-import com.dojah_inc.dojah_android_sdk.ui.utils.*
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
 import com.dojah_inc.dojah_android_sdk.ui.utils.getAttr
 import com.dojah_inc.dojah_android_sdk.ui.utils.load
 import com.dojah_inc.dojah_android_sdk.ui.utils.setClickableText
-import dagger.hilt.android.AndroidEntryPoint
+
 import okhttp3.logging.HttpLoggingInterceptor
 
 
-@AndroidEntryPoint
+
 class UploadFrontDocFragment : ErrorFragment() {
 
 
     private val binding by viewBinding { FragmentUploadDocBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
-    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
     private var permissionContract: ActivityResultLauncher<Array<String>>? = null
     private var readImagePermissionString: String? = null
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
     private lateinit var fileContract: ActivityResultLauncher<Array<String>>
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 

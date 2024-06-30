@@ -7,7 +7,7 @@ navigation = "2.5.1"
 okhttp = "5.0.0-alpha.2"
 otp-view = "1.0"
 retrofit = "2.9.0"
-glide = "4.13.2"
+glide = "4.16.0"
 room = "2.4.3"
 view = "2.4.0"
 
@@ -38,8 +38,8 @@ room = { module = 'androidx.room:room-ktx', version.ref = "room" }
 room-runtime = { module = 'androidx.room:room-runtime', version.ref = "room" }
 room-compiler = { module = 'androidx.room:room-compiler', version.ref = "room" }
 
-hilt = { module = 'com.google.dagger:hilt-android', version.ref = "hilt" }
-hilt-compiler = { module = 'com.google.dagger:hilt-compiler', version.ref = "hilt" }
+#hilt = { module = 'com.google.dagger:hilt-android', version.ref = "hilt" }
+#hilt-compiler = { module = 'com.google.dagger:hilt-compiler', version.ref = "hilt" }
 
 timber = { module = 'com.jakewharton.timber:timber', version = "4.7.1" }
 
@@ -67,8 +67,10 @@ androidx = ["core", "appcompat", "activity", "constraint_layout", "recyclerview"
 navigation = ["navigation-fragment", "navigation-ui"]
 room = ["room", "room-runtime"]
 network = ["okhttp", "okhttp-log", "retrofit", "retrofit-gson", "gson"]
-glide = ["glide", "glide-compiler", "glide-okhttp"]
-compiler = ["room-compiler", "hilt-compiler", "glide-compiler"]
+glide = ["glide"]
+#glide = ["glide", "glide-compiler", "glide-okhttp"]
+#compiler = ["room-compiler", "hilt-compiler", "glide-compiler"]
+compiler = ["room-compiler", "glide-compiler"]
 camera = ["camera-camera2", "camera-lifecycle", "camera-video", "androidx-camera-view"]
 
 

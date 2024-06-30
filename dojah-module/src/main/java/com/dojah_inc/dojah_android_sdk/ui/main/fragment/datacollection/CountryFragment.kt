@@ -1,5 +1,7 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
 
+import com.dojah_inc.dojah_android_sdk.DojahSdk
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
@@ -22,18 +24,18 @@ import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
 import com.dojah_inc.dojah_android_sdk.ui.utils.getAttr
 import com.dojah_inc.dojah_android_sdk.ui.utils.performOperationOnActivityAvailable
 import com.dojah_inc.dojah_android_sdk.ui.utils.setClickableText
-import dagger.hilt.android.AndroidEntryPoint
+
 import okhttp3.logging.HttpLoggingInterceptor
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
+
 class CountryFragment : ErrorFragment(R.layout.fragment_country) {
     private val binding by viewBinding { FragmentCountryBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
     val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
     private var selectedCountry: Country? = null
@@ -131,7 +133,6 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
     private fun reloadCountries() {
         val serverCountries = viewModel.getCountriesFullFromPrefs(requireContext())
         val userCountry = viewModel.getUserCountryFromPrefs()
-        viewModel.loadCountries()
         viewModel.countryLiveData.observe(viewLifecycleOwner) {
             binding.layoutSpinner.apply {
                 onCountrySelected = { country ->
@@ -153,6 +154,8 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
 
             }
         }
+        viewModel.loadCountries()
+
     }
 
 

@@ -1,5 +1,7 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
 
+import com.dojah_inc.dojah_android_sdk.DojahSdk
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
@@ -25,18 +27,18 @@ import com.dojah_inc.dojah_android_sdk.ui.main.fragment.Routes
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.utils.*
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
-import dagger.hilt.android.AndroidEntryPoint
+
 import timber.log.Timber
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
-@AndroidEntryPoint
+
 class IndexDisclaimerFragment : ErrorFragment(R.layout.dialog_disclaimer) {
     private val binding by viewBinding { DialogDisclaimerBinding.bind(it) }
 
-    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>()
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

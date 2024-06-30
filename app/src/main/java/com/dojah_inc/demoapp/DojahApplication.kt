@@ -1,9 +1,8 @@
 package com.dojah_inc.demoapp
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
+//@HiltAndroidApp
 class DojahApplication : Application() {
 //    override fun attachBaseContext(base: Context?) {
 //        super.attachBaseContext(base)

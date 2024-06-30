@@ -49,8 +49,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
 
-@Singleton
-class DojahRepository @Inject constructor(
+class DojahRepository (
     networkManager: NetworkManager,
     gson: Gson,
     private val prefManager: SharedPreferenceManager,
