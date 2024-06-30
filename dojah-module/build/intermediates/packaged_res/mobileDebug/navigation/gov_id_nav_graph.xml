@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gov_id_nav_graph"
+    app:startDestination="@id/frag_doc_type">
+
+
+    <fragment
+        android:id="@+id/frag_doc_type"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.DocTypeFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_doc_type" />
+
+    <fragment
+        android:id="@+id/frag_biz_doc_type"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.BizDocTypeFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_doc_type" />
+
+    <fragment
+        android:id="@+id/frag_disclaimer"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.DisclaimerFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/dialog_disclaimer" />
+
+    <fragment
+        android:id="@+id/frag_doc_capture"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.CaptureDocumentFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_capture_document" />
+
+    <fragment
+        android:id="@+id/frag_capture_back_doc"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.CaptureBackDocFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_capture_document" />
+
+
+    <fragment
+        android:id="@+id/frag_preview_doc"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.PreviewDocFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_preview_driver_licence" />
+
+    <fragment
+        android:id="@+id/frag_upload_front_doc"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.UploadFrontDocFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_upload_doc" />
+
+    <fragment
+        android:id="@+id/frag_upload_back_doc"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.UploadBackDocFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_upload_doc" />
+
+
+</navigation>

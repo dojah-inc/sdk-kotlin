@@ -1,0 +1,694 @@
+[
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_cam_permit.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_cam_permit.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/dotted_circle_preview.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/dotted_circle_preview.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_textfield_search_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_textfield_search_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_outline_info_24.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_outline_info_24.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/test_custom_background.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/test_custom_background.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_spinner_textfield_background_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_spinner_textfield_background_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_check.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_check.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_icon_dark.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_icon_dark.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_text_cursor_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_text_cursor_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/avd_hide_password.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/avd_hide_password.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/selfie_avartar.png",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/selfie_avartar.png"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_star_black_48dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_star_black_48dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_inactive.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/bg_otp_inactive.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_list_selector_holo_light.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_list_selector_holo_light.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_m3_chip_checked_circle.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_m3_chip_checked_circle.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_menu_selectall_mtrl_alpha.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_menu_selectall_mtrl_alpha.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_edit_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_edit_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_close.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_outline_support.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_outline_support.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_locate_permit.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_locate_permit.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_info.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_info.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_box_error.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-otp-view-1.0-11:/drawable/bg_otp_box_error.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_popupmenu_background.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_popupmenu_background.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_keyboard_arrow_left_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_keyboard_arrow_left_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/library_logo.png",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-Resizer-v1.5-15:/drawable/library_logo.png"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/dotted_circle.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/dotted_circle.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_icon_light_normal.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_icon_light_normal.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ratingbar_indicator_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ratingbar_indicator_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/layer_user_pic.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/layer_user_pic.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/m3_tabs_rounded_line_indicator.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/m3_tabs_rounded_line_indicator.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_item_background_holo_light.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_item_background_holo_light.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_ic_error.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_ic_error.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_arrow_view.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_arrow_view.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_ic_cancel.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_ic_cancel.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_box_hide.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-otp-view-1.0-11:/drawable/bg_otp_box_hide.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_refresh.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_refresh.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_text_disabled.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_text_disabled.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/tooltip_frame_dark.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/tooltip_frame_dark.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_ic_arrow_drop_down.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_ic_arrow_drop_down.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_verification_warning.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_verification_warning.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_menu_paste_mtrl_am_alpha.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_menu_paste_mtrl_am_alpha.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_menu_cut_mtrl_alpha.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_menu_cut_mtrl_alpha.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_popupmenu_background_overlay.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_popupmenu_background_overlay.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/country_warning.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/country_warning.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_cab_background_top_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_cab_background_top_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_icon_disabled.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_icon_disabled.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_calendar.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_calendar.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_tab_indicator_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_tab_indicator_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_outline_transaction.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_outline_transaction.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_arrow_right.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_arrow_right.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_radio_on_to_off_mtrl_animation.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/btn_radio_on_to_off_mtrl_animation.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_icon_dark_normal.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_icon_dark_normal.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_menu_copy_mtrl_am_alpha.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_menu_copy_mtrl_am_alpha.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/sandbox_bg.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/sandbox_bg.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/message_corned_bg.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/message_corned_bg.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_icon_light.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_icon_light.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_fab_background.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_fab_background.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/app_logo.png",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/app_logo.png"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_pin.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-otp-view-1.0-11:/drawable/bg_pin.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_radio_off_mtrl.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/btn_radio_off_mtrl.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_outline_account.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_outline_account.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/shape_circle.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/shape_circle.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/m3_tabs_line_indicator.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/m3_tabs_line_indicator.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_text_dark_normal.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_text_dark_normal.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/notification_tile_bg.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable/notification_tile_bg.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_calendar_faded.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_calendar_faded.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_checkbox_checked_mtrl.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/btn_checkbox_checked_mtrl.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_btn_default_mtrl_shape.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_btn_default_mtrl_shape.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_keyboard_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_keyboard_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/corned_arrow_back.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/corned_arrow_back.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ratingbar_small_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ratingbar_small_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_text_light_focused.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_text_light_focused.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_m3_chip_check.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_m3_chip_check.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_keyboard_arrow_right_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_keyboard_arrow_right_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_icon_light_focused.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_icon_light_focused.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_mtrl_chip_checked_circle.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_mtrl_chip_checked_circle.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_btn_check_material_anim.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_btn_check_material_anim.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_clock_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_clock_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_box_success.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-otp-view-1.0-11:/drawable/bg_otp_box_success.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_voice_search_api_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_voice_search_api_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/layer_splash.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/layer_splash.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_btn_borderless_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_btn_borderless_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_menu_arrow_up_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_menu_arrow_up_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_ic_arrow_drop_up.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_ic_arrow_drop_up.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_outline_home.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_outline_home.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_menu_share_mtrl_alpha.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_menu_share_mtrl_alpha.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_m3_chip_close.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_m3_chip_close.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_spinner_drop_icon.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_spinner_drop_icon.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_box_active.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-otp-view-1.0-11:/drawable/bg_otp_box_active.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/notification_bg.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/dotted_circle_inner.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/dotted_circle_inner.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_text_dark.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/tooltip_frame_light.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/tooltip_frame_light.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_seekbar_tick_mark_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_seekbar_tick_mark_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_calendar_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_calendar_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_alarm.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_alarm.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_list_selector_background_transition_holo_dark.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_list_selector_background_transition_holo_dark.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_home.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_home.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_ic_visibility.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_ic_visibility.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/circle_progress_drawable.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/circle_progress_drawable.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_shaped_calendar.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_shaped_calendar.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_go_search_api_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_go_search_api_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_ab_back_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_ab_back_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_arrow_drop_right_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_arrow_drop_right_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_checkbox_unchecked_mtrl.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/btn_checkbox_unchecked_mtrl.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/m3_popupmenu_background_overlay.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/m3_popupmenu_background_overlay.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/shape_nothing.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/shape_nothing.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/notification_icon_background.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_item_background_holo_dark.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_item_background_holo_dark.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_account_balance.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_account_balance.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/selfie_error_bg.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/selfie_error_bg.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/shape_no_stroke_radius_8.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/shape_no_stroke_radius_8.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_dialog_background.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_dialog_background.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_tabs_default_indicator.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_tabs_default_indicator.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_clear_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_clear_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_box.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-otp-view-1.0-11:/drawable/bg_otp_box.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ripple_item_group.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ripple_item_group.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_icon_dark_focused.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_icon_dark_focused.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_list_selector_background_transition_holo_light.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_list_selector_background_transition_holo_light.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/processing_bg.png",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/processing_bg.png"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_active.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/bg_otp_active.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/notification_bg_low.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_mtrl_chip_close_circle.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_mtrl_chip_close_circle.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_clear_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_clear_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_arrow_left.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_arrow_left.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_seekbar_thumb_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_seekbar_thumb_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_list_selector_holo_dark.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_list_selector_holo_dark.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_star_half_black_48dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_star_half_black_48dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_search.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/img_404.png",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/img_404.png"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_search_api_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_search_api_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/test_level_drawable.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/test_level_drawable.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_vector_test.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-appcompat-resources-1.6.1-4:/drawable/abc_vector_test.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/places_autocomplete_toolbar_shadow.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-places-3.3.0-47:/drawable/places_autocomplete_toolbar_shadow.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_menu_arrow_down_black_24dp.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_menu_arrow_down_black_24dp.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_radio_off_to_on_mtrl_animation.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/btn_radio_off_to_on_mtrl_animation.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_checkbox_checked_to_unchecked_mtrl_animation.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/btn_checkbox_checked_to_unchecked_mtrl_animation.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_text_dark_focused.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_text_dark_focused.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/navigation_empty_icon.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/navigation_empty_icon.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/dojah_logo.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/dojah_logo.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_verification_avatar.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_verification_avatar.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_dropdown_arrow.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_dropdown_arrow.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_checkbox_unchecked_to_checked_mtrl_animation.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/btn_checkbox_unchecked_to_checked_mtrl_animation.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_mtrl_chip_checked_black.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_mtrl_chip_checked_black.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/quantum_ic_cloud_off_vd_theme_24.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-places-3.3.0-47:/drawable/quantum_ic_cloud_off_vd_theme_24.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_spinner_icon.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_spinner_icon.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_keyboard_arrow_right.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_keyboard_arrow_right.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_seekbar_track_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_seekbar_track_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_mtrl_checked_circle.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_mtrl_checked_circle.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/shape_rectangle_stroke_with_dash.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/shape_rectangle_stroke_with_dash.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_radio_on_mtrl.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/btn_radio_on_mtrl.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_show.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_show.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_dropdown.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_dropdown.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_avatar.png",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_avatar.png"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_password_eye.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_password_eye.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_circle.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/bg_circle.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_hide.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_hide.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_btn_radio_material_anim.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_btn_radio_material_anim.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_switch_thumb_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_switch_thumb_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_btn_check_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_btn_check_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_btn_radio_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_btn_radio_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_box_inactive.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-otp-view-1.0-11:/drawable/bg_otp_box_inactive.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_cab_background_internal_bg.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_cab_background_internal_bg.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_text_light.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ratingbar_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ratingbar_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_ic_visibility_off.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_ic_visibility_off.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_account.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_account.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_text_light_normal.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-play-services-base-18.0.1-62:/drawable/common_google_signin_btn_text_light_normal.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/avd_show_password.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/avd_show_password.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_menu_overflow_material.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-appcompat-1.6.1-12:/drawable/abc_ic_menu_overflow_material.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_processing.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/ic_processing.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_snackbar_background.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_snackbar_background.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/popup_window_background.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/drawable/popup_window_background.xml"
+    }
+]

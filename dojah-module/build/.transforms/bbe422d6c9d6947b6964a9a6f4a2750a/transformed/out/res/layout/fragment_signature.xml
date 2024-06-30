@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/margin_24dp">
+
+        <TextView
+            android:id="@+id/text_title"
+            style="@style/TextAppearance.Dojah.Header5"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="@string/sign_and_confirm_document" />
+
+
+        <TextView
+            android:id="@+id/text_info"
+            style="@style/TextView.SignatureLabel"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_32dp"
+            tool:text="By using our services, you agree that we may collect and use your information to enhance your experience. Rest assured, your data is handled with the utmost care and in compliance with privacy regulations. For more details, check out our Privacy policy Your trust means everything to us!" />
+
+
+        <TextView
+            android:id="@+id/text_sign_name"
+            style="@style/TextView.InputLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_sign_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_name_to_sign_and_confirm" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
+            android:id="@+id/btn_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:text="@string/_continue"
+            app:iconGravity="textEnd"
+            app:iconPadding="11dp" />
+
+        <TextView
+            android:id="@+id/policy_tv"
+            style="@style/TextAppearance.Dojah.ParagraphSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16dp"
+            android:gravity="center"
+            android:text="@string/policy_term_text"
+            android:visibility="gone" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

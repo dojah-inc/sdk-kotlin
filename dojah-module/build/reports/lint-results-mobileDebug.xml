@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.1.0">
+
+    <issue
+        id="CheckResult"
+        severity="Warning"
+        message="The result of `centerCrop` is not used"
+        category="Correctness"
+        priority="6"
+        summary="Ignoring results"
+        explanation="Some methods have no side effects, and calling them without doing something with the result is suspicious."
+        errorLine1="            if (isCenterCrop) it.centerCrop()"
+        errorLine2="                              ~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/utils/ViewExt.kt"
+            line="234"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="CheckResult"
+        severity="Warning"
+        message="The result of `centerInside` is not used"
+        category="Correctness"
+        priority="6"
+        summary="Ignoring results"
+        explanation="Some methods have no side effects, and calling them without doing something with the result is suspicious."
+        errorLine1="            if (isCenterInside) it.centerInside()"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/utils/ViewExt.kt"
+            line="235"
+            column="33"/>
+    </issue>
+
+    <issue
+        id="CheckResult"
+        severity="Warning"
+        message="The result of `circleCrop` is not used"
+        category="Correctness"
+        priority="6"
+        summary="Ignoring results"
+        explanation="Some methods have no side effects, and calling them without doing something with the result is suspicious."
+        errorLine1="            if (isCircleCrop) it.circleCrop()"
+        errorLine2="                              ~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/utils/ViewExt.kt"
+            line="236"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="CheckResult"
+        severity="Warning"
+        message="The result of `centerCrop` is not used"
+        category="Correctness"
+        priority="6"
+        summary="Ignoring results"
+        explanation="Some methods have no side effects, and calling them without doing something with the result is suspicious."
+        errorLine1="            if (isCenterCrop) it.centerCrop()"
+        errorLine2="                              ~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/utils/ViewExt.kt"
+            line="254"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="CheckResult"
+        severity="Warning"
+        message="The result of `centerInside` is not used"
+        category="Correctness"
+        priority="6"
+        summary="Ignoring results"
+        explanation="Some methods have no side effects, and calling them without doing something with the result is suspicious."
+        errorLine1="            if (isCenterInside) it.centerInside()"
+        errorLine2="                                ~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/utils/ViewExt.kt"
+            line="255"
+            column="33"/>
+    </issue>
+
+    <issue
+        id="CheckResult"
+        severity="Warning"
+        message="The result of `circleCrop` is not used"
+        category="Correctness"
+        priority="6"
+        summary="Ignoring results"
+        explanation="Some methods have no side effects, and calling them without doing something with the result is suspicious."
+        errorLine1="            if (isCircleCrop) it.circleCrop()"
+        errorLine2="                              ~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/utils/ViewExt.kt"
+            line="256"
+            column="31"/>
+    </issue>
+
+    <issue
+        id="CustomViewStyleable"
+        severity="Warning"
+        message="By convention, the custom view (`OTPTextView`) and the declare-styleable (`OtpTextView`) should have the same name (various editor features rely on this convention)"
+        category="Correctness"
+        priority="6"
+        summary="Mismatched Styleable/Custom View Name"
+        explanation="The convention for custom views is to use a `declare-styleable` whose name matches the custom view class name. The IDE relies on this convention such that for example code completion can be offered for attributes in a custom view in layout XML resource files.&#xA;&#xA;(Similarly, layout parameter classes should use the suffix `_Layout`.)"
+        errorLine1="        val styles = context.obtainStyledAttributes(attrs, R.styleable.OtpTextView)"
+        errorLine2="                                                           ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/utils/widget/otp_view/OTPTextView.kt"
+            line="73"
+            column="60"/>
+    </issue>
+
+    <issue
+        id="InternalInsetResource"
+        severity="Warning"
+        message="Using internal inset dimension resource `navigation_bar_height` is not supported"
+        category="Correctness"
+        priority="6"
+        summary="Using internal inset dimension resource"
+        explanation="The internal inset dimension resources are not a supported way to retrieve the relevant insets for your application. The insets are dynamic values that can change while your app is visible, and your app&apos;s window may not intersect with the system UI. To get the relevant value for your app and listen to updates, use `androidx.core.view.WindowInsetsCompat` and related APIs."
+        errorLine1="            var resourceId = resources.getIdentifier(&quot;navigation_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)"
+        errorLine2="                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/main/DojahMainActivity.kt"
+            line="534"
+            column="30"/>
+    </issue>
+
+    <issue
+        id="InternalInsetResource"
+        severity="Warning"
+        message="Using internal inset dimension resource `status_bar_height` is not supported"
+        category="Correctness"
+        priority="6"
+        summary="Using internal inset dimension resource"
+        explanation="The internal inset dimension resources are not a supported way to retrieve the relevant insets for your application. The insets are dynamic values that can change while your app is visible, and your app&apos;s window may not intersect with the system UI. To get the relevant value for your app and listen to updates, use `androidx.core.view.WindowInsetsCompat` and related APIs."
+        errorLine1="            resourceId = resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)"
+        errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/main/DojahMainActivity.kt"
+            line="541"
+            column="26"/>
+    </issue>
+
+    <issue
+        id="FragmentTagUsage"
+        severity="Warning"
+        message="Replace the &lt;fragment> tag with FragmentContainerView."
+        category="Correctness"
+        priority="5"
+        summary="Use FragmentContainerView instead of the &lt;fragment> tag"
+        explanation="FragmentContainerView replaces the &lt;fragment> tag as the preferred                 way of adding fragments via XML. Unlike the &lt;fragment> tag, FragmentContainerView                 uses a normal `FragmentTransaction` under the hood to add the initial fragment,                 allowing further FragmentTransaction operations on the FragmentContainerView                 and providing a consistent timing for lifecycle events."
+        url="https://developer.android.com/reference/androidx/fragment/app/FragmentContainerView.html"
+        urls="https://developer.android.com/reference/androidx/fragment/app/FragmentContainerView.html"
+        errorLine1="            &lt;fragment"
+        errorLine2="             ~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/activity_main_dojah.xml"
+            line="57"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="InflateParams"
+        severity="Warning"
+        message="Avoid passing `null` as the view root (needed to resolve layout parameters on the inflated layout&apos;s root element)"
+        category="Correctness"
+        priority="5"
+        summary="Layout Inflation without a Parent"
+        explanation="When inflating a layout, avoid passing in null as the parent view, since otherwise any layout parameters on the root of the inflated layout will be ignored."
+        url="https://www.bignerdranch.com/blog/understanding-androids-layoutinflater-inflate/"
+        urls="https://www.bignerdranch.com/blog/understanding-androids-layoutinflater-inflate/"
+        errorLine1="                .inflate(R.layout.dojah_calender_fragment, null, false)"
+        errorLine2="                                                           ~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/dialog/CalendarDialogFragment.kt"
+            line="74"
+            column="60"/>
+    </issue>
+
+    <issue
+        id="VectorRaster"
+        severity="Warning"
+        message="Limit vector icons sizes to 200×200 to keep icon drawing fast; see https://developer.android.com/studio/write/vector-asset-studio#when for more"
+        category="Correctness"
+        priority="5"
+        summary="Vector Image Generation"
+        explanation="Vector icons require API 21 or API 24 depending on used features, but when `minSdkVersion` is less than 21 or 24 and Android Gradle plugin 1.4 or higher is used, a vector drawable placed in the `drawable` folder is automatically moved to `drawable-anydpi-v21` or `drawable-anydpi-v24` and bitmap images are generated for different screen resolutions for backwards compatibility.&#xA;&#xA;However, there are some limitations to this raster image generation, and this lint check flags elements and attributes that are not fully supported. You should manually check whether the generated output is acceptable for those older devices."
+        errorLine1="    android:width=&quot;278dp&quot;"
+        errorLine2="                   ~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_verification_warning.xml"
+            line="2"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="VectorRaster"
+        severity="Warning"
+        message="Limit vector icons sizes to 200×200 to keep icon drawing fast; see https://developer.android.com/studio/write/vector-asset-studio#when for more"
+        category="Correctness"
+        priority="5"
+        summary="Vector Image Generation"
+        explanation="Vector icons require API 21 or API 24 depending on used features, but when `minSdkVersion` is less than 21 or 24 and Android Gradle plugin 1.4 or higher is used, a vector drawable placed in the `drawable` folder is automatically moved to `drawable-anydpi-v21` or `drawable-anydpi-v24` and bitmap images are generated for different screen resolutions for backwards compatibility.&#xA;&#xA;However, there are some limitations to this raster image generation, and this lint check flags elements and attributes that are not fully supported. You should manually check whether the generated output is acceptable for those older devices."
+        errorLine1="    android:width=&quot;272dp&quot;"
+        errorLine2="                   ~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/message_corned_bg.xml"
+            line="2"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="DiscouragedApi"
+        severity="Warning"
+        message="Use of this function is discouraged because resource reflection makes it harder to perform build optimizations and compile-time verification of code. It is much more efficient to retrieve resources by identifier (e.g. `R.foo.bar`) than by name (e.g. `getIdentifier(&quot;bar&quot;, &quot;foo&quot;, null)`)."
+        category="Correctness"
+        priority="2"
+        summary="Using discouraged APIs"
+        explanation="Discouraged APIs are allowed and are not deprecated, but they may be unfit for common use (e.g. due to slow performance or subtle behavior)."
+        errorLine1="            var resourceId = resources.getIdentifier(&quot;navigation_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)"
+        errorLine2="                                       ~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/main/DojahMainActivity.kt"
+            line="534"
+            column="40"/>
+    </issue>
+
+    <issue
+        id="DiscouragedApi"
+        severity="Warning"
+        message="Use of this function is discouraged because resource reflection makes it harder to perform build optimizations and compile-time verification of code. It is much more efficient to retrieve resources by identifier (e.g. `R.foo.bar`) than by name (e.g. `getIdentifier(&quot;bar&quot;, &quot;foo&quot;, null)`)."
+        category="Correctness"
+        priority="2"
+        summary="Using discouraged APIs"
+        explanation="Discouraged APIs are allowed and are not deprecated, but they may be unfit for common use (e.g. due to slow performance or subtle behavior)."
+        errorLine1="            resourceId = resources.getIdentifier(&quot;status_bar_height&quot;, &quot;dimen&quot;, &quot;android&quot;)"
+        errorLine2="                                   ~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/main/DojahMainActivity.kt"
+            line="541"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="NotifyDataSetChanged"
+        severity="Warning"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort."
+        category="Performance"
+        priority="8"
+        summary="Invalidating All RecyclerView Data"
+        explanation="The `RecyclerView` adapter&apos;s `onNotifyDataSetChanged` method does not specify what about the data set has changed, forcing any observers to assume that all existing items and structure may no longer be valid. `LayoutManager`s will be forced to fully rebind and relayout all visible views."
+        errorLine1="                        notifyDataSetChanged()"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/utils/widget/SimpleEditTextSpinner.kt"
+            line="432"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="ObsoleteLayoutParam"
+        severity="Warning"
+        message="Invalid layout param in a `layout`: `layout_alignParentEnd`"
+        category="Performance"
+        priority="6"
+        summary="Obsolete layout params"
+        explanation="The given layout_param is not defined for the given layout, meaning it has no effect. This usually happens when you change the parent layout or move view code around without updating the layout params. This will cause useless attribute processing at runtime, and is misleading for others reading the layout so the parameter should be removed."
+        errorLine1="        android:layout_alignParentEnd=&quot;true&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_tmp_trail.xml"
+            line="10"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        severity="Warning"
+        message="Unnecessary; SDK_INT is always >= 21"
+        category="Performance"
+        priority="6"
+        summary="Obsolete SDK_INT Version Check"
+        explanation="This check flags version checks that are not necessary, because the `minSdkVersion` (or surrounding known API level) is already at least as high as the version checked for.&#xA;&#xA;Similarly, it also looks for resources in `-vNN` folders, such as `values-v14` where the version qualifier is less than or equal to the `minSdkVersion`, where the contents should be merged into the best folder."
+        errorLine1="        &lt;item name=&quot;android:statusBarColor&quot; tools:targetApi=&quot;l&quot;>@color/transparent&lt;/item>"
+        errorLine2="                                            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/themes.xml"
+            line="11"
+            column="45"/>
+    </issue>
+
+    <issue
+        id="ObsoleteSdkInt"
+        severity="Warning"
+        message="Unnecessary; SDK_INT is always >= 21"
+        category="Performance"
+        priority="6"
+        summary="Obsolete SDK_INT Version Check"
+        explanation="This check flags version checks that are not necessary, because the `minSdkVersion` (or surrounding known API level) is already at least as high as the version checked for.&#xA;&#xA;Similarly, it also looks for resources in `-vNN` folders, such as `values-v14` where the version qualifier is less than or equal to the `minSdkVersion`, where the contents should be merged into the best folder."
+        errorLine1="        &lt;item name=&quot;android:statusBarColor&quot; tools:targetApi=&quot;l&quot;>?attr/colorOnPrimary&lt;/item>"
+        errorLine2="                                            ~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/themes.xml"
+            line="32"
+            column="45"/>
+    </issue>
+
+    <issue
+        id="UseCompoundDrawables"
+        severity="Warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable"
+        category="Performance"
+        priority="6"
+        summary="Node can be replaced by a `TextView` with compound drawables"
+        explanation="A `LinearLayout` which contains an `ImageView` and a `TextView` can be more efficiently handled as a compound drawable (a single TextView, using the `drawableTop`, `drawableLeft`, `drawableRight` and/or `drawableBottom` attributes to draw one or more images adjacent to the text).&#xA;&#xA;If the two widgets are offset from each other with margins, this can be replaced with a `drawablePadding` attribute.&#xA;&#xA;There&apos;s a lint quickfix to perform this conversion in the Eclipse plugin."
+        errorLine1="&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
+        errorLine2=" ~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_error_country.xml"
+            line="2"
+            column="2"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (1300 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="      android:pathData=&quot;M23.235,22.453C21.851,23.892 21,25.846 21,28C21,32.418 24.582,36 29,36C30.081,36 31.112,35.786 32.052,35.397C32.167,34.647 31.915,33.927 31.812,33.675C31.582,33.115 30.824,32.158 29.559,30.831C29.221,30.476 29.243,30.204 29.364,29.394L29.378,29.303C29.459,28.749 29.597,28.421 31.462,28.125C32.41,27.975 32.659,28.353 33.004,28.878C33.042,28.936 33.081,28.993 33.12,29.05C33.448,29.53 33.691,29.639 34.058,29.806C34.223,29.881 34.428,29.975 34.703,30.131C35.355,30.504 35.355,30.925 35.355,31.847V31.952C35.355,32.343 35.317,32.687 35.257,32.986C36.348,31.618 37,29.885 37,28C37,24.701 35.003,21.868 32.152,20.645C31.599,21.018 30.84,21.547 30.575,21.91C30.44,22.095 30.248,23.042 29.626,23.12C29.463,23.14 29.244,23.126 29.012,23.111C28.39,23.071 27.54,23.016 27.268,23.755C27.095,24.223 27.065,25.494 27.624,26.154C27.713,26.26 27.731,26.455 27.67,26.674C27.59,26.961 27.429,27.136 27.378,27.172C27.282,27.116 27.09,26.893 26.959,26.741C26.646,26.376 26.254,25.922 25.748,25.782C25.564,25.731 25.362,25.689 25.166,25.647C24.616,25.532 23.994,25.401 23.85,25.093C23.744,24.867 23.745,24.556 23.745,24.228C23.745,23.811 23.745,23.34 23.541,22.883C23.462,22.705 23.357,22.565 23.235,22.453ZM29,38C23.477,38 19,33.523 19,28C19,22.477 23.477,18 29,18C34.523,18 39,22.477 39,28C39,33.523 34.523,38 29,38Z&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/country_warning.xml"
+            line="19"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (921 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="      android:pathData=&quot;M6.151,10.478V9.513C5.977,9.827 5.695,10.096 5.305,10.298C4.914,10.5 4.459,10.612 3.938,10.612C3.461,10.612 3.027,10.522 2.636,10.365C2.246,10.208 1.899,9.962 1.617,9.647C1.356,9.356 1.139,8.974 0.966,8.526C0.814,8.077 0.727,7.583 0.727,7.022C0.727,6.484 0.814,5.968 0.966,5.542C1.118,5.093 1.356,4.712 1.638,4.397C1.92,4.083 2.267,3.859 2.658,3.679C3.048,3.522 3.482,3.433 3.96,3.433C4.459,3.433 4.892,3.522 5.261,3.702C5.63,3.881 5.89,4.106 6.086,4.375V0H7.539V10.478H6.151ZM4.177,4.734C3.895,4.734 3.634,4.779 3.396,4.891C3.157,4.981 2.94,5.138 2.766,5.34C2.593,5.542 2.463,5.788 2.354,6.058C2.246,6.349 2.202,6.663 2.202,7.045C2.202,7.404 2.246,7.74 2.354,8.032C2.463,8.301 2.593,8.526 2.766,8.728C2.94,8.929 3.157,9.064 3.396,9.176C3.634,9.266 3.895,9.333 4.177,9.333C4.719,9.333 5.174,9.154 5.543,8.795C5.89,8.436 6.086,7.92 6.086,7.224V6.865C6.086,6.192 5.912,5.654 5.543,5.295C5.196,4.913 4.741,4.734 4.177,4.734Z&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/dojah_logo.xml"
+            line="7"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (1029 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="      android:pathData=&quot;M21.619,3.432C22.486,3.432 23.159,3.657 23.615,4.128C24.07,4.599 24.309,5.272 24.309,6.17V10.477H22.833V9.871C22.595,10.096 22.335,10.298 22.031,10.432C21.727,10.567 21.402,10.634 21.011,10.634C20.339,10.634 19.796,10.455 19.384,10.118C18.972,9.759 18.777,9.266 18.777,8.615C18.777,8.256 18.842,7.942 18.972,7.673C19.102,7.426 19.276,7.202 19.493,7.045C19.71,6.887 19.97,6.753 20.274,6.663C20.577,6.573 20.903,6.529 21.228,6.506L22.812,6.416V6.214C22.812,5.766 22.725,5.407 22.53,5.16C22.335,4.913 22.031,4.779 21.619,4.779C21.206,4.779 20.903,4.891 20.708,5.137C20.512,5.362 20.426,5.654 20.426,5.968L18.95,5.878C18.95,5.564 19.015,5.272 19.124,4.98C19.254,4.689 19.428,4.42 19.645,4.195C19.861,3.971 20.143,3.791 20.491,3.634C20.838,3.522 21.206,3.432 21.619,3.432ZM21.445,7.673C21.098,7.695 20.816,7.762 20.599,7.897C20.382,8.032 20.274,8.256 20.274,8.57C20.274,8.862 20.36,9.064 20.556,9.176C20.751,9.288 20.99,9.355 21.272,9.355C21.749,9.355 22.118,9.243 22.421,8.996C22.703,8.75 22.855,8.368 22.855,7.83V7.583L21.445,7.673Z&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/dojah_logo.xml"
+            line="13"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (922 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="      android:pathData=&quot;M14.98,5.093L13.809,3.881C13.549,3.612 13.18,3.455 12.811,3.455H10.967C10.598,3.455 10.229,3.612 9.969,3.881L8.798,5.093C8.537,5.362 8.385,5.744 8.385,6.125V8.01C8.385,8.391 8.537,8.772 8.798,9.042L10.208,10.5C10.295,10.59 10.338,10.702 10.338,10.837V11.42C10.338,11.756 10.598,12.026 10.924,12.026H12.789C13.115,12.026 13.375,11.756 13.375,11.42V10.859C13.375,10.747 13.418,10.612 13.505,10.522L14.959,9.042C15.219,8.772 15.371,8.391 15.371,8.01V6.125C15.414,5.744 15.262,5.385 14.98,5.093ZM13.917,7.763C13.917,7.965 13.852,8.144 13.722,8.301L13.158,8.929C12.963,9.131 12.92,9.445 13.028,9.715L13.353,10.545H10.468L10.793,9.715C10.902,9.445 10.837,9.154 10.663,8.929L10.099,8.301C9.969,8.167 9.904,7.965 9.904,7.763V6.394C9.904,6.192 9.969,6.013 10.099,5.878L10.728,5.138C10.88,4.981 11.075,4.869 11.292,4.869H12.529C12.746,4.869 12.941,4.958 13.093,5.138L13.744,5.878C13.874,6.013 13.939,6.215 13.939,6.417V7.763H13.917Z&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/dojah_logo.xml"
+            line="19"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (981 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="        android:pathData=&quot;M16.5,8.8333C16.5,7.1094 15.8152,5.4561 14.5962,4.2371C13.3772,3.0181 11.7239,2.3333 10,2.3333C8.2761,2.3333 6.6228,3.0181 5.4038,4.2371C4.1848,5.4561 3.5,7.1094 3.5,8.8333V17.5H16.5V8.8333ZM18.6667,18.2225L19.1,18.8C19.1604,18.8804 19.1971,18.9761 19.2061,19.0763C19.2152,19.1765 19.1961,19.2772 19.1512,19.3672C19.1062,19.4572 19.037,19.5328 18.9514,19.5857C18.8659,19.6386 18.7673,19.6666 18.6667,19.6666H1.3333C1.2327,19.6666 1.1341,19.6386 1.0486,19.5857C0.963,19.5328 0.8938,19.4572 0.8489,19.3672C0.8039,19.2772 0.7848,19.1765 0.7939,19.0763C0.8029,18.9761 0.8396,18.8804 0.9,18.8L1.3333,18.2225V8.8333C1.3333,6.5347 2.2464,4.3303 3.8718,2.705C5.4971,1.0797 7.7015,0.1666 10,0.1666C12.2985,0.1666 14.5029,1.0797 16.1283,2.705C17.7536,4.3303 18.6667,6.5347 18.6667,8.8333V18.2225ZM7.2917,20.75H12.7083C12.7083,21.4683 12.423,22.1571 11.9151,22.665C11.4072,23.173 10.7183,23.4583 10,23.4583C9.2817,23.4583 8.5928,23.173 8.0849,22.665C7.577,22.1571 7.2917,21.4683 7.2917,20.75Z&quot; />"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_alarm.xml"
+            line="9"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (3037 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="      android:pathData=&quot;M6,9.5C6.099,9.5 6.196,9.471 6.278,9.416C6.36,9.361 6.424,9.283 6.462,9.191C6.5,9.1 6.51,8.999 6.49,8.902C6.471,8.805 6.423,8.716 6.354,8.646C6.284,8.577 6.195,8.529 6.098,8.51C6.001,8.49 5.9,8.5 5.809,8.538C5.717,8.576 5.639,8.64 5.584,8.722C5.529,8.804 5.5,8.901 5.5,9C5.5,9.133 5.553,9.26 5.646,9.354C5.74,9.447 5.867,9.5 6,9.5ZM8.5,9.5C8.599,9.5 8.696,9.471 8.778,9.416C8.86,9.361 8.924,9.283 8.962,9.191C9,9.1 9.01,8.999 8.99,8.902C8.971,8.805 8.923,8.716 8.854,8.646C8.784,8.577 8.695,8.529 8.598,8.51C8.501,8.49 8.4,8.5 8.309,8.538C8.217,8.576 8.139,8.64 8.084,8.722C8.029,8.804 8,8.901 8,9C8,9.133 8.053,9.26 8.146,9.354C8.24,9.447 8.367,9.5 8.5,9.5ZM8.5,7.5C8.599,7.5 8.696,7.471 8.778,7.416C8.86,7.361 8.924,7.283 8.962,7.191C9,7.1 9.01,6.999 8.99,6.902C8.971,6.805 8.923,6.716 8.854,6.646C8.784,6.577 8.695,6.529 8.598,6.51C8.501,6.49 8.4,6.5 8.309,6.538C8.217,6.576 8.139,6.64 8.084,6.722C8.029,6.804 8,6.901 8,7C8,7.133 8.053,7.26 8.146,7.354C8.24,7.447 8.367,7.5 8.5,7.5ZM6,7.5C6.099,7.5 6.196,7.471 6.278,7.416C6.36,7.361 6.424,7.283 6.462,7.191C6.5,7.1 6.51,6.999 6.49,6.902C6.471,6.805 6.423,6.716 6.354,6.646C6.284,6.577 6.195,6.529 6.098,6.51C6.001,6.49 5.9,6.5 5.809,6.538C5.717,6.576 5.639,6.64 5.584,6.722C5.529,6.804 5.5,6.901 5.5,7C5.5,7.133 5.553,7.26 5.646,7.354C5.74,7.447 5.867,7.5 6,7.5ZM9.5,1.5H9V1C9,0.867 8.947,0.74 8.854,0.646C8.76,0.553 8.633,0.5 8.5,0.5C8.367,0.5 8.24,0.553 8.146,0.646C8.053,0.74 8,0.867 8,1V1.5H4V1C4,0.867 3.947,0.74 3.854,0.646C3.76,0.553 3.633,0.5 3.5,0.5C3.367,0.5 3.24,0.553 3.146,0.646C3.053,0.74 3,0.867 3,1V1.5H2.5C2.102,1.5 1.721,1.658 1.439,1.939C1.158,2.221 1,2.602 1,3V10C1,10.398 1.158,10.779 1.439,11.061C1.721,11.342 2.102,11.5 2.5,11.5H9.5C9.898,11.5 10.279,11.342 10.561,11.061C10.842,10.779 11,10.398 11,10V3C11,2.602 10.842,2.221 10.561,1.939C10.279,1.658 9.898,1.5 9.5,1.5ZM10,10C10,10.133 9.947,10.26 9.854,10.354C9.76,10.447 9.633,10.5 9.5,10.5H2.5C2.367,10.5 2.24,10.447 2.146,10.354C2.053,10.26 2,10.133 2,10V5.5H10V10ZM10,4.5H2V3C2,2.867 2.053,2.74 2.146,2.646C2.24,2.553 2.367,2.5 2.5,2.5H3V3C3,3.133 3.053,3.26 3.146,3.354C3.24,3.447 3.367,3.5 3.5,3.5C3.633,3.5 3.76,3.447 3.854,3.354C3.947,3.26 4,3.133 4,3V2.5H8V3C8,3.133 8.053,3.26 8.146,3.354C8.24,3.447 8.367,3.5 8.5,3.5C8.633,3.5 8.76,3.447 8.854,3.354C8.947,3.26 9,3.133 9,3V2.5H9.5C9.633,2.5 9.76,2.553 9.854,2.646C9.947,2.74 10,2.867 10,3V4.5ZM3.5,7.5C3.599,7.5 3.696,7.471 3.778,7.416C3.86,7.361 3.924,7.283 3.962,7.191C4,7.1 4.01,6.999 3.99,6.902C3.971,6.805 3.923,6.716 3.854,6.646C3.784,6.577 3.695,6.529 3.598,6.51C3.501,6.49 3.4,6.5 3.309,6.538C3.217,6.576 3.139,6.64 3.084,6.722C3.029,6.804 3,6.901 3,7C3,7.133 3.053,7.26 3.146,7.354C3.24,7.447 3.367,7.5 3.5,7.5ZM3.5,9.5C3.599,9.5 3.696,9.471 3.778,9.416C3.86,9.361 3.924,9.283 3.962,9.191C4,9.1 4.01,8.999 3.99,8.902C3.971,8.805 3.923,8.716 3.854,8.646C3.784,8.577 3.695,8.529 3.598,8.51C3.501,8.49 3.4,8.5 3.309,8.538C3.217,8.576 3.139,8.64 3.084,8.722C3.029,8.804 3,8.901 3,9C3,9.133 3.053,9.26 3.146,9.354C3.24,9.447 3.367,9.5 3.5,9.5Z&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_calendar_faded.xml"
+            line="7"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (1498 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="        android:pathData=&quot;M14.9017,15.0809C13.436,16.0105 11.7356,16.5028 10,16.5001C5.5067,16.5001 1.7683,13.2667 0.9842,9.0001C1.3425,7.059 2.3189,5.2858 3.7675,3.9451L1.16,1.3401L2.3392,0.1609L18.8383,16.6609L17.6592,17.8392L14.9008,15.0809H14.9017ZM4.9458,5.1251C3.8133,6.1547 3.0244,7.5074 2.6858,9.0001C2.9461,10.1388 3.4685,11.201 4.2117,12.1022C4.9548,13.0034 5.898,13.7187 6.9663,14.1911C8.0346,14.6636 9.1984,14.8801 10.3651,14.8235C11.5318,14.7669 12.6691,14.4387 13.6867,13.8651L11.9967,12.1751C11.2772,12.6282 10.4252,12.8235 9.5802,12.7288C8.7352,12.634 7.9475,12.255 7.3463,11.6537C6.7451,11.0525 6.366,10.2648 6.2713,9.4199C6.1766,8.5749 6.3718,7.7228 6.825,7.0034L4.9458,5.1251ZM10.7617,10.9401L8.06,8.2384C7.9117,8.6158 7.8768,9.0283 7.9596,9.4253C8.0423,9.8223 8.2392,10.1865 8.5259,10.4733C8.8127,10.76 9.1769,10.9569 9.5739,11.0396C9.9709,11.1224 10.3834,11.0875 10.7608,10.9392L10.7617,10.9401ZM17.3392,12.8267L16.1467,11.6351C16.7037,10.8411 17.1003,9.946 17.3142,9.0001C17.0877,8.0082 16.6619,7.0727 16.0626,6.2505C15.4634,5.4283 14.7032,4.7365 13.8282,4.2172C12.9533,3.698 11.9819,3.362 10.9731,3.2299C9.9643,3.0977 8.9392,3.172 7.96,3.4484L6.645,2.1334C7.6842,1.7251 8.8167,1.5001 10,1.5001C14.4933,1.5001 18.2317,4.7334 19.0158,9.0001C18.7605,10.3881 18.1865,11.698 17.3392,12.8267ZM9.7692,5.2567C10.2996,5.2239 10.8309,5.3043 11.3279,5.4924C11.825,5.6805 12.2763,5.9721 12.6521,6.3479C13.0279,6.7237 13.3195,7.1751 13.5076,7.6721C13.6958,8.1691 13.7761,8.7005 13.7433,9.2309L9.7683,5.2567H9.7692Z&quot; />"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_hide.xml"
+            line="8"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (929 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="      android:pathData=&quot;M10,1.666C5.408,1.666 1.667,5.408 1.667,10C1.667,14.592 5.408,18.333 10,18.333C14.592,18.333 18.333,14.592 18.333,10C18.333,5.408 14.592,1.666 10,1.666ZM9.375,6.667C9.375,6.325 9.658,6.042 10,6.042C10.342,6.042 10.625,6.325 10.625,6.667V10.833C10.625,11.175 10.342,11.458 10,11.458C9.658,11.458 9.375,11.175 9.375,10.833V6.667ZM10.767,13.65C10.725,13.758 10.667,13.842 10.592,13.925C10.508,14 10.417,14.058 10.317,14.1C10.217,14.142 10.108,14.167 10,14.167C9.892,14.167 9.783,14.142 9.683,14.1C9.583,14.058 9.492,14 9.408,13.925C9.333,13.842 9.275,13.758 9.233,13.65C9.192,13.55 9.167,13.441 9.167,13.333C9.167,13.225 9.192,13.116 9.233,13.017C9.275,12.917 9.333,12.825 9.408,12.741C9.492,12.667 9.583,12.608 9.683,12.566C9.883,12.483 10.117,12.483 10.317,12.566C10.417,12.608 10.508,12.667 10.592,12.741C10.667,12.825 10.725,12.917 10.767,13.017C10.808,13.116 10.833,13.225 10.833,13.333C10.833,13.441 10.808,13.55 10.767,13.65Z&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_info.xml"
+            line="7"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (1326 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="        android:pathData=&quot;M14.8334,20.1666H13.0001V18.3333C13.0001,17.6039 12.7103,16.9045 12.1946,16.3888C11.6789,15.873 10.9794,15.5833 10.2501,15.5833H4.7501C4.0207,15.5833 3.3213,15.873 2.8055,16.3888C2.2898,16.9045 2.0001,17.6039 2.0001,18.3333V20.1666H0.1667V18.3333C0.1667,17.1177 0.6496,15.9519 1.5092,15.0924C2.3687,14.2328 3.5345,13.75 4.7501,13.75H10.2501C11.4657,13.75 12.6314,14.2328 13.491,15.0924C14.3505,15.9519 14.8334,17.1177 14.8334,18.3333V20.1666ZM7.5001,11.9166C6.7778,11.9166 6.0626,11.7744 5.3953,11.498C4.728,11.2216 4.1217,10.8164 3.611,10.3057C3.1003,9.795 2.6951,9.1887 2.4187,8.5214C2.1423,7.8541 2.0001,7.1389 2.0001,6.4166C2.0001,5.6944 2.1423,4.9792 2.4187,4.3119C2.6951,3.6446 3.1003,3.0383 3.611,2.5275C4.1217,2.0168 4.728,1.6117 5.3953,1.3353C6.0626,1.0589 6.7778,0.9166 7.5001,0.9166C8.9588,0.9166 10.3577,1.4961 11.3892,2.5275C12.4206,3.559 13.0001,4.9579 13.0001,6.4166C13.0001,7.8753 12.4206,9.2743 11.3892,10.3057C10.3577,11.3372 8.9588,11.9166 7.5001,11.9166ZM7.5001,10.0833C8.4725,10.0833 9.4052,9.697 10.0928,9.0093C10.7804,8.3217 11.1667,7.3891 11.1667,6.4166C11.1667,5.4442 10.7804,4.5115 10.0928,3.8239C9.4052,3.1363 8.4725,2.75 7.5001,2.75C6.5276,2.75 5.595,3.1363 4.9074,3.8239C4.2197,4.5115 3.8334,5.4442 3.8334,6.4166C3.8334,7.3891 4.2197,8.3217 4.9074,9.0093C5.595,9.697 6.5276,10.0833 7.5001,10.0833Z&quot; />"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_outline_account.xml"
+            line="9"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (1406 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="        android:pathData=&quot;M10,19.1667C4.9373,19.1667 0.8333,15.0628 0.8333,10C0.8333,4.9373 4.9373,0.8334 10,0.8334C15.0627,0.8334 19.1667,4.9373 19.1667,10C19.1667,15.0628 15.0627,19.1667 10,19.1667ZM10,17.3334C11.9449,17.3334 13.8102,16.5608 15.1854,15.1855C16.5607,13.8102 17.3333,11.945 17.3333,10C17.3333,8.0551 16.5607,6.1899 15.1854,4.8146C13.8102,3.4393 11.9449,2.6667 10,2.6667C8.0551,2.6667 6.1898,3.4393 4.8145,4.8146C3.4393,6.1899 2.6667,8.0551 2.6667,10C2.6667,11.945 3.4393,13.8102 4.8145,15.1855C6.1898,16.5608 8.0551,17.3334 10,17.3334ZM9.0833,12.75H10.9167V14.5834H9.0833V12.75ZM10.9167,11.2421V11.8334H9.0833V10.4584C9.0833,10.2153 9.1799,9.9821 9.3518,9.8102C9.5237,9.6383 9.7569,9.5417 10,9.5417C10.2604,9.5417 10.5154,9.4677 10.7355,9.3284C10.9555,9.1891 11.1314,8.9902 11.2428,8.7548C11.3542,8.5194 11.3964,8.2573 11.3646,7.9988C11.3328,7.7404 11.2283,7.4962 11.0632,7.2949C10.8981,7.0935 10.6792,6.9432 10.4319,6.8614C10.1847,6.7795 9.9194,6.7696 9.6667,6.8327C9.4141,6.8958 9.1845,7.0293 9.0048,7.2178C8.8251,7.4062 8.7026,7.6418 8.6516,7.8972L6.8531,7.537C6.9646,6.9797 7.2221,6.462 7.5992,6.0369C7.9763,5.6118 8.4595,5.2944 8.9995,5.1172C9.5395,4.9401 10.1169,4.9095 10.6725,5.0286C11.2282,5.1477 11.7423,5.4122 12.1622,5.7951C12.5822,6.178 12.8929,6.6656 13.0627,7.2079C13.2324,7.7503 13.2551,8.328 13.1285,8.882C13.0018,9.436 12.7302,9.9464 12.3416,10.3611C11.953,10.7758 11.4613,11.0798 10.9167,11.2421Z&quot; />"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_outline_support.xml"
+            line="9"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (1488 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="        android:pathData=&quot;M13.0833,13.6667H14.9167V2.6667H5.75V4.5H13.0833V13.6667ZM13.0833,15.5V18.25C13.0833,18.756 12.6708,19.1667 12.1603,19.1667H1.1731C1.0522,19.1674 0.9324,19.1443 0.8205,19.0985C0.7086,19.0528 0.6068,18.9854 0.521,18.9002C0.4352,18.8151 0.3671,18.7138 0.3206,18.6022C0.2741,18.4906 0.2501,18.3709 0.25,18.25L0.2528,5.4167C0.2528,4.9107 0.6653,4.5 1.1758,4.5H3.9167V1.75C3.9167,1.5069 4.0132,1.2738 4.1852,1.1019C4.3571,0.93 4.5902,0.8334 4.8333,0.8334H15.8333C16.0764,0.8334 16.3096,0.93 16.4815,1.1019C16.6534,1.2738 16.75,1.5069 16.75,1.75V14.5834C16.75,14.8265 16.6534,15.0596 16.4815,15.2316C16.3096,15.4035 16.0764,15.5 15.8333,15.5H13.0833ZM2.0861,6.3334L2.0833,17.3334H11.25V6.3334H2.0861ZM3.9167,13.6667H8.0417C8.1632,13.6667 8.2798,13.6184 8.3658,13.5325C8.4517,13.4465 8.5,13.3299 8.5,13.2084C8.5,13.0868 8.4517,12.9702 8.3658,12.8843C8.2798,12.7983 8.1632,12.75 8.0417,12.75H5.2917C4.6839,12.75 4.101,12.5086 3.6712,12.0788C3.2414,11.6491 3,11.0662 3,10.4584C3,9.8506 3.2414,9.2677 3.6712,8.8379C4.101,8.4081 4.6839,8.1667 5.2917,8.1667H5.75V7.25H7.5833V8.1667H9.4167V10H5.2917C5.1701,10 5.0535,10.0483 4.9676,10.1343C4.8816,10.2202 4.8333,10.3368 4.8333,10.4584C4.8333,10.5799 4.8816,10.6965 4.9676,10.7825C5.0535,10.8684 5.1701,10.9167 5.2917,10.9167H8.0417C8.6495,10.9167 9.2324,11.1582 9.6621,11.5879C10.0919,12.0177 10.3333,12.6006 10.3333,13.2084C10.3333,13.8162 10.0919,14.3991 9.6621,14.8288C9.2324,15.2586 8.6495,15.5 8.0417,15.5H7.5833V16.4167H5.75V15.5H3.9167V13.6667Z&quot; />"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_outline_transaction.xml"
+            line="9"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (1390 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="      android:pathData=&quot;M10,1.667C10.46,1.667 10.833,2.04 10.833,2.5V5C10.833,5.46 10.46,5.833 10,5.833C9.54,5.833 9.167,5.46 9.167,5V2.5C9.167,2.04 9.54,1.667 10,1.667ZM10,14.167C10.46,14.167 10.833,14.54 10.833,15V17.5C10.833,17.96 10.46,18.333 10,18.333C9.54,18.333 9.167,17.96 9.167,17.5V15C9.167,14.54 9.54,14.167 10,14.167ZM18.333,10C18.333,10.46 17.96,10.833 17.5,10.833H15C14.54,10.833 14.167,10.46 14.167,10C14.167,9.54 14.54,9.167 15,9.167H17.5C17.96,9.167 18.333,9.54 18.333,10ZM5.833,10C5.833,10.46 5.46,10.833 5,10.833H2.5C2.04,10.833 1.667,10.46 1.667,10C1.667,9.54 2.04,9.167 2.5,9.167H5C5.46,9.167 5.833,9.54 5.833,10ZM15.892,15.893C15.567,16.218 15.039,16.218 14.714,15.893L12.946,14.125C12.621,13.799 12.621,13.272 12.946,12.946C13.272,12.621 13.799,12.621 14.125,12.946L15.892,14.714C16.218,15.04 16.218,15.567 15.892,15.893ZM7.054,7.054C6.728,7.379 6.201,7.379 5.875,7.054L4.107,5.286C3.782,4.961 3.782,4.433 4.107,4.107C4.433,3.782 4.96,3.782 5.286,4.107L7.054,5.875C7.379,6.201 7.379,6.728 7.054,7.054ZM4.107,15.893C3.782,15.567 3.782,15.04 4.107,14.714L5.875,12.946C6.201,12.621 6.728,12.621 7.054,12.946C7.379,13.272 7.379,13.799 7.054,14.125L5.286,15.893C4.96,16.218 4.433,16.218 4.107,15.893ZM12.946,7.054C12.621,6.728 12.621,6.201 12.946,5.875L14.714,4.107C15.039,3.782 15.567,3.782 15.892,4.107C16.218,4.433 16.218,4.961 15.892,5.286L14.125,7.054C13.799,7.379 13.272,7.379 12.946,7.054Z&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_processing.xml"
+            line="7"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (1158 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="        android:pathData=&quot;M10,0.5C14.4933,0.5 18.2317,3.7333 19.0158,8C18.2325,12.2667 14.4933,15.5 10,15.5C5.5067,15.5 1.7683,12.2667 0.9842,8C1.7675,3.7333 5.5067,0.5 10,0.5ZM10,13.8333C11.6996,13.833 13.3486,13.2557 14.6774,12.196C16.0061,11.1363 16.9357,9.6569 17.3142,8C16.9344,6.3444 16.0041,4.8667 14.6755,3.8084C13.3469,2.75 11.6986,2.1738 10,2.1738C8.3014,2.1738 6.6531,2.75 5.3245,3.8084C3.9959,4.8667 3.0656,6.3444 2.6858,8C3.0642,9.6569 3.9939,11.1363 5.3226,12.196C6.6513,13.2557 8.3004,13.833 10,13.8333ZM10,11.75C9.0054,11.75 8.0516,11.3549 7.3484,10.6516C6.6451,9.9484 6.25,8.9946 6.25,8C6.25,7.0054 6.6451,6.0516 7.3484,5.3484C8.0516,4.6451 9.0054,4.25 10,4.25C10.9946,4.25 11.9484,4.6451 12.6516,5.3484C13.3549,6.0516 13.75,7.0054 13.75,8C13.75,8.9946 13.3549,9.9484 12.6516,10.6516C11.9484,11.3549 10.9946,11.75 10,11.75ZM10,10.0833C10.5525,10.0833 11.0824,9.8638 11.4731,9.4731C11.8638,9.0824 12.0833,8.5525 12.0833,8C12.0833,7.4475 11.8638,6.9176 11.4731,6.5269C11.0824,6.1362 10.5525,5.9167 10,5.9167C9.4475,5.9167 8.9176,6.1362 8.5269,6.5269C8.1362,6.9176 7.9167,7.4475 7.9167,8C7.9167,8.5525 8.1362,9.0824 8.5269,9.4731C8.9176,9.8638 9.4475,10.0833 10,10.0833Z&quot; />"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_show.xml"
+            line="9"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="VectorPath"
+        severity="Warning"
+        message="Very long vector path (819 characters), which is bad for performance. Considering reducing precision, removing minor details or rasterizing vector."
+        category="Performance"
+        priority="5"
+        summary="Long vector paths"
+        explanation="Using long vector paths is bad for performance. There are several ways to make the `pathData` shorter:&#xA;* Using less precision&#xA;* Removing some minor details&#xA;* Using the Android Studio vector conversion tool&#xA;* Rasterizing the image (converting to PNG)"
+        errorLine1="      android:pathData=&quot;M37.083,26.5L38.285,27.221C38.522,27.363 38.599,27.67 38.457,27.907C38.415,27.977 38.356,28.036 38.285,28.079L29,33.65L19.715,28.079C19.478,27.937 19.401,27.629 19.543,27.393C19.585,27.322 19.644,27.263 19.715,27.221L20.917,26.5L29,31.35L37.083,26.5ZM37.083,31.2L38.285,31.921C38.522,32.063 38.599,32.37 38.457,32.607C38.415,32.677 38.356,32.736 38.285,32.779L29.514,38.041C29.198,38.231 28.802,38.231 28.485,38.041L19.715,32.779C19.478,32.637 19.401,32.329 19.543,32.093C19.585,32.022 19.644,31.963 19.715,31.921L20.917,31.2L29,36.05L37.083,31.2ZM29.514,17.309L38.285,22.571C38.522,22.713 38.599,23.02 38.457,23.257C38.415,23.327 38.356,23.386 38.285,23.429L29,29L19.715,23.429C19.478,23.287 19.401,22.979 19.543,22.743C19.585,22.672 19.644,22.613 19.715,22.571L28.485,17.309C28.802,17.118 29.198,17.118 29.514,17.309Z&quot;"
+        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_verification_avatar.xml"
+            line="22"
+            column="25"/>
+    </issue>
+
+    <issue
+        id="InefficientWeight"
+        severity="Warning"
+        message="Use a `layout_width` of `0dp` instead of `wrap_content` for better performance"
+        category="Performance"
+        priority="3"
+        summary="Inefficient layout weight"
+        explanation="When only a single widget in a `LinearLayout` defines a weight, it is more efficient to assign a width/height of `0dp` to it since it will absorb all the remaining space anyway. With a declared width/height of `0dp` it does not have to measure its own size first."
+        errorLine1="            android:layout_width=&quot;wrap_content&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_simple_appbar.xml"
+            line="31"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="Overdraw"
+        severity="Warning"
+        message="Possible overdraw: Root element paints background `@color/card_back_color` with a theme that also paints a background (inferred theme is `@style/Theme.Dojah`)"
+        category="Performance"
+        priority="3"
+        summary="Overdraw: Painting regions more than once"
+        explanation="If you set a background drawable on a root view, then you should use a custom theme where the theme background is null. Otherwise, the theme background will be painted first, only to have your custom background completely cover it; this is called &quot;overdraw&quot;.&#xA;&#xA;NOTE: This detector relies on figuring out which layouts are associated with which activities based on scanning the Java code, and it&apos;s currently doing that using an inexact pattern matching algorithm. Therefore, it can incorrectly conclude which activity the layout is associated with and then wrongly complain that a background-theme is hidden.&#xA;&#xA;If you want your custom background on multiple pages, then you should consider making a custom theme with your custom background and just using that theme instead of a root element background.&#xA;&#xA;Of course it&apos;s possible that your custom drawable is translucent and you want it to be mixed with the background. However, you will get better performance if you pre-mix the background with your drawable and use that resulting image or color as a custom theme background instead."
+        errorLine1="    android:background=&quot;@color/card_back_color&quot;"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dojah_calender_fragment.xml"
+            line="7"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="UselessParent"
+        severity="Warning"
+        message="This `LinearLayout` layout or its `RelativeLayout` parent is unnecessary"
+        category="Performance"
+        priority="2"
+        summary="Unnecessary parent layout"
+        explanation="A layout with children that has no siblings, is not a scrollview or a root layout, and does not have a background, can be removed and have its children moved directly into the parent for a flatter and more efficient layout hierarchy."
+        errorLine1="    &lt;LinearLayout"
+        errorLine2="     ~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_disclaimer.xml"
+            line="9"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="UselessParent"
+        severity="Warning"
+        message="This `LinearLayout` layout or its `RelativeLayout` parent is unnecessary"
+        category="Performance"
+        priority="2"
+        summary="Unnecessary parent layout"
+        explanation="A layout with children that has no siblings, is not a scrollview or a root layout, and does not have a background, can be removed and have its children moved directly into the parent for a flatter and more efficient layout hierarchy."
+        errorLine1="    &lt;LinearLayout"
+        errorLine2="     ~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_selfie_disclaimer.xml"
+            line="9"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="UselessParent"
+        severity="Warning"
+        message="This `RelativeLayout` layout or its `LinearLayout` parent is possibly unnecessary"
+        category="Performance"
+        priority="2"
+        summary="Unnecessary parent layout"
+        explanation="A layout with children that has no siblings, is not a scrollview or a root layout, and does not have a background, can be removed and have its children moved directly into the parent for a flatter and more efficient layout hierarchy."
+        errorLine1="        &lt;RelativeLayout"
+        errorLine2="         ~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_spinner_country.xml"
+            line="17"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="TypographyEllipsis"
+        severity="Warning"
+        message="Replace &quot;...&quot; with ellipsis character (…, &amp;#8230;) ?"
+        category="Usability:Typography"
+        priority="5"
+        summary="Ellipsis string can be replaced with ellipsis character"
+        explanation="You can replace the string &quot;...&quot; with a dedicated ellipsis character, ellipsis character (\u2026, &amp;#8230;). This can help make the text more readable."
+        url="https://en.wikipedia.org/wiki/Ellipsis"
+        urls="https://en.wikipedia.org/wiki/Ellipsis"
+        errorLine1="    &lt;string name=&quot;processing_load&quot;>\tProcessing...&lt;/string>"
+        errorLine2="                                   ~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/strings.xml"
+            line="95"
+            column="36"/>
+    </issue>
+
+    <issue
+        id="IconDipSize"
+        severity="Warning"
+        message="The image `app_logo.png` varies significantly in its density-independent (dip) size across the various density versions: drawable-hdpi/app_logo.png: 171x24 dp (257x36 px), drawable-xhdpi/app_logo.png: 193x27 dp (386x54 px), drawable-xxhdpi/app_logo.png: 171x24 dp (514x72 px), drawable-xxxhdpi/app_logo.png: 129x18 dp (514x72 px)"
+        category="Usability:Icons"
+        priority="5"
+        summary="Icon density-independent size validation"
+        explanation="Checks the all icons which are provided in multiple densities, all compute to roughly the same density-independent pixel (`dip`) size. This catches errors where images are either placed in the wrong folder, or icons are changed to new sizes but some folders are forgotten.">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xxxhdpi/app_logo.png"/>
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xxhdpi/app_logo.png"/>
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-hdpi/app_logo.png"/>
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xhdpi/app_logo.png"/>
+    </issue>
+
+    <issue
+        id="IconDuplicatesConfig"
+        severity="Warning"
+        message="The `app_logo.png` icon has identical contents in the following configuration folders: drawable-xxhdpi, drawable-xxxhdpi"
+        category="Usability:Icons"
+        priority="5"
+        summary="Identical bitmaps across various configurations"
+        explanation="If an icon is provided under different configuration parameters such as `drawable-hdpi` or `-v11`, they should typically be different. This detector catches cases where the same icon is provided in different configuration folder which is usually not intentional.">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xxxhdpi/app_logo.png"/>
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xxhdpi/app_logo.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        severity="Warning"
+        message="Found bitmap drawable `res/drawable/app_logo.png` in densityless folder"
+        category="Usability:Icons"
+        priority="5"
+        summary="Image defined in density-independent drawable folder"
+        explanation="The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon **really** is density independent (for example a solid color) you can place it in `drawable-nodpi`."
+        url="https://developer.android.com/guide/practices/screens_support.html"
+        urls="https://developer.android.com/guide/practices/screens_support.html">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/app_logo.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        severity="Warning"
+        message="Found bitmap drawable `res/drawable/ic_avatar.png` in densityless folder"
+        category="Usability:Icons"
+        priority="5"
+        summary="Image defined in density-independent drawable folder"
+        explanation="The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon **really** is density independent (for example a solid color) you can place it in `drawable-nodpi`."
+        url="https://developer.android.com/guide/practices/screens_support.html"
+        urls="https://developer.android.com/guide/practices/screens_support.html">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_avatar.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        severity="Warning"
+        message="Found bitmap drawable `res/drawable/img_404.png` in densityless folder"
+        category="Usability:Icons"
+        priority="5"
+        summary="Image defined in density-independent drawable folder"
+        explanation="The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon **really** is density independent (for example a solid color) you can place it in `drawable-nodpi`."
+        url="https://developer.android.com/guide/practices/screens_support.html"
+        urls="https://developer.android.com/guide/practices/screens_support.html">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/img_404.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        severity="Warning"
+        message="Found bitmap drawable `res/drawable/processing_bg.png` in densityless folder"
+        category="Usability:Icons"
+        priority="5"
+        summary="Image defined in density-independent drawable folder"
+        explanation="The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon **really** is density independent (for example a solid color) you can place it in `drawable-nodpi`."
+        url="https://developer.android.com/guide/practices/screens_support.html"
+        urls="https://developer.android.com/guide/practices/screens_support.html">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/processing_bg.png"/>
+    </issue>
+
+    <issue
+        id="IconLocation"
+        severity="Warning"
+        message="Found bitmap drawable `res/drawable/selfie_avartar.png` in densityless folder"
+        category="Usability:Icons"
+        priority="5"
+        summary="Image defined in density-independent drawable folder"
+        explanation="The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to `drawable-mdpi` and consider providing higher and lower resolution versions in `drawable-ldpi`, `drawable-hdpi` and `drawable-xhdpi`. If the icon **really** is density independent (for example a solid color) you can place it in `drawable-nodpi`."
+        url="https://developer.android.com/guide/practices/screens_support.html"
+        urls="https://developer.android.com/guide/practices/screens_support.html">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/selfie_avartar.png"/>
+    </issue>
+
+    <issue
+        id="IconDensities"
+        severity="Warning"
+        message="Missing the following drawables in `drawable-xxhdpi`: img_404.png (found in drawable-hdpi, drawable-xhdpi)"
+        category="Usability:Icons"
+        priority="4"
+        summary="Icon densities validation"
+        explanation="Icons will look best if a custom version is provided for each of the major screen density classes (low, medium, high, extra high). This lint check identifies icons which do not have complete coverage across the densities.&#xA;&#xA;Low density is not really used much anymore, so this check ignores the ldpi density. To force lint to include it, set the environment variable `ANDROID_LINT_INCLUDE_LDPI=true`. For more information on current density usage, see https://developer.android.com/about/dashboards"
+        url="https://developer.android.com/guide/practices/screens_support.html"
+        urls="https://developer.android.com/guide/practices/screens_support.html">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xxhdpi"/>
+    </issue>
+
+    <issue
+        id="IconMissingDensityFolder"
+        severity="Warning"
+        message="Missing density variation folders in `src/main/res`: drawable-mdpi"
+        category="Usability:Icons"
+        priority="3"
+        summary="Missing density folder"
+        explanation="Icons will look best if a custom version is provided for each of the major screen density classes (low, medium, high, extra-high, extra-extra-high). This lint check identifies folders which are missing, such as `drawable-hdpi`.&#xA;&#xA;Low density is not really used much anymore, so this check ignores the ldpi density. To force lint to include it, set the environment variable `ANDROID_LINT_INCLUDE_LDPI=true`. For more information on current density usage, see https://developer.android.com/about/dashboards"
+        url="https://developer.android.com/guide/practices/screens_support.html"
+        urls="https://developer.android.com/guide/practices/screens_support.html">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res"/>
+    </issue>
+
+    <issue
+        id="TextFields"
+        severity="Warning"
+        message="This text field does not specify an `inputType`"
+        category="Usability"
+        priority="5"
+        summary="Missing `inputType`"
+        explanation="Providing an `inputType` attribute on a text field improves usability because depending on the data to be input, optimized keyboards can be shown to the user (such as just digits and parentheses for a phone number). &#xA;&#xA;The lint detector also looks at the `id` of the view, and if the id offers a hint of the purpose of the field (for example, the `id` contains the phrase `phone` or `email`), then lint will also ensure that the `inputType` contains the corresponding type attributes.&#xA;&#xA;If you really want to keep the text field generic, you can suppress this warning by setting `inputType=&quot;text&quot;`."
+        errorLine1="        &lt;EditText"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/popup_spinner.xml"
+            line="25"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="Autofill"
+        severity="Warning"
+        message="Missing `autofillHints` attribute"
+        category="Usability"
+        priority="3"
+        summary="Use Autofill"
+        explanation="Specify an `autofillHints` attribute when targeting SDK version 26 or higher or explicitly specify that the view is not important for autofill. Your app can help an autofill service classify the data correctly by providing the meaning of each view that could be autofillable, such as views representing usernames, passwords, credit card fields, email addresses, etc.&#xA;&#xA;The hints can have any value, but it is recommended to use predefined values like &apos;username&apos; for a username or &apos;creditCardNumber&apos; for a credit card number. For a list of all predefined autofill hint constants, see the `AUTOFILL_HINT_` constants in the `View` reference at https://developer.android.com/reference/android/view/View.html.&#xA;&#xA;You can mark a view unimportant for autofill by specifying an `importantForAutofill` attribute on that view or a parent view. See https://developer.android.com/reference/android/view/View.html#setImportantForAutofill(int)."
+        url="https://developer.android.com/guide/topics/text/autofill.html"
+        urls="https://developer.android.com/guide/topics/text/autofill.html"
+        errorLine1="        &lt;EditText"
+        errorLine2="         ~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/popup_spinner.xml"
+            line="25"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        severity="Warning"
+        message="`onTouch` lambda should call `View#performClick` when a click is detected"
+        category="Accessibility"
+        priority="6"
+        summary="Accessibility in Custom Views"
+        explanation="If a `View` that overrides `onTouchEvent` or uses an `OnTouchListener` does not also implement `performClick` and call it when clicks are detected, the `View` may not handle accessibility actions properly. Logic handling the click actions should ideally be placed in `View#performClick` as some accessibility services invoke `performClick` when a click action should occur."
+        errorLine1="            setOnTouchListener { _, _ -> true }"
+        errorLine2="                               ~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/main/DojahMainActivity.kt"
+            line="309"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="ClickableViewAccessibility"
+        severity="Warning"
+        message="`onTouch` lambda should call `View#performClick` when a click is detected"
+        category="Accessibility"
+        priority="6"
+        summary="Accessibility in Custom Views"
+        explanation="If a `View` that overrides `onTouchEvent` or uses an `OnTouchListener` does not also implement `performClick` and call it when clicks are detected, the `View` may not handle accessibility actions properly. Logic handling the click actions should ideally be placed in `View#performClick` as some accessibility services invoke `performClick` when a click action should occur."
+        errorLine1="            setOnTouchListener { _, _ -> false }"
+        errorLine2="                               ~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/java/com/dojah_inc/dojah_android_sdk/ui/main/DojahMainActivity.kt"
+            line="318"
+            column="32"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="        &lt;ImageView"
+        errorLine2="         ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/calender_control_spinner.xml"
+            line="60"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_transaction_error.xml"
+            line="13"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_error.xml"
+            line="12"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_error_country.xml"
+            line="11"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_preview_driver_licence.xml"
+            line="57"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="                &lt;ImageView"
+        errorLine2="                 ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_preview_selfie.xml"
+            line="59"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/item_spinner.xml"
+            line="12"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/menu_item_notification.xml"
+            line="8"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="            &lt;ImageView"
+        errorLine2="             ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_edit_text_with_country.xml"
+            line="25"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="            &lt;ImageView"
+        errorLine2="             ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_edit_text_with_country.xml"
+            line="41"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_item_group.xml"
+            line="15"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_item_group.xml"
+            line="51"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="            &lt;ImageView"
+        errorLine2="             ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_spinner_country.xml"
+            line="26"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        severity="Warning"
+        message="Missing `contentDescription` attribute on image"
+        category="Accessibility"
+        priority="3"
+        summary="Image without `contentDescription`"
+        explanation="Non-textual widgets like ImageViews and ImageButtons should use the `contentDescription` attribute to specify a textual description of the widget such that screen readers and other accessibility tools can adequately describe the user interface.&#xA;&#xA;Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, set their descriptions to `@null`. If your app&apos;s minSdkVersion is 16 or higher, you can instead set these graphical elements&apos; `android:importantForAccessibility` attributes to `no`.&#xA;&#xA;Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`."
+        url="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        urls="https://developer.android.com/guide/topics/ui/accessibility/apps#special-cases"
+        errorLine1="            &lt;ImageView"
+        errorLine2="             ~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_spinner_country.xml"
+            line="42"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="LabelFor"
+        severity="Warning"
+        message="Missing accessibility label: provide either a view with an `android:labelFor` that references this view or provide an `android:hint`"
+        category="Accessibility"
+        priority="2"
+        summary="Missing accessibility label"
+        explanation="Editable text fields should provide an `android:hint` or, provided your `minSdkVersion` is at least 17, they may be referenced by a view with a `android:labelFor` attribute.&#xA;&#xA;When using `android:labelFor`, be sure to provide an `android:text` or an `android:contentDescription`.&#xA;&#xA;If your view is labeled but by a label in a different layout which includes this one, just suppress this warning from lint."
+        errorLine1="        &lt;AutoCompleteTextView"
+        errorLine2="         ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/calender_control_text.xml"
+            line="19"
+            column="10"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="Hardcoded string &quot;To enhance the security and integrity of your account, we request access to your device&apos;s location for:&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:&#xA;&#xA;* When creating configuration variations (for example for landscape or portrait) you have to repeat the actual text (and keep it up to date when making changes)&#xA;&#xA;* The application cannot be translated to other languages by just adding new translations for existing string resources.&#xA;&#xA;There are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="            android:text=&quot;To enhance the security and integrity of your account, we request access to your device&apos;s location for:&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_location_permission.xml"
+            line="69"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="Hardcoded string &quot;Ascension Island    +237&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:&#xA;&#xA;* When creating configuration variations (for example for landscape or portrait) you have to repeat the actual text (and keep it up to date when making changes)&#xA;&#xA;* The application cannot be translated to other languages by just adding new translations for existing string resources.&#xA;&#xA;There are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="        android:text=&quot;Ascension Island    +237&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/item_spinner.xml"
+            line="25"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="Hardcoded string &quot;nothing&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:&#xA;&#xA;* When creating configuration variations (for example for landscape or portrait) you have to repeat the actual text (and keep it up to date when making changes)&#xA;&#xA;* The application cannot be translated to other languages by just adding new translations for existing string resources.&#xA;&#xA;There are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="        android:title=&quot;nothing&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/menu/nothing.xml"
+            line="8"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="HardcodedText"
+        severity="Warning"
+        message="Hardcoded string &quot;Earn Daily&quot;, should use `@string` resource"
+        category="Internationalization"
+        priority="5"
+        summary="Hardcoded text"
+        explanation="Hardcoding text attributes directly in layout files is bad for several reasons:&#xA;&#xA;* When creating configuration variations (for example for landscape or portrait) you have to repeat the actual text (and keep it up to date when making changes)&#xA;&#xA;* The application cannot be translated to other languages by just adding new translations for existing string resources.&#xA;&#xA;There are quickfixes to automatically extract this hardcoded string into a resource lookup."
+        errorLine1="        android:text=&quot;Earn Daily&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_tmp_trail.xml"
+            line="18"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="RelativeOverlap"
+        severity="Warning"
+        message="`@id/country_name` can overlap `ImageView-5` if @id/country_name grows due to localized text expansion"
+        category="Internationalization"
+        priority="3"
+        summary="Overlapping items in RelativeLayout"
+        explanation="If relative layout has text or button items aligned to left and right sides they can overlap each other due to localized text expansion unless they have mutual constraints like `toEndOf`/`toStartOf`."
+        errorLine1="            &lt;TextView"
+        errorLine2="             ~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_spinner_country.xml"
+            line="33"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        severity="Warning"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        category="Internationalization:Bidirectional Text"
+        priority="6"
+        summary="Padding and margin symmetry"
+        explanation="If you specify padding or margin on the left side of a layout, you should probably also specify padding on the right side (and vice versa) for right-to-left layout symmetry."
+        errorLine1="    android:paddingStart=&quot;@dimen/padding_start_item_spinner&quot;>"
+        errorLine2="    ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/item_spinner.xml"
+            line="10"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="RtlSymmetry"
+        severity="Warning"
+        message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
+        category="Internationalization:Bidirectional Text"
+        priority="6"
+        summary="Padding and margin symmetry"
+        explanation="If you specify padding or margin on the left side of a layout, you should probably also specify padding on the right side (and vice versa) for right-to-left layout symmetry."
+        errorLine1="                android:paddingStart=&quot;@dimen/padding_start_phone_number&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_edit_text_with_country.xml"
+            line="72"
+            column="17"/>
+    </issue>
+
+</issues>

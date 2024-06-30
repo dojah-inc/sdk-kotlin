@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:behavior_expandedOffset="0dp"
+    app:behavior_fitToContents="true"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahAppBarView
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dojahShowBackButton="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_48dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_18dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/logo"
+                android:layout_width="@dimen/logo_size"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_cam_permit"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_24dp"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/text_title"
+                    style="@style/TextAppearance.Dojah.Header5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/camera_permission_required" />
+
+                <TextView
+                    android:id="@+id/text_sub"
+                    style="@style/TextAppearance.Dojah.ParagraphSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:layout_marginBottom="@dimen/margin_48dp"
+                    android:gravity="center"
+                    android:text="@string/may_we_access_camera" />
+
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextAppearance.Dojah.ParagraphSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="@string/to_ensure_the_security"
+                android:textColor="@color/body_color" />
+
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
+                android:id="@+id/text_subtitle"
+                style="@style/TextAppearance.Dojah.ParagraphSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:drawablePadding="@dimen/margin_8dp"
+                android:gravity="start"
+                android:text="@string/take_moment_ensure_readable"
+                android:textColor="@color/body_color"
+                app:drawableStartCompat="@drawable/ic_check" />
+
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
+                android:id="@+id/text_subtitle2"
+                style="@style/TextAppearance.Dojah.ParagraphSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:drawablePadding="@dimen/margin_8dp"
+                android:gravity="start"
+                android:text="@string/make_sure_visible"
+                android:textColor="@color/body_color"
+                app:drawableStartCompat="@drawable/ic_check" />
+
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
+                android:id="@+id/text_subtitle3"
+                style="@style/TextAppearance.Dojah.ParagraphSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8dp"
+                android:drawablePadding="@dimen/margin_8dp"
+                android:gravity="start"
+                android:text="@string/look_for_obstruction"
+                android:textColor="@color/body_color"
+                app:drawableStartCompat="@drawable/ic_check" />
+
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
+                android:id="@+id/btn_continue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:text="@string/allow_permission" />
+
+
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahTextView
+                android:id="@+id/how_to_permit"
+                style="@style/TextAppearance.Dojah.Header6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_30dp"
+                android:layout_marginBottom="@dimen/margin_32dp"
+                android:drawablePadding="@dimen/margin_8dp"
+                android:gravity="center"
+                android:text="@string/how_to_allow_permission"
+                app:drawableStartCompat="@drawable/ic_outline_info_24"
+
+                app:drawableTint="@color/primary" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_48dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

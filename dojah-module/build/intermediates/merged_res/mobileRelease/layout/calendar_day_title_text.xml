@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    style="@style/TextAppearance.Dojah.TagCaption"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_weight="1"
+    tools:text="SUN"
+    android:textColor="@color/brand_dojah"
+    android:gravity="center" />

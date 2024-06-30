@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/margin_24dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/text_bvn"
+                style="@style/TextView.InputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_address" />
+
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.SimpleEditTextSpinner
+                android:id="@+id/address_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8dp"
+                app:sboxStrokeSize="0.5dp"
+                app:sboxStrokeSizeFocused="0.5dp"
+                app:scornerLength="@dimen/margin_4dp"
+                app:sstrokeTint="@color/card_stroke_color"
+                />
+
+
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
+                android:id="@+id/btn_continue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:text="@string/_continue" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

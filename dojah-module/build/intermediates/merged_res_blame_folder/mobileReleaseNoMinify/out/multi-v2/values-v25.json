@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "/Users/abumuhsin/.gradle/caches/transforms-3/1825d847a4450122687a70e7f9f453aa/transformed/appcompat-1.6.1/res/values-v25/values-v25.xml",
+                    "from": {
+                        "startLines": "2,3,4,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,126,209,308",
+                        "endLines": "2,3,5,7",
+                        "endColumns": "70,82,12,12",
+                        "endOffsets": "121,204,303,414"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseNoMinifyResources-72:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "/Users/abumuhsin/.gradle/caches/transforms-3/1825d847a4450122687a70e7f9f453aa/transformed/appcompat-1.6.1/res/values-v25/values-v25.xml",
+                    "from": {
+                        "startLines": "2,3,4,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,126,209,308",
+                        "endLines": "2,3,5,7",
+                        "endColumns": "70,82,12,12",
+                        "endOffsets": "121,204,303,414"
+                    }
+                }
+            ]
+        }
+    ]
+}

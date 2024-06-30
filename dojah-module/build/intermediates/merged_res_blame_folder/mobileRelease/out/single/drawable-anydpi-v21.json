@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable-anydpi-v21/ic_call_decline_low.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable-anydpi-v21/ic_call_decline_low.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable-anydpi-v21/ic_call_answer_video.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable-anydpi-v21/ic_call_answer_video.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable-anydpi-v21/ic_call_answer.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable-anydpi-v21/ic_call_answer.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable-anydpi-v21/ic_call_decline.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable-anydpi-v21/ic_call_decline.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable-anydpi-v21/ic_call_answer_video_low.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable-anydpi-v21/ic_call_answer_video_low.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable-anydpi-v21/ic_call_answer_low.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-core-1.12.0-70:/drawable-anydpi-v21/ic_call_answer_low.xml"
+    }
+]

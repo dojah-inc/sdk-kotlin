@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/navigation/nav_graph.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/navigation/nav_graph.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/navigation/selfie_nav_graph.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/navigation/selfie_nav_graph.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/navigation/gov_id_nav_graph.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/navigation/gov_id_nav_graph.xml"
+    }
+]

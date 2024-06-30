@@ -1,0 +1,62 @@
+[
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/error_1.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/error_1.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/successfully_send.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/successfully_send.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/places_keep.xml",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-places-3.3.0-47:/raw/places_keep.xml"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/cancel.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/cancel.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/free.txt",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/free.txt"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/error.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/error.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/successfully_done.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/successfully_done.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/disposable.txt",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/disposable.txt"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/success.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/success.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/failed.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/failed.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/successfully_done_1.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/successfully_done_1.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/warning.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/warning.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/loading_circle.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/loading_circle.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/circle_loader.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/circle_loader.json"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/raw/check_1.json",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/raw/check_1.json"
+    }
+]

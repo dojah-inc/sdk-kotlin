@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selfie_nav_graph"
+    app:startDestination="@id/frag_selfie_disclaimer">
+
+    <fragment
+        android:id="@+id/frag_selfie_disclaimer"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.SelfieDisclaimerFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/dialog_selfie_disclaimer" />
+
+    <fragment
+        android:id="@+id/frag_selfie_capture"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.CaptureSelfieFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_capture_selfie" />
+
+    <fragment
+        android:id="@+id/frag_preview_selfie"
+        android:name="com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection.PreviewSelfieFragment"
+        android:label="@string/empty"
+        tools:layout="@layout/fragment_preview_selfie" />
+
+
+</navigation>

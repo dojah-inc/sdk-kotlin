@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="12dp">
+
+    <ImageView
+        android:id="@+id/image_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
+        android:paddingVertical="0dp"
+        android:src="@drawable/ic_alarm" />
+
+    <View
+        android:id="@+id/image_badge"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_gravity="end|top"
+        android:background="@drawable/shape_circle" />
+</FrameLayout>

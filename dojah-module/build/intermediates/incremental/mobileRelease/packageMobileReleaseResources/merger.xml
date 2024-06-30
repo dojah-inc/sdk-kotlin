@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3" xmlns:ns1="http://schemas.android.com/tools"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res"><file name="slide_out_to_bottom" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/anim/slide_out_to_bottom.xml" qualifiers="" type="anim"/><file name="slide_in_from_bottom" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/anim/slide_in_from_bottom.xml" qualifiers="" type="anim"/><file name="layer_splash" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-v23/layer_splash.xml" qualifiers="v23" type="drawable"/><file name="ic_locate_permit" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_locate_permit.xml" qualifiers="" type="drawable"/><file name="ic_account_balance" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_account_balance.xml" qualifiers="" type="drawable"/><file name="ic_arrow_right" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_arrow_right.xml" qualifiers="" type="drawable"/><file name="selfie_avartar" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/selfie_avartar.png" qualifiers="" type="drawable"/><file name="ic_show" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_show.xml" qualifiers="" type="drawable"/><file name="ic_arrow_left" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_arrow_left.xml" qualifiers="" type="drawable"/><file name="ic_cam_permit" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_cam_permit.xml" qualifiers="" type="drawable"/><file name="ic_keyboard_arrow_right" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_keyboard_arrow_right.xml" qualifiers="" type="drawable"/><file name="ic_calendar" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_calendar.xml" qualifiers="" type="drawable"/><file name="ic_outline_info_24" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_outline_info_24.xml" qualifiers="" type="drawable"/><file name="ic_outline_home" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_outline_home.xml" qualifiers="" type="drawable"/><file name="selfie_error_bg" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/selfie_error_bg.xml" qualifiers="" type="drawable"/><file name="ic_refresh" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_refresh.xml" qualifiers="" type="drawable"/><file name="ic_spinner_drop_icon" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_spinner_drop_icon.xml" qualifiers="" type="drawable"/><file name="ic_arrow_view" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_arrow_view.xml" qualifiers="" type="drawable"/><file name="country_warning" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/country_warning.xml" qualifiers="" type="drawable"/><file name="ic_verification_avatar" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_verification_avatar.xml" qualifiers="" type="drawable"/><file name="ic_dropdown" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_dropdown.xml" qualifiers="" type="drawable"/><file name="dojah_logo" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/dojah_logo.xml" qualifiers="" type="drawable"/><file name="ic_close" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_close.xml" qualifiers="" type="drawable"/><file name="ic_home" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_home.xml" qualifiers="" type="drawable"/><file name="ripple_item_group" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ripple_item_group.xml" qualifiers="" type="drawable"/><file name="img_404" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/img_404.png" qualifiers="" type="drawable"/><file name="processing_bg" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/processing_bg.png" qualifiers="" type="drawable"/><file name="bg_otp_active" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/bg_otp_active.xml" qualifiers="" type="drawable"/><file name="shape_no_stroke_radius_8" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/shape_no_stroke_radius_8.xml" qualifiers="" type="drawable"/><file name="shape_circle" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/shape_circle.xml" qualifiers="" type="drawable"/><file name="ic_alarm" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_alarm.xml" qualifiers="" type="drawable"/><file name="ic_avatar" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_avatar.png" qualifiers="" type="drawable"/><file name="dotted_circle_preview" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/dotted_circle_preview.xml" qualifiers="" type="drawable"/><file name="ic_info" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_info.xml" qualifiers="" type="drawable"/><file name="circle_progress_drawable" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/circle_progress_drawable.xml" qualifiers="" type="drawable"/><file name="shape_rectangle_stroke_with_dash" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/shape_rectangle_stroke_with_dash.xml" qualifiers="" type="drawable"/><file name="ic_shaped_calendar" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_shaped_calendar.xml" qualifiers="" type="drawable"/><file name="ic_outline_support" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_outline_support.xml" qualifiers="" type="drawable"/><file name="popup_window_background" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/popup_window_background.xml" qualifiers="" type="drawable"/><file name="ic_search" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_search.xml" qualifiers="" type="drawable"/><file name="layer_splash" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/layer_splash.xml" qualifiers="" type="drawable"/><file name="ic_spinner_icon" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_spinner_icon.xml" qualifiers="" type="drawable"/><file name="bg_otp_inactive" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/bg_otp_inactive.xml" qualifiers="" type="drawable"/><file name="ic_hide" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_hide.xml" qualifiers="" type="drawable"/><file name="message_corned_bg" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/message_corned_bg.xml" qualifiers="" type="drawable"/><file name="dotted_circle" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/dotted_circle.xml" qualifiers="" type="drawable"/><file name="ic_account" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_account.xml" qualifiers="" type="drawable"/><file name="app_logo" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/app_logo.png" qualifiers="" type="drawable"/><file name="dotted_circle_inner" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/dotted_circle_inner.xml" qualifiers="" type="drawable"/><file name="sandbox_bg" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/sandbox_bg.xml" qualifiers="" type="drawable"/><file name="shape_nothing" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/shape_nothing.xml" qualifiers="" type="drawable"/><file name="corned_arrow_back" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/corned_arrow_back.xml" qualifiers="" type="drawable"/><file name="ic_outline_transaction" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_outline_transaction.xml" qualifiers="" type="drawable"/><file name="ic_check" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_check.xml" qualifiers="" type="drawable"/><file name="ic_processing" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_processing.xml" qualifiers="" type="drawable"/><file name="layer_user_pic" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/layer_user_pic.xml" qualifiers="" type="drawable"/><file name="ic_calendar_faded" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_calendar_faded.xml" qualifiers="" type="drawable"/><file name="ic_verification_warning" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_verification_warning.xml" qualifiers="" type="drawable"/><file name="bg_circle" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/bg_circle.xml" qualifiers="" type="drawable"/><file name="ic_outline_account" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable/ic_outline_account.xml" qualifiers="" type="drawable"/><file name="dialog_disclaimer" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_disclaimer.xml" qualifiers="" type="layout"/><file name="activity_main_dojah" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/activity_main_dojah.xml" qualifiers="" type="layout"/><file name="fragment_error" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_error.xml" qualifiers="" type="layout"/><file name="fragment_enter_otp2" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_enter_otp2.xml" qualifiers="" type="layout"/><file name="fragment_gov_data" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_gov_data.xml" qualifiers="" type="layout"/><file name="widget_simple_appbar" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_simple_appbar.xml" qualifiers="" type="layout"/><file name="widget_button_with_progress_indicator" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_button_with_progress_indicator.xml" qualifiers="" type="layout"/><file name="dialog_loading" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_loading.xml" qualifiers="" type="layout"/><file name="fragment_home_address" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_home_address.xml" qualifiers="" type="layout"/><file name="fragment_preview_selfie" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_preview_selfie.xml" qualifiers="" type="layout"/><file name="dojah_calender_fragment" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dojah_calender_fragment.xml" qualifiers="" type="layout"/><file name="menu_item_notification" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/menu_item_notification.xml" qualifiers="" type="layout"/><file name="dialog_camera_permission" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_camera_permission.xml" qualifiers="" type="layout"/><file name="widget_edit_text_spinner" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_edit_text_spinner.xml" qualifiers="" type="layout"/><file name="fragment_otp_phone" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_otp_phone.xml" qualifiers="" type="layout"/><file name="calendar_day_titles_container" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/calendar_day_titles_container.xml" qualifiers="" type="layout"/><file name="widget_tmp_trail" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_tmp_trail.xml" qualifiers="" type="layout"/><file name="calendar_day_title_text" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/calendar_day_title_text.xml" qualifiers="" type="layout"/><file name="fragment_upload_doc" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_upload_doc.xml" qualifiers="" type="layout"/><file name="popup_spinner" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/popup_spinner.xml" qualifiers="" type="layout"/><file name="dialog_location_permission" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_location_permission.xml" qualifiers="" type="layout"/><file name="fragment_country" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_country.xml" qualifiers="" type="layout"/><file name="fragment_capture_selfie" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_capture_selfie.xml" qualifiers="" type="layout"/><file name="fragment_doc_type" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_doc_type.xml" qualifiers="" type="layout"/><file name="fragment_decision_error" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_decision_error.xml" qualifiers="" type="layout"/><file name="fragment_bio_data" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_bio_data.xml" qualifiers="" type="layout"/><file name="widget_dojah_button" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_dojah_button.xml" qualifiers="" type="layout"/><file name="fragment_business_data" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_business_data.xml" qualifiers="" type="layout"/><file name="fragment_preview_driver_licence" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_preview_driver_licence.xml" qualifiers="" type="layout"/><file name="fragment_capture_document" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_capture_document.xml" qualifiers="" type="layout"/><file name="dialog_transaction_error" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_transaction_error.xml" qualifiers="" type="layout"/><file name="fragment_otp_email" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_otp_email.xml" qualifiers="" type="layout"/><file name="dialog_selfie_disclaimer" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_selfie_disclaimer.xml" qualifiers="" type="layout"/><file name="calender_control_spinner" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/calender_control_spinner.xml" qualifiers="" type="layout"/><file name="calender_control_text" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/calender_control_text.xml" qualifiers="" type="layout"/><file name="item_spinner" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/item_spinner.xml" qualifiers="" type="layout"/><file name="calendar_day_layout" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/calendar_day_layout.xml" qualifiers="" type="layout"/><file name="fragment_empty" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_empty.xml" qualifiers="" type="layout"/><file name="success_view" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/success_view.xml" qualifiers="" type="layout"/><file name="fragment_signature" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_signature.xml" qualifiers="" type="layout"/><file name="splash_loading" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/splash_loading.xml" qualifiers="" type="layout"/><file name="widget_dojah_appbar" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_dojah_appbar.xml" qualifiers="" type="layout"/><file name="dialog_gallery_permission" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/dialog_gallery_permission.xml" qualifiers="" type="layout"/><file name="widget_spinner_country" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_spinner_country.xml" qualifiers="" type="layout"/><file name="widget_edit_text_with_country" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_edit_text_with_country.xml" qualifiers="" type="layout"/><file name="widget_item_group" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/widget_item_group.xml" qualifiers="" type="layout"/><file name="fragment_error_country" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/layout/fragment_error_country.xml" qualifiers="" type="layout"/><file name="selector_text_color_dialog_filter" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_text_color_dialog_filter.xml" qualifiers="" type="color"/><file name="color_text_alpha_10" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/color_text_alpha_10.xml" qualifiers="" type="color"/><file name="selector_background_login" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_background_login.xml" qualifiers="" type="color"/><file name="color_accent_alpha_30" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/color_accent_alpha_30.xml" qualifiers="" type="color"/><file name="color_on_primary_alpha_50" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/color_on_primary_alpha_50.xml" qualifiers="" type="color"/><file name="selector_network_provider_stroke" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_network_provider_stroke.xml" qualifiers="" type="color"/><file name="on_primary_alpha_75" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/on_primary_alpha_75.xml" qualifiers="" type="color"/><file name="selector_transaction_pin_background" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_transaction_pin_background.xml" qualifiers="" type="color"/><file name="selector_stepper_tint" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_stepper_tint.xml" qualifiers="" type="color"/><file name="selector_radio_button" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_radio_button.xml" qualifiers="" type="color"/><file name="color_text_alpha_70" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/color_text_alpha_70.xml" qualifiers="" type="color"/><file name="selector_navigation_up_button" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_navigation_up_button.xml" qualifiers="" type="color"/><file name="color_text_alpha_60" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/color_text_alpha_60.xml" qualifiers="" type="color"/><file name="selector_item_transaction" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_item_transaction.xml" qualifiers="" type="color"/><file name="selector_button_group_text" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_button_group_text.xml" qualifiers="" type="color"/><file name="selector_spinner_with_text_state" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_spinner_with_text_state.xml" qualifiers="" type="color"/><file name="text_input_box_stroke_color" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/text_input_box_stroke_color.xml" qualifiers="" type="color"/><file name="selector_search_box_stroke_color" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_search_box_stroke_color.xml" qualifiers="" type="color"/><file name="color_text_alpha_40" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/color_text_alpha_40.xml" qualifiers="" type="color"/><file name="selector_text_login" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_text_login.xml" qualifiers="" type="color"/><file name="selector_item_wallet_history" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_item_wallet_history.xml" qualifiers="" type="color"/><file name="color_text_alpha_30" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/color_text_alpha_30.xml" qualifiers="" type="color"/><file name="selector_transaction_pin_text" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_transaction_pin_text.xml" qualifiers="" type="color"/><file name="selector_switch_track_tint" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_switch_track_tint.xml" qualifiers="" type="color"/><file name="color_on_primary_alpha_70" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/color_on_primary_alpha_70.xml" qualifiers="" type="color"/><file name="selector_resend_otp" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_resend_otp.xml" qualifiers="" type="color"/><file name="selector_button_group_stroke" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_button_group_stroke.xml" qualifiers="" type="color"/><file name="selector_switch_thumb_tint" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/color/selector_switch_thumb_tint.xml" qualifiers="" type="color"/><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/colors-login.xml" qualifiers=""><color name="dark_purple">#09093E</color><color name="phone_number_stroke">#4D828282</color><color name="disabled_login">#F6F6F6</color><color name="red">#D82020</color><color name="text_field_stroke">#828282</color></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/colors.xml" qualifiers=""><color name="white">#FFFFFFFF</color><color name="white_10">#1AFFFFFF</color><color name="white_90">#E6FFFFFF</color><color name="white_70">#B3FFFFFF</color><color name="transparent">#00FFFFFF</color><color name="purple">#5E3EEB</color><color name="dojah_purple">#5E3EEB</color><color name="ash">#828282</color><color name="track_color">#F5F5F5</color><color name="light_purple">#EDEDFE</color><color name="red_2">#EB001B</color><color name="green">#28A23F</color><color name="green_alpha_5">#0D28A23F</color><color name="green_alpha_6">#E9FFF7</color><color name="amber">#FFBF00</color><color name="teal_green">#FA7039</color><color name="account_divider">#1A202046</color><color name="login_illustration_background">#1A9BBDFF</color><color name="switch_track">#DBE0E9</color><color name="widget_item_group">#F9F9F9</color><color name="fund_wallet">#564FEE</color><color name="send_money">#BE0094</color><color name="withdraw">#2AAD86</color><color name="card_balance">#7E52C3</color><color name="cardless_withdrawal">#F79E1B</color><color name="buy_airtime">#1ABA00</color><color name="buy_data">#FF482F</color><color name="cable">#C03CFF</color><color name="electricity">#FFE605</color><color name="open_account">#0068C8</color><color name="qr_pay">#09093E</color><color name="education">#8BE000</color><color name="betting">#CE693E</color><color name="analysis">#9E1879</color><color name="bank_success_rate">#FEF8EF</color><color name="switch_green">#1ABA00</color><color name="ash_2">#C4C4C4</color><color name="ash_2_alpha_30">#4DC4C4C4</color><color name="qr_pay_70">#B309093E</color><color name="baby_blue">#EBF1FF</color><color name="notification_header_background">#F7F7F7</color><color name="login_description">#9BBDFF</color><color name="reward_bal_card_shadow">#8BB9B5FB</color><color name="yellow">#FFC325</color><color name="debit">#FF4500</color><color name="bank_success_rate_border">#564FED</color><color name="black_05">#0D000000</color><color name="black_fade">#000000</color><color name="excellent">#008000</color><color name="good">#FFA500</color><color name="poor">#FF0000</color><color name="successTableHeader">#0D564FED</color><color name="gray200">#EAECF0</color><color name="gray600">#475467</color><color name="gray700">#344054</color><color name="gray500">#667085</color><color name="gray900">#101828</color><color name="progress_background">#DBE0E9</color><color name="progress_track1">#5047F5</color><color name="progress_track2">#635047F5</color><color name="primary">#4840DD</color><color name="success">#079455</color><color name="failure">#D92D20</color><color name="switch_bg">#F1F5F9</color><color name="teal_green200">#25FA7039</color><color name="ash_3">#7A7979</color><color name="text_body_dimmed">#64748B</color><color name="grey_scale_title">#0F172A</color><color name="border_color">#99E2E9F0</color><color name="grey_scale_background">#F8FAFC</color><color name="grey_scale_placeholder">#64748B</color><color name="grey_scale_body">#334155</color><color name="divider_color_tier">#80CBD5E1</color><color name="brand">#5047F5</color><color name="grey_bg">#EEEEF1</color><color name="app_bar_back_color">#85858E</color><color name="card_back_color">#F9F9F9</color><color name="card_stroke_color">#CECED2</color><color name="body_color">#4A4A68</color><color name="progress_color">#3F7CDB</color><color name="grey_color">#DBD9D9</color><color name="accent2_500">#A13E3F</color><color name="accent1_500">#4A878D</color><color name="black">#FF000000</color><color name="brand_dojah">#3F7CDB</color><color name="brand_200">#9FBDED</color><color name="black_100">#CECED2</color><color name="black_200">#84858D</color><color name="black_main">#080917</color><color name="error_bg_color">#FCDFDF</color><color name="light_error_bg">#FCDFDF</color></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/dimens.xml" qualifiers=""><dimen name="margin_start_home_category_item">16dp</dimen><dimen name="size_category_circle">40dp</dimen><dimen name="padding_horizontal_screen_dp">24dp</dimen><dimen name="margin_start_text_username">12dp</dimen><dimen name="margin_top_balance_parent">28dp</dimen><dimen name="padding_vertical_balance_parent">20dp</dimen><dimen name="padding_horizontal_balance_parent">23dp</dimen><dimen name="margin_top_text_commission_balance">12dp</dimen><dimen name="line_height_text_commission_balance">20sp</dimen><dimen name="margin_top_title_finance">20dp</dimen><dimen name="margin_top_title_bills">20dp</dimen><dimen name="margin_top_items_to_title">8dp</dimen><dimen name="width_dialog_filter">167dp</dimen><dimen name="height_dialog_filter">197dp</dimen><dimen name="margin_top_dialog_filter">7dp</dimen><dimen name="padding_top_country_spinner">9dp</dimen><dimen name="padding_bottom_country_spinner">21dp</dimen><dimen name="height_dropdown_spinner_dialog">310dp</dimen><dimen name="margin_top_send_money_option_1">40dp</dimen><dimen name="padding_start_send_money_option">17dp</dimen><dimen name="padding_end_send_money_option">25dp</dimen><dimen name="padding_vertical_send_money_option">14dp</dimen><dimen name="padding_send_money_option_icon">11dp</dimen><dimen name="size_widget_item_group_icon">40dp</dimen><dimen name="margin_top_send_money_option_2">12dp</dimen><dimen name="padding_top_dialog">36dp</dimen><dimen name="width_sign_up_seeker">32dp</dimen><dimen name="margin_top_title_recent_transactions">40dp</dimen><dimen name="padding_drawable_text_to_drawable">10dp</dimen><dimen name="width_no_debit_card">262dp</dimen><dimen name="height_no_debit_card">231dp</dimen><dimen name="margin_top_button_add_new_card">40dp</dimen><dimen name="margin_top_text_no_saved_card">49dp</dimen><dimen name="margin_top_button_add_card">77dp</dimen><dimen name="margin_end_expiry_date_to_cvv">12dp</dimen><dimen name="margin_top_dialog_confirm_transaction_header_to_body">35dp</dimen><dimen name="margin_top_confirm_transfer_title_transaction_fee">20dp</dimen><dimen name="margin_top_confirm_transfer_title_enter_transaction_pin">46dp</dimen><dimen name="margin_top_confirm_transfer_text_field_to_title_enter_transaction_pin">14dp</dimen><dimen name="padding_top_fund_through_debit_card">0dp</dimen><dimen name="padding_drawable_text_add_new_card">9dp</dimen><dimen name="margin_top_gradient_card">16dp</dimen><dimen name="padding_vertical_gradient_card">24dp</dimen><dimen name="margin_top_text_card_number">38dp</dimen><dimen name="margin_top_title_card_holder_name">29dp</dimen><dimen name="margin_top_text_to_title_2dp">2dp</dimen><dimen name="margin_top_arrow_to_gradient_card">28dp</dimen><dimen name="margin_top_title_to">22dp</dimen><dimen name="padding_vertical_fund_wallet_debit_card">16dp</dimen><dimen name="padding_start_fund_wallet_debit_card">23dp</dimen><dimen name="margin_start_text_your_wallet">20dp</dimen><dimen name="margin_top_title_amount">40dp</dimen><dimen name="margin_top_button_group">13dp</dimen><dimen name="margin_start_button_group_item">12dp</dimen><dimen name="margin_bottom_button_group_item">13dp</dimen><dimen name="margin_top_button_fund_wallet">66dp</dimen><dimen name="margin_top_title_all_transactions">25dp</dimen><dimen name="margin_top_recycler_view_to_title_all_transactions">20dp</dimen><dimen name="padding_bottom_item_transaction">15dp</dimen><dimen name="padding_top_item_transaction">19dp</dimen><dimen name="padding_horizontal_image_status">16dp</dimen><dimen name="padding_vertical_image_status">16dp</dimen><dimen name="margin_start_item_transaction_text">14dp</dimen><dimen name="width_item_recent_beneficiary">78dp</dimen><dimen name="margin_bottom_recent_beneficiary">40dp</dimen><dimen name="margin_top_recent_beneficiary">19dp</dimen><dimen name="padding_top_item_bank">14dp</dimen><dimen name="padding_bottom_item_bank">9dp</dimen><dimen name="divider_thickness">1dp</dimen><dimen name="width_country_flag_icon">24dp</dimen><dimen name="height_country_flag_icon">18dp</dimen><dimen name="padding_vertical_item_spinner">8dp</dimen><dimen name="padding_start_item_spinner">17dp</dimen><dimen name="margin_end_item_spinner_text">14dp</dimen><dimen name="margin_end_flag_to_dropdown_icon">11dp</dimen><dimen name="padding_start_phone_number">10dp</dimen><dimen name="margin_end_style_home_edit_text_transaction_pin">10dp</dimen><dimen name="translation_y_textview_verify_user">-27dp</dimen><dimen name="margin_end_initials">14dp</dimen><dimen name="padding_horizontal_network_provider">20dp</dimen><dimen name="padding_top_network_provider">19dp</dimen><dimen name="padding_bottom_network_provider">14dp</dimen><dimen name="icon_size_network_provider">38dp</dimen><dimen name="icon_padding_network_provider">12dp</dimen><dimen name="padding_end_style_textview_resend_code">17dp</dimen><dimen name="padding_top_buy_airtime">33dp</dimen><dimen name="padding_top_between_buy_airtime_items">60dp</dimen><dimen name="margin_top_fund_through_bank_info_to_message">40dp</dimen><dimen name="padding_horizontal_fund_through_bank_info">17dp</dimen><dimen name="padding_top_fund_through_bank_info">18dp</dimen><dimen name="padding_bottom_fund_through_bank_info">21dp</dimen><dimen name="margin_top_fund_through_bank_account_name_to_bank_name">12dp</dimen><dimen name="padding_drawable_fund_through_bank_copy">8dp</dimen><dimen name="margin_top_dialog_error_icon_to_close">25dp</dimen><dimen name="margin_top_transaction_pin_one_last_step">37dp</dimen><dimen name="margin_top_transaction_pin_subtitle">5dp</dimen><dimen name="margin_top_transaction_pin_edit_text_root">14dp</dimen><dimen name="height_transaction_pin_edit_text_pin">59dp</dimen><dimen name="width_transaction_pin_edit_text_pin">62dp</dimen><dimen name="margin_top_pin_title">40dp</dimen><dimen name="margin_top_transaction_pin_button_save">172dp</dimen><dimen name="padding_icon_reset_pin_first_page_button_next">11dp</dimen><dimen name="padding_buy_airtime_between_items">60dp</dimen><dimen name="margin_top_buy_airtime_select_network_provider">19dp</dimen><dimen name="margin_top_group_network_provider">11dp</dimen><dimen name="margin_top_item_buy_airtime_recent_contacts">30dp</dimen><dimen name="margin_top_item_buy_airtime_recycler_view">19dp</dimen><dimen name="margin_top_item_buy_airtime_phone_number">22dp</dimen><dimen name="stroke_width_button_progress_drawable">3dp</dimen><dimen name="margin_top_return_login_title_welcome">81dp</dimen><dimen name="margin_top_first_time_login_text_dont_have_account">40dp</dimen><dimen name="size_confirm_item_transaction_footer_edit_pin">28dp</dimen><dimen name="margin_top_withdraw_from_bank_button_withdraw">40dp</dimen><dimen name="margin_top_withdraw_from_bank_input_label">30dp</dimen><dimen name="margin_top_item_transfer_header_theres_nothing_here">72dp</dimen><dimen name="margin_horizontal_item_transfer_header_item_texts">16dp</dimen><dimen name="margin_top_cable_input_label">40dp</dimen><dimen name="margin_top_cable_smart_card_user">9dp</dimen><dimen name="size_item_bank_image_cable_provider">36dp</dimen><dimen name="margin_end_item_bank_image_cable_provider">8dp</dimen><dimen name="margin_top_style_already_have_account">26dp</dimen><dimen name="padding_vertical_style_already_have_account">4dp</dimen><dimen name="margin_top_kyc_second_root">30dp</dimen><dimen name="margin_top_kyc_information_card_national_id">18dp</dimen><dimen name="padding_horizontal_kyc_information_document_item">25dp</dimen><dimen name="padding_vertical_kyc_information_document_item">30dp</dimen><dimen name="padding_horizontal_kyc_information_document_item_icon">14dp</dimen><dimen name="padding_vertical_kyc_information_document_item_icon">15dp</dimen><dimen name="margin_top_style_kyc_document_item">14dp</dimen><dimen name="margin_end_kyc_information_document_item">24dp</dimen><dimen name="padding_bottom_kyc_information_document_item">13dp</dimen><dimen name="margin_top_kyc_information_card_license">30dp</dimen><dimen name="margin_top_stepper">30dp</dimen><dimen name="size_image_upload_selfie">150dp</dimen><dimen name="margin_top_transaction_summary_title_content">22dp</dimen><dimen name="padding_vertical_in_between_confirm_transaction">24dp</dimen><dimen name="size_account_details_user_pic">80dp</dimen><dimen name="margin_top_account_details_save_changes">58dp</dimen><dimen name="padding_top_fund_though_bank_root">15dp</dimen><dimen name="margin_horizontal_qr_code_should_be_generated">26dp</dimen><dimen name="margin_top_layout_qr_code">50dp</dimen><dimen name="margin_top_fragment_saved_card">39dp</dimen><dimen name="margin_top_text_saved_card_detail">12dp</dimen><dimen name="padding_top_dialog_delete">45dp</dimen><dimen name="margin_top_dialog_delete_text_subtitle_to_title">8dp</dimen><dimen name="margin_start_dialog_delete_button_yes">14dp</dimen><dimen name="size_user_pic_large_dp">60dp</dimen><dimen name="size_user_pic_larger_dp">96dp</dimen><dimen name="margin_end_image_user_pic_default">18dp</dimen><dimen name="margin_end_image_user_pic_account">11dp</dimen><dimen name="padding_top_receipt">32dp</dimen><dimen name="padding_top_withdraw_pin_parent">72dp</dimen><dimen name="margin_top_withdraw_pin_button">82dp</dimen><dimen name="margin_top_kyc_button_continue_to_selfie">48dp</dimen><dimen name="margin_top_thank_you_for_choosing">90dp</dimen><dimen name="margin_top_receipt_amount">38dp</dimen><dimen name="padding_vertical_in_between_transaction_summary">28dp</dimen><dimen name="padding_bottom_transaction_summary_header">37dp</dimen><dimen name="width_transaction_summary_header_image_status">71dp</dimen><dimen name="height_transaction_summary_header_image_status">68dp</dimen><dimen name="margin_top_transaction_summary_header_text_amount">16dp</dimen><dimen name="margin_top_transaction_summary_header_text_status">6dp</dimen><dimen name="padding_top_transaction_summary_buttons">42dp</dimen><dimen name="padding_vertical_transaction_summary_buttons_button_share">13dp</dimen><dimen name="margin_top_transaction_summary_buttons_button_share">6dp</dimen><dimen name="margin_top_transaction_summary_buttons_button_report">35dp</dimen><dimen name="margin_end_transaction_summary_button_report">16dp</dimen><dimen name="margin_top_item_notification_header">39dp</dimen><dimen name="margin_top_notification_detail_text_title">19dp</dimen><dimen name="margin_top_notification_detail_text_content">7dp</dimen><dimen name="margin_top_item_notification">20dp</dimen><dimen name="size_item_notification_dot">7dp</dimen><dimen name="margin_start_item_notification_dot">11dp</dimen><dimen name="margin_start_item_notification_text_title">6dp</dimen><dimen name="margin_top_item_notification_text_content">5dp</dimen><dimen name="margin_top_item_notification_text_time">12dp</dimen><dimen name="margin_top_item_notification_divider">14dp</dimen><dimen name="padding_vertical_item_notification_header_text_time">10dp</dimen><dimen name="margin_top_account_details_section_2">38dp</dimen><dimen name="padding_horizontal_debit_card">16dp</dimen><dimen name="margin_horizontal_item_debit_card">4dp</dimen><dimen name="margin_start_home_item">2dp</dimen><dimen name="margin_top_home_item">0dp</dimen><dimen name="padding_top_dialog_error">24dp</dimen><dimen name="width_item_receipt_header_logo">120dp</dimen><dimen name="size_first_login_image_description">124dp</dimen><dimen name="size_indicator_dialog_loading">48dp</dimen><dimen name="margin_top_dialog_kyc_check_item_group">33dp</dimen><dimen name="margin_bottom_widget_toolbar_text_account_number">30dp</dimen><dimen name="margin_gone_bottom_widget_toolbar_text_subtitle">12dp</dimen><dimen name="margin_top_dialog_post_dispute_text_input_dispute">25dp</dimen><dimen name="padding_horizontal_style_button">16dp</dimen><dimen name="padding_vertical_style_button">17dp</dimen><dimen name="padding_drawable_style_text_view_success_title">24dp</dimen><dimen name="margin_start_frag_open_account_signature">16dp</dimen><dimen name="terminal_banner_height">150dp</dimen><dimen name="progress_size">30dp</dimen><dimen name="radius_bank_success_rate_button">8dp</dimen><dimen name="stroke_width_bank_success_rate_button">1dp</dimen><dimen name="icon_padding_bank_success_rate">6dp</dimen><dimen name="margin_end_bank_success_rate_freq_button">14dp</dimen><dimen name="success_rate_color_rec_size">16dp</dimen><dimen name="padding_viewpager">16dp</dimen><dimen name="cell_size">50dp</dimen><dimen name="margin_top_reward_banner">12dp</dimen><dimen name="margin_bottom_reward_banner">14dp</dimen><dimen name="margin_bottom_reward_balance_card">4dp</dimen><dimen name="margin_claim_reward_padding">4dp</dimen><dimen name="margin_reward_challenge_padding">20dp</dimen><dimen name="margin_reward_appBar_padding">94dp</dimen><dimen name="margin_reward_progress">12dp</dimen><dimen name="bold_leader_image_size">80dp</dimen><dimen name="margin_1dp">1dp</dimen><dimen name="margin_4dp">4dp</dimen><dimen name="margin_5dp">5dp</dimen><dimen name="margin_6dp">6dp</dimen><dimen name="margin_8dp">8dp</dimen><dimen name="margin_10dp">10dp</dimen><dimen name="margin_12dp">12dp</dimen><dimen name="margin_13dp">13dp</dimen><dimen name="margin_14dp">14dp</dimen><dimen name="margin_16dp">16dp</dimen><dimen name="margin_18dp">18dp</dimen><dimen name="margin_20dp">20dp</dimen><dimen name="margin_22dp">22dp</dimen><dimen name="margin_23dp">23dp</dimen><dimen name="margin_24dp">24dp</dimen><dimen name="margin_26dp">26dp</dimen><dimen name="margin_28dp">28dp</dimen><dimen name="margin_30dp">30dp</dimen><dimen name="margin_32dp">32dp</dimen><dimen name="margin_34dp">34dp</dimen><dimen name="margin_36dp">36dp</dimen><dimen name="margin_38dp">38dp</dimen><dimen name="margin_40dp">40dp</dimen><dimen name="margin_48dp">48dp</dimen><dimen name="margin_78dp">78dp</dimen><dimen name="margin_50dp">50dp</dimen><dimen name="logo_size">120dp</dimen><dimen name="_64dp">64dp</dimen><dimen name="_219dp">219dp</dimen><dimen name="_192dp">192dp</dimen><dimen name="_144dp">144dp</dimen><dimen name="_334dp">334dp</dimen><dimen name="_14dp">14dp</dimen></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/dimens-default.xml" qualifiers=""><dimen name="margin_bottom_screen_default">40dp</dimen><dimen name="design_bottom_navigation_height" ns1:override="true">80dp</dimen><dimen name="padding_bottom_screen_main">97dp</dimen><dimen name="margin_top_app_bar_layout">53dp</dimen><dimen name="padding_vertical_linear_layout_app_bar_layout">0dp</dimen><dimen name="padding_top_default">21dp</dimen><dimen name="padding_top_default_2">27dp</dimen><dimen name="padding_top_default_3">43dp</dimen><dimen name="padding_start_app_bar_layout">16dp</dimen><dimen name="margin_start_toolbar_navigation_button">6dp</dimen><dimen name="margin_end_toolbar_navigation_button">16dp</dimen><dimen name="padding_horizontal_navigation_button">18dp</dimen><dimen name="padding_vertical_navigation_button">8dp</dimen><dimen name="padding_bottom_screen_2_dp">65dp</dimen><dimen name="size_user_pic_dp">50dp</dimen><dimen name="margin_end_toolbar_logo">13dp</dimen><dimen name="padding_reward_balance_card">16dp</dimen><dimen name="reward_progress_card_padding">12dp</dimen><dimen name="resource_video_radius">16dp</dimen></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/dimen-text.xml" qualifiers=""><dimen name="text_size_10sp">10sp</dimen><dimen name="text_size_12sp">12sp</dimen><dimen name="text_size_13sp">13sp</dimen><dimen name="text_size_14sp">14sp</dimen><dimen name="text_size_15sp">15sp</dimen><dimen name="text_size_16sp">16sp</dimen><dimen name="text_size_18sp">18sp</dimen><dimen name="text_size_20sp">20sp</dimen><dimen name="text_size_22sp">22sp</dimen><dimen name="text_size_24sp">24sp</dimen><dimen name="text_size_26sp">26sp</dimen><dimen name="text_size_28sp">28sp</dimen><dimen name="line_height_14sp">14sp</dimen><dimen name="line_height_12sp">12sp</dimen><dimen name="line_height_15_6sp">15.6sp</dimen><dimen name="line_height_16sp">16sp</dimen><dimen name="line_height_18sp">18sp</dimen><dimen name="line_height_20sp">20sp</dimen><dimen name="line_height_22sp">22sp</dimen><dimen name="line_height_21sp">21sp</dimen><dimen name="line_height_24sp">24sp</dimen><dimen name="line_height_26sp">26sp</dimen><dimen name="line_height_27sp">27sp</dimen><dimen name="line_height_28sp">28sp</dimen><dimen name="line_height_29sp">29sp</dimen><dimen name="line_height_30sp">30sp</dimen><dimen name="line_height_32sp">32sp</dimen><dimen name="line_height_36sp">36sp</dimen></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/themes.xml" qualifiers=""><style name="SlideAnimation.Activity" parent="@android:style/Animation.Activity">
+    </style><style name="Theme.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
+        <item name="android:windowAnimationStyle">@style/SlideAnimation.Activity</item>
+        <item name="android:statusBarColor" ns1:targetApi="l">@color/transparent</item>
+    </style><style name="Theme.Dojah" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="android:colorBackground">@color/white</item>
+        
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowAnimationStyle">@style/SlideAnimation.Activity</item>
+
+        
+
+        <item name="colorControlNormal">@color/dark_purple</item>
+        <item name="colorAccent">@color/ash</item>
+        <item name="android:textColor">@color/dark_purple</item>
+        <item name="android:textColorHint">@color/color_text_alpha_30</item>
+        <item name="android:fontFamily">@font/circular_std_regular_400</item>
+
+        
+        <item name="android:statusBarColor" ns1:targetApi="l">?attr/colorOnPrimary</item>
+        <item name="tabStyle">@style/TabLayout.Dojah</item>
+        <item name="itemGroupStyle">@style/ItemGroup.Dojah</item>
+        <item name="toolbarNavigationButtonStyle">@style/Toolbar.Navigation</item>
+        <item name="editTextSpinnerStyle">@style/EditTextWithSpinner.Dojah</item>
+        <item name="materialButtonStyle">@style/Button.Dojah</item>
+        <item name="materialBtnStyle">@style/Button.Dojah</item>
+
+        
+        <item name="textInputStyle">@style/TextInputLayout.Dojah</item>
+        <item name="circularProgressIndicatorStyle">@style/CircularProgressIndicator.Dojah</item>
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
+        <item name="snackbarStyle">@style/Snackbar.Dojah</item>
+
+
+        
+        <item name="appLogo">@drawable/app_logo</item>
+        <item name="appBarCloseIcon">@drawable/ic_close</item>
+        <item name="appBarBackIcon">@drawable/corned_arrow_back</item>
+        <item name="icVerificationAvatar">@drawable/ic_verification_avatar</item>
+        <item name="img404">@drawable/img_404</item>
+        <item name="countryWarning">@drawable/country_warning</item>
+        <item name="infoIcon">@drawable/ic_info</item>
+
+        <item name="facialVerificationAnim">@raw/loading_circle</item>
+        <item name="sandboxBg">@drawable/sandbox_bg</item>
+        <item name="cameraPermissionAvatar">@drawable/ic_cam_permit</item>
+        <item name="galleryPermissionAvatar">@drawable/ic_cam_permit</item>
+        <item name="locationPermissionAvatar">@drawable/ic_locate_permit</item>
+
+        <item name="verifiedAnim">@raw/check_1</item>
+        <item name="errorAnim">@raw/error</item>
+        <item name="failedAnim">@raw/failed</item>
+        <item name="splashAnim">@raw/circle_loader</item>
+        <item name="infoMessageCorneredBg">@drawable/message_corned_bg</item>
+        <item name="errorMessageCorneredBg">@drawable/ic_verification_warning</item>
+        <item name="infoMessageColor">@color/accent1_500</item>
+        <item name="errorMessageColor">@color/accent2_500</item>
+        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">
+            @style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen
+        </item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar
+        </item>
+
+    </style></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/arrays.xml" qualifiers=""><string-array name="gov_ids">
+        <item>@string/bvn_verify</item>
+        <item>@string/driver_verify</item>
+        <item>@string/nin_verify</item>
+    </string-array><string-array name="doc_type">
+        <item>@string/bvn_verify</item>
+        <item>@string/driver_verify</item>
+        <item>@string/cac_verify</item>
+        <item>@string/other_verify</item>
+    </string-array><string-array name="verify_method">
+        <item>@string/selfie</item>
+        <item>@string/video</item>
+        <item>@string/email_verify</item>
+        <item>@string/home_address</item>
+        <item>@string/phone_verify</item>
+    </string-array></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/styles.xml" qualifiers=""><style name="TextAppearance.Placeholder" parent="TextAppearance.Dojah.ParagraphSmall">
+        <item name="android:textColor">@color/black_100</item>
+    </style><style name="TextInputLayout.Dojah" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="placeholderTextAppearance">@style/TextAppearance.Placeholder</item>
+        <item name="hintTextAppearance">@style/TextAppearance.Placeholder</item>
+        <item name="prefixTextAppearance">@style/TextAppearance.Placeholder</item>
+
+
+        <item name="android:background">@color/card_back_color</item>
+        <item name="endIconTint">?android:attr/textColor</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
+        <item name="boxStrokeWidth">0.5dp</item>
+        <item name="boxStrokeWidthFocused">0.5dp</item>
+        <item name="hintEnabled">false</item>
+        <item name="textColor">@color/black_main</item>
+        <item name="errorTextColor">@color/red</item>
+        <item name="errorIconTint">@color/red</item>
+        <item name="boxStrokeErrorColor">@color/red</item>
+        <item name="placeholderTextColor">@color/color_accent_alpha_30</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.TextInput</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TextInputLayout.Dojah</item>
+    </style><style name="ThemeOverlay.TextInputLayout.Dojah" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Placeholder</item>
+        <item name="editTextStyle">@style/TextInputEditText.Dojah</item>
+        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextView.Dojah</item>
+        <item name="prefixTextColor">@color/purple</item>
+        <item name="errorTextColor">@color/red</item>
+    </style><style name="TextInputEditText.Dojah" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.Title2</item>
+        <item name="android:textColor">?android:attr/textColor</item>
+        <item name="android:paddingTop">@dimen/padding_vertical_text_input_edit_text_default</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical_text_input_edit_text_default
+        </item>
+        <item name="android:paddingStart">@dimen/padding_horizontal_text_input_edit_text_default
+        </item>
+        <item name="android:paddingEnd">@dimen/padding_horizontal_text_input_edit_text_default
+        </item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">text|textCapSentences</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style><style name="AutoCompleteTextView.Dojah" parent="Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox">
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.Title2</item>
+        <item name="android:textColor">?android:attr/textColor</item>
+        <item name="android:paddingTop">@dimen/padding_vertical_text_input_edit_text_default</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical_text_input_edit_text_default
+        </item>
+        <item name="android:paddingStart">@dimen/padding_horizontal_text_input_edit_text_default
+        </item>
+        <item name="android:paddingEnd">@dimen/padding_horizontal_text_input_edit_text_default
+        </item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:inputType">none</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style><style name="EditTextWithSpinner.Dojah" parent="ThemeOverlay.MaterialComponents">
+        <item name="strokeTint">@color/selector_spinner_with_text_state</item>
+        <item name="boxStrokeSizeFocused">0.5dp</item>
+        <item name="boxStrokeSize">0.5dp</item>
+        <item name="cornerLength">8dp</item>
+    </style><style name="Button.Nothing" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="iconPadding">0dp</item>
+    </style><style name="ShapeAppearanceOverlay.TransactionPIN" parent="">
+        <item name="cornerSize">8dp</item>
+    </style><style name="ShapeAppearanceOverlay.TextInput" parent="">
+        <item name="cornerSize">4dp</item>
+    </style><style name="Button.Dojah" parent="Button.Nothing">
+        <item name="android:paddingTop">@dimen/padding_horizontal_style_button</item>
+        <item name="android:paddingBottom">@dimen/padding_horizontal_style_button</item>
+        <item name="android:paddingStart">@dimen/padding_vertical_style_button</item>
+        <item name="android:paddingEnd">@dimen/padding_vertical_style_button</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconTint">@color/selector_text_login</item>
+        <item name="iconSize">15dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/selector_text_login</item>
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.Title2</item>
+        <item name="backgroundTint">@color/selector_background_login</item>
+    </style><style name="Button.Back" parent="Button.Dojah">
+        <item name="backgroundTint">@color/disabled_login</item>
+        <item name="android:textColor">@color/color_text_alpha_30</item>
+        <item name="icon">@drawable/ic_arrow_left</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">@color/color_text_alpha_30</item>
+        <item name="iconPadding">@dimen/padding_icon_button_next</item>
+    </style><style name="ShapeAppearanceOverlay.Circle" parent="">
+        <item name="cornerSize">50%</item>
+    </style><style name="Toolbar.Dojah.Agai" parent="ThemeOverlay.MaterialComponents">
+        <item name="titleTextAppearance">@style/TextAppearance.Dojah.Title4</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.Toolbar.Subtitle</item>
+    </style><style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="behavior_expandedOffset">10dp</item>
+
+
+        <item name="backgroundTint">?android:attr/colorBackground</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.BottomSheet</item>
+    </style><style name="ShapeAppearanceOverlay.BottomSheet" parent="ShapeAppearanceOverlay.MaterialComponents.BottomSheet">
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeTopRight">8dp</item>
+    </style><style name="ModalBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="scrimBackground">@color/red</item>
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+        <item name="buttonStyle">@style/Button.Dojah</item>
+        <item name="materialButtonStyle">@style/Button.Dojah</item>
+    </style><style name="ModalDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="scrimBackground">@color/red</item>
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+        <item name="buttonStyle">@style/Button.Dojah</item>
+        <item name="materialButtonStyle">@style/Button.Dojah</item>
+    </style><style name="CircularProgressIndicator.Dojah" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="trackColor">?attr/colorAccent</item>
+        <item name="indicatorColor">?attr/colorOnPrimary</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="trackThickness">3dp</item>
+        <item name="trackCornerRadius">12dp</item>
+        <item name="indicatorSize">27dp</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:visibility">invisible</item>
+    </style><style name="Toolbar.Navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:gravity">start</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+    </style><style name="ItemGroup.Dojah" parent="ThemeOverlay.MaterialComponents">
+        <item name="android:background">@drawable/shape_no_stroke_radius_8</item>
+        <item name="android:backgroundTint">@color/widget_item_group</item>
+        <item name="android:paddingTop">@dimen/padding_vertical_send_money_option</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical_send_money_option</item>
+        <item name="android:paddingStart">@dimen/padding_start_send_money_option</item>
+        <item name="android:paddingEnd">@dimen/padding_end_send_money_option</item>
+        <item name="textColor">?android:attr/textColor</item>
+        <item name="iconColor">?attr/colorPrimary</item>
+    </style><style name="TabLayout.Dojah" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/TextAppearance.TabItem</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+    </style><style name="Snackbar.Dojah" parent="Widget.MaterialComponents.Snackbar">
+        <item name="animationMode">slide</item>
+        
+        
+    </style><style name="Theme.ProgressBar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorOnPrimary">@color/grey_bg</item>
+        
+        <item name="colorOnSecondary">@color/black</item>
+        
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style><style name="CircularDeterminateProgressBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/circle_progress_drawable</item>
+    </style><style name="MaterialDatePicker.Dojah" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="tabTextAppearance">@style/TextAppearance.TabItem</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.MediumComponent</item>
+    </style><style name="Animation.BottomSheetDialog" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
+    </style></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/strings.xml" qualifiers=""><string name="app_name">Dojah</string><string name="empty"> </string><string name="back_text">Back</string><string name="date_of_birth">Date of birth</string><string name="select">Select</string><string name="done">Done</string><string name="error_network">Check your internet connection and try again.</string><string name="error_timeout">Timeout, Check your network and try again later.</string><string name="error_no_data">Data not received.</string><string name="duplicate_transaction_error">Duplicate transaction, please try again in a minute.</string><string name="unlock_device">Unlock device</string><string name="select_date_of_birth">Select your date of birth</string><string name="search">Search</string><string name="search_country">Search country</string><string name="please_note_the_following">Please note the following</string><string name="be_in_well_lit">You must be in a well lit environment before getting started.</string><string name="hide_not_your_face">Avoid wearing anything that hinders or hides your face from being seen.</string><string name="show_id_clearly">All parts of your identification must be shown properly and must be clear.</string><string name="_continue">Continue</string><string name="powered_by">Powered by</string><string name="sandbox">SANDBOX</string><string name="select_a_country">Select a country</string><string name="policy_term_text">By proceeding you agree to our Terms of Use \nand Privacy Policy.</string><string name="first_name">First name</string><string name="last_name">Last name</string><string name="middle_name">Middle name</string><string name="b_date_format">dd-mm-yyyy</string><string name="fill_as_shown_id">Fill the form as it appears on your valid ID</string><string name="gov_id">Government Identification</string><string name="verify_with">Verify with</string><string name="bvn_number">BVN Number</string><string name="driver_number">Driver’s License Number</string><string name="nin_number">NIN Number</string><string name="bvn_verify">BVN Verification</string><string name="driver_verify">Driver’s License</string><string name="cac_verify">CAC</string><string name="nin_verify">NIN</string><string name="other_verify">Other Doc</string><string name="selfie">Selfie</string><string name="video">Video KYC</string><string name="phone_verify">Phone Number OTP</string><string name="email_verify">Email OTP</string><string name="document_type">Document type</string><string name="upload">Upload</string><string name="upload_instead">Upload instead</string><string name="capture">Capture</string><string name="make_sure_driver_id_is_placed">Make sure your Driver\’s License is properly placed, and hold it still for a few seconds</string><string name="capture_the_front_of_your_id">Capture the front of your ID</string><string name="continue_on_my_smartphone">Continue on my Smartphone</string><string name="retake">Retake</string><string name="please_review_capture">Please take a moment to review the captured image to ensure it is clear and readable.</string><string name="make_sure_visible">Make sure the entire document or ID card is fully visible within the frame.</string><string name="look_for_obstruction">Look out for any reflections that could obstruct the document’s visibility.</string><string name="preview_your_id">Preview your ID</string><string name="preview_your_selfie">Preview your Selfie</string><string name="capture_the_back_of_your_id">Capture the back of your ID</string><string name="upload_the_front_of_your_id">Upload the front of your ID</string><string name="click__select_from_device">Click here to select from \nyour device.</string><string name="capture_instead">Capture instead</string><string name="image_thumbnails">image Thumbnails</string><string name="upload_back_doc">Upload the back of your ID</string><string name="camera_permission_required">Camera Permission Required</string><string name="picture_permission_required">Picture Permission Required</string><string name="may_we_access_camera">May We Access Your Camera for Security Verification?</string><string name="may_we_access_picture">May We Access Your Picture Gallery for Security Verification?</string><string name="to_ensure_the_security">To ensure the security and integrity of your account, we request access to your device\'s camera for:</string><string name="to_ensure_the_security_gallery">To ensure the security and integrity of your account, we request access to your device\'s picture gallery for:</string><string name="allow_permission">Allow</string><string name="try_again">Try again</string><string name="how_to_allow_permission">How to allow permission</string><string name="take_moment_ensure_readable">Please take a moment to review the captured image to ensure it is clear and readable.</string><string name="please_make_sure_you_are_in_a_well_lit_environment">Please make sure you are in a well lit environment</string><string name="place_your_face_in_the_circle_and_click_capture">Place your face in the circle and click Capture</string><string name="if_blurry">If the image is blurry or dark, you may retake the photo by pressing the designated button.</string><string name="if_satisfied_continue">If you are satisfied with the captured image, proceed to the next step to continue with the verification process.</string><string name="success_msg">Your identification has been successfully verified, you will now be redirected</string><string name="success_msg_arg">Your %s has been successfully verified, you will now be redirected</string><string name="email_address">Email address</string><string name="phone_number">Phone number</string><string name="enter_phone_number">Enter phone number</string><string name="home_address">Home Address</string><string name="rc_number">RC number</string><string name="tin_number">TIN number</string><string name="business_name">Business name</string><string name="enter_the_code_sent">Enter the code sent to %s</string><string name="resend_code_in">Resend code in %s</string><string name="resend_code">Resend code</string><string name="record">Record</string><string name="processing_load">\tProcessing...</string><string name="verification_is_not_allowed_in_your_country">Verification is not allowed in\nyour country</string><string name="something_is_broken">Something is broken</string><string name="it_looks_like_something_isn_t_connecting_right_please_verify_your_entry_or_give_a_page_refresh_a_try">It looks like something isn\'t connecting right. Please verify your entry or give a page refresh a try.</string><string name="no_face_detected">No face detected</string><string name="success_title">Verification successful</string><string name="success_details">Your identification has been successfully verified.</string><string name="error_verification_failed">Your identification cannot be verified.</string><string name="error_verification_success">Your identification has been successfully verified.|verify99|Verification successful</string><string name="error_verification_pending">Your identification process is awaiting approval.|verify99|Verification awaiting approval</string><string name="location_permission_required">Location Permission Required</string><string name="may_we_access_your_location">May We Access Your Location for Security Verification?</string><string name="location_address_and_ip_address_for_a_successful_verification">Location address and IP address for a successful verification</string><string name="prediction_api_key">AIzaSyBPfgDIpFoCXlMk_qPQnFrV-BC4yrlHA5k</string><string name="sign_and_confirm_document">Sign and confirm document</string><string name="input_name_to_sign_and_confirm">Input name to sign and confirm</string><string name="name">Name</string><string name="verification_status">Verification Status</string><string name="verification_failed">Verification failed</string></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/attrs.xml" qualifiers=""><attr format="reference" name="editTextSpinnerStyle"/><attr format="reference" name="itemGroupStyle"/><attr format="reference" name="DojahToolbarStyle"/><declare-styleable name="EditTextSpinner">
+
+        <attr format="dimension|reference" name="boxStrokeSize"/>
+        <attr format="dimension|reference" name="boxStrokeSizeFocused"/>
+        <attr format="color|reference" name="strokeTint"/>
+        <attr format="dimension|reference" name="cornerLength"/>
+    </declare-styleable><declare-styleable name="LoadingButton">
+
+        <attr format="string|reference" name="buttonText"/>
+        <attr format="boolean|reference" name="buttonEnabled"/>
+    </declare-styleable><declare-styleable name="ItemGroup">
+
+        <attr format="float|reference" name="imageBackgroundAlpha"/>
+        <attr format="reference" name="icon"/>
+        <attr format="boolean" name="showArrow"/>
+        <attr format="string|reference" name="title"/>
+        <attr format="string|reference" name="subtitle"/>
+        <attr format="color|reference" name="textColor"/>
+        <attr format="color|reference" name="iconColor"/>
+        <attr format="boolean" name="tintIcon"/>
+    </declare-styleable><declare-styleable name="DojahToolbar">
+        <attr format="string|reference" name="toolbarTitle"/>
+        <attr format="string|reference" name="toolbarSubtitle"/>
+        <attr format="reference" name="titleTextAppearance"/>
+        <attr format="reference" name="subtitleTextAppearance"/>
+    </declare-styleable><declare-styleable name="DebitCardView">
+        <attr format="string|reference" name="cardNumber"/>
+        <attr format="string|reference" name="holderName"/>
+        <attr format="string|reference" name="expiryDate"/>
+
+        <attr format="enum" name="cardType">
+            <enum name="master_card" value="0"/>
+            <enum name="verve_card" value="1"/>
+            <enum name="visa_card" value="2"/>
+        </attr>
+    </declare-styleable><declare-styleable name="AccountBalanceView">
+        <attr format="string|reference" name="availableBalance"/>
+        <attr format="string|reference" name="commissionBalance"/>
+        <attr format="string|reference" name="rewardPoints"/>
+        <attr format="boolean|reference" name="obscureAmountButton"/>
+    </declare-styleable><declare-styleable name="AnalysisWalletCardView">
+        <attr format="string|reference" name="cardTitle"/>
+        <attr format="string|reference" name="label1"/>
+        <attr format="string|reference" name="label2"/>
+        <attr format="string|reference" name="titleValue"/>
+        <attr format="string|reference" name="label1Value"/>
+        <attr format="string|reference" name="label2Value"/>
+    </declare-styleable><declare-styleable name="AnalysisProgressCardView">
+        <attr format="string|reference" name="cardProgressTitle"/>
+        <attr format="string|reference" name="cardSubtitle"/>
+        <attr format="float|reference" name="cardTarget"/>
+        <attr format="float|reference" name="cardValue"/>
+        <attr format="float" name="cardProgressStatus"/>
+        <attr format="string|reference" name="cardPercent"/>
+        <attr format="string|reference" name="cardFootNote"/>
+
+        <attr format="enum" name="cardProgressType">
+            <enum name="count_card" value="0"/>
+            <enum name="amount_card" value="1"/>
+        </attr>
+        <attr format="enum" name="progressTrack">
+            <enum name="behind" value="-1"/>
+            <enum name="neutral" value="0"/>
+            <enum name="onTrack" value="1"/>
+        </attr>
+    </declare-styleable><declare-styleable name="SimpleAppBarView">
+        <attr format="string|reference" name="appBarTitle"/>
+        <attr format="reference" name="leadingIcon"/>
+        <attr format="reference" name="trailingIcon"/>
+        <attr format="reference" name="leadingLayout"/>
+        <attr format="reference" name="trailingLayout"/>
+    </declare-styleable><declare-styleable name="RewardOptionCardView">
+        <attr format="string|reference" name="cardOptionTitle"/>
+    </declare-styleable><declare-styleable name="LeaderboardImageView">
+        <attr format="string" name="leaderName"/>
+        <attr format="integer" name="leaderPosition"/>
+        <attr format="reference" name="leaderImage"/>
+        <attr format="dimension" name="imgSize"/>
+        <attr format="dimension" name="positionSize"/>
+        <attr format="dimension" name="titleWidth"/>
+    </declare-styleable><declare-styleable name="SegmentedProgressBar">
+        <attr format="integer" name="current_segment_value"/>
+        <attr format="integer" name="current_segment_progress"/>
+    </declare-styleable><declare-styleable name="dojahThemeAttr">
+        
+        <attr format="reference" name="appLogo"/>
+        
+        <attr format="reference" name="appBarCloseIcon"/>
+        
+        <attr format="reference" name="appBarBackIcon"/>
+        
+        <attr format="reference" name="icVerificationAvatar"/>
+        
+        <attr format="reference" name="img404"/>
+        
+        <attr format="reference" name="countryWarning"/>
+        
+        <attr format="reference" name="infoIcon"/>
+        
+        <attr format="reference" name="sandboxBg"/>
+        
+        <attr format="reference" name="cameraPermissionAvatar"/>
+        
+        <attr format="reference" name="galleryPermissionAvatar"/>
+        
+        <attr format="reference" name="locationPermissionAvatar"/>
+        
+        <attr format="reference" name="errorAnim"/>
+        <attr format="reference" name="failedAnim"/>
+        
+        <attr format="reference" name="facialVerificationAnim"/>
+        
+        <attr format="reference" name="verifiedAnim"/>
+        
+        <attr format="reference" name="splashAnim"/>
+        
+        <attr format="reference" name="infoMessageCorneredBg"/>
+        
+        <attr format="reference" name="errorMessageCorneredBg"/>
+        <attr format="reference" name="infoMessageColor"/>
+        <attr format="reference" name="errorMessageColor"/>
+        <attr format="reference" name="materialBtnStyle"/>
+    </declare-styleable><declare-styleable name="DojahAppBarView">
+        
+        <attr format="reference" name="dojahAppBarTitle"/>
+        
+        <attr format="reference" name="dojahLeadingIcon"/>
+        
+        <attr format="boolean" name="dojahShowBackButton"/>
+    </declare-styleable><declare-styleable name="DojahMaterialButton">
+    </declare-styleable><declare-styleable name="CountryPickSpinner">
+
+        <attr format="dimension|reference" name="spinBoxStrokeSize"/>
+        <attr format="dimension|reference" name="spinBoxStrokeSizeFocused"/>
+        <attr format="color|reference" name="spinStrokeTint"/>
+        <attr format="dimension|reference" name="spinCornerLength"/>
+    </declare-styleable><declare-styleable name="SimpleEditTextSpinner">
+
+        <attr format="dimension|reference" name="sboxStrokeSize"/>
+        <attr format="dimension|reference" name="sboxStrokeSizeFocused"/>
+        <attr format="color|reference" name="sstrokeTint"/>
+        <attr format="dimension|reference" name="scornerLength"/>
+    </declare-styleable></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/styles-text-appearance.xml" qualifiers=""><style name="TextAppearance.Dojah.Title1" parent="">
+        <item name="android:textSize">@dimen/text_size_26sp</item>
+        <item name="lineHeight">@dimen/line_height_36sp</item>
+        <item name="fontFamily">@font/circular_std_bold_700</item>
+    </style><style name="TextAppearance.Dojah.Subtitle1" parent="">
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="lineHeight">@dimen/line_height_24sp</item>
+    </style><style name="TextAppearance.Dojah.Caption" parent="">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+        <item name="lineHeight">@dimen/line_height_14sp</item>
+        <item name="fontFamily">@font/circular_std_regular_400</item>
+    </style><style name="TextAppearance.Dojah.Caption1" parent="TextAppearance.Dojah.Caption">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+        <item name="lineHeight">@dimen/line_height_16sp</item>
+        <item name="fontFamily">@font/circular_std_regular_400</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style><style name="TextAppearance.Dojah.AnalysisSmallCaption" parent="TextAppearance.Dojah.Caption">
+        <item name="lineHeight">@dimen/line_height_18sp</item>
+    </style><style name="TextAppearance.Dojah.Title2" parent="">
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="lineHeight">@dimen/line_height_18sp</item>
+    </style><style name="TextAppearance.Dojah.Title3" parent="">
+        <item name="android:textSize">@dimen/text_size_24sp</item>
+        <item name="lineHeight">@dimen/line_height_32sp</item>
+        <item name="fontFamily">@font/circular_std_bold_700</item>
+    </style><style name="TextAppearance.Dojah.Title4" parent="">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+        <item name="lineHeight">@dimen/line_height_28sp</item>
+        <item name="fontFamily">@font/circular_std_medium_500</item>
+    </style><style name="TextAppearance.Dojah.Title5" parent="">
+        <item name="android:textSize">@dimen/text_size_28sp</item>
+        <item name="lineHeight">@dimen/line_height_36sp</item>
+    </style><style name="TextAppearance.Dojah.Title6" parent="">
+        <item name="fontFamily">@font/circular_std_medium_500</item>
+        <item name="android:textSize">@dimen/text_size_26sp</item>
+        <item name="lineHeight">@dimen/line_height_30sp</item>
+    </style><style name="TextAppearance.Dojah.Title7" parent="">
+        <item name="android:textSize">@dimen/text_size_24sp</item>
+        <item name="lineHeight">@dimen/text_size_10sp</item>
+        <item name="fontFamily">@font/circular_std_bold_700</item>
+        <item name="android:letterSpacing">0</item>
+    </style><style name="TextAppearance.Dojah.Body1" parent="">
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+        <item name="lineHeight">@dimen/line_height_28sp</item>
+        <item name="fontFamily">@font/circular_std_medium_500</item>
+    </style><style name="TextAppearance.Dojah.Body2" parent="">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="lineHeight">@dimen/line_height_26sp</item>
+    </style><style name="TextAppearance.Dojah.Body3" parent="">
+        <item name="android:textSize">@dimen/text_size_22sp</item>
+        <item name="lineHeight">@dimen/line_height_30sp</item>
+        <item name="fontFamily">@font/circular_std_medium_500</item>
+    </style><style name="TextAppearance.Dojah.Body4" parent="">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="lineHeight">@dimen/line_height_24sp</item>
+    </style><style name="TextAppearance.Dojah.Body5" parent="">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+        <item name="lineHeight">@dimen/line_height_16sp</item>
+    </style><style name="TextAppearance.Dojah.Body6" parent="">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+        <item name="lineHeight">@dimen/line_height_18sp</item>
+        <item name="fontFamily">@font/circular_std_medium_500</item>
+    </style><style name="TextAppearance.Dojah.Body7" parent="">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+        <item name="lineHeight">@dimen/line_height_20sp</item>
+    </style><style name="TextAppearance.Dojah.Body8" parent="">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+        <item name="lineHeight">@dimen/line_height_14sp</item>
+    </style><style name="TextAppearance.Dojah.Body9" parent="">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+        <item name="lineHeight">@dimen/line_height_29sp</item>
+    </style><style name="TextAppearance.Dojah.Body10" parent="">
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="lineHeight">@dimen/line_height_22sp</item>
+    </style><style name="TextAppearance.Dojah.Body11" parent="">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+        <item name="lineHeight">@dimen/line_height_14sp</item>
+    </style><style name="TextAppearance_AvailableBalance" parent="">
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+        <item name="lineHeight">@dimen/line_height_16sp</item>
+        <item name="android:textColor">@color/color_text_alpha_70</item>
+    </style><style name="TextAppearance.Toolbar.Subtitle" parent="TextAppearance.Dojah.Body7">
+        <item name="android:textColor">@color/color_text_alpha_70</item>
+    </style><style name="TextAppearance.ResetAccessPinThirdPage" parent="TextAppearance.Dojah.Body1">
+        <item name="fontFamily">@font/circular_std_bold_700</item>
+    </style><style name="TextAppearance.TabItem" parent="TextAppearance.Dojah.Body4">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style><style name="TextAppearance.BottomNavItemInactive" parent="TextAppearance.Dojah.Body5">
+        <item name="android:textColor">@color/color_text_alpha_30</item>
+    </style><style name="TextAppearance.BottomNavItemActive" parent="TextAppearance.Dojah.Body5">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:fontFamily">@font/circular_std_medium_500</item>
+    </style><style name="TextAppearance.AvailableMoney" parent="">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/circular_std_bold_700</item>
+        <item name="fontFamily">@font/circular_std_bold_700</item>
+        <item name="lineHeight">32sp</item>
+    </style><style name="TextAppearance.CommissionBalance" parent="TextAppearance.Dojah.Body4">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="fontFamily">@font/circular_std_medium_500</item>
+        <item name="android:fontFamily">@font/circular_std_medium_500</item>
+    </style><style name="TextAppearance.UserName" parent="TextAppearance.Dojah.Body2">
+        <item name="android:textColor">?android:attr/textColor</item>
+    </style><style name="TextAppearance.amountBold" parent="TextAppearance.Dojah.Body2">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/circular_std_bold_700</item>
+        <item name="fontFamily">@font/circular_std_bold_700</item>
+    </style><style name="TextAppearance.BankSuccessRateLastRefresh" parent="TextAppearance.Dojah.Body5">
+        <item name="android:textColor">@color/black_05</item>
+        <item name="fontFamily">@font/circular_std_regular_400</item>
+        <item name="android:fontFamily">@font/circular_std_regular_400</item>
+        <item name="android:textSize">13sp</item>
+    </style><style name="TextAppearance.SuccessRateCell" parent="TextAppearance.Dojah.Body5">
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/circular_std_regular_400</item>
+        <item name="android:fontFamily">@font/circular_std_regular_400</item>
+        <item name="android:textSize">14sp</item>
+    </style><style name="TextAppearance.SuccessRateCellHeading" parent="TextAppearance.Dojah.Body5">
+        <item name="android:textColor">@color/qr_pay</item>
+        <item name="fontFamily">@font/circular_std_regular_400</item>
+        <item name="android:fontFamily">@font/circular_std_regular_400</item>
+        <item name="android:textSize">14sp</item>
+    </style><style name="TextAppearance.SuccessRateCellLabel" parent="TextAppearance.Dojah.Body5">
+        <item name="android:textColor">@color/black_05</item>
+        <item name="fontFamily">@font/circular_std_regular_400</item>
+        <item name="android:fontFamily">@font/circular_std_regular_400</item>
+        <item name="android:textSize">14sp</item>
+    </style><style name="TextAppearance.Dojah.Analysis" parent="">
+        <item name="android:textSize">@dimen/text_size_22sp</item>
+        <item name="lineHeight">@dimen/line_height_30sp</item>
+        <item name="fontFamily">@font/circular_std_regular_400</item>
+    </style><style name="TextAppearance.Dojah.AnalysisCaption" parent="TextAppearance.Dojah.Caption">
+        <item name="android:textColor">@color/black_fade</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="lineHeight">@dimen/line_height_16sp</item>
+    </style><style name="TextAppearance.Dojah.AnalysisBody7" parent="TextAppearance.Dojah.Body7">
+        <item name="android:fontFamily">@font/circular_std_bold_700</item>
+        <item name="fontFamily">@font/circular_std_bold_700</item>
+    </style><style name="TextAppearance.Dojah.AnalysisBody6" parent="TextAppearance.Dojah.Body6">
+        <item name="lineHeight">@dimen/line_height_20sp</item>
+        <item name="fontFamily">@font/circular_std_bold_700</item>
+    </style><style name="TextAppearance.Dojah.AnalysisBodyBold" parent="TextAppearance.Dojah.AnalysisBody6">
+        <item name="android:textColor">@color/black</item>
+    </style><style name="TextAppearance.Dojah.AnalysisCaption2" parent="TextAppearance.Dojah.AnalysisCaption">
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+        <item name="lineHeight">@dimen/line_height_20sp</item>
+        <item name="fontFamily">@font/circular_std_medium_500</item>
+
+    </style><style name="TextAppearance.Dojah.Heading" parent="">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+    </style><style name="TextAppearance.Dojah.resource_video_title" parent="TextAppearance.Dojah.Body6">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+        <item name="lineHeight">@dimen/line_height_20sp</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style><style name="TextAppearance.Dojah.RewardBody3" parent="TextAppearance.Dojah.Body3">
+        <item name="lineHeight">@dimen/line_height_27sp</item>
+    </style><style name="TextAppearance.Dojah.LeaderCaption" parent="TextAppearance.Dojah.Caption">
+        <item name="lineHeight">@dimen/line_height_21sp</item>
+    </style><style name="TextAppearance.Dojah.LeaderInitial" parent="TextAppearance.Dojah.Body2">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/circular_std_bold_700</item>
+        <item name="fontFamily">@font/circular_std_bold_700</item>
+    </style><style name="TextAppearance.Dojah.RewardTitle4" parent="TextAppearance.Dojah.Title4">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+        <item name="lineHeight">@dimen/line_height_21sp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:lineSpacingExtra">1sp</item>
+    </style><style name="TextView.Subtitle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_marginTop">@dimen/margin_top_login_subtitle_to_title</item>
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.Subtitle1</item>
+        <item name="android:alpha">0.7</item>
+    </style><style name="TextView.InputLabel" parent="Widget.MaterialComponents.TextView">
+        <item name="android:layout_marginTop">@dimen/margin_top_style_text_input_label</item>
+        <item name="android:layout_marginBottom">@dimen/margin_bottom_style_text_input_label</item>
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.Header6</item>
+        <item name="android:textColor">@color/body_color</item>
+    </style><style name="TextView.SignatureLabel" parent="TextView.InputLabel">
+        <item name="lineHeight">@dimen/line_height_22sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.ParagraphMedium</item>
+        <item name="fontFamily">@font/atakk_regular_500</item>
+    </style><style name="TextAppearance.Dojah.Header4" parent="TextAppearance.Dojah.Header5">
+        <item name="fontFamily">@font/atakk_medium600</item>
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+        <item name="lineHeight">@dimen/line_height_28sp</item>
+    </style><style name="TextAppearance.Dojah.Header5" parent="TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/atakk_medium600</item>
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+        <item name="lineHeight">@dimen/line_height_24sp</item>
+    </style><style name="TextAppearance.Dojah.Header6" parent="TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/atakk_semi_bold_700</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="lineHeight">@dimen/line_height_15_6sp</item>
+    </style><style name="TextAppearance.Dojah.Header6B" parent="TextAppearance.AppCompat.Title">
+        <item name="fontFamily">@font/atakk_semi_bold_700</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="lineHeight">@dimen/line_height_15_6sp</item>
+    </style><style name="TextAppearance.Dojah.ParagraphSmall" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontFamily">@font/atakk_medium600</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="lineHeight">@dimen/line_height_20sp</item>
+    </style><style name="TextAppearance.Dojah.ParagraphMedium" parent="TextAppearance.Dojah.ParagraphSmall">
+        <item name="fontFamily">@font/atakk_regular_500</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="lineHeight">@dimen/line_height_20sp</item>
+    </style><style name="TextAppearance.Dojah.ParagraphTiny" parent="TextAppearance.Dojah.ParagraphSmall">
+        <item name="fontFamily">@font/atakk_light_400</item>
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+        <item name="lineHeight">@dimen/line_height_16sp</item>
+    </style><style name="TextAppearance.Dojah.Sandbox" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">10sp</item>
+        <item name="lineHeight">@dimen/text_size_12sp</item>
+        <item name="fontFamily">@font/atakk_medium600</item>
+    </style><style name="TextAppearance.Dojah.ButtonBig" parent="TextAppearance.Dojah.ParagraphMedium">
+        <item name="fontFamily">@font/atakk_semi_bold_700</item>
+        <item name="android:textSize">@dimen/text_size_13sp</item>
+        <item name="lineHeight">@dimen/line_height_15_6sp</item>
+    </style><style name="TextAppearance.Dojah.TagCaption" parent="TextAppearance.Dojah.ParagraphSmall">
+        <item name="fontFamily">@font/atakk_medium600</item>
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+        <item name="lineHeight">@dimen/line_height_12sp</item>
+    </style></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/ic_logo_splash_background.xml" qualifiers=""><color name="ic_logo_splash_background">#000000</color></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/dimen-login.xml" qualifiers=""><dimen name="margin_top_first_login_title_welcome">30dp</dimen><dimen name="margin_top_login_subtitle_to_title">5dp</dimen><dimen name="margin_start_stepper">4dp</dimen><dimen name="margin_end_style_transaction_pin">12dp</dimen><dimen name="height_sign_up_seeker">4dp</dimen><dimen name="margin_top_title_to_stepper">28dp</dimen><dimen name="margin_top_text_field_title">40dp</dimen><dimen name="margin_top_style_text_input_label">20dp</dimen><dimen name="margin_bottom_style_text_input_label">9dp</dimen><dimen name="margin_top_first_login_button_login">40dp</dimen><dimen name="margin_start_button_next_to_back">10dp</dimen><dimen name="padding_icon_button_next">11dp</dimen><dimen name="padding_vertical_text_input_edit_text_default">16dp</dimen><dimen name="padding_horizontal_text_input_edit_text_default">17dp</dimen><dimen name="padding_vertical_spinner_item">50dp</dimen><dimen name="margin_top_resend_code_to_continue">20dp</dimen><dimen name="padding_top_transaction_pin_root">108dp</dimen></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/integers.xml" qualifiers=""><integer name="phone_number_length">11</integer></file><file path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/values/ic_launcher_background.xml" qualifiers=""><color name="ic_launcher_background">#FFFFFF</color></file><file name="gov_id_nav_graph" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/navigation/gov_id_nav_graph.xml" qualifiers="" type="navigation"/><file name="nav_graph" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/navigation/nav_graph.xml" qualifiers="" type="navigation"/><file name="selfie_nav_graph" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/navigation/selfie_nav_graph.xml" qualifiers="" type="navigation"/><file name="user_validate" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/animator/user_validate.xml" qualifiers="" type="animator"/><file name="img_404" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xhdpi/img_404.png" qualifiers="xhdpi-v4" type="drawable"/><file name="app_logo" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xhdpi/app_logo.png" qualifiers="xhdpi-v4" type="drawable"/><file name="app_logo" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xxhdpi/app_logo.png" qualifiers="xxhdpi-v4" type="drawable"/><file name="provider_paths" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/xml/provider_paths.xml" qualifiers="" type="xml"/><file name="img_404" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-hdpi/img_404.png" qualifiers="hdpi-v4" type="drawable"/><file name="app_logo" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-hdpi/app_logo.png" qualifiers="hdpi-v4" type="drawable"/><file name="nothing" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/menu/nothing.xml" qualifiers="" type="menu"/><file name="app_logo" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/drawable-xxxhdpi/app_logo.png" qualifiers="xxxhdpi-v4" type="drawable"/><file name="circular_std_regular_400" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/font/circular_std_regular_400.ttf" qualifiers="" type="font"/><file name="atakk_semi_bold_700" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/font/atakk_semi_bold_700.ttf" qualifiers="" type="font"/><file name="atakk_medium600" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/font/atakk_medium600.ttf" qualifiers="" type="font"/><file name="circular_std_bold_700" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/font/circular_std_bold_700.ttf" qualifiers="" type="font"/><file name="circular_std_medium_500" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/font/circular_std_medium_500.ttf" qualifiers="" type="font"/><file name="atakk_bold_800" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/font/atakk_bold_800.ttf" qualifiers="" type="font"/><file name="atakk_light_400" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/font/atakk_light_400.ttf" qualifiers="" type="font"/><file name="atakk_regular_500" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/font/atakk_regular_500.ttf" qualifiers="" type="font"/><file name="disposable" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/disposable.txt" qualifiers="" type="raw"/><file name="successfully_done" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/successfully_done.json" qualifiers="" type="raw"/><file name="successfully_send" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/successfully_send.json" qualifiers="" type="raw"/><file name="loading_circle" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/loading_circle.json" qualifiers="" type="raw"/><file name="error" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/error.json" qualifiers="" type="raw"/><file name="successfully_done_1" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/successfully_done_1.json" qualifiers="" type="raw"/><file name="error_1" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/error_1.json" qualifiers="" type="raw"/><file name="success" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/success.json" qualifiers="" type="raw"/><file name="check_1" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/check_1.json" qualifiers="" type="raw"/><file name="failed" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/failed.json" qualifiers="" type="raw"/><file name="free" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/free.txt" qualifiers="" type="raw"/><file name="warning" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/warning.json" qualifiers="" type="raw"/><file name="cancel" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/cancel.json" qualifiers="" type="raw"/><file name="circle_loader" path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/main/res/raw/circle_loader.json" qualifiers="" type="raw"/></source></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="mobile$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/mobile/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="mobile" generated-set="mobile$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/mobile/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/release/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release" generated-set="release$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/release/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/build/generated/res/resValues/mobile/release"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/build/generated/res/resValues/mobile/release"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="variant$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/mobileRelease/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="variant" generated-set="variant$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/abumuhsin/AndroidStudioProjects/dojahtest2/dojah-module/src/mobileRelease/res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="CountryPickSpinner">
+
+        <attr format="dimension|reference" name="spinBoxStrokeSize"/>
+        <attr format="dimension|reference" name="spinBoxStrokeSizeFocused"/>
+        <attr format="color|reference" name="spinStrokeTint"/>
+        <attr format="dimension|reference" name="spinCornerLength"/>
+    </declare-styleable><declare-styleable name="EditTextSpinner">
+
+        <attr format="dimension|reference" name="boxStrokeSize"/>
+        <attr format="dimension|reference" name="boxStrokeSizeFocused"/>
+        <attr format="color|reference" name="strokeTint"/>
+        <attr format="dimension|reference" name="cornerLength"/>
+    </declare-styleable><declare-styleable name="SimpleEditTextSpinner">
+
+        <attr format="dimension|reference" name="sboxStrokeSize"/>
+        <attr format="dimension|reference" name="sboxStrokeSizeFocused"/>
+        <attr format="color|reference" name="sstrokeTint"/>
+        <attr format="dimension|reference" name="scornerLength"/>
+    </declare-styleable><declare-styleable name="dojahThemeAttr">
+        
+        <attr format="reference" name="appLogo"/>
+        
+        <attr format="reference" name="appBarCloseIcon"/>
+        
+        <attr format="reference" name="appBarBackIcon"/>
+        
+        <attr format="reference" name="icVerificationAvatar"/>
+        
+        <attr format="reference" name="img404"/>
+        
+        <attr format="reference" name="countryWarning"/>
+        
+        <attr format="reference" name="infoIcon"/>
+        
+        <attr format="reference" name="sandboxBg"/>
+        
+        <attr format="reference" name="cameraPermissionAvatar"/>
+        
+        <attr format="reference" name="galleryPermissionAvatar"/>
+        
+        <attr format="reference" name="locationPermissionAvatar"/>
+        
+        <attr format="reference" name="errorAnim"/>
+        <attr format="reference" name="failedAnim"/>
+        
+        <attr format="reference" name="facialVerificationAnim"/>
+        
+        <attr format="reference" name="verifiedAnim"/>
+        
+        <attr format="reference" name="splashAnim"/>
+        
+        <attr format="reference" name="infoMessageCorneredBg"/>
+        
+        <attr format="reference" name="errorMessageCorneredBg"/>
+        <attr format="reference" name="infoMessageColor"/>
+        <attr format="reference" name="errorMessageColor"/>
+        <attr format="reference" name="materialBtnStyle"/>
+    </declare-styleable><declare-styleable name="SimpleAppBarView">
+        <attr format="string|reference" name="appBarTitle"/>
+        <attr format="reference" name="leadingIcon"/>
+        <attr format="reference" name="trailingIcon"/>
+        <attr format="reference" name="leadingLayout"/>
+        <attr format="reference" name="trailingLayout"/>
+    </declare-styleable><declare-styleable name="DojahMaterialButton">
+    </declare-styleable><declare-styleable name="DojahAppBarView">
+        
+        <attr format="reference" name="dojahAppBarTitle"/>
+        
+        <attr format="reference" name="dojahLeadingIcon"/>
+        
+        <attr format="boolean" name="dojahShowBackButton"/>
+    </declare-styleable><declare-styleable name="AccountBalanceView">
+        <attr format="string|reference" name="availableBalance"/>
+        <attr format="string|reference" name="commissionBalance"/>
+        <attr format="string|reference" name="rewardPoints"/>
+        <attr format="boolean|reference" name="obscureAmountButton"/>
+    </declare-styleable><declare-styleable name="RewardOptionCardView">
+        <attr format="string|reference" name="cardOptionTitle"/>
+    </declare-styleable><declare-styleable name="DebitCardView">
+        <attr format="string|reference" name="cardNumber"/>
+        <attr format="string|reference" name="holderName"/>
+        <attr format="string|reference" name="expiryDate"/>
+
+        <attr format="enum" name="cardType">
+            <enum name="master_card" value="0"/>
+            <enum name="verve_card" value="1"/>
+            <enum name="visa_card" value="2"/>
+        </attr>
+    </declare-styleable><declare-styleable name="LoadingButton">
+
+        <attr format="string|reference" name="buttonText"/>
+        <attr format="boolean|reference" name="buttonEnabled"/>
+    </declare-styleable><declare-styleable name="AnalysisProgressCardView">
+        <attr format="string|reference" name="cardProgressTitle"/>
+        <attr format="string|reference" name="cardSubtitle"/>
+        <attr format="float|reference" name="cardTarget"/>
+        <attr format="float|reference" name="cardValue"/>
+        <attr format="float" name="cardProgressStatus"/>
+        <attr format="string|reference" name="cardPercent"/>
+        <attr format="string|reference" name="cardFootNote"/>
+
+        <attr format="enum" name="cardProgressType">
+            <enum name="count_card" value="0"/>
+            <enum name="amount_card" value="1"/>
+        </attr>
+        <attr format="enum" name="progressTrack">
+            <enum name="behind" value="-1"/>
+            <enum name="neutral" value="0"/>
+            <enum name="onTrack" value="1"/>
+        </attr>
+    </declare-styleable><declare-styleable name="SegmentedProgressBar">
+        <attr format="integer" name="current_segment_value"/>
+        <attr format="integer" name="current_segment_progress"/>
+    </declare-styleable><declare-styleable name="LeaderboardImageView">
+        <attr format="string" name="leaderName"/>
+        <attr format="integer" name="leaderPosition"/>
+        <attr format="reference" name="leaderImage"/>
+        <attr format="dimension" name="imgSize"/>
+        <attr format="dimension" name="positionSize"/>
+        <attr format="dimension" name="titleWidth"/>
+    </declare-styleable><declare-styleable name="ItemGroup">
+
+        <attr format="float|reference" name="imageBackgroundAlpha"/>
+        <attr format="reference" name="icon"/>
+        <attr format="boolean" name="showArrow"/>
+        <attr format="string|reference" name="title"/>
+        <attr format="string|reference" name="subtitle"/>
+        <attr format="color|reference" name="textColor"/>
+        <attr format="color|reference" name="iconColor"/>
+        <attr format="boolean" name="tintIcon"/>
+    </declare-styleable><declare-styleable name="DojahToolbar">
+        <attr format="string|reference" name="toolbarTitle"/>
+        <attr format="string|reference" name="toolbarSubtitle"/>
+        <attr format="reference" name="titleTextAppearance"/>
+        <attr format="reference" name="subtitleTextAppearance"/>
+    </declare-styleable><declare-styleable name="AnalysisWalletCardView">
+        <attr format="string|reference" name="cardTitle"/>
+        <attr format="string|reference" name="label1"/>
+        <attr format="string|reference" name="label2"/>
+        <attr format="string|reference" name="titleValue"/>
+        <attr format="string|reference" name="label1Value"/>
+        <attr format="string|reference" name="label2Value"/>
+    </declare-styleable></configuration></mergedItems></merger>

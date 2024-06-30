@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/margin_24dp"
+            android:layout_marginTop="@dimen/margin_24dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/TextAppearance.Dojah.Header5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_16dp"
+                android:text="@string/capture_the_front_of_your_id" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_pic"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Chip"
+                tools:background="@color/green"
+                tools:src="@color/card_stroke_color" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <androidx.camera.view.PreviewView
+                        android:id="@+id/camera"
+                        android:layout_width="match_parent"
+                        android:layout_height="289dp" />
+
+                    <View
+                        android:id="@+id/progress_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white" />
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/info_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:background="?attr/infoMessageCorneredBg"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/info_text"
+                    style="@style/TextAppearance.Dojah.ParagraphTiny"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_8dp"
+                    android:layout_marginTop="@dimen/margin_5dp"
+                    android:layout_marginBottom="@dimen/margin_4dp"
+                    android:drawablePadding="@dimen/margin_8dp"
+                    android:gravity="center"
+                    android:text="@string/make_sure_driver_id_is_placed"
+                    android:textAlignment="center"
+                    android:textColor="?attr/infoMessageColor"
+                    app:drawableStartCompat="?attr/infoIcon"
+                    app:drawableTint="?attr/infoMessageColor" />
+            </LinearLayout>
+
+
+            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
+                android:id="@+id/capture_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/capture" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/upload_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp"
+                android:text="@string/upload_instead"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/card_back_color"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

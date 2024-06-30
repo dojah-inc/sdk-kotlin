@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/font/atakk_semi_bold_700.ttf",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/font/atakk_semi_bold_700.ttf"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/font/atakk_light_400.ttf",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/font/atakk_light_400.ttf"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/font/atakk_bold_800.ttf",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/font/atakk_bold_800.ttf"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/font/circular_std_bold_700.ttf",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/font/circular_std_bold_700.ttf"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/font/circular_std_regular_400.ttf",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/font/circular_std_regular_400.ttf"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/font/circular_std_medium_500.ttf",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/font/circular_std_medium_500.ttf"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/font/atakk_regular_500.ttf",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/font/atakk_regular_500.ttf"
+    },
+    {
+        "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/font/atakk_medium600.ttf",
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-main-75:/font/atakk_medium600.ttf"
+    }
+]
