@@ -1,7 +1,7 @@
 [
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim/mtrl_card_lowers_interpolator.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/anim/mtrl_card_lowers_interpolator.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/anim/mtrl_card_lowers_interpolator.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim/nav_default_exit_anim.xml",
@@ -41,7 +41,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim/design_snackbar_out.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/anim/design_snackbar_out.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/anim/design_snackbar_out.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim/abc_shrink_fade_out_from_bottom.xml",
@@ -69,7 +69,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim/design_snackbar_in.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/anim/design_snackbar_in.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/anim/design_snackbar_in.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim/btn_radio_to_off_mtrl_ring_outer_animation.xml",

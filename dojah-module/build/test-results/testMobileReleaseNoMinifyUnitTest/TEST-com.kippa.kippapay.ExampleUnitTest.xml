@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.kippa.kippapay.ExampleUnitTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-06-30T14:43:43" hostname="AbdulMujeebs-MacBook-Pro.local" time="0.06">
+<testsuite name="com.kippa.kippapay.ExampleUnitTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-07-01T19:12:57" hostname="AbdulMujeebs-MacBook-Pro.local" time="0.072">
   <properties/>
-  <testcase name="testTime" classname="com.kippa.kippapay.ExampleUnitTest" time="0.004"/>
+  <testcase name="testTime" classname="com.kippa.kippapay.ExampleUnitTest" time="0.005"/>
   <testcase name="testDateFormat" classname="com.kippa.kippapay.ExampleUnitTest" time="0.0"/>
-  <testcase name="testZoneIDS" classname="com.kippa.kippapay.ExampleUnitTest" time="0.026"/>
+  <testcase name="testZoneIDS" classname="com.kippa.kippapay.ExampleUnitTest" time="0.036"/>
   <testcase name="date" classname="com.kippa.kippapay.ExampleUnitTest" time="0.005"/>
   <testcase name="testBalanceFormatting" classname="com.kippa.kippapay.ExampleUnitTest" time="0.0"/>
-  <testcase name="deleteCountry" classname="com.kippa.kippapay.ExampleUnitTest" time="0.016"/>
-  <testcase name="addition_isCorrect" classname="com.kippa.kippapay.ExampleUnitTest" time="0.007"/>
+  <testcase name="deleteCountry" classname="com.kippa.kippapay.ExampleUnitTest" time="0.017"/>
+  <testcase name="addition_isCorrect" classname="com.kippa.kippapay.ExampleUnitTest" time="0.006"/>
   <testcase name="testTimeBackwards" classname="com.kippa.kippapay.ExampleUnitTest" time="0.0"/>
-  <testcase name="testPaymentTime" classname="com.kippa.kippapay.ExampleUnitTest" time="0.001"/>
-  <system-out><![CDATA[16558867670002024-06-29T15:43:43.748+01:00[Africa/Lagos]
-2024-06-30T15:43:43.750315+01:00[Africa/Lagos]
+  <testcase name="testPaymentTime" classname="com.kippa.kippapay.ExampleUnitTest" time="0.0"/>
+  <system-out><![CDATA[16558867670002024-06-30T20:12:57.562+01:00[Africa/Lagos]
+2024-07-01T20:12:57.565732+01:00[Africa/Lagos]
 Africa/Abidjan
 Africa/Accra
 Africa/Addis_Ababa

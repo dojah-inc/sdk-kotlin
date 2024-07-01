@@ -1,22 +1,22 @@
 [
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim-v21/design_bottom_sheet_slide_in.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/anim-v21/design_bottom_sheet_slide_in.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/anim-v21/design_bottom_sheet_slide_in.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim-v21/fragment_fast_out_extra_slow_in.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-fragment-1.5.1-16:/anim-v21/fragment_fast_out_extra_slow_in.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-fragment-1.5.1-17:/anim-v21/fragment_fast_out_extra_slow_in.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim-v21/mtrl_bottom_sheet_slide_out.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/anim-v21/mtrl_bottom_sheet_slide_out.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/anim-v21/mtrl_bottom_sheet_slide_out.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim-v21/design_bottom_sheet_slide_out.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/anim-v21/design_bottom_sheet_slide_out.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/anim-v21/design_bottom_sheet_slide_out.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/anim-v21/mtrl_bottom_sheet_slide_in.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/anim-v21/mtrl_bottom_sheet_slide_in.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/anim-v21/mtrl_bottom_sheet_slide_in.xml"
     }
 ]

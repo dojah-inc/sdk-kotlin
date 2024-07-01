@@ -5,7 +5,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_clockface_textview.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_clockface_textview.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_clockface_textview.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/ime_secondary_split_test_activity.xml",
@@ -33,11 +33,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_design_checkbox.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_design_checkbox.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_design_checkbox.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_alert_select_dialog_singlechoice.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_alert_select_dialog_singlechoice.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_alert_select_dialog_singlechoice.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/select_dialog_singlechoice_material.xml",
@@ -45,7 +45,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_header_title_text.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_header_title_text.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_header_title_text.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/preference_dropdown_material.xml",
@@ -77,7 +77,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_alert_select_dialog_multichoice.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_alert_select_dialog_multichoice.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_alert_select_dialog_multichoice.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/preference.xml",
@@ -93,11 +93,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/m3_auto_complete_simple_item.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/m3_auto_complete_simple_item.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/m3_auto_complete_simple_item.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_chip_zero_corner_radius.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_chip_zero_corner_radius.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_chip_zero_corner_radius.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/activity_main_dojah.xml",
@@ -141,11 +141,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_layout_snackbar_include.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_layout_snackbar_include.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_layout_snackbar_include.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_textinput_timepicker.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_textinput_timepicker.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_textinput_timepicker.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/preference_widget_checkbox.xml",
@@ -161,7 +161,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/text_view_without_line_height.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/text_view_without_line_height.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/text_view_without_line_height.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/widget_button_with_progress_indicator.xml",
@@ -173,7 +173,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_horizontal.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_horizontal.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_horizontal.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_action_bar_up_container.xml",
@@ -189,7 +189,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_toolbar_surface.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_toolbar_surface.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_toolbar_surface.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_popup_menu_header_item_layout.xml",
@@ -201,11 +201,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_actions.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_actions.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_actions.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_clock_period_toggle.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_clock_period_toggle.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_clock_period_toggle.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/places_autocomplete_impl_powered_by_google.xml",
@@ -213,15 +213,15 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_text_input_date_range.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_text_input_date_range.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_text_input_date_range.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_navigation_item_separator.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_navigation_item_separator.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_navigation_item_separator.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/text_view_with_theme_line_height.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/text_view_with_theme_line_height.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/text_view_with_theme_line_height.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/fragment_enter_otp2.xml",
@@ -237,7 +237,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_day.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_day.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_day.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/dojah_calender_fragment.xml",
@@ -249,15 +249,15 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_design_radiobutton.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_design_radiobutton.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_design_radiobutton.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_alert_dialog_title.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_alert_dialog_title.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_alert_dialog_title.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_vertical.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_vertical.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_vertical.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/popup_spinner.xml",
@@ -269,11 +269,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_months.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_months.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_months.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/text_view_with_line_height_from_appearance.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/text_view_with_line_height_from_appearance.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/text_view_with_line_height_from_appearance.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_action_mode_bar.xml",
@@ -281,7 +281,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_clock_display_divider.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_clock_display_divider.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_clock_display_divider.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/widget_button_with_progress_indicator.xml",
@@ -289,7 +289,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_text_input_start_icon.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_text_input_start_icon.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_text_input_start_icon.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_action_menu_item_layout.xml",
@@ -301,7 +301,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_header_dialog.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_header_dialog.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_header_dialog.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/widget_simple_appbar.xml",
@@ -309,7 +309,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_text_input_end_icon.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_text_input_end_icon.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_text_input_end_icon.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/fragment_signature.xml",
@@ -333,7 +333,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_menu_item_action_area.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_menu_item_action_area.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_menu_item_action_area.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/dialog_gallery_permission.xml",
@@ -341,11 +341,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_exposed_dropdown_menu.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_exposed_dropdown_menu.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_exposed_dropdown_menu.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_timepicker_dialog.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_timepicker_dialog.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_timepicker_dialog.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/splash_loading.xml",
@@ -353,7 +353,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_layout_tab_icon.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_layout_tab_icon.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_layout_tab_icon.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/dialog_transaction_error.xml",
@@ -393,15 +393,15 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_toolbar.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_toolbar.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_toolbar.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_chip_input_combo.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_chip_input_combo.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_chip_input_combo.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_timepicker.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_timepicker.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_timepicker.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/splash_loading.xml",
@@ -421,7 +421,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_month.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_month.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_month.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/fragment_empty.xml",
@@ -437,7 +437,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/text_view_with_line_height_from_layout.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/text_view_with_line_height_from_layout.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/text_view_with_line_height_from_layout.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/fragment_home_address.xml",
@@ -457,11 +457,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_navigation_menu_item.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_navigation_menu_item.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_navigation_menu_item.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/text_view_with_line_height_from_style.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/text_view_with_line_height_from_style.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/text_view_with_line_height_from_style.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_action_menu_layout.xml",
@@ -469,19 +469,19 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_navigation_bar_item_layout.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_navigation_bar_item_layout.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_navigation_bar_item_layout.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_clock_display.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_clock_display.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_clock_display.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_layout_snackbar.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_layout_snackbar.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_layout_snackbar.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_dialog.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_dialog.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_dialog.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/widget_edit_text_with_country.xml",
@@ -493,7 +493,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_layout_snackbar.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_layout_snackbar.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_layout_snackbar.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/popup_spinner.xml",
@@ -505,7 +505,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_bottom_navigation_item.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_bottom_navigation_item.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_bottom_navigation_item.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_screen_toolbar.xml",
@@ -521,7 +521,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_clockface_view.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_clockface_view.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_clockface_view.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/calendar_day_titles_container.xml",
@@ -537,11 +537,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_reflow_chipgroup.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_reflow_chipgroup.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_reflow_chipgroup.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_alert_select_dialog_item.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_alert_select_dialog_item.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_alert_select_dialog_item.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/fragment_otp_email.xml",
@@ -549,7 +549,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_action_chip.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_action_chip.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_action_chip.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/widget_tmp_trail.xml",
@@ -597,15 +597,15 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_radial_view_group.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_radial_view_group.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_radial_view_group.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_navigation_item.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_navigation_item.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_navigation_item.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_navigation_rail_item.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_navigation_rail_item.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_navigation_rail_item.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/fragment_home_address.xml",
@@ -613,7 +613,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_time_chip.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_time_chip.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_time_chip.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_tooltip.xml",
@@ -621,11 +621,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_navigation_menu.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_navigation_menu.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_navigation_menu.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_header_fullscreen.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_header_fullscreen.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_header_fullscreen.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/dialog_loading.xml",
@@ -633,7 +633,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_navigation_item_subheader.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_navigation_item_subheader.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_navigation_item_subheader.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_activity_chooser_view.xml",
@@ -669,7 +669,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_alert_dialog.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_alert_dialog.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_alert_dialog.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/dialog_disclaimer.xml",
@@ -689,11 +689,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_year.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_year.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_year.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_timepicker_textinput_display.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_timepicker_textinput_display.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_timepicker_textinput_display.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/fragment_country.xml",
@@ -701,11 +701,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_bottom_sheet_dialog.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_bottom_sheet_dialog.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_bottom_sheet_dialog.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_days_of_week.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_days_of_week.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_days_of_week.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/calender_control_text.xml",
@@ -713,7 +713,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_text_input_date.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_text_input_date.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_text_input_date.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/calendar_day_layout.xml",
@@ -721,7 +721,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/m3_alert_dialog.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/m3_alert_dialog.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/m3_alert_dialog.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/fragment_capture_document.xml",
@@ -757,7 +757,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_month_navigation.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_month_navigation.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_month_navigation.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/success_view.xml",
@@ -773,7 +773,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_toolbar_custom_background.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_toolbar_custom_background.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_toolbar_custom_background.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/calender_control_text.xml",
@@ -813,7 +813,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_header_selection_text.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_header_selection_text.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_header_selection_text.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/fragment_business_data.xml",
@@ -825,7 +825,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_header_toggle.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_header_toggle.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_header_toggle.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/preference_list_fragment.xml",
@@ -833,7 +833,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/m3_alert_dialog_actions.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/m3_alert_dialog_actions.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/m3_alert_dialog_actions.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/expand_button.xml",
@@ -845,11 +845,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/material_time_input.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/material_time_input.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/material_time_input.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_alert_dialog_actions.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_alert_dialog_actions.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_alert_dialog_actions.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/preference_widget_switch.xml",
@@ -865,7 +865,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_auto_complete_simple_item.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_auto_complete_simple_item.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_auto_complete_simple_item.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_dialog_title_material.xml",
@@ -873,7 +873,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_layout_tab_text.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_layout_tab_text.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_layout_tab_text.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_cascading_menu_item_layout.xml",
@@ -881,7 +881,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_navigation_item_header.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_navigation_item_header.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_navigation_item_header.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/widget_dojah_button.xml",
@@ -889,7 +889,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_day_of_week.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_day_of_week.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_day_of_week.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/preference_information_material.xml",
@@ -897,7 +897,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/design_layout_snackbar_include.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/design_layout_snackbar_include.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/design_layout_snackbar_include.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/calender_control_spinner.xml",
@@ -905,7 +905,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_calendar_month_labeled.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_calendar_month_labeled.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_calendar_month_labeled.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/preference_dropdown.xml",
@@ -913,7 +913,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/mtrl_picker_fullscreen.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/mtrl_picker_fullscreen.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/mtrl_picker_fullscreen.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/abc_screen_simple_overlay_action_mode.xml",
@@ -933,7 +933,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/test_toolbar_elevation.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/test_toolbar_elevation.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/test_toolbar_elevation.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/fragment_otp_email.xml",
@@ -941,7 +941,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/layout/m3_alert_dialog_title.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/layout/m3_alert_dialog_title.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/layout/m3_alert_dialog_title.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-mergeMobileReleaseResources-73:/layout/dialog_camera_permission.xml",

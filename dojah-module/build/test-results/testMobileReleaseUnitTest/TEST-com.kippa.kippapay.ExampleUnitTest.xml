@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.kippa.kippapay.ExampleUnitTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-06-30T14:43:43" hostname="AbdulMujeebs-MacBook-Pro.local" time="0.066">
+<testsuite name="com.kippa.kippapay.ExampleUnitTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-07-01T19:12:57" hostname="AbdulMujeebs-MacBook-Pro.local" time="0.067">
   <properties/>
-  <testcase name="testTime" classname="com.kippa.kippapay.ExampleUnitTest" time="0.011"/>
+  <testcase name="testTime" classname="com.kippa.kippapay.ExampleUnitTest" time="0.005"/>
   <testcase name="testDateFormat" classname="com.kippa.kippapay.ExampleUnitTest" time="0.0"/>
-  <testcase name="testZoneIDS" classname="com.kippa.kippapay.ExampleUnitTest" time="0.026"/>
-  <testcase name="date" classname="com.kippa.kippapay.ExampleUnitTest" time="0.005"/>
+  <testcase name="testZoneIDS" classname="com.kippa.kippapay.ExampleUnitTest" time="0.031"/>
+  <testcase name="date" classname="com.kippa.kippapay.ExampleUnitTest" time="0.006"/>
   <testcase name="testBalanceFormatting" classname="com.kippa.kippapay.ExampleUnitTest" time="0.0"/>
-  <testcase name="deleteCountry" classname="com.kippa.kippapay.ExampleUnitTest" time="0.016"/>
+  <testcase name="deleteCountry" classname="com.kippa.kippapay.ExampleUnitTest" time="0.017"/>
   <testcase name="addition_isCorrect" classname="com.kippa.kippapay.ExampleUnitTest" time="0.006"/>
-  <testcase name="testTimeBackwards" classname="com.kippa.kippapay.ExampleUnitTest" time="0.0"/>
-  <testcase name="testPaymentTime" classname="com.kippa.kippapay.ExampleUnitTest" time="0.001"/>
-  <system-out><![CDATA[16558867670002024-06-29T15:43:43.112+01:00[Africa/Lagos]
-2024-06-30T15:43:43.114884+01:00[Africa/Lagos]
+  <testcase name="testTimeBackwards" classname="com.kippa.kippapay.ExampleUnitTest" time="0.001"/>
+  <testcase name="testPaymentTime" classname="com.kippa.kippapay.ExampleUnitTest" time="0.0"/>
+  <system-out><![CDATA[16558867670002024-06-30T20:12:57.977+01:00[Africa/Lagos]
+2024-07-01T20:12:57.979510+01:00[Africa/Lagos]
 Africa/Abidjan
 Africa/Accra
 Africa/Addis_Ababa

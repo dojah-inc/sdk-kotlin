@@ -17,7 +17,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/test_custom_background.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/test_custom_background.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/test_custom_background.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_spinner_textfield_background_material.xml",
@@ -37,7 +37,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/avd_hide_password.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/avd_hide_password.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/avd_hide_password.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/selfie_avartar.png",
@@ -57,7 +57,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_m3_chip_checked_circle.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_m3_chip_checked_circle.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/ic_m3_chip_checked_circle.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_menu_selectall_mtrl_alpha.xml",
@@ -65,7 +65,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_edit_black_24dp.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_edit_black_24dp.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/material_ic_edit_black_24dp.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_close.xml",
@@ -89,15 +89,15 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_popupmenu_background.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_popupmenu_background.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/mtrl_popupmenu_background.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_keyboard_arrow_left_black_24dp.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_keyboard_arrow_left_black_24dp.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/material_ic_keyboard_arrow_left_black_24dp.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/library_logo.png",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-Resizer-v1.5-15:/drawable/library_logo.png"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-jetified-Resizer-v1.5-16:/drawable/library_logo.png"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/dotted_circle.xml",
@@ -117,7 +117,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/m3_tabs_rounded_line_indicator.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/m3_tabs_rounded_line_indicator.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/m3_tabs_rounded_line_indicator.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_item_background_holo_light.xml",
@@ -125,7 +125,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_ic_error.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_ic_error.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/mtrl_ic_error.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_arrow_view.xml",
@@ -133,7 +133,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_ic_cancel.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_ic_cancel.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/mtrl_ic_cancel.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_box_hide.xml",
@@ -153,7 +153,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_ic_arrow_drop_down.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_ic_arrow_drop_down.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/mtrl_ic_arrow_drop_down.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_verification_warning.xml",
@@ -169,7 +169,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_popupmenu_background_overlay.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_popupmenu_background_overlay.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/mtrl_popupmenu_background_overlay.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/country_warning.xml",
@@ -225,7 +225,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_fab_background.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_fab_background.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/design_fab_background.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/app_logo.png",
@@ -249,7 +249,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/m3_tabs_line_indicator.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/m3_tabs_line_indicator.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/m3_tabs_line_indicator.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_text_dark_normal.xml",
@@ -273,7 +273,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_keyboard_black_24dp.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_keyboard_black_24dp.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/ic_keyboard_black_24dp.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/corned_arrow_back.xml",
@@ -289,11 +289,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_m3_chip_check.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_m3_chip_check.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/ic_m3_chip_check.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_keyboard_arrow_right_black_24dp.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_keyboard_arrow_right_black_24dp.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/material_ic_keyboard_arrow_right_black_24dp.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/common_google_signin_btn_icon_light_focused.xml",
@@ -301,7 +301,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_mtrl_chip_checked_circle.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_mtrl_chip_checked_circle.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/ic_mtrl_chip_checked_circle.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_btn_check_material_anim.xml",
@@ -309,7 +309,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_clock_black_24dp.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_clock_black_24dp.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/ic_clock_black_24dp.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_otp_box_success.xml",
@@ -329,11 +329,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_menu_arrow_up_black_24dp.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_menu_arrow_up_black_24dp.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/material_ic_menu_arrow_up_black_24dp.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_ic_arrow_drop_up.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_ic_arrow_drop_up.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/mtrl_ic_arrow_drop_up.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_outline_home.xml",
@@ -345,7 +345,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_m3_chip_close.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_m3_chip_close.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/ic_m3_chip_close.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_spinner_drop_icon.xml",
@@ -377,7 +377,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_calendar_black_24dp.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_calendar_black_24dp.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/material_ic_calendar_black_24dp.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_alarm.xml",
@@ -393,7 +393,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_ic_visibility.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_ic_visibility.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/design_ic_visibility.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/circle_progress_drawable.xml",
@@ -421,7 +421,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/m3_popupmenu_background_overlay.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/m3_popupmenu_background_overlay.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/m3_popupmenu_background_overlay.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/shape_nothing.xml",
@@ -449,11 +449,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_dialog_background.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_dialog_background.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/mtrl_dialog_background.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_tabs_default_indicator.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_tabs_default_indicator.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/mtrl_tabs_default_indicator.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_clear_material.xml",
@@ -489,11 +489,11 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_mtrl_chip_close_circle.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_mtrl_chip_close_circle.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/ic_mtrl_chip_close_circle.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_clear_black_24dp.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_clear_black_24dp.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/material_ic_clear_black_24dp.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_arrow_left.xml",
@@ -537,7 +537,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/material_ic_menu_arrow_down_black_24dp.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/material_ic_menu_arrow_down_black_24dp.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/material_ic_menu_arrow_down_black_24dp.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_radio_off_to_on_mtrl_animation.xml",
@@ -553,7 +553,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/navigation_empty_icon.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/navigation_empty_icon.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/navigation_empty_icon.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/dojah_logo.xml",
@@ -565,7 +565,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/mtrl_dropdown_arrow.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/mtrl_dropdown_arrow.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/mtrl_dropdown_arrow.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/btn_checkbox_unchecked_to_checked_mtrl_animation.xml",
@@ -573,7 +573,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_mtrl_chip_checked_black.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_mtrl_chip_checked_black.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/ic_mtrl_chip_checked_black.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/quantum_ic_cloud_off_vd_theme_24.xml",
@@ -593,7 +593,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_mtrl_checked_circle.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/ic_mtrl_checked_circle.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/ic_mtrl_checked_circle.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/shape_rectangle_stroke_with_dash.xml",
@@ -617,7 +617,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_password_eye.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_password_eye.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/design_password_eye.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/bg_circle.xml",
@@ -661,7 +661,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_ic_visibility_off.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_ic_visibility_off.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/design_ic_visibility_off.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/ic_account.xml",
@@ -673,7 +673,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/avd_show_password.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/avd_show_password.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/avd_show_password.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/abc_ic_menu_overflow_material.xml",
@@ -685,7 +685,7 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/design_snackbar_background.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/drawable/design_snackbar_background.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/drawable/design_snackbar_background.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/drawable/popup_window_background.xml",

@@ -1,15 +1,15 @@
 [
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/xml/standalone_badge_offset.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/xml/standalone_badge_offset.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/xml/standalone_badge_offset.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/xml/standalone_badge_gravity_bottom_end.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/xml/standalone_badge_gravity_bottom_end.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/xml/standalone_badge_gravity_bottom_end.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/xml/standalone_badge.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/xml/standalone_badge.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/xml/standalone_badge.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/xml/provider_paths.xml",
@@ -17,10 +17,10 @@
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/xml/standalone_badge_gravity_top_start.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/xml/standalone_badge_gravity_top_start.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/xml/standalone_badge_gravity_top_start.xml"
     },
     {
         "merged": "com.dojah_inc.dojah_android_sdk.dojah-module-merged_res-74:/xml/standalone_badge_gravity_bottom_start.xml",
-        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-17:/xml/standalone_badge_gravity_bottom_start.xml"
+        "source": "com.dojah_inc.dojah_android_sdk.dojah-module-material-1.6.1-18:/xml/standalone_badge_gravity_bottom_start.xml"
     }
 ]
