@@ -267,16 +267,43 @@ dependencies {
 
 }
 afterEvaluate{
-    publishing{
-        publications{
-            release(MavenPublication){
-                from components.findByName('debug')
-                groupId='com.github.dojah-inc'
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.findByName('release')
+                groupId = 'com.github.dojah-inc'
                 artifactId = 'dojah_android_sdk'
-                version = '1.0'
-                pom {
-                    description = 'First release'
+                version = 'pre-0.0.7'
+                artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
+//            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
+
+                pom.withXml {
+                    final dependenciesNode = asNode().appendNode('dependencies')
+                    ext.addDependency = { Dependency dep, String scope ->
+                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
+                            return
+                        final dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', dep.group)
+                        dependencyNode.appendNode('artifactId', dep.name)
+                        dependencyNode.appendNode('version', dep.version)
+                        dependencyNode.appendNode('scope', scope)
+                        if (!dep.transitive) {
+                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                            exclusionNode.appendNode('groupId', '*')
+                            exclusionNode.appendNode('artifactId', '*')
+                        } else if (!dep.properties.excludeRules.empty) {
+                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                            dep.properties.excludeRules.each { ExcludeRule rule ->
+                                exclusionNode.appendNode('groupId', rule.group ?: '*')
+                                exclusionNode.appendNode('artifactId', rule.module ?: '*')
+                            }
+                        }
+                    }
+                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "implementation") }
+                    configurations.api.getDependencies().each { dep -> addDependency(dep, "implementation") }
+                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
                 }
+
             }
         }
     }
