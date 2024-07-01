@@ -22,10 +22,10 @@ ext {
     ]
 
     configVariable = [
-            versionCode             : "2022",
-            baseURL                 : "https://mobile.dojah.com/api/",
-            baseUrlDev              : "https://api-dev.dojah.services/",
-            baseUrlStaging          : "https://dojah-mobile-api-staging.upkip.live/api/",
+            versionCode   : "2022",
+            baseURL       : "https://mobile.dojah.com/api/",
+            baseUrlDev    : "https://api-dev.dojah.services/",
+            baseUrlStaging: "https://dojah-mobile-api-staging.upkip.live/api/",
     ]
 
     projectDependenciesVersion = [
@@ -59,58 +59,6 @@ ext {
             desugar         : "1.1.5",
     ]
 }
-
-//publishing {
-//    publications {
-//        mavenJava(MavenPublication) {
-//            from components.findByName('release')
-//            groupId = 'com.dojah_inc'
-//            artifactId = 'dojah_android_sdk'
-//            version = 'pre-1.0.12'
-//            artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
-////            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
-//
-//            pom.withXml {
-//                final dependenciesNode = asNode().appendNode('dependencies')
-//                ext.addDependency = { Dependency dep, String scope ->
-//                    if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
-//                        return
-//                    final dependencyNode = dependenciesNode.appendNode('dependency')
-//                    dependencyNode.appendNode('groupId', dep.group)
-//                    dependencyNode.appendNode('artifactId', dep.name)
-//                    dependencyNode.appendNode('version', dep.version)
-//                    dependencyNode.appendNode('scope', scope)
-//                    if (!dep.transitive) {
-//                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-//                        exclusionNode.appendNode('groupId', '*')
-//                        exclusionNode.appendNode('artifactId', '*')
-//                    } else if (!dep.properties.excludeRules.empty) {
-//                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-//                        dep.properties.excludeRules.each { ExcludeRule rule ->
-//                            exclusionNode.appendNode('groupId', rule.group ?: '*')
-//                            exclusionNode.appendNode('artifactId', rule.module ?: '*')
-//                        }
-//                    }
-//                }
-//                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "implementation") }
-//                configurations.api.getDependencies().each { dep -> addDependency(dep, "implementation") }
-//                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
-//            }
-//
-//        }
-//    }
-//
-//    repositories {
-//        maven {
-//            name = 'GitHubPackages'
-//            url = uri("https://maven.pkg.github.com/dojah-inc/sdk-kotlin")
-//            credentials {
-//                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//                password = project.findProperty("gpr.token") ?: System.getenv("TOKEN")
-//            }
-//        }
-//    }
-//}
 
 android {
     compileSdk mobileToolsVersion.compileSdk
@@ -172,7 +120,7 @@ android {
             targetSdk mobileToolsVersion.targetSdk
             versionCode mobileToolsVersion.versionCode
             versionName mobileToolsVersion.versionName
-            manifestPlaceholders += [authority     : mobileToolsVersion.fileProviderAuthority]
+            manifestPlaceholders += [authority: mobileToolsVersion.fileProviderAuthority]
 
             buildConfigField "String", "FILE_PROVIDER_AUTHORITY", "\"${mobileToolsVersion.fileProviderAuthority}\""
             buildConfigField "String", "VERSION_CODE", "\"${configVariable.versionCode}\""
@@ -196,6 +144,11 @@ android {
         }
     }
 
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17            // << --- ADD This
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
 //    kotlin{
 //        jvmToolchain {
 //            languageVersion.set(JavaLanguageVersion.of("17"))
@@ -215,8 +168,6 @@ dependencies {
     implementation 'androidx.paging:paging-runtime-ktx:3.1.1'
 //    implementation libs.multidex
     coreLibraryDesugaring(libs.desugar)
-
-
 
 
     // Tests
@@ -239,10 +190,10 @@ dependencies {
     implementation(libs.materialdesign)
 
     implementation(libs.bundles.glide)
-    implementation ('com.github.bumptech.glide:okhttp3-integration:4.16.0'){
+    implementation('com.github.bumptech.glide:okhttp3-integration:4.16.0') {
         exclude group: 'glide-parent'
     }
-    kapt  'com.github.bumptech.glide:compiler:4.16.0'
+    kapt 'com.github.bumptech.glide:compiler:4.16.0'
 //    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
 
 
@@ -266,45 +217,47 @@ dependencies {
     implementation 'com.github.hkk595:Resizer:v1.5'
 
 }
-afterEvaluate{
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.findByName('release')
-                groupId = 'com.github.dojah-inc'
-                artifactId = 'dojah_android_sdk'
-                version = '0.0.9-alpha'
-                artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.findByName('release')
+            groupId = 'com.github.dojah-inc'
+            artifactId = 'dojah_android_sdk'
+            version = '0.0.9-alpha'
+            artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
 //            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
 
-                pom.withXml {
-                    final dependenciesNode = asNode().appendNode('dependencies')
-                    ext.addDependency = { Dependency dep, String scope ->
-                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
-                            return
-                        final dependencyNode = dependenciesNode.appendNode('dependency')
-                        dependencyNode.appendNode('groupId', dep.group)
-                        dependencyNode.appendNode('artifactId', dep.name)
-                        dependencyNode.appendNode('version', dep.version)
-                        dependencyNode.appendNode('scope', scope)
-                        if (!dep.transitive) {
-                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-                            exclusionNode.appendNode('groupId', '*')
-                            exclusionNode.appendNode('artifactId', '*')
-                        } else if (!dep.properties.excludeRules.empty) {
-                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-                            dep.properties.excludeRules.each { ExcludeRule rule ->
-                                exclusionNode.appendNode('groupId', rule.group ?: '*')
-                                exclusionNode.appendNode('artifactId', rule.module ?: '*')
-                            }
+            pom.withXml {
+                final dependenciesNode = asNode().appendNode('dependencies')
+                ext.addDependency = { Dependency dep, String scope ->
+                    if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
+                        return
+                    final dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dep.group)
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', dep.version)
+                    dependencyNode.appendNode('scope', scope)
+                    if (!dep.transitive) {
+                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                        exclusionNode.appendNode('groupId', '*')
+                        exclusionNode.appendNode('artifactId', '*')
+                    } else if (!dep.properties.excludeRules.empty) {
+                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                        dep.properties.excludeRules.each { ExcludeRule rule ->
+                            exclusionNode.appendNode('groupId', rule.group ?: '*')
+                            exclusionNode.appendNode('artifactId', rule.module ?: '*')
                         }
                     }
-                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "implementation") }
-                    configurations.api.getDependencies().each { dep -> addDependency(dep, "implementation") }
-                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
                 }
-
+                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "implementation") }
+                configurations.api.getDependencies().each { dep -> addDependency(dep, "implementation") }
+                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
             }
+
         }
+    }
+    repositories {
+        mavenLocal()
     }
 }
