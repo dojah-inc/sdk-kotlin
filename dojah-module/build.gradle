@@ -271,7 +271,7 @@ afterEvaluate{
         publications{
             release(MavenPublication){
                 from components.findByName('debug')
-                groupId='com.github.dojah_inc'
+                groupId='com.github.dojah-inc'
                 artifactId = 'dojah_android_sdk'
                 version = '1.0'
                 pom {
