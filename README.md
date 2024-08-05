@@ -1,7 +1,5 @@
 # sdk-kotlin
 
-![KYC WIDGET](img/kyc.png)
-
 ## Requirements
 * Minimum Android SDK version - 21
 * Supported targetSdkVersion - 34
