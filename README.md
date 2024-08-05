@@ -79,9 +79,6 @@ DojahSdk.with(context).launch(
 
 ```
 
-
-## Deployment 
-
 `REMEMBER TO CHANGE THE WIDGET ID,referenceId, AND email BEFORE RUNING YOUR APP`
 
 
