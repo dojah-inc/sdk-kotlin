@@ -69,7 +69,7 @@ dependencies {
 ## Usage
 
 ```kotlin
- import com.dojah_inc.dojah_android_sdk.DojahSdk
+import com.dojah_inc.dojah_android_sdk.DojahSdk
  
 DojahSdk.with(context).launch(
     “[ENTER WIDGET_ID]”,
