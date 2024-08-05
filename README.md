@@ -1,4 +1,4 @@
-# sdk-kotlin
+# Dojah KYC SDK (Android)
 
 ## Requirements
 * Minimum Android SDK version - 21
