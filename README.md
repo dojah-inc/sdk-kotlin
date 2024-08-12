@@ -12,7 +12,6 @@ Set maven path in your root/build.gradle file:
 allprojects {
     repositories {
         google()
-               google()
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven {
