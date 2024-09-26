@@ -75,6 +75,7 @@ DojahSdk.with(context).launch(
 ```
 
 ### SDK Parameters
+- `context` - `REQUIRED` parameter.Your Activity Context.
 - `WidgetID` - a `REQUIRED` parameter. You get this ID when you sign up on the Dojoh platform
 - `Reference ID` - an `OPTIONAL` parameter that allows you to initialize the SDK for an ongoing verification.
 - `Email Address` - an `OPTIONAL` parameter that allows you to initialize the SDK for an ongoing verification
