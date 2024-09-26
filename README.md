@@ -71,12 +71,18 @@ dependencies {
 import com.dojah_inc.dojah_android_sdk.DojahSdk
  
 DojahSdk.with(context).launch(
-    “[ENTER WIDGET_ID]”,
-    referenceId = “[OPTIONAL]”,
-    email = “[OPTIONAL]”,
+    {Required: Your_WidgetID},
+    referenceId = {Optional: Reference_ID},
+    email = “{Optional: Email_Address}”,
 )
 
 ```
+
+### SDK Parameters
+- `WidgetID` - a `REQUIRED` parameter. You get this ID when you sign up on the Dojoh platform
+- `Reference ID` - an `OPTIONAL` parameter that allows you to initialize the SDK for an ongoing verification.
+- `Email Address` - an `OPTIONAL` parameter that allows you to initialize the SDK for an ongoing verification
+
 
 `REMEMBER TO CHANGE THE WIDGET ID,referenceId, AND email BEFORE RUNING YOUR APP`
 
