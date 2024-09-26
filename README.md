@@ -61,6 +61,7 @@ dependencies {
 
 
 ## Usage
+To start KYC, import Dojah in your code, and launch Dojah Screen
 
 ```kotlin
 import com.dojah_inc.dojah_android_sdk.DojahSdk
