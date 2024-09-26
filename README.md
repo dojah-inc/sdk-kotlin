@@ -43,12 +43,12 @@ dependencyResolutionManagement {
     }
 }
 ```
-enable jetifier in grade.properties:
+Enable jetifier in grade.properties:
 ```
 android.enableJetifier=true
 ```
 
-import dependency in your app/build.gradle
+Import dependency in your app/build.gradle
 
 ```
 ...
