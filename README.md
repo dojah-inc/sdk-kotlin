@@ -71,8 +71,8 @@ dependencies {
 import com.dojah_inc.dojah_android_sdk.DojahSdk
  
 DojahSdk.with(context).launch(
-    {Required: Your_WidgetID},
-    referenceId = {Optional: Reference_ID},
+    "{Required: Your_WidgetID}",
+    referenceId = "{Optional: Reference_ID}",
     email = “{Optional: Email_Address}”,
 )
 
