@@ -80,8 +80,3 @@ DojahSdk.with(context).launch(
 
 
 `REMEMBER TO CHANGE THE WIDGET ID,referenceId, AND email BEFORE RUNING YOUR APP`
-
-
-## Additional information
-
-Contact Dojah for more options for the config object.
