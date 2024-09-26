@@ -48,7 +48,7 @@ enable jetifier in grade.properties:
 android.enableJetifier=true
 ```
 
-and add tools:replace="android:theme" at application level in your AndroidManifest.xml
+and add tools:replace="android:theme" at application level in your AndroidManifest.xml, if you set theme at application level
 ```
 tools:replace="android:theme"
 ```
