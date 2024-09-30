@@ -102,7 +102,7 @@ To use the SDK, you need a WidgetID, which is a required parameter for initializ
 
     - Select a Country: Choose the country or countries relevant to your verification process.
     - Select a Preview Process: Decide between automatic or manual verification.
-    - Notification Type: Choose how you’d like to receive notifications for updates (email, SMS, etc.).
+    - Notification Type: Choose how you’d like to receive webhook notifications, send verification status to your user’s email or add a support email for your customers to easily reach out to you directly if they encounter any blocker during verification.
     - Add Verification Pages: Customize the verification steps in your flow (e.g., ID verification, address verification, etc.).
     
 6. Publish Your Widget: After configuring your flow, publish the widget. Once published, your flow is live.
