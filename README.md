@@ -48,14 +48,14 @@ Enable jetifier in grade.properties:
 android.enableJetifier=true
 ```
 
-Import dependency in your app/build.gradle
+Add dojah dependency in your app/build.gradle
 
 ```
 ...
 dependencies {
   ...
   // Dojah Kyc SDK
-  implementation 'com.dojah_inc:dojah_android_sdk:[version]'
+  implementation 'com.dojah_inc:dojah_android_sdk:[latest-version]'
 }
 ```
 
