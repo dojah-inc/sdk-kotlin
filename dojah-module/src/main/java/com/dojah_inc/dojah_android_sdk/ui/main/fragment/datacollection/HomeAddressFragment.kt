@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
+import com.dojah_inc.dojah_android_sdk.BuildConfig
 import com.dojah_inc.dojah_android_sdk.R
 import com.dojah_inc.dojah_android_sdk.core.Result
 import com.dojah_inc.dojah_android_sdk.data.LocationManager
@@ -39,7 +40,7 @@ class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Places.initialize(context, resources.getString(R.string.prediction_api_key))
+        Places.initialize(context, BuildConfig.PLACE_KEY)
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
                 val isPermitted = it.getOrDefault(

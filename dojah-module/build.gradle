@@ -89,7 +89,6 @@ android {
 
             minifyEnabled false
 //            shrinkResources true
-
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
         }
