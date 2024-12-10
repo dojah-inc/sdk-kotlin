@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Handler
+import android.os.Looper
 import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.view.Gravity
@@ -398,6 +400,10 @@ class SimpleEditTextSpinner : LinearLayout {
         private val placesClient: PlacesClient = Places.createClient(context)
         private var mResultList = ArrayList<PlaceAutocomplete>()
 
+        // Debounce related
+        private val handler = Handler(Looper.getMainLooper())
+        private var currentQuery: CharSequence? = null
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return LayoutInflater.from(context).inflate(R.layout.item_spinner, parent, false).run {
                 ViewHolder(this)
@@ -416,13 +422,26 @@ class SimpleEditTextSpinner : LinearLayout {
             return object : Filter() {
                 override fun performFiltering(constraint: CharSequence): FilterResults {
                     val results = FilterResults()
-                    // Skip the autocomplete query if no constraints are given.
-                    // Query the autocomplete API for the (constraint) search string.
-                    mResultList = getPredictions(constraint)
-                    items = mResultList
-                    // The API successfully returned results.
-                    results.values = mResultList
-                    results.count = mResultList.size
+
+                    // Handle debounce logic
+                    currentQuery = constraint
+                    handler.removeCallbacksAndMessages(null) // Remove any previous delayed calls
+
+
+                    // Delayed API call (3s debounce)
+                    handler.postDelayed({
+                        if (constraint != currentQuery) return@postDelayed // Ignore the call if the query has changed
+
+                        // Skip the autocomplete query if no constraints are given.
+                        // Query the autocomplete API for the (constraint) search string.
+                        mResultList = getPredictions(constraint)
+                        items = mResultList
+                        // The API successfully returned results.
+                        results.values = mResultList
+                        results.count = mResultList.size
+
+                    }, 3*1000) // Adjust the debounce time as needed
+
                     return results
                 }
 
