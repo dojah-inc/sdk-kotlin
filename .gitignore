@@ -9,6 +9,7 @@
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
+/dojah-module/build
 /captures
 .externalNativeBuild
 .cxx
