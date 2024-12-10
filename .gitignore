@@ -9,7 +9,6 @@
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
-/dojah-module/build
 /captures
 .externalNativeBuild
 .cxx
@@ -17,3 +16,4 @@ local.properties
 api_key.properties
 git_package.properties
 /.idea/
+/dojah-module/build/
