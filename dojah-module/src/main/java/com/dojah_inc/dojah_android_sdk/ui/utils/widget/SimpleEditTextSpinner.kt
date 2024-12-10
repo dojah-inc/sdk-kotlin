@@ -48,6 +48,10 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
@@ -89,7 +93,7 @@ class SimpleEditTextSpinner : LinearLayout {
     private var textInputText = ""
 
     private var selectedPlaceId = ""
-    var selectedPlace:Place? = null
+    var selectedPlace: Place? = null
     val popupWindow: PopupWindow?
         get() = spinnerPopup
 
@@ -108,7 +112,7 @@ class SimpleEditTextSpinner : LinearLayout {
 
     private var defaultInputType: Int = 0
 
-    private   var spinnerPopup: PopupWindow? = null
+    private var spinnerPopup: PopupWindow? = null
 
     var window: Window? = null
 
@@ -229,7 +233,11 @@ class SimpleEditTextSpinner : LinearLayout {
         doOnLayout {
             val popupHeight =
                 context.resources.getDimension(R.dimen.height_dropdown_spinner_dialog).toInt()
-            spinnerPopup = PopupWindow(spinnerLayout.root, measuredWidth, WindowManager.LayoutParams.WRAP_CONTENT).apply {
+            spinnerPopup = PopupWindow(
+                spinnerLayout.root,
+                measuredWidth,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            ).apply {
                 elevation = 1.0.toFloat()
                 isOutsideTouchable = true
                 isTouchable = true
@@ -434,13 +442,16 @@ class SimpleEditTextSpinner : LinearLayout {
 
                         // Skip the autocomplete query if no constraints are given.
                         // Query the autocomplete API for the (constraint) search string.
-                        mResultList = getPredictions(constraint)
-                        items = mResultList
-                        // The API successfully returned results.
-                        results.values = mResultList
-                        results.count = mResultList.size
-
-                    }, 3*1000) // Adjust the debounce time as needed
+                        CoroutineScope(Dispatchers.IO).launch {
+                            mResultList = getPredictions(constraint)
+                            withContext(Dispatchers.Main) {
+                                items = mResultList
+                                // The API successfully returned results.
+                                results.values = mResultList
+                                results.count = mResultList.size
+                            }
+                        }
+                    }, 3 * 1000) // Adjust the debounce time as needed
 
                     return results
                 }
@@ -449,8 +460,13 @@ class SimpleEditTextSpinner : LinearLayout {
                     if (results.count > 0) {
                         // The API returned at least one result, update the data.
                         notifyDataSetChanged()
-                        if(constraint.toString().toList().size == 1){
-                            spinnerPopup?.showAsDropDown(binding.layoutSpinner, 0, 0, Gravity.BOTTOM)
+                        if (constraint.toString().toList().size == 1) {
+                            spinnerPopup?.showAsDropDown(
+                                binding.layoutSpinner,
+                                0,
+                                0,
+                                Gravity.BOTTOM
+                            )
                         }
                     } else {
                         // The API did not return any results, invalidate the data set.
