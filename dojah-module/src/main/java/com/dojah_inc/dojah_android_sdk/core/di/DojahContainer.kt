@@ -38,7 +38,7 @@ class DojahContainer(
 
     val countryManager = CountryManager(context, phoneUtil)
 
-    val locationManager = LocationManager(context,sharedPreferenceManager)
+    val locationManager = LocationManager(context, sharedPreferenceManager)
 
     val fileManager = FileManager(context)
 
@@ -78,7 +78,11 @@ class DojahContainer(
 
     val verificationViewModelFactory = object : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return VerificationViewModel(sharedPreferenceManager, userRepository,countryManager) as T
+            return VerificationViewModel(
+                sharedPreferenceManager,
+                userRepository,
+                countryManager
+            ) as T
         }
     }
 
