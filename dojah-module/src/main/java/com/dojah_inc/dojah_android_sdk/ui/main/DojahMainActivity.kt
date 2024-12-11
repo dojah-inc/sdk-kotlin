@@ -377,8 +377,12 @@ class DojahMainActivity : AppCompatActivity() {
 
                     val pages = viewModel.getPagesFromPrefs()
                     val indexOfCurrent = pages?.indexOfFirst { it.name == currentRoute }
+                    val skipNextScreen = eventValue.first?.getBoolean(
+                        NavArguments.skipNext, false
+                    )?:false
+
                     if (indexOfCurrent != null) {
-                        val nextIndex = indexOfCurrent + 1
+                        val nextIndex = indexOfCurrent + (if(skipNextScreen) 2 else 1)
                         if (nextIndex <= pages.size - 1) {
                             var nextRoute = pages[nextIndex].name ?: ""
                             if (nextRoute == KycPages.COUNTRY.serverKey) {
@@ -408,6 +412,7 @@ class DojahMainActivity : AppCompatActivity() {
                                     val bundleOptionName = bundle.getString(
                                         NavArguments.option, null
                                     )
+
                                     Routes.getOptionRoute(
                                         nextRoute,
                                         optionPageName = bundleOptionName,

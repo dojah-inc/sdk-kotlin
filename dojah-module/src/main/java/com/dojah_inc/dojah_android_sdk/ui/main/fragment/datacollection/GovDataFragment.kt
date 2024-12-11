@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
+import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
@@ -53,17 +54,31 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                 govViewModel.resetSubmitGovLiveData()
                 if (it is Result.Success) {
                     hideError()
-                    navViewModel.navigateNextStep(args = Bundle().apply {
-                        putString(
-                            NavArguments.option,
-                            govViewModel.verificationTypeLiveData.value?.serverKey
-                        )
-                    })
+                    val verificationMethods = govViewModel.getVerifyMethods(viewModel)
+
+                    if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id && verificationMethods?.size == 1 &&
+                        verificationMethods.first()
+                            .lowercase() == VerificationType.OTP.serverKey.lowercase()
+                    ) {
+                        navViewModel.navigateNextStep(args = Bundle().apply {
+                            putBoolean(
+                                NavArguments.skipNext,
+                                true
+                            )
+                        })
+                    } else {
+                        navViewModel.navigateNextStep(args = Bundle().apply {
+                            putString(
+                                NavArguments.option,
+                                govViewModel.verificationTypeLiveData.value?.serverKey
+                            )
+                        })
+                    }
                 } else if (it is Result.Error) {
                     if (it is Result.Error.ApiError) {
                         val isOtpPhoneError =
                             it.error?.containsKey("error") == true && it.error["error"] == FailedReasons.OTP_NOT_SENT.message
-                        if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id && isOtpPhoneError ) {
+                        if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id && isOtpPhoneError) {
                             //show no error if no phone otp found
                             return@observe
                         }
@@ -159,8 +174,6 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                     return@setOnClickListener
                 }
 
-                HttpLoggingInterceptor.Logger.DEFAULT.log("Selected GovData: ${govViewModel.selectedGovDataLiveData.value}")
-                HttpLoggingInterceptor.Logger.DEFAULT.log("verificationMethods: ${verificationMethods}")
 
 //                if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id &&
 //                    verificationMethods?.size == 1 &&

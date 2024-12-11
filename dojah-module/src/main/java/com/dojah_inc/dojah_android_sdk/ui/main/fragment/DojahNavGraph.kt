@@ -50,7 +50,7 @@ object Routes {
         optionPageName: String? = null,
     ): String {
         if (optionPageName == null) {
-            return "$pageName"
+            return pageName
         }
 
         return "${pageName}_${optionPageName}"
@@ -62,6 +62,7 @@ object NavArguments {
     const val next_page = "index_next_page"
     const val plant_name = "plant_name"
     const val option = "option"
+    const val skipNext = "skip-next-step"
     const val option2 = "option2"
     const val optionType = "option_type"
 }

@@ -161,7 +161,7 @@ data class Config(
         get() {
             return mutableListOf<String>(
             ).apply {
-                if ((otp == true) && dl == false) {
+                if (otp == true /*&& dl == false*/) {
                     //add otp screen if enabled except for driver licence
                     add("otp")
                 }
@@ -208,18 +208,19 @@ data class AuthData(
 
     val filteredSteps: List<Step>
         get() {
-            steps.toMutableList().apply {
-                val govData =
-                    find { it.name == KycPages.GOVERNMENT_DATA.serverKey }
-
-                val govDataVerify =
-                    find { it.name == KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey }
-
-                if (govData?.config?.dl == true && govData.config?.otp == true && govData.config?.selfie == false) {
-                    this.remove(govDataVerify)
-                }
-                return this
-            }
+            return steps
+//            steps.toMutableList().apply {
+//                val govData =
+//                    find { it.name == KycPages.GOVERNMENT_DATA.serverKey }
+//
+//                val govDataVerify =
+//                    find { it.name == KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey }
+//
+//                if (govData?.config?.dl == true && govData.config?.otp == true && govData.config?.selfie == false) {
+//                    this.remove(govDataVerify)
+//                }
+//                return this
+//            }
         }
     val pages: List<Step>
         get() {

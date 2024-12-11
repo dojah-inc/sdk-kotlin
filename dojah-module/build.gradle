@@ -66,7 +66,8 @@ publishing {
             from components.findByName('release')
             groupId = 'com.dojah_inc'
             artifactId = 'dojah_android_sdk'
-            version = 'dev-0.0.4'
+            version = 'dev-0.0.5'
+//            version = '0.0.3'
             artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
 //              artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
 

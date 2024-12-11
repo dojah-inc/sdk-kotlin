@@ -32,7 +32,7 @@ const val analysisRetryMax = 3
 const val checkRetryMax = 2
 
 @SuppressLint("StaticFieldLeak")
-class GovDataViewModel (
+class GovDataViewModel(
     private val prefManager: SharedPreferenceManager,
     private val repo: DojahRepository,
 ) : ViewModel() {
@@ -222,9 +222,13 @@ class GovDataViewModel (
         val dojahConstants = dojahEnum
         val stepNumber = verifyVm.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.id
             ?: throw Exception("No stepNumber")
+
         viewModelScope.launch {
+            _submitGovLiveData.postValue(Result.Loading)
+
             val selectedIdEnum =
                 selectedGovDataLiveData.value?.enum ?: throw Exception("Selected id is null")
+
             /** log [EventTypes.VERIFICATION_TYPE_SELECTED] event
              * zipped with GovId lookUp call
              * */
@@ -236,7 +240,6 @@ class GovDataViewModel (
                 stepNumber = stepNumber,
             ).onStart {
                 /** startLoading */
-                _submitGovLiveData.postValue(Result.Loading)
             }.zip(
                 doGovIdLookUp(
                     selectedIdEnum, dojahConstants, userInputId,
@@ -289,6 +292,7 @@ class GovDataViewModel (
                     ) { dataCollected, _ ->
                         return@zip dataCollected
                     }.collect { dataCollected ->
+                        HttpLoggingInterceptor.Logger.DEFAULT.log("Gov data: Selected aft dataCollected")
                         if (dataCollected is Result.Success) {
                             /** After gov data is collected,
                              *  then zip [EventTypes.GOVERNMENT_IMAGE_COLLECTED], with
@@ -489,7 +493,7 @@ class GovDataViewModel (
         phone: String? = null,
     ): String? {
         var phoneNumber = phone ?: _lookUpLiveData.value?.phoneNumber
-        if (phoneNumber == null ) {
+        if (phoneNumber == null) {
             _submitGovLiveData.postValue(
                 Result.Error.ApiError(
                     mapOf(
