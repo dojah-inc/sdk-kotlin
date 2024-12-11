@@ -300,6 +300,7 @@ class GovDataViewModel (
                                 lookUpEntity,
                                 stepNumber = stepNumber,
                             ).zip(
+                                //Log Data completed and mode selected
                                 logDataCompletedOrModeSelected(verifyVm, services, stepNumber)
                             ) { imageCollectedResult, govCompleteResult ->
                                 return@zip imageCollectedResult to govCompleteResult
@@ -488,7 +489,7 @@ class GovDataViewModel (
         phone: String? = null,
     ): String? {
         var phoneNumber = phone ?: _lookUpLiveData.value?.phoneNumber
-        if (phoneNumber == null) {
+        if (phoneNumber == null ) {
             _submitGovLiveData.postValue(
                 Result.Error.ApiError(
                     mapOf(

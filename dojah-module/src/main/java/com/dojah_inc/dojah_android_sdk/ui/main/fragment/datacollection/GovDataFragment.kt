@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+
 import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.annotation.SuppressLint
@@ -36,10 +37,10 @@ import kotlinx.coroutines.launch
 class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
     private val binding by viewBinding { FragmentGovDataBinding.bind(it) }
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +61,12 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                     })
                 } else if (it is Result.Error) {
                     if (it is Result.Error.ApiError) {
+                        val isOtpPhoneError =
+                            it.error?.containsKey("error") == true && it.error["error"] == FailedReasons.OTP_NOT_SENT.message
+                        if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id && isOtpPhoneError ) {
+                            //show no error if no phone otp found
+                            return@observe
+                        }
                         binding.root.post {
                             binding.apply {
                                 errorTag.text = viewModel.getErrorMessage(
@@ -152,17 +159,22 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                     return@setOnClickListener
                 }
 
-                if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id &&
-                    verificationMethods?.size == 1 &&
-                    verificationMethods.first().lowercase() == VerificationType.OTP.serverKey.lowercase()
-                    ) {
-                    showShortToast("No verification method available for Driver's License")
-                    return@setOnClickListener
-                }
-                if (govViewModel.verificationTypeLiveData.value == null) {
-                    showShortToast("Please select a verification method")
-                    return@setOnClickListener
-                }
+                HttpLoggingInterceptor.Logger.DEFAULT.log("Selected GovData: ${govViewModel.selectedGovDataLiveData.value}")
+                HttpLoggingInterceptor.Logger.DEFAULT.log("verificationMethods: ${verificationMethods}")
+
+//                if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id &&
+//                    verificationMethods?.size == 1 &&
+//                    verificationMethods.first()
+//                        .lowercase() == VerificationType.OTP.serverKey.lowercase()
+//                ) {
+//                    showShortToast("No verification method available for Driver's License")
+//                    return@setOnClickListener
+//                }
+
+//                if (govViewModel.verificationTypeLiveData.value == null) {
+//                    showShortToast("Please select a verification method")
+//                    return@setOnClickListener
+//                }
 
                 val selectedID = govViewModel.selectedGovDataLiveData.value
                 val maxLength = selectedID?.maxLength?.toIntOrNull()

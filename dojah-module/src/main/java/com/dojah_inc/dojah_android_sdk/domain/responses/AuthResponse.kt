@@ -22,7 +22,7 @@ data class AuthResponse(
     fun copyUpdateFromEmail(emailResponse: SimpleResponse): AuthResponse {
         val emailAuthData = emailResponse.entity?.data
 
-        val emailPages = emailAuthData?.steps?.toMutableList()
+        val emailPages = emailAuthData?.filteredSteps?.toMutableList()
 
 
         val emailIdOptionPage = emailPages?.findLast {
@@ -161,8 +161,10 @@ data class Config(
         get() {
             return mutableListOf<String>(
             ).apply {
-                if (otp == true)
+                if ((otp == true) && dl == false) {
+                    //add otp screen if enabled except for driver licence
                     add("otp")
+                }
                 if (selfie == true)
                     if (version == 3)
                         add("selfie")
@@ -203,11 +205,29 @@ data class AuthData(
 
 
     ) {
-    val pages: List<Step>
+
+    val filteredSteps: List<Step>
         get() {
             steps.toMutableList().apply {
+                val govData =
+                    find { it.name == KycPages.GOVERNMENT_DATA.serverKey }
+
                 val govDataVerify =
                     find { it.name == KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey }
+
+                if (govData?.config?.dl == true && govData.config?.otp == true && govData.config?.selfie == false) {
+                    this.remove(govDataVerify)
+                }
+                return this
+            }
+        }
+    val pages: List<Step>
+        get() {
+            filteredSteps.toMutableList().apply {
+
+                val govDataVerify =
+                    find { it.name == KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey }
+
                 if (govDataVerify != null && govDataVerify.status != StepStatus.DONE.serverKey) {
                     val hasNoGovModeOptions =
                         govDataVerify.config?.let {
