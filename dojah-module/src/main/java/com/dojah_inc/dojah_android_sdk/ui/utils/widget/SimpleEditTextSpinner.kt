@@ -247,21 +247,6 @@ class SimpleEditTextSpinner : LinearLayout {
             setDrawable()
         }
 
-        binding.apply {
-//            edtLayoutSpinner.addTextChangedListener { text ->
-//                if (text.toString().isEmpty()) {
-//                    spinnerPopup?.dismiss()
-//                    return@addTextChangedListener
-//                } else {
-//                    changeDrawable()
-//
-//                    (spinnerLayout.recyclerView.adapter as SpinnerAdapter).filter.filter(text.toString())
-////                    spinnerPopup?.dismiss()
-////                    spinnerPopup?.showAsDropDown(binding.layoutSpinner, 0, 0, Gravity.BOTTOM)
-//
-//                }
-//            }
-        }
     }
 
 
