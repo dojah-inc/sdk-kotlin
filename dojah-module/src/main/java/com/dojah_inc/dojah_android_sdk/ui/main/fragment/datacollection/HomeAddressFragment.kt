@@ -40,7 +40,7 @@ class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Places.initialize(context, BuildConfig.PLACE_KEY)
+        context?.let { Places.initialize(it, BuildConfig.PLACE_KEY) }
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
                 val isPermitted = it.getOrDefault(
@@ -107,6 +107,7 @@ class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
                     navViewModel.popBackStack()
                 }
             }
+            this.addressSpinner.predictTextChange(this@HomeAddressFragment)
             btnContinue.setOnClickListener {
                 val selectedPlace = addressSpinner.selectedPlace
                 val latLng = selectedPlace?.latLng

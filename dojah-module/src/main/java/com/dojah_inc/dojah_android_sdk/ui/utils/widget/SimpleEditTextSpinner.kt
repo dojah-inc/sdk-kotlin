@@ -6,6 +6,9 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.InputType
+import android.text.TextWatcher
 import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.view.Gravity
@@ -15,17 +18,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.EditText
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
+import androidx.annotation.CheckResult
+import androidx.camera.core.impl.utils.Threads.checkMainThread
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
 import androidx.core.view.doOnAttach
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -34,8 +43,10 @@ import com.dojah_inc.dojah_android_sdk.databinding.ItemSpinnerBinding
 import com.dojah_inc.dojah_android_sdk.databinding.PopupSpinnerBinding
 import com.dojah_inc.dojah_android_sdk.databinding.WidgetEditTextSpinnerBinding
 import com.dojah_inc.dojah_android_sdk.ui.utils.getColorBackground
+import com.dojah_inc.dojah_android_sdk.ui.utils.getText
 import com.dojah_inc.dojah_android_sdk.ui.utils.hideSoftKeyboard
 import com.dojah_inc.dojah_android_sdk.ui.utils.setText
+import com.dojah_inc.dojah_android_sdk.ui.utils.widget.SimpleEditTextSpinner.SpinnerAdapter.PlaceAutocomplete
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -50,6 +61,20 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.logging.HttpLoggingInterceptor
@@ -58,6 +83,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 class SimpleEditTextSpinner : LinearLayout {
     companion object {
         val DIFF_UTIL = object : DiffUtil.ItemCallback<SpinnerAdapter.PlaceAutocomplete>() {
@@ -77,9 +103,13 @@ class SimpleEditTextSpinner : LinearLayout {
     val binding: WidgetEditTextSpinnerBinding =
         WidgetEditTextSpinnerBinding.inflate(LayoutInflater.from(context), this)
 
+    private var itemSelected: Boolean = false
+
     private var spinnerLayout =
         PopupSpinnerBinding.inflate(LayoutInflater.from(context), null, false).apply {
-            recyclerView.adapter = SpinnerAdapter()
+            recyclerView.adapter = SpinnerAdapter {
+                itemSelected = true
+            }
         }
 
     private var strokeWidthFocused = 0
@@ -115,6 +145,58 @@ class SimpleEditTextSpinner : LinearLayout {
     private var spinnerPopup: PopupWindow? = null
 
     var window: Window? = null
+
+    var previousSearch: String = ""
+
+    fun predictTextChange(fragment: Fragment) {
+        binding.apply {
+            edtLayoutSpinner.textChanges()
+                .filterNot { it.isNullOrBlank() && itemSelected }
+                .debounce(3000)
+                .flatMapLatest {
+                    flow {
+//                        HttpLoggingInterceptor.Logger.DEFAULT.log("Text Changes prev:${previousSearch.toString()}")
+//                        HttpLoggingInterceptor.Logger.DEFAULT.log("Text Changes new:${it.toString()}")
+                        if (itemSelected) {
+                            itemSelected = false
+                            emit(it to emptyList<PlaceAutocomplete>())
+                        } else {
+                            HttpLoggingInterceptor.Logger.DEFAULT.log("Text Changes onFlow:${it.toString()}")
+                            val results =
+                                (spinnerLayout.recyclerView.adapter as SpinnerAdapter).getPredictions(
+                                    it.toString()
+                                )
+                            previousSearch = it.toString()
+
+                            emit(it to results)
+                        }
+
+                    }.flowOn(Dispatchers.IO)
+
+                }
+                .onEach {
+                    if (it.second.isEmpty()) {
+                        spinnerPopup?.dismiss()
+                        return@onEach
+                    } else {
+                        changeDrawable()
+                        if (it.second.isNotEmpty()) {
+                            (spinnerLayout.recyclerView.adapter as SpinnerAdapter).submitList(it.second)
+                            if (spinnerPopup?.isShowing == false) {
+
+                                spinnerPopup?.showAsDropDown(
+                                    binding.layoutSpinner,
+                                    0,
+                                    0,
+                                    Gravity.BOTTOM
+                                )
+                            }
+                        }
+                    }
+                }
+                .launchIn(fragment.lifecycleScope)
+        }
+    }
 
     constructor(context: Context) : this(context, null, 0, 0)
 
@@ -154,7 +236,6 @@ class SimpleEditTextSpinner : LinearLayout {
     }
 
     init {
-
         orientation = VERTICAL
 
         binding.layoutSpinner.addOnEditTextAttachedListener {
@@ -167,21 +248,22 @@ class SimpleEditTextSpinner : LinearLayout {
         }
 
         binding.apply {
-            edtLayoutSpinner.addTextChangedListener { text ->
-                if (text.toString().isEmpty()) {
-                    spinnerPopup?.dismiss()
-                    return@addTextChangedListener
-                } else {
-                    changeDrawable()
-
-                    (spinnerLayout.recyclerView.adapter as SpinnerAdapter).filter.filter(text.toString())
+//            edtLayoutSpinner.addTextChangedListener { text ->
+//                if (text.toString().isEmpty()) {
 //                    spinnerPopup?.dismiss()
-//                    spinnerPopup?.showAsDropDown(binding.layoutSpinner, 0, 0, Gravity.BOTTOM)
-
-                }
-            }
+//                    return@addTextChangedListener
+//                } else {
+//                    changeDrawable()
+//
+//                    (spinnerLayout.recyclerView.adapter as SpinnerAdapter).filter.filter(text.toString())
+////                    spinnerPopup?.dismiss()
+////                    spinnerPopup?.showAsDropDown(binding.layoutSpinner, 0, 0, Gravity.BOTTOM)
+//
+//                }
+//            }
         }
     }
+
 
     private fun setDrawable(isErrorShown: Boolean = false) {
         binding.layoutRoot.background = MaterialShapeDrawable().apply {
@@ -375,6 +457,7 @@ class SimpleEditTextSpinner : LinearLayout {
             selectedPlace = place
             HttpLoggingInterceptor.Logger.DEFAULT.log("lat_lang is:${place.latLng}")
 
+            itemSelected = true
             layoutSpinner.setText(item.address)
         }
     }
@@ -402,15 +485,11 @@ class SimpleEditTextSpinner : LinearLayout {
         window = null
     }
 
-    inner class SpinnerAdapter :
+    inner class SpinnerAdapter(val onItemClicked: (place: PlaceAutocomplete) -> Unit) :
         ListAdapter<SpinnerAdapter.PlaceAutocomplete, SpinnerAdapter.ViewHolder>(DIFF_UTIL),
         Filterable {
         private val placesClient: PlacesClient = Places.createClient(context)
         private var mResultList = ArrayList<PlaceAutocomplete>()
-
-        // Debounce related
-        private val handler = Handler(Looper.getMainLooper())
-        private var currentQuery: CharSequence? = null
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             return LayoutInflater.from(context).inflate(R.layout.item_spinner, parent, false).run {
@@ -430,29 +509,13 @@ class SimpleEditTextSpinner : LinearLayout {
             return object : Filter() {
                 override fun performFiltering(constraint: CharSequence): FilterResults {
                     val results = FilterResults()
-
-                    // Handle debounce logic
-                    currentQuery = constraint
-                    handler.removeCallbacksAndMessages(null) // Remove any previous delayed calls
-
-
-                    // Delayed API call (3s debounce)
-                    handler.postDelayed({
-                        if (constraint != currentQuery) return@postDelayed // Ignore the call if the query has changed
-
-                        // Skip the autocomplete query if no constraints are given.
-                        // Query the autocomplete API for the (constraint) search string.
-                        CoroutineScope(Dispatchers.IO).launch {
-                            mResultList = getPredictions(constraint)
-                            withContext(Dispatchers.Main) {
-                                items = mResultList
-                                // The API successfully returned results.
-                                results.values = mResultList
-                                results.count = mResultList.size
-                            }
-                        }
-                    }, 3 * 1000) // Adjust the debounce time as needed
-
+                    // Skip the autocomplete query if no constraints are given.
+                    // Query the autocomplete API for the (constraint) search string.
+                    mResultList = getPredictions(constraint)
+                    items = mResultList
+                    // The API successfully returned results.
+                    results.values = mResultList
+                    results.count = mResultList.size
                     return results
                 }
 
@@ -476,7 +539,7 @@ class SimpleEditTextSpinner : LinearLayout {
             }
         }
 
-        private fun getPredictions(constraint: CharSequence): ArrayList<PlaceAutocomplete> {
+        fun getPredictions(constraint: CharSequence): ArrayList<PlaceAutocomplete> {
             val resultList = ArrayList<PlaceAutocomplete>()
 
             // Create a new token for the autocomplete session. Pass this to FindAutocompletePredictionsRequest,
@@ -530,6 +593,7 @@ class SimpleEditTextSpinner : LinearLayout {
             init {
                 itemView.setOnClickListener {
                     val item = currentList[bindingAdapterPosition]
+                    onItemClicked(item)
                     val placeId: String = java.lang.String.valueOf(item.placeId)
                     val placeFields: List<Place.Field> = listOf(
                         Place.Field.ID,
@@ -549,6 +613,7 @@ class SimpleEditTextSpinner : LinearLayout {
                             }
                         }
                     spinnerPopup?.dismiss()
+
                 }
             }
         }
@@ -588,3 +653,28 @@ class SimpleEditTextSpinner : LinearLayout {
         }
     }
 }
+
+@ExperimentalCoroutinesApi
+@CheckResult
+fun EditText.textChanges(): Flow<CharSequence?> {
+    return callbackFlow<CharSequence?> {
+        val listener = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                HttpLoggingInterceptor.Logger.DEFAULT.log("afterTextChanged: $s")
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                HttpLoggingInterceptor.Logger.DEFAULT.log("beforeTextChanged: $s")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                HttpLoggingInterceptor.Logger.DEFAULT.log("onTextChanged: $s")
+
+                trySend(s)
+            }
+        }
+        addTextChangedListener(listener)
+        awaitClose { removeTextChangedListener(listener) }
+    }.onStart { emit(text) }
+}
+
