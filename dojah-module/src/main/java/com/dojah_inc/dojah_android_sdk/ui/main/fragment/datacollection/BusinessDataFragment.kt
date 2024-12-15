@@ -29,7 +29,7 @@ import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
 class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
     private val binding by viewBinding { FragmentBusinessDataBinding.bind(it) }
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}

@@ -155,13 +155,10 @@ class SimpleEditTextSpinner : LinearLayout {
                 .debounce(3000)
                 .flatMapLatest {
                     flow {
-//                        HttpLoggingInterceptor.Logger.DEFAULT.log("Text Changes prev:${previousSearch.toString()}")
-//                        HttpLoggingInterceptor.Logger.DEFAULT.log("Text Changes new:${it.toString()}")
                         if (itemSelected) {
                             itemSelected = false
                             emit(it to emptyList<PlaceAutocomplete>())
                         } else {
-                            HttpLoggingInterceptor.Logger.DEFAULT.log("Text Changes onFlow:${it.toString()}")
                             val results =
                                 (spinnerLayout.recyclerView.adapter as SpinnerAdapter).getPredictions(
                                     it.toString()
@@ -246,7 +243,6 @@ class SimpleEditTextSpinner : LinearLayout {
         doOnAttach {
             setDrawable()
         }
-
     }
 
 

@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.dojah_inc.dojah_android_sdk.core.Result
 import com.dojah_inc.dojah_android_sdk.data.network.NetworkManager
 import okhttp3.ResponseBody
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import java.lang.reflect.Type
 import java.net.SocketTimeoutException
@@ -75,6 +76,7 @@ open class BaseRepository(private val networkManager: NetworkManager, private va
             }
 
         } ?: (errorBody().use {
+
             if (it == null) {
                 Result.Error.NoDataError(code = code())
             } else {

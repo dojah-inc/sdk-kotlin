@@ -110,6 +110,7 @@ interface DojahService {
     suspend fun lookupCac(
         @Query("rc_number") rcNumber: String,
         @Query("company_name") companyName: String,
+        @Query("company_type") companyType: String,
         @Query("app_id") appId: String,
     ): Response<ResponseBody>
 
@@ -258,7 +259,7 @@ class DojahServiceMock : DojahService {
     }
 
     override suspend fun lookupCac(
-        rcNumber: String, companyName: String,
+        rcNumber: String, companyName: String, companyType: String,
         appId: String,
     ): Response<ResponseBody> {
         delay(1000)

@@ -1155,11 +1155,13 @@ class GovDataViewModel(
                         if (lookUpResult is Result.Error) {
                             _submitBizLiveData.postValue(lookUpResult)
                         } else if (lookUpResult is Result.Success) {
+
                             val verificationId =
                                 getAuthDataFromPref()?.initData?.authData?.verificationId
                                     ?: throw Exception("Verification id is null")
 
                             val bizEntity = lookUpResult.data.entity
+                            HttpLoggingInterceptor.Logger.DEFAULT.log("Lookup Result:${bizEntity}")
                             repo.logEvent(
                                 EventRequest(
                                     stepNumber = stepNumber,

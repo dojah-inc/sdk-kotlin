@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -406,7 +407,8 @@ class DojahRepository (
     ): Flow<Result<BizLookupResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
-                val response = service.lookupCac(rcNumber, companyName,appId)
+                val response = service.lookupCac(rcNumber, companyName,"cac",appId)
+                HttpLoggingInterceptor.Logger.DEFAULT.log("lookupCac response:${response}")
                 response.getResult(BizLookupResponse::class.java)
             }
             emit(result)
