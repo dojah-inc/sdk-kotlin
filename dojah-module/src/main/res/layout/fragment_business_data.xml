@@ -34,6 +34,31 @@
                 android:hint="@string/select" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <TextView
+            android:id="@+id/text_company_type"
+            style="@style/TextView.InputLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/company_type" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_company_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:endIconDrawable="@drawable/ic_dropdown"
+            app:endIconMode="custom"
+            app:endIconTint="?android:attr/textColor">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinner_company_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Dojah.ParagraphSmall"
+                android:hint="@string/select" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/text_rc_number"
             style="@style/TextView.InputLabel"

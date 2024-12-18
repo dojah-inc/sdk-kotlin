@@ -169,6 +169,25 @@ enum class BusinessType(
     ),
 }
 
+enum class CompanyType(
+    val serverKey: String,
+    val title: String,
+) {
+    INCORPORATED_TRUSTEES(
+        "INCORPORATED_TRUSTEES",
+        "Incorporated Trustees",
+
+        ),
+    LIMITED_PARTNERSHIP(
+        "LIMITED_PARTNERSHIP",
+        "Limited Partnership"
+    ),
+    LIMITED_LIABILITY_PARTNERSHIP(
+        "LIMITED_LIABILITY_PARTNERSHIP",
+        "Limited Liability Partnership"
+    ),
+}
+
 enum class KycPages(
     val serverKey: String,
     val fragmentClassName: String,

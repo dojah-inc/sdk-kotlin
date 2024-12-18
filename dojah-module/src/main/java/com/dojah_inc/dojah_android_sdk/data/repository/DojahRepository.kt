@@ -46,6 +46,7 @@ import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
+import retrofit2.http.Query
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.random.Random
@@ -403,11 +404,12 @@ class DojahRepository (
     suspend fun lookupCac(
         rcNumber: String,
         companyName: String,
+        companyType: String,
         appId: String,
-    ): Flow<Result<BizLookupResponse>> {
+        ): Flow<Result<BizLookupResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
-                val response = service.lookupCac(rcNumber, companyName,"cac",appId)
+                val response = service.lookupCac(rcNumber, companyName,companyType,appId)
                 HttpLoggingInterceptor.Logger.DEFAULT.log("lookupCac response:${response}")
                 response.getResult(BizLookupResponse::class.java)
             }

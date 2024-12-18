@@ -111,5 +111,6 @@
     <string name="name">Name</string>
     <string name="verification_status">Verification Status</string>
     <string name="verification_failed">Verification failed</string>
+    <string name="company_type">Company Type</string>
 
 </resources>

@@ -196,6 +196,11 @@ class GovDataViewModel(
         }
     }
 
+    fun getCompanyTypes(
+    ): List<CompanyType> {
+        return CompanyType.values().toList()
+    }
+
     fun prefillGovIdentity(id: EnumAttr?) {
         _selectedGovIdDataLiveData.postValue(_selectedGovIdDataLiveData.value ?: id)
     }
@@ -1117,6 +1122,7 @@ class GovDataViewModel(
         verificationVm: VerificationViewModel,
         number: String,
         companyName: String,
+        companyType: CompanyType,
     ) {
         viewModelScope.launch {
             val selectedTypeEnum =
@@ -1143,7 +1149,7 @@ class GovDataViewModel(
                     val appId = prefManager.getAppId() ?: throw Exception("App id is null")
                     when (selectedTypeIdName) {
                         BusinessType.CAC.serverKey -> {
-                            repo.lookupCac(number, companyName, appId)
+                            repo.lookupCac(number, companyName,companyType.serverKey, appId)
                         }
 
                         BusinessType.TIN.serverKey -> {

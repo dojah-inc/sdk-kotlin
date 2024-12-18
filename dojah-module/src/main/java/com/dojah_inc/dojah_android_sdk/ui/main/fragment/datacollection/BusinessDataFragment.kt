@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+
 import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.annotation.SuppressLint
@@ -19,9 +20,9 @@ import com.dojah_inc.dojah_android_sdk.ui.base.SpinnerFragment
 import com.dojah_inc.dojah_android_sdk.ui.main.fragment.Routes
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.GovDataViewModel
 import com.dojah_inc.dojah_android_sdk.ui.main.viewmodel.VerificationViewModel
+import com.dojah_inc.dojah_android_sdk.ui.utils.CompanyType
 import com.dojah_inc.dojah_android_sdk.ui.utils.KycPages
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
-
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -32,7 +33,7 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
     private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +46,11 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
                 if (it is Result.Success) {
                     navViewModel.navigateNextStep()
                 } else if (it is Result.Error) {
-                    navigateToErrorPage(it,page =KycPages.BUSINESS_DATA, govDataViewModel =govViewModel)
+                    navigateToErrorPage(
+                        it,
+                        page = KycPages.BUSINESS_DATA,
+                        govDataViewModel = govViewModel
+                    )
                 }
             }
         }
@@ -53,7 +58,9 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val types = govViewModel.getBusinessTypes(viewModel)
+        val docTypes = govViewModel.getBusinessTypes(viewModel)
+        val companyTypes = govViewModel.getCompanyTypes()
+        var companyType: CompanyType? = null
 
         binding.apply {
             requireActivity().onBackPressedDispatcher.addCallback {
@@ -68,17 +75,21 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
                 updateUIWithSelectedBizId(it)
             }
 
-            govViewModel.prefillBizId(types?.first())
+            govViewModel.prefillBizId(docTypes?.first())
 
 
             spinnerDocType.setOnClickListener {
 
-                if (types.isNullOrEmpty()) {
+                if (docTypes.isNullOrEmpty()) {
                     showShortToast("No document type available")
                     return@setOnClickListener
                 }
-                displaySpinnerDropdown(it, types.map { enum -> enum?.abbr ?: "" }, false) { index ->
-                    val type = types[index]
+                displaySpinnerDropdown(
+                    it,
+                    docTypes.map { enum -> enum?.abbr ?: "" },
+                    false
+                ) { index ->
+                    val type = docTypes[index]
 
                     govViewModel.selectBizIdentity(type)
                     spinnerDocType.setText(type?.abbr ?: "")
@@ -87,9 +98,33 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
             }
 
 
+            spinnerCompanyType.setOnClickListener {
+
+                if (companyTypes.isEmpty()) {
+                    showShortToast("No company type available")
+                    return@setOnClickListener
+                }
+                displaySpinnerDropdown(
+                    it,
+                    companyTypes.map { enum -> enum?.title ?: "" },
+                    false
+                ) { index ->
+                    val type = companyTypes[index]
+                    companyType = type
+                    spinnerCompanyType.setText(type.title)
+
+                }
+            }
+
+
             btnContinue.setOnClickListener {
                 if (spinnerDocType.text.isBlank()) {
-                    showShortToast("Please select a Business ID")
+                    showShortToast("Please select a Document Type")
+                    return@setOnClickListener
+                }
+
+                if (companyType == null) {
+                    showShortToast("Please select a Company type")
                     return@setOnClickListener
                 }
 
@@ -127,7 +162,8 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
                 govViewModel.submitBusinessData(
                     viewModel,
                     bizNumber.toString(),
-                    businessName.toString()
+                    businessName.toString(),
+                    companyType!!
                 )
             }
         }
