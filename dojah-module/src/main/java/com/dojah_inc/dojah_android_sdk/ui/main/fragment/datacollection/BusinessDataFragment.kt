@@ -133,16 +133,16 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
                 val minLength = selectedID?.minLength?.toIntOrNull()
 
                 val bizNumber = inputRcNumber.editText!!.text
-                val businessName = inputBizName.editText!!.text
                 if (bizNumber.isNullOrBlank()) {
                     inputRcNumber.editText!!.error = "Field can't be empty"
                     return@setOnClickListener
                 }
 
-                if (businessName.isNullOrBlank()) {
-                    inputBizName.editText!!.error = "Field can't be empty"
-                    return@setOnClickListener
-                }
+//                val businessName = inputBizName.editText!!.text
+//                if (businessName.isNullOrBlank()) {
+//                    inputBizName.editText!!.error = "Field can't be empty"
+//                    return@setOnClickListener
+//                }
 
                 if (maxLength == null || minLength == null) {
                     inputRcNumber.editText!!.error = null
@@ -162,7 +162,8 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
                 govViewModel.submitBusinessData(
                     viewModel,
                     bizNumber.toString(),
-                    businessName.toString(),
+//                    businessName.toString(),
+                    null,
                     companyType!!
                 )
             }

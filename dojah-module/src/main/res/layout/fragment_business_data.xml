@@ -36,30 +36,6 @@
 
 
         <TextView
-            android:id="@+id/text_company_type"
-            style="@style/TextView.InputLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/company_type" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_company_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:endIconDrawable="@drawable/ic_dropdown"
-            app:endIconMode="custom"
-            app:endIconTint="?android:attr/textColor">
-
-            <AutoCompleteTextView
-                android:id="@+id/spinner_company_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/TextAppearance.Dojah.ParagraphSmall"
-                android:hint="@string/select" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
             android:id="@+id/text_rc_number"
             style="@style/TextView.InputLabel"
             android:layout_width="wrap_content"
@@ -79,22 +55,45 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/text_biz_name"
+            android:id="@+id/text_company_type"
             style="@style/TextView.InputLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/business_name" />
+            android:text="@string/company_type" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_biz_name"
+            android:id="@+id/input_company_type"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:endIconDrawable="@drawable/ic_dropdown"
+            app:endIconMode="custom"
+            app:endIconTint="?android:attr/textColor">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
+                android:id="@+id/spinner_company_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/business_name" />
+                style="@style/TextAppearance.Dojah.ParagraphSmall"
+                android:hint="@string/select" />
         </com.google.android.material.textfield.TextInputLayout>
+
+<!--        <TextView-->
+<!--            android:id="@+id/text_biz_name"-->
+<!--            style="@style/TextView.InputLabel"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/business_name" />-->
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/input_biz_name"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="@string/business_name" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
 

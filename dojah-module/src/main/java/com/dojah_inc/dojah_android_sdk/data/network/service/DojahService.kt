@@ -109,7 +109,7 @@ interface DojahService {
     @GET("${prefix}/kyc/cac")
     suspend fun lookupCac(
         @Query("rc_number") rcNumber: String,
-        @Query("company_name") companyName: String,
+        @Query("company_name") companyName: String?=null,
         @Query("company_type") companyType: String,
         @Query("app_id") appId: String,
     ): Response<ResponseBody>
@@ -117,7 +117,7 @@ interface DojahService {
     @GET("${prefix}/kyc/tin")
     suspend fun lookUpTin(
         @Query("tin") tin: String,
-        @Query("company_name") companyName: String,
+        @Query("company_name") companyName: String?=null,
         @Query("app_id") appId: String,
     ): Response<ResponseBody>
 
@@ -259,7 +259,7 @@ class DojahServiceMock : DojahService {
     }
 
     override suspend fun lookupCac(
-        rcNumber: String, companyName: String, companyType: String,
+        rcNumber: String, companyName: String?, companyType: String,
         appId: String,
     ): Response<ResponseBody> {
         delay(1000)
@@ -268,7 +268,7 @@ class DojahServiceMock : DojahService {
     }
 
     override suspend fun lookUpTin(
-        tin: String, companyName: String,
+        tin: String, companyName: String?,
         appId: String,
         ): Response<ResponseBody> {
         delay(1000)

@@ -1121,7 +1121,7 @@ class GovDataViewModel(
     fun submitBusinessData(
         verificationVm: VerificationViewModel,
         number: String,
-        companyName: String,
+        companyName: String?=null,
         companyType: CompanyType,
     ) {
         viewModelScope.launch {

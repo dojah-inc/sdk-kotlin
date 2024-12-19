@@ -173,6 +173,10 @@ enum class CompanyType(
     val serverKey: String,
     val title: String,
 ) {
+    BUSINESS_NAME(
+        "BUSINESS_NAME",
+        "Business Name",
+        ),
     INCORPORATED_TRUSTEES(
         "INCORPORATED_TRUSTEES",
         "Incorporated Trustees",

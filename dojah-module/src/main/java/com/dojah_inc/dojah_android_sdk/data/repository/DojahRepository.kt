@@ -403,7 +403,7 @@ class DojahRepository (
 
     suspend fun lookupCac(
         rcNumber: String,
-        companyName: String,
+        companyName: String?=null,
         companyType: String,
         appId: String,
         ): Flow<Result<BizLookupResponse>> {
@@ -420,7 +420,7 @@ class DojahRepository (
 
     suspend fun lookupTin(
         tin: String,
-        companyName: String,
+        companyName: String?=null,
         appId: String,
     ): Flow<Result<BizLookupResponse>> {
         return flow {
