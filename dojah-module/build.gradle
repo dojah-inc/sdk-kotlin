@@ -158,9 +158,9 @@ android {
             minifyEnabled false
 
 //            applicationIdSuffix ".debug"
-            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlDev}\""
-//              buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
-            buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
+//            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlDev}\""
+              buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
+              buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
         }
 
         releaseNoMinify {

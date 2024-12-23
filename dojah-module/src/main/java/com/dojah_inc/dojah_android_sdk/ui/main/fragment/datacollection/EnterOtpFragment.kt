@@ -38,9 +38,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
     private val binding by viewBinding { FragmentEnterOtp2Binding.bind(it) }
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
-    private val activityGovViewModel by activityViewModels<GovDataViewModel>()
+    private val activityGovViewModel by activityViewModels<GovDataViewModel>(){ DojahSdk.dojahContainer.govViewModelFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>{ DojahSdk.dojahContainer.navViewModelFactory}
 
@@ -51,10 +51,11 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.apply {
             startTimer()
+
             timerOtpLiveData.observe(viewLifecycleOwner) {
                 binding.resendTxt.text = getString(R.string.resend_code_in, it)
-
             }
+
             timerOtpDoneLiveData.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.resendTxt.apply {
@@ -273,8 +274,8 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
 
         logger.log("enter otp val: ${govViewModel.sendOtpLiveData}")
         logger.log("enter otp value: ${govViewModel.sendOtpLiveData.value}")
-        logger.log("act enter otp val: ${activityGovViewModel.sendOtpLiveData}")
-        logger.log("act enter otp value: ${activityGovViewModel.sendOtpLiveData.value}")
+//        logger.log("act enter otp val: ${activityGovViewModel.sendOtpLiveData}")
+//        logger.log("act enter otp value: ${activityGovViewModel.sendOtpLiveData.value}")
         govVm.sendOtpLiveData.value?.also {
             if (it is Result.Success) {
                 logger.log("enter otp entity: ${it.data?.entity}")
