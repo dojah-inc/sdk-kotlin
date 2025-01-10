@@ -90,6 +90,7 @@ class SplashActivity : AppCompatActivity() {
         viewModel.checkIpDataLiveData.observe(this) {
             val preAuthResult = viewModel.preAuthDataLiveData.value
             if (it is Result.Success && preAuthResult is Result.Success) {
+
                 val fullSupportedCountryNames =
                     viewModel.getFullCountryNames(this)
                 val userCountry = it.data.entity?.country ?: ""

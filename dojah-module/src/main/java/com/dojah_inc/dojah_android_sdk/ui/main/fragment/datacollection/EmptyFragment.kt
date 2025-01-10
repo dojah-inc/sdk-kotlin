@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+
 import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.annotation.SuppressLint
@@ -28,10 +29,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 class EmptyFragment : ErrorFragment(R.layout.fragment_empty) {
     private val binding by viewBinding { FragmentEmptyBinding.bind(it) }
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
     val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
 
@@ -68,6 +69,12 @@ class EmptyFragment : ErrorFragment(R.layout.fragment_empty) {
                     }
                 } else {
                     logger.log("country page is available")
+                    val countries =
+                        viewModel.preAuthDataFromPref?.widget?.country ?: emptyList()
+                    if (countries.size == 1) {
+                        HttpLoggingInterceptor.Logger.DEFAULT.log("is only one country")
+                        viewModel.selectCountryIfJustOne(countries.first())
+                    }
                 }
 
                 val firstPage = it.pages.first()

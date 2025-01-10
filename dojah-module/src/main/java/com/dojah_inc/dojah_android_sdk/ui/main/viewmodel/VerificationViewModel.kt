@@ -25,6 +25,7 @@ import com.dojah_inc.dojah_android_sdk.domain.request.UserDataRequest
 import com.dojah_inc.dojah_android_sdk.domain.responses.*
 import com.dojah_inc.dojah_android_sdk.ui.utils.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -38,7 +39,6 @@ import java.text.SimpleDateFormat
 import java.time.Duration
 import java.util.Date
 import java.util.Locale
-import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")
 class VerificationViewModel(
@@ -200,11 +200,18 @@ class VerificationViewModel(
         _docTypeLiveData.postValue(GovDocType.enumOfValue(type))
     }
 
-    fun loadCountries() {
+    fun loadCountries(callBack: ((List<Country>) -> Unit)? = null) {
         HttpLoggingInterceptor.Logger.DEFAULT.log("Loading countries")
         getCountries().start(viewModelScope)
         getCountries().addCallback {
-            _countryLiveData.postValue(it)
+            if (callBack == null) {
+                _countryLiveData.postValue(it)
+            } else {
+                callBack(it)
+//                viewModelScope.launch {
+//                    delay(500)
+//                }
+            }
             HttpLoggingInterceptor.Logger.DEFAULT.log("loaded countries: ${it.size}")
         }
     }
@@ -229,6 +236,10 @@ class VerificationViewModel(
                     _preAuthDataLiveData.postValue(preAuthResult)
                     if (preAuthResult is Result.Success) {
                         saveBrandColor(preAuthResult.data.app?.colorCode)
+                        val countries = preAuthResult.data.widget.country
+                        if (countries.size == 1) {
+                            selectCountryIfJustOne(countries.first())
+                        }
                         //do Auth
                         repo.doAuth(
                             preAuthResult.data.toAuthRequest(
@@ -279,6 +290,20 @@ class VerificationViewModel(
                         _authErrLiveData.postValue(getErrorMessage(preAuthResult))
                     }
                 }
+        }
+    }
+
+    fun selectCountryIfJustOne(country: String) {
+        loadCountries { countries ->
+            val countryItem = countries.filter {
+                return@filter it.id.equals(
+                    country,
+                    ignoreCase = true
+                )
+            }.firstOrNull()
+            if (countryItem != null) {
+                setSelectedCountry(countryItem)
+            }
         }
     }
 
@@ -669,6 +694,14 @@ class VerificationViewModel(
         get() {
             return repo.getLocalResponse(
                 SharedPreferenceManager.KEY_AUTH_RESPONSE, AuthResponse::class.java
+            )?.data
+        }
+
+
+    val preAuthDataFromPref: PreAuthResponse?
+        get() {
+            return repo.getLocalResponse(
+                SharedPreferenceManager.KEY_PRE_AUTH_RESPONSE, PreAuthResponse::class.java
             )?.data
         }
 

@@ -150,6 +150,7 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
                     return@filter serverCountries
                         ?.contains(it.name) == true
                 }
+
                 items = tmpItems.ifEmpty { it }
 
             }
