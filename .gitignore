@@ -17,3 +17,4 @@ api_key.properties
 git_package.properties
 /.idea/
 /dojah-module/build/
+/app/build/
