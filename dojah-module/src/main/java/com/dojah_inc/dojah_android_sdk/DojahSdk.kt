@@ -12,6 +12,7 @@ import com.google.android.gms.security.ProviderInstaller
 import okhttp3.logging.HttpLoggingInterceptor
 import java.security.KeyManagementException
 import java.security.NoSuchAlgorithmException
+import java.security.SecureRandom
 import javax.net.ssl.SSLContext
 
 @SuppressLint("StaticFieldLeak")
@@ -25,7 +26,8 @@ object DojahSdk {
 //            // Google Play will install latest OpenSSL
 //            ProviderInstaller.installIfNeeded(context)
 //            val sslContext: SSLContext = SSLContext.getInstance("TLSv1.2")
-//            sslContext.init(null, null, null)
+//            sslContext.init(null, null, SecureRandom())
+//            val sslSocketFactory = sslContext.socketFactory
 //            sslContext.createSSLEngine()
 //        } catch (e: GooglePlayServicesRepairableException) {
 //            e.printStackTrace()
@@ -54,6 +56,7 @@ object DojahSdk {
             throw Exception("You have to call the with(...) function first")
         }
         context!!.startActivity(Intent(context, SplashActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
             putExtra("widget_id", widgetId)
             putExtra("reference_id", referenceId)
             putExtra("email", email)

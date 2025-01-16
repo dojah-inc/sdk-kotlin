@@ -507,7 +507,13 @@ class VerificationViewModel(
                         logger.log("Country success")
                         if (selectedCountry?.id?.lowercase() == "ng") {
                             logger.log("Country success ng")
-                            logStepEvent(KycPages.COUNTRY, EventTypes.STEP_COMPLETED)
+                            logStepEvent(
+                                KycPages.COUNTRY,
+                                EventTypes.STEP_COMPLETED
+                            ).collect { eventResult ->
+                                if (eventResult is Result.Error)
+                                    _submitAddressLiveData.postValue(eventResult)
+                            }
                         } else {
                             logger.log("Country success ng else")
                             logStepEvent(

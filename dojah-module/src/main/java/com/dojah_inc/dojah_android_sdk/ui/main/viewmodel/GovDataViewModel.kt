@@ -294,11 +294,15 @@ class GovDataViewModel(
                                 stepNumber
                             )
                         )
-                    ) { dataCollected, _ ->
-                        return@zip dataCollected
-                    }.collect { dataCollected ->
+                    ) { dataCollected, verifyConfigCollected ->
+                        return@zip dataCollected to verifyConfigCollected
+                    }.collect { (dataCollected, verifyConfigCollected) ->
                         HttpLoggingInterceptor.Logger.DEFAULT.log("Gov data: Selected aft dataCollected")
-                        if (dataCollected is Result.Success) {
+                        if (dataCollected is Result.Error) {
+                            _submitGovLiveData.postValue(dataCollected)
+                        } else if (verifyConfigCollected is Result.Error) {
+                            _submitGovLiveData.postValue(verifyConfigCollected)
+                        } else if (dataCollected is Result.Success) {
                             /** After gov data is collected,
                              *  then zip [EventTypes.GOVERNMENT_IMAGE_COLLECTED], with
                              *  [EventTypes.STEP_COMPLETED] or [EventTypes.VERIFICATION_MODE_SELECTED] event
@@ -309,12 +313,28 @@ class GovDataViewModel(
                                 lookUpEntity,
                                 stepNumber = stepNumber,
                             ).zip(
-                                //Log Data completed and mode selected
-                                logDataCompletedOrModeSelected(verifyVm, services, stepNumber)
-                            ) { imageCollectedResult, govCompleteResult ->
-                                return@zip imageCollectedResult to govCompleteResult
+                                if (getVerifyMethods(verifyVm)?.isEmpty() == true) {
+                                    /** if there are no gov verification options*/
+                                    /** log [EventTypes.STEP_COMPLETED] directly*/
+                                    logStepEvent(
+                                        page = KycPages.GOVERNMENT_DATA,
+                                        event = EventTypes.STEP_COMPLETED
+                                    )
+                                } else {
+                                    //Log Data completed and mode selected
+                                    logDataCompletedOrModeSelected(verifyVm, services, stepNumber)
+                                }
+                            ) { imageCollectedResult, govCompleteOrModeResult ->
+                                return@zip imageCollectedResult to govCompleteOrModeResult
                             }.collect { mergedResult ->
+                                val govImageCollectResult = mergedResult.first
                                 val govCompleteResult = mergedResult.second
+
+                                if (govImageCollectResult is Result.Error) {
+                                    _submitGovLiveData.postValue(govImageCollectResult)
+                                }
+
+
                                 if (govCompleteResult is Result.Success) {
                                     if (_verificationTypeLiveData.value == VerificationType.OTP) {
                                         if (destination != null) {
@@ -348,31 +368,23 @@ class GovDataViewModel(
         services: List<String>,
         stepNumber: Int
     ): Flow<Result<SimpleResponse>> {
-        return if (getVerifyMethods(verifyVm)?.isEmpty() == true) {
-            /** if there are no gov verification options*/
-            /** log [EventTypes.STEP_COMPLETED] directly*/
+        /**
+         * else if there are options
+         * log [EventTypes.VERIFICATION_MODE_SELECTED]
+         * first
+         **/
+        return logVerifyMethodSelected(
+            verifyVm,
+            services,
+            stepNumber,
+        ).zip(
             logStepEvent(
                 page = KycPages.GOVERNMENT_DATA,
                 event = EventTypes.STEP_COMPLETED
             )
-        } else {
-            /**
-             * else if there are options
-             * log [EventTypes.VERIFICATION_MODE_SELECTED]
-             * first
-             **/
-            logVerifyMethodSelected(
-                verifyVm,
-                services,
-                stepNumber,
-            ).zip(
-                logStepEvent(
-                    page = KycPages.GOVERNMENT_DATA,
-                    event = EventTypes.STEP_COMPLETED
-                )
-            ) { _, govDataResult ->
-                return@zip govDataResult
-            }
+        ) { _, govDataResult ->
+
+            return@zip govDataResult
         }
     }
 
@@ -391,13 +403,7 @@ class GovDataViewModel(
                 "${selectedIdEnum.lowercase()},${userId}", //e.g BVN,2222222
                 stepNumber = stepNumber
             )
-        ).apply {
-            collect {
-                if (it is Result.Error) {
-                    _submitGovLiveData.postValue(it)
-                }
-            }
-        }
+        )
     }
 
     private suspend fun doGovIdLookUp(
@@ -436,15 +442,7 @@ class GovDataViewModel(
                 "${verifyTypeKey?.uppercase()}", //e.g selfie
                 stepNumber = stepNumber
             )
-        ).apply {
-            collect { verifyModeResult ->
-                if (verifyModeResult is Result.Error) {
-                    _submitGovLiveData.postValue(
-                        verifyModeResult
-                    )
-                }
-            }
-        }
+        )
 
 
     }
@@ -461,13 +459,7 @@ class GovDataViewModel(
             "${lookUpEntity?.image}", // base64 image
             stepNumber = stepNumber
         )
-    ).apply {
-        collect {
-            if (it is Result.Error) {
-                _submitGovLiveData.postValue(it)
-            }
-        }
-    }
+    )
 
     private suspend fun logGovDataCollected(
         verificationVm: VerificationViewModel,
@@ -484,13 +476,7 @@ class GovDataViewModel(
                 "${lookUpEntity?.customerID}|$userInputId|$countryId|${lookUpEntity?.fName}|${lookUpEntity?.mName}|${lookUpEntity?.lName}|${lookUpEntity?.dob}", //e.g 2222222|bvn|NG|firstname|middlename|lastname|dob
                 stepNumber = stepNumber
             )
-        ).apply {
-            collect {
-                if (it is Result.Error) {
-                    _submitGovLiveData.postValue(it)
-                }
-            }
-        }
+        )
     }
 
     private fun getlookUpPhoneNumberForGovData(
@@ -533,7 +519,7 @@ class GovDataViewModel(
         isEmail: Boolean = false,
         onSuccess: () -> Unit? = {},
         onError: () -> Unit? = {},
-    ): Flow<Result<SendOtpResponse>> {
+    ) {
 
         //Options        ['sms', 'whatsapp', 'voice'], or 'email'
         val payload = if (isEmail) OtpRequest(
@@ -550,7 +536,7 @@ class GovDataViewModel(
         logger.log("Send Otp request: $payload")
         _isResentOtpLiveData.postValue(resent)
 
-        return repo.sendOtp(
+        repo.sendOtp(
             payload
         ).onStart {
             _sendOtpLiveData.postValue(Result.Loading)
@@ -1017,6 +1003,9 @@ class GovDataViewModel(
                                     /// fire event for all liveness process
                                     _submitLivenessLiveData.postValue(eventResult)
                                 }
+                                _verifyLiveData.postValue(verifyResult)
+                            }else if(verifyResult is Result.Error){
+                                _submitLivenessLiveData.postValue(verifyResult)
                             }
                         }
                     } else {
@@ -1060,15 +1049,7 @@ class GovDataViewModel(
                 prefManager.getSessionId(),
                 verificationId = verificationId
             )
-        ).apply {
-            collect {
-                if (it is Result.Error) {
-                    /// fire error event for all liveness process
-                    _submitLivenessLiveData.postValue(it)
-                }
-                _verifyLiveData.postValue(it)
-            }
-        }
+        )
     }
 
 
@@ -1121,7 +1102,7 @@ class GovDataViewModel(
     fun submitBusinessData(
         verificationVm: VerificationViewModel,
         number: String,
-        companyName: String?=null,
+        companyName: String? = null,
         companyType: CompanyType,
     ) {
         viewModelScope.launch {
@@ -1149,7 +1130,7 @@ class GovDataViewModel(
                     val appId = prefManager.getAppId() ?: throw Exception("App id is null")
                     when (selectedTypeIdName) {
                         BusinessType.CAC.serverKey -> {
-                            repo.lookupCac(number, companyName,companyType.serverKey, appId)
+                            repo.lookupCac(number, companyName, companyType.serverKey, appId)
                         }
 
                         BusinessType.TIN.serverKey -> {
@@ -1281,6 +1262,14 @@ class GovDataViewModel(
                                         eventResult.data.entity?.msg ?: ""
                                     )
                                 )
+                            } else {
+                                _submitGovLiveData.postValue(
+                                    Result.Error.ApiError(
+                                        mapOf(
+                                            "error" to "Error logging events"
+                                        )
+                                    )
+                                )
                             }
                         }
                     } else {
@@ -1373,13 +1362,7 @@ class GovDataViewModel(
                 eventValue = failureCode ?: page.serverKey,
                 services = services,
             )
-        ).apply {
-            collect {
-                if (it is Result.Error) {
-                    _submitGovLiveData.postValue(it)
-                }
-            }
-        }
+        )
     }
 
     fun getCurrentPage(currentPage: String): Step? {
