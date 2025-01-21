@@ -27,6 +27,7 @@ import com.dojah_inc.dojah_android_sdk.ui.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
@@ -236,10 +237,7 @@ class VerificationViewModel(
                     _preAuthDataLiveData.postValue(preAuthResult)
                     if (preAuthResult is Result.Success) {
                         saveBrandColor(preAuthResult.data.app?.colorCode)
-                        val countries = preAuthResult.data.widget.country
-                        if (countries.size == 1) {
-                            selectCountryIfJustOne(countries.first())
-                        }
+
                         //do Auth
                         repo.doAuth(
                             preAuthResult.data.toAuthRequest(
@@ -248,6 +246,10 @@ class VerificationViewModel(
                             )
                         ).collect { authResult ->
                             _authDataLiveData.postValue(authResult)
+                            val countries = preAuthResult.data.widget.country
+                            if (countries.size == 1) {
+                                selectCountryIfJustOne(countries.first())
+                            }
                             if (authResult is Result.Success) {
                                 //getUserIp
                                 repo.getUserIp().collect { ipResult ->
@@ -303,6 +305,7 @@ class VerificationViewModel(
             }.firstOrNull()
             if (countryItem != null) {
                 setSelectedCountry(countryItem)
+                logCountryEvents(selectedCountry = countryItem)
             }
         }
     }
@@ -464,11 +467,7 @@ class VerificationViewModel(
                 failureCode = failureCode,
                 services = services,
             )
-        return repo.logEvent(request).apply {
-            collect {
-                _eventLiveData.postValue(request to it)
-            }
-        }
+        return repo.logEvent(request)
     }
 
     fun logEvent(
@@ -488,11 +487,12 @@ class VerificationViewModel(
     }
 
     fun logCountryEvents(
+        selectedCountry: Country? = selectedCountryLiveData.value,
+        stepNumber: Int = getStepWithPageName(KycPages.COUNTRY.serverKey)?.id
+            ?: 2
     ) {
         viewModelScope.launch {
-            val stepNumber = getStepWithPageName(KycPages.COUNTRY.serverKey)?.id
-                ?: throw Exception("No stepNumber")
-            val selectedCountry = selectedCountryLiveData.value
+
             val request = buildEventRequest(
                 listOf(),
                 EventTypes.COUNTRY_SELECTED.serverKey,
@@ -502,28 +502,29 @@ class VerificationViewModel(
             repo.logEvent(request)
                 .onStart { _eventLiveData.postValue(request to Result.Loading) }
                 .collect {
-                    logger.log("Country else")
                     if (it is Result.Success) {
-                        logger.log("Country success")
                         if (selectedCountry?.id?.lowercase() == "ng") {
-                            logger.log("Country success ng")
                             logStepEvent(
                                 KycPages.COUNTRY,
                                 EventTypes.STEP_COMPLETED
                             ).collect { eventResult ->
+                                _eventLiveData.postValue(request to eventResult)
                                 if (eventResult is Result.Error)
                                     _submitAddressLiveData.postValue(eventResult)
                             }
                         } else {
-                            logger.log("Country success ng else")
                             logStepEvent(
                                 KycPages.COUNTRY,
                                 EventTypes.STEP_FAILED,
                                 failedReasons = FailedReasons.GOV_DATA_NOT_AVAILABLE
-                            )
+                            ).collect {
+                                _eventLiveData.postValue(request to it)
+                            }
                         }
                     } else if (it is Result.Error) {
-                        logStepEvent(KycPages.COUNTRY, EventTypes.STEP_FAILED, error = it)
+                        logStepEvent(KycPages.COUNTRY, EventTypes.STEP_FAILED, error = it).collect {
+                            _eventLiveData.postValue(request to it)
+                        }
                     }
                 }
         }
