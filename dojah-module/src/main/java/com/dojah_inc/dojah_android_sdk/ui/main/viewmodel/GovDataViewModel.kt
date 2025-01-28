@@ -1350,9 +1350,13 @@ class GovDataViewModel(
         val verificationId =
             getAuthDataFromPref()?.initData?.authData?.verificationId
                 ?: throw Exception("Verification id is null")
+        HttpLoggingInterceptor.Logger.DEFAULT.log("Failure code: $failureCode")
+        HttpLoggingInterceptor.Logger.DEFAULT.log("page: ${page.serverKey}")
+        HttpLoggingInterceptor.Logger.DEFAULT.log("stepNumb: ${getCurrentPage(page.serverKey)?.id}")
+
         val stepNumber =
             getCurrentPage(page.serverKey)?.id
-                ?: throw Exception("No stepNumber")
+                ?: 2
 
         return repo.logEvent(
             EventRequest(

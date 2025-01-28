@@ -32,7 +32,7 @@ class SelfieDisclaimerFragment : ErrorFragment(R.layout.dialog_selfie_disclaimer
     private lateinit var cameraContract: ActivityResultLauncher<String>
 
         private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
-    private val govDataViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { defaultViewModelProviderFactory }
+    private val govDataViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
 

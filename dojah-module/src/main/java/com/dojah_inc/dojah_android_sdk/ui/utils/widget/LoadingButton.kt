@@ -1,9 +1,11 @@
 package com.dojah_inc.dojah_android_sdk.ui.utils.widget
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
 import androidx.core.view.isVisible
 import com.dojah_inc.dojah_android_sdk.R
@@ -24,10 +26,14 @@ class LoadingButton : FrameLayout {
         set(value) {
             field = value
             binding.button.isEnabled = value
-            if (value) binding.button.alpha = 1f
-            else
+            val brandColor = binding.button.getBrandButtonColor(context)
+
+            if (value) {
+                binding.button.setBackgroundColor(brandColor)
+            } else
                 if (!isLoading) {
-                    binding.button.alpha = 0.4f
+                    binding.button.setBackgroundColor(ContextCompat.getColor(context,R.color.ash_2_alpha_30))
+                    binding.button.setTextColor(ContextCompat.getColor(context, R.color.white))
                 }
         }
 

@@ -81,7 +81,7 @@ class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
                     govViewModel.sendOtpSync(
                         verificationVm = viewModel,
                         destination = layoutSpinner.getTextWithPrefix(),
-                        currentRoute = KycPages.EMAIL.serverKey,
+                        currentRoute = KycPages.PHONE_NUMBER.serverKey,
                         isEmail = false
                     )
                 } else {

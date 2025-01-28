@@ -1,4 +1,5 @@
 package com.dojah_inc.dojah_android_sdk.ui.main.fragment.datacollection
+
 import com.dojah_inc.dojah_android_sdk.DojahSdk
 
 import android.graphics.Color
@@ -29,17 +30,16 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okio.ByteString.Companion.toByteString
 
 
-
 class PreviewDocFragment : ErrorFragment() {
 
 
     private val binding by viewBinding { FragmentPreviewDriverLicenceBinding.bind(it) }
 
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
     private var verificationImage: String? = null
@@ -106,7 +106,12 @@ class PreviewDocFragment : ErrorFragment() {
             if (it is Result.Error) {
                 govViewModel.resetDocTypeLiveData()
                 ///show error
-                navigateToErrorPage(it)
+                binding.root.post {
+                    binding.apply {
+                        errorTag.text = viewModel.getErrorMessage(it)
+                        errorTag.isVisible = true
+                    }
+                }
             } else if (it is Result.Success) {
                 govViewModel.resetDocTypeLiveData()
                 navViewModel.navigateNextStep()

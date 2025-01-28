@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.core.content.ContextCompat
 import com.dojah_inc.dojah_android_sdk.R
 import com.dojah_inc.dojah_android_sdk.data.io.SharedPreferenceManager
 import com.dojah_inc.dojah_android_sdk.databinding.WidgetDojahButtonBinding
@@ -40,15 +41,20 @@ class DojahMaterialButton : MaterialButton {
         attributeSet,
         R.attr.materialBtnStyle
     ) {
-        val brandColor = SharedPreferenceManager(context).getMaterialButtonBgColor
-        HttpLoggingInterceptor.Logger.DEFAULT.log("BTN: Brand color: ${brandColor}");
-        if (brandColor != null) {
-            try {
-                setBackgroundColor(Color.parseColor(brandColor))
-            } catch (e: Exception) {
-                HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
-            }
+        try {
+            setBackgroundColor(getBrandButtonColor(context))
+        } catch (e: Exception) {
+            HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
         }
     }
+
+    fun getBrandButtonColor(context: Context): Int {
+        val color = SharedPreferenceManager(context).getMaterialButtonBgColor
+        if (color != null) {
+            return Color.parseColor(color)
+        }
+        return ContextCompat.getColor(context, R.color.brand)
+    }
+
 
 }
