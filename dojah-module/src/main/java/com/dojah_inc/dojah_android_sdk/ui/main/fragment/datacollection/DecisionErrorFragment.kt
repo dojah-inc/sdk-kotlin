@@ -16,7 +16,10 @@ import com.dojah_inc.dojah_android_sdk.ui.base.ErrorFragment
 import com.dojah_inc.dojah_android_sdk.ui.base.NavigationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.main.fragment.NavArguments
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -30,6 +33,11 @@ class DecisionErrorFragment : ErrorFragment(R.layout.fragment_decision_error) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        CoroutineScope(Dispatchers.Main).launch{
+            delay(3000)
+            activity?.finish()
+        }
     }
 
 

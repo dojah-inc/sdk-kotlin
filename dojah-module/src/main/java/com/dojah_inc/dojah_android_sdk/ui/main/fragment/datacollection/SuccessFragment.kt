@@ -17,6 +17,10 @@ import com.dojah_inc.dojah_android_sdk.ui.base.ErrorFragment
 import com.dojah_inc.dojah_android_sdk.ui.base.NavigationViewModel
 import com.dojah_inc.dojah_android_sdk.ui.main.fragment.NavArguments
 import com.dojah_inc.dojah_android_sdk.ui.utils.delegates.viewBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -30,6 +34,10 @@ class SuccessFragment : ErrorFragment(R.layout.success_view) {
     private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        CoroutineScope(Dispatchers.Main).launch{
+            delay(3000)
+            activity?.finish()
+        }
     }
 
 
@@ -37,7 +45,7 @@ class SuccessFragment : ErrorFragment(R.layout.success_view) {
         binding.apply {
 
             val brandColor = SharedPreferenceManager(requireContext()).getMaterialButtonBgColor
-            HttpLoggingInterceptor.Logger.DEFAULT.log("BTN: Brand color: ${brandColor}");
+            HttpLoggingInterceptor.Logger.DEFAULT.log("BTN: Brand color: ${brandColor}")
             if (brandColor != null) {
                 try {
                     logo.addValueCallback(

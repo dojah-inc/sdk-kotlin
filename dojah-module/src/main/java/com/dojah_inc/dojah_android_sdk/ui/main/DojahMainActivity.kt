@@ -63,21 +63,21 @@ class DojahMainActivity : AppCompatActivity() {
 
     private var binding: ActivityMainDojahBinding? = null
 
-    private val navViewModel by viewModels<NavigationViewModel>{
+    private val navViewModel by viewModels<NavigationViewModel> {
         DojahSdk.dojahContainer.navViewModelFactory
     }
 
-    private val viewModel by viewModels<VerificationViewModel>{
+    private val viewModel by viewModels<VerificationViewModel> {
         DojahSdk.dojahContainer.verificationViewModelFactory
     }
-    private val govViewModel by viewModels<GovDataViewModel>{
+    private val govViewModel by viewModels<GovDataViewModel> {
         DojahSdk.dojahContainer.govViewModelFactory
     }
 
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
 
-    private val preferenceManager: SharedPreferenceManager  by lazy {
+    private val preferenceManager: SharedPreferenceManager by lazy {
         DojahSdk.dojahContainer.sharedPreferenceManager
     }
 
@@ -132,7 +132,8 @@ class DojahMainActivity : AppCompatActivity() {
                 finish()
             }
 
-            val brandColor = SharedPreferenceManager(this@DojahMainActivity).getMaterialButtonBgColor
+            val brandColor =
+                SharedPreferenceManager(this@DojahMainActivity).getMaterialButtonBgColor
             logger.log("BTN: Brand color: ${brandColor}")
             if (brandColor != null) {
                 try {
@@ -170,8 +171,6 @@ class DojahMainActivity : AppCompatActivity() {
             navViewModel.popBackStackLiveData.removeObservers(this)
         }
         observeNavigation()
-
-        setupToolbarForNavigation(navController)
 
         onBackPressedDispatcher.addCallback(this@DojahMainActivity) {
             val startDestinationRoute =
@@ -287,8 +286,10 @@ class DojahMainActivity : AppCompatActivity() {
                         finish()
                     }
 
-                } else waitingForOtherFragments =
-                    route == firstPageAfterIndex && hasOnlyOneRouteInNavStack
+                } else {
+                    waitingForOtherFragments =
+                        route == firstPageAfterIndex && hasOnlyOneRouteInNavStack
+                }
 
             }
         }
@@ -331,20 +332,29 @@ class DojahMainActivity : AppCompatActivity() {
             } else {
                 dismissLoading()
                 if (it is Result.Success) {
+                    val disableBackButton = {
+                        binding?.toolbar?.showBackButton = false
+                        onBackPressedDispatcher.addCallback(this@DojahMainActivity) {
+                            finish()
+                        }
+                    }
                     when (it.data.entity?.overallCheck) {
                         DecisionStatus.approved.name -> {
+                            disableBackButton()
                             navController.navigate(
                                 "${Routes.success_route}/${getString(R.string.error_verification_success)}"
                             )
                         }
 
                         DecisionStatus.pending.name -> {
+                            disableBackButton()
                             navController.navigate(
                                 "${Routes.success_route}/${getString(R.string.error_verification_pending)}"
                             )
                         }
 
                         DecisionStatus.failed.name -> {
+                            disableBackButton()
                             navController.navigate(
                                 "${Routes.decision_error_fragment}/${getString(R.string.error_verification_failed)}"
                             )
@@ -379,10 +389,10 @@ class DojahMainActivity : AppCompatActivity() {
                     val indexOfCurrent = pages?.indexOfFirst { it.name == currentRoute }
                     val skipNextScreen = eventValue.first?.getBoolean(
                         NavArguments.skipNext, false
-                    )?:false
+                    ) ?: false
 
                     if (indexOfCurrent != null) {
-                        val nextIndex = indexOfCurrent + (if(skipNextScreen) 2 else 1)
+                        val nextIndex = indexOfCurrent + (if (skipNextScreen) 2 else 1)
                         if (nextIndex <= pages.size - 1) {
                             var nextRoute = pages[nextIndex].name ?: ""
                             if (nextRoute == KycPages.COUNTRY.serverKey) {
@@ -472,9 +482,6 @@ class DojahMainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupToolbarForNavigation(navController: NavController) {
-
-    }
 
     private fun setupIdleWatcher() {
         idleJob = lifecycleScope.launch {
