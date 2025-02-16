@@ -113,6 +113,10 @@ class DojahMainActivity : AppCompatActivity() {
             viewModel.getDojahAppAttribute(this@DojahMainActivity)?.let {
                 toolbar.logoUrl = it.logo
             }
+
+            viewModel.authDataFromPref?.whiteLabel.let {
+                footer.isVisible = it != true
+            }
             val navController = findNavController(R.id.nav_host_fragment)
 
             handleNavigations(navController, savedInstanceState)
