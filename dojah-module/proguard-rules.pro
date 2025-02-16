@@ -59,3 +59,12 @@
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
   *** rewind();
 }
+
+# Keep gRPC-related classes
+#-keep class io.grpc.** { *; }
+#-keep class com.google.android.libraries.places.** { *; }
+
+#
+#-keepnames class io.grpc.internal.**
+#-keepclassmembers class io.grpc.internal.** { *; }
+#-dontwarn io.grpc.**

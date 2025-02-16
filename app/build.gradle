@@ -12,8 +12,8 @@ android {
         applicationId "com.dojah.demoapp"
         minSdk 24
         targetSdk 34
-        versionCode 3
-        versionName "1.18"
+        versionCode 4
+        versionName "1.19"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -21,20 +21,37 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def appName = "DojahKotlin"
+            def versionName = variant.versionName
+            def versionCode = variant.versionCode
+
+            output.outputFileName = "${appName}-v${versionName}.apk"
+
+            // output.outputFileName = newFileName
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
-
         }
 
         debug {
-
             minifyEnabled false
 
         }
     }
+
+//    applicationVariants.configureEach { variant ->
+//        variant.outputs.configureEach {
+//            outputFileName = "${applicationName}_${variant.buildType.name}_${defaultConfig.versionName}.apk"
+//        }
+//    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
