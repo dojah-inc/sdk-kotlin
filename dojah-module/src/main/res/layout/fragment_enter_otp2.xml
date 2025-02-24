@@ -15,7 +15,7 @@
         android:gravity="center"
         android:text="@string/enter_the_code_sent" />
 
-    <com.dojah_inc.dojah_android_sdk.ui.utils.widget.otp_view.OTPTextView
+    <com.dojah.kyc_sdk_kotlin.ui.utils.widget.otp_view.OTPTextView
         android:id="@+id/otp_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
         android:text="@string/resend_code"
         android:textColor="@color/black_200" />
 
-    <com.dojah_inc.dojah_android_sdk.ui.utils.widget.LoadingButton
+    <com.dojah.kyc_sdk_kotlin.ui.utils.widget.LoadingButton
         android:id="@+id/btn_continue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

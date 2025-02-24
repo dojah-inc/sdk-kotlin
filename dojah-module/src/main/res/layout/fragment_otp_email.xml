@@ -60,7 +60,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
+            <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahMaterialButton
                 android:id="@+id/btn_continue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

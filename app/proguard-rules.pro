@@ -19,8 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.dojah_inc.dojah_android_sdk.domain.** { *; }
--keep class com.dojah_inc.dojah_android_sdk.core.Result
+-keep class com.dojah.kyc_sdk_kotlin.domain.** { *; }
+-keep class com.dojah.kyc_sdk_kotlin.core.Result
 
 #For retrofit
 -keepattributes Signature, InnerClasses, EnclosingMethod

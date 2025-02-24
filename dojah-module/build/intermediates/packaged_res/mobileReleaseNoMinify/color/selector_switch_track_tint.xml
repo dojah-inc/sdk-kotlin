@@ -1,7 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:alpha="@dimen/material_emphasis_disabled_background" android:color="@color/switch_track" android:state_enabled="false" />
-
-    <item android:color="@color/switch_green" android:state_checked="true" />
-
-    <item android:color="@color/switch_track" />
-</selector>

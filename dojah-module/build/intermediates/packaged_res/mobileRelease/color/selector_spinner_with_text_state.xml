@@ -1,6 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Focused -->
-    <item android:alpha="0.3" android:color="@color/ash" android:state_focused="true" />
-
-    <item android:alpha="0.3" android:color="@color/ash" />
-</selector>

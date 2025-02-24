@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/bind">
 
-    <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
+    <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahMaterialButton
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

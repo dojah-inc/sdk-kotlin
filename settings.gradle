@@ -16,6 +16,7 @@ dependencyResolutionManagement {
     }
 }
 
+
 rootProject.name = "dojah-test-2"
 include ':app'
 include ':dojah-module'

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.main.DojahMainActivity">
 
-    <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahAppBarView
+    <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahAppBarView
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

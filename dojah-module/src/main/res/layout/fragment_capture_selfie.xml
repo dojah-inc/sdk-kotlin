@@ -165,21 +165,21 @@
             </LinearLayout>
 
 
-            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
+            <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahMaterialButton
                 android:id="@+id/start_recording"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/record"
                 android:visibility="gone" />
 
-            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
+            <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahMaterialButton
                 android:id="@+id/done_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/done"
                 android:visibility="gone" />
 
-            <com.dojah_inc.dojah_android_sdk.ui.utils.widget.DojahMaterialButton
+            <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahMaterialButton
                 android:id="@+id/capture_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
