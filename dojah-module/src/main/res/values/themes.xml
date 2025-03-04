@@ -8,7 +8,7 @@
         <item name="colorPrimary">@color/purple</item>
         <item name="colorPrimaryVariant">@color/purple</item>
         <item name="android:windowAnimationStyle">@style/SlideAnimation.Activity</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/transparent</item>
+        <item name="android:statusBarColor" >@color/transparent</item>
     </style>
 
 
@@ -19,7 +19,7 @@
         <item name="colorPrimaryVariant">@color/purple</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="android:windowAnimationStyle">@style/SlideAnimation.Activity</item>
-
+        <item name="android:fitsSystemWindows">true</item>
         <!-- Secondary brand color. -->
 
         <item name="colorControlNormal">@color/dark_purple</item>
@@ -29,7 +29,7 @@
         <item name="android:fontFamily">@font/circular_std_regular_400</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
+        <item name="android:statusBarColor" >?attr/colorOnPrimary</item>
         <item name="tabStyle">@style/TabLayout.Dojah</item>
         <item name="itemGroupStyle">@style/ItemGroup.Dojah</item>
         <item name="toolbarNavigationButtonStyle">@style/Toolbar.Navigation</item>
