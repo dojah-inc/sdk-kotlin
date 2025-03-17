@@ -279,7 +279,6 @@ class GovDataViewModel(
                     logGovDataCollected(
                         verifyVm,
                         services,
-                        userInputId,
                         lookUpEntity,
                         stepNumber = stepNumber,
                     ).zip(
@@ -461,7 +460,6 @@ class GovDataViewModel(
     private suspend fun logGovDataCollected(
         verificationVm: VerificationViewModel,
         services: List<String>,
-        userInputId: String,
         lookUpEntity: GovIdEntityInterface?,
         stepNumber: Int,
     ): Flow<Result<SimpleResponse>> {
@@ -470,7 +468,7 @@ class GovDataViewModel(
             verificationVm.buildEventRequest(
                 services,
                 EventTypes.CUSTOMER_GOVERNMENT_DATA_COLLECTED.serverKey,
-                "${lookUpEntity?.customerID}|$userInputId|$countryId|${lookUpEntity?.fName}|${lookUpEntity?.mName}|${lookUpEntity?.lName}|${lookUpEntity?.dob}", //e.g 2222222|bvn|NG|firstname|middlename|lastname|dob
+                "${lookUpEntity?.customerID}|${_selectedGovIdDataLiveData.value?.enum}|$countryId|${lookUpEntity?.fName}|${lookUpEntity?.lName}|${lookUpEntity?.mName}|${lookUpEntity?.dob}", //e.g 2222222|bvn|NG|firstname|middlename|lastname|dob
                 stepNumber = stepNumber
             )
         )
@@ -1024,9 +1022,9 @@ class GovDataViewModel(
                             logStepEvent(
                                 page,
                                 EventTypes.STEP_FAILED,
-                                failedReasons = FailedReasons.ID_FAILED_MAX_TIME
+                                failedReasons = FailedReasons.SELFIE_NO_CAPTURE
                             ).collect { eventResult ->
-                                /// fire event for all liveness process
+                                /// fire event for all liveliness process
                                 _submitLivenessLiveData.postValue(eventResult)
                             }
                         }
