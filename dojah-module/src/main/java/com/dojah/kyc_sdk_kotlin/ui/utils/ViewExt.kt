@@ -226,13 +226,15 @@ fun ImageView.load(
     any: Any?,
     isCenterCrop: Boolean = false,
     isCircleCrop: Boolean = false,
-    isCenterInside: Boolean = false
+    isCenterInside: Boolean = false,
+    isFitCenter: Boolean = false
 ) {
     Glide.with(this)
         .load(any)
         .let {
             if (isCenterCrop) it.centerCrop()
             if (isCenterInside) it.centerInside()
+            if (isFitCenter) it.fitCenter()
             if (isCircleCrop) it.circleCrop()
 
             it.into(this)

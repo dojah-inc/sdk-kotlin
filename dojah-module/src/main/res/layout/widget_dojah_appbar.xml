@@ -36,11 +36,13 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/logo"
             android:layout_width="@dimen/logo_size"
-            android:layout_height="@dimen/margin_48dp"
+            android:layout_height="@dimen/margin_32dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="false"
             android:layout_marginHorizontal="@dimen/margin_24dp"
             android:src="?attr/appLogo"
+            tools:src="?attr/appLogo"
             android:visibility="visible"
             />
 
@@ -49,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/margin_18dp"
+            android:layout_marginTop="@dimen/margin_12dp"
             android:layout_marginStart="@dimen/margin_start_toolbar_navigation_button"
             android:background="@color/transparent"
             android:paddingHorizontal="@dimen/margin_24dp"
