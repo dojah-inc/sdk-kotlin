@@ -54,6 +54,7 @@ class PreviewDocFragment : ErrorFragment() {
             navViewModel.currentPage == KycPages.ID.serverKey
     private val analysisNeeded: Boolean
         get() = isIdPage && viewModel.isUploadDocLiveData.value == false
+
     private val isLastPage: Boolean
         get() {
             val lastServerStepName = viewModel.lastStep?.name
@@ -218,6 +219,8 @@ class PreviewDocFragment : ErrorFragment() {
                                 image2,
                                 page = KycPages.findPageEnum(currentPage) ?: KycPages.ID,
                                 selfieType = if (isBusinessDocPage) null else "selfie_type",
+                                liveNessErrorReason = if (isBusinessDocPage) FailedReasons.GOV_ID_CAPTURE
+                                else FailedReasons.ID_FAILED_MAX_TIME,
                             )
                         }
                     }

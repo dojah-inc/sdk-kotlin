@@ -50,6 +50,7 @@ data class ImageAnalysisResponse(
                     FailedReasons.SELFIE_NO_CAPTURE.message
             }
 
+
             fun faceSuccess(preAuthConfig: Config?): Boolean {
 
                 if (preAuthConfig == null) {

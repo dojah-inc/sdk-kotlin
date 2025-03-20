@@ -909,6 +909,7 @@ class GovDataViewModel(
         image2: String? = null,
         page: KycPages = KycPages.ID,
         selfieType: String?,
+        liveNessErrorReason:FailedReasons = FailedReasons.ID_FAILED_MAX_TIME,
     ) {
         val param =
             if (page == KycPages.BUSINESS_ID) "BUSINESS"
@@ -936,6 +937,7 @@ class GovDataViewModel(
             selfieType = selfieType,
             continueVerification = continueVerify,
             docType = docType,
+            liveNessErrorReason = liveNessErrorReason
         )
     }
 
@@ -947,6 +949,7 @@ class GovDataViewModel(
         selfieType: String? = "selfie_type",
         continueVerification: Boolean? = null,
         docType: String? = "image",
+        liveNessErrorReason:FailedReasons = FailedReasons.SELFIE_NO_CAPTURE,
     ) {
         viewModelScope.launch {
             val verificationId =
@@ -980,7 +983,7 @@ class GovDataViewModel(
                         EventTypes.STEP_FAILED,
                         error = it,
                     ).collect { _ ->
-                        /// fire event for all liveness process
+                        /// fire event for all liveliness process
                         _submitLivenessLiveData.postValue(it)
                     }
                     return@collect
@@ -1022,7 +1025,7 @@ class GovDataViewModel(
                             logStepEvent(
                                 page,
                                 EventTypes.STEP_FAILED,
-                                failedReasons = FailedReasons.SELFIE_NO_CAPTURE
+                                failedReasons = liveNessErrorReason
                             ).collect { eventResult ->
                                 /// fire event for all liveliness process
                                 _submitLivenessLiveData.postValue(eventResult)

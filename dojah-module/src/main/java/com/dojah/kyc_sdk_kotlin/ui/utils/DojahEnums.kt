@@ -308,10 +308,10 @@ enum class FailedReasons(val code: String, val message: String, val statusCode: 
     ),
     INVALID_OTP ("04", "Invalid OTP entered. Please, input the correct OTP"),
     OTP_NOT_SENT ("05", "OTP Could not be sent, please try again"),
-    ID_FAILED_MAX_TIME ("10", "Your verification is awaiting approval"),
-    SELFIE_NO_CAPTURE ("06", "Please move to a well lit environment and try again"),
-    VIDEO_NO_CAPTURE ("07", "Please move to a well lit environment and try again"),
-    GOV_ID_CAPTURE ("08", "Document is not clear enough, please try again"),
+    ID_FAILED_MAX_TIME ("10", "Your verification is awaiting approval"), // max trial error gov ID
+    SELFIE_NO_CAPTURE ("06", "Please move to a well lit environment and try again"), // only for selfie
+    VIDEO_NO_CAPTURE ("07", "Please move to a well lit environment and try again"), // for video
+    GOV_ID_CAPTURE ("08", "Document is not clear enough, please try again"), // and business ID
     WIDGET_NOT_AVAILABLE("15", "Widget is not supported in your country"),
     GOV_DATA_NOT_AVAILABLE("20", "Verification is not available \nin your country");
 
