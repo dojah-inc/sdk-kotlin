@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.zip
 
 const val analysisRetryMax = 3
-const val checkRetryMax = 2
+const val checkRetryMax = 1
 
 @SuppressLint("StaticFieldLeak")
 class GovDataViewModel(
