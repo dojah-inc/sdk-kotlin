@@ -68,7 +68,7 @@ publishing {
             artifactId = 'dojah_android_sdk'
 //            artifactId = 'kyc_sdk_kotlin'
 //            version = '0.0.1'
-            version = 'dev-0.2.0'
+            version = 'dev-0.2.2'
 //            version = '0.0.3'
             artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
 //              artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
