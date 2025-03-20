@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.zip
 
 const val analysisRetryMax = 3
-const val checkRetryMax = 1
+const val checkRetryMax = 0 //0 indexed number,
 
 @SuppressLint("StaticFieldLeak")
 class GovDataViewModel(
@@ -1018,7 +1018,8 @@ class GovDataViewModel(
                                 param,
                                 selfieType,
                                 continueVerification,
-                                docType
+                                docType,
+                                liveNessErrorReason = liveNessErrorReason
                             )
                         } else {
                             //log step failed event
