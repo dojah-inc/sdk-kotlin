@@ -72,7 +72,7 @@ publishing {
 //            artifactId = 'dojah_android_sdk'
 //            version = '0.0.1'
             version = '0.0.4-dev'
-            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
+//            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
 //              artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
 
             pom.withXml {
