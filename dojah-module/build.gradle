@@ -62,7 +62,7 @@ ext {
 
 publishing {
     publications {
-        release(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.findByName('release')
             groupId = 'com.dojah'
             artifactId = 'kyc_sdk_kotlin'
