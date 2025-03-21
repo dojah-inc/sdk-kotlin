@@ -64,7 +64,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.findByName('release')
-            groupId = 'com.dojah'
+            groupId = 'com.github.dojah'
             artifactId = 'kyc_sdk_kotlin'
 //            artifactId = 'dojah_android_sdk'
 //            version = '0.0.1'
