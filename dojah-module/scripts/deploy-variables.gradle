@@ -1,0 +1,12 @@
+ext["PLACE_KEY"] = ''
+
+File secretPropsFile = project.rootProject.file('api_key.properties')
+if (secretPropsFile.exists()) {
+    // Read local.properties file first if it exists
+    Properties p = new Properties()
+    new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
+    p.each { name, value -> ext[name] = value }
+} else {
+    // Use system environment variables
+    ext["PLACE_KEY"] = System.getenv('PLACE_KEY')
+}
