@@ -62,62 +62,73 @@ ext {
 
 apply from: 'scripts/deploy-variables.gradle'
 
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (project.plugins.findPlugin("com.android.library")) {
+        // For android libraries
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    } else {
+        // For pure kotlin libraries, in case you have them
+        from sourceSets.main.java.srcDirs
+        from sourceSets.main.kotlin.srcDirs
+    }
+}
+artifacts {
+    archives androidSourcesJar
+}
+afterEvaluate {
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+//                from components.findByName('release')
+                groupId = 'com.github.dojah-inc'
+                artifactId = 'kyc_sdk_kotlin'
+                version = '0.0.5-dev'
+                // Two artifacts, the `aar` (or `jar`) and the sources
+                if (project.plugins.findPlugin("com.android.library")) {
+                    from components.findByName('release')
+                } else {
+                    from components.java
+                }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.findByName('release')
-            groupId = 'com.dojah'
-            artifactId = 'kyc_sdk_kotlin'
+                artifact androidSourcesJar
+
 //            artifactId = 'dojah_android_sdk'
 //            version = '0.0.1'
-            version = '0.0.5-dev'
-            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
+//            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
 //              artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
 
-            pom.withXml {
-                final dependenciesNode = asNode().appendNode('dependencies')
-                ext.addDependency = { Dependency dep, String scope ->
-                    if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
-                        return
-                    final dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', dep.group)
-                    dependencyNode.appendNode('artifactId', dep.name)
-                    dependencyNode.appendNode('version', dep.version)
-                    dependencyNode.appendNode('scope', scope)
-                    if (!dep.transitive) {
-                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-                        exclusionNode.appendNode('groupId', '*')
-                        exclusionNode.appendNode('artifactId', '*')
-                    } else if (!dep.properties.excludeRules.empty) {
-                        final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
-                        dep.properties.excludeRules.each { ExcludeRule rule ->
-                            exclusionNode.appendNode('groupId', rule.group ?: '*')
-                            exclusionNode.appendNode('artifactId', rule.module ?: '*')
+                pom.withXml {
+                    final dependenciesNode = asNode().appendNode('dependencies')
+                    ext.addDependency = { Dependency dep, String scope ->
+                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
+                            return
+                        final dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', dep.group)
+                        dependencyNode.appendNode('artifactId', dep.name)
+                        dependencyNode.appendNode('version', dep.version)
+                        dependencyNode.appendNode('scope', scope)
+                        if (!dep.transitive) {
+                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                            exclusionNode.appendNode('groupId', '*')
+                            exclusionNode.appendNode('artifactId', '*')
+                        } else if (!dep.properties.excludeRules.empty) {
+                            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+                            dep.properties.excludeRules.each { ExcludeRule rule ->
+                                exclusionNode.appendNode('groupId', rule.group ?: '*')
+                                exclusionNode.appendNode('artifactId', rule.module ?: '*')
+                            }
                         }
                     }
+                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "implementation") }
+                    configurations.api.getDependencies().each { dep -> addDependency(dep, "implementation") }
+                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
                 }
-                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "implementation") }
-                configurations.api.getDependencies().each { dep -> addDependency(dep, "implementation") }
-                configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
-            }
 
+            }
         }
     }
-
-//    repositories {
-//        def gitPackagePropertiesFile = rootProject.file("git_package.properties")
-//        def gitPackageProperties = new Properties()
-//        gitPackageProperties.load(new FileInputStream(gitPackagePropertiesFile))
-//        maven {
-//            name = 'GitHubPackages'
-//            url = uri("https://maven.pkg.github.com/dojah-inc/sdk-kotlin")
-//            credentials {
-//                username = gitPackageProperties["Dojah_NAME"]
-//                password = gitPackageProperties["Dojah_PASS"]
-//            }
-//        }
-//    }
 }
 
 android {
@@ -164,9 +175,9 @@ android {
 
 //            applicationIdSuffix ".debug"
 //            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlDev}\""
-              buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
+            buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
 //              buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
-              buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
+            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
         }
 
         releaseNoMinify {
