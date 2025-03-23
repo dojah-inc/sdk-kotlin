@@ -45,7 +45,7 @@ class SuccessFragment : ErrorFragment(R.layout.success_view) {
         binding.apply {
 
             val brandColor = SharedPreferenceManager(requireContext()).getMaterialButtonBgColor
-            HttpLoggingInterceptor.Logger.DEFAULT.log("BTN: Brand color: ${brandColor}")
+//            HttpLoggingInterceptor.Logger.DEFAULT.log("BTN: Brand color: ${brandColor}")
             if (brandColor != null) {
                 try {
                     logo.addValueCallback(

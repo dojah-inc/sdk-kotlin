@@ -75,8 +75,8 @@ class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
             btnContinue.setOnClickListener {
                 val phoneConfig =
                     viewModel.getStepWithPageName(KycPages.PHONE_NUMBER.serverKey)?.config
-                HttpLoggingInterceptor.Logger.DEFAULT.log("phoneConfig: $phoneConfig")
-                HttpLoggingInterceptor.Logger.DEFAULT.log("phone verify: ${phoneConfig?.verification}")
+//                HttpLoggingInterceptor.Logger.DEFAULT.log("phoneConfig: $phoneConfig")
+//                HttpLoggingInterceptor.Logger.DEFAULT.log("phone verify: ${phoneConfig?.verification}")
                 if (phoneConfig?.verification == true) {
                     govViewModel.sendOtpSync(
                         verificationVm = viewModel,

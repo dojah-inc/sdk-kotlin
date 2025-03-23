@@ -1,20 +1,22 @@
 package com.dojah.kyc_sdk_kotlin
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import com.dojah.kyc_sdk_kotlin.core.di.DojahContainer
 import com.dojah.kyc_sdk_kotlin.ui.splash.SplashActivity
-import okhttp3.logging.HttpLoggingInterceptor
+import java.lang.ref.WeakReference
 
-@SuppressLint("StaticFieldLeak")
+
 object DojahSdk {
-    var context: Context? = null
+    private var contextRef: WeakReference<Context>? = null
+
+    val context get() = contextRef?.get()
+
     lateinit var dojahContainer: DojahContainer
 
     fun with(context: Context): DojahSdk {
-        DojahSdk.context = context
-        dojahContainer = DojahContainer(context)
+        this.contextRef = WeakReference(context)
+        dojahContainer = DojahContainer(contextRef!!)
         return this
     }
 
@@ -23,7 +25,6 @@ object DojahSdk {
             throw Exception("You have to call the with(...) function first")
         }
         val idHistory = dojahContainer.sharedPreferenceManager.getIdHistory
-        HttpLoggingInterceptor.Logger.DEFAULT.log("history length is ${idHistory.size}")
         return idHistory
     }
 

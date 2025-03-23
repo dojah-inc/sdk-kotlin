@@ -53,7 +53,7 @@ class CountryPickSpinner : LinearLayout {
             edtSearchInput.editText?.setOnClickListener {
                 edtSearchInput.editText?.clearFocus()
                 edtSearchInput.editText?.requestFocus()
-                HttpLoggingInterceptor.Logger.DEFAULT.log("edt clicked")
+//                HttpLoggingInterceptor.Logger.DEFAULT.log("edt clicked")
                 val inputMgr =
                     getSystemService(context, InputMethodManager::class.java)
                 inputMgr?.showSoftInput(edtSearchInput.editText, InputMethodManager.SHOW_IMPLICIT)

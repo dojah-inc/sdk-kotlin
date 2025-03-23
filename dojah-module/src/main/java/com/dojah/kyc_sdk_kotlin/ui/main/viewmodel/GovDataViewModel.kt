@@ -293,7 +293,7 @@ class GovDataViewModel(
                     ) { dataCollected, verifyConfigCollected ->
                         return@zip dataCollected to verifyConfigCollected
                     }.collect { (dataCollected, verifyConfigCollected) ->
-                        HttpLoggingInterceptor.Logger.DEFAULT.log("Gov data: Selected aft dataCollected")
+//                        HttpLoggingInterceptor.Logger.DEFAULT.log("Gov data: Selected aft dataCollected")
                         if (dataCollected is Result.Error) {
                             _submitGovLiveData.postValue(dataCollected)
                         } else if (verifyConfigCollected is Result.Error) {
@@ -1147,7 +1147,7 @@ class GovDataViewModel(
                                     ?: throw Exception("Verification id is null")
 
                             val bizEntity = lookUpResult.data.entity
-                            HttpLoggingInterceptor.Logger.DEFAULT.log("Lookup Result:${bizEntity}")
+//                            HttpLoggingInterceptor.Logger.DEFAULT.log("Lookup Result:${bizEntity}")
                             repo.logEvent(
                                 EventRequest(
                                     stepNumber = stepNumber,
@@ -1349,9 +1349,9 @@ class GovDataViewModel(
         val verificationId =
             getAuthDataFromPref()?.initData?.authData?.verificationId
                 ?: throw Exception("Verification id is null")
-        HttpLoggingInterceptor.Logger.DEFAULT.log("Failure code: $failureCode")
-        HttpLoggingInterceptor.Logger.DEFAULT.log("page: ${page.serverKey}")
-        HttpLoggingInterceptor.Logger.DEFAULT.log("stepNumb: ${getCurrentPage(page.serverKey)?.id}")
+//        HttpLoggingInterceptor.Logger.DEFAULT.log("Failure code: $failureCode")
+//        HttpLoggingInterceptor.Logger.DEFAULT.log("page: ${page.serverKey}")
+//        HttpLoggingInterceptor.Logger.DEFAULT.log("stepNumb: ${getCurrentPage(page.serverKey)?.id}")
 
         val stepNumber =
             getCurrentPage(page.serverKey)?.id

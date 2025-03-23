@@ -425,7 +425,7 @@ class SimpleEditTextSpinner : LinearLayout {
         binding.apply {
             selectedPlaceId = item.placeId.toString()
             selectedPlace = place
-            HttpLoggingInterceptor.Logger.DEFAULT.log("lat_lang is:${place.latLng}")
+//            HttpLoggingInterceptor.Logger.DEFAULT.log("lat_lang is:${place.latLng}")
 
             itemSelected = true
             layoutSpinner.setText(item.address)
@@ -630,15 +630,12 @@ fun EditText.textChanges(): Flow<CharSequence?> {
     return callbackFlow<CharSequence?> {
         val listener = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                HttpLoggingInterceptor.Logger.DEFAULT.log("afterTextChanged: $s")
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                HttpLoggingInterceptor.Logger.DEFAULT.log("beforeTextChanged: $s")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                HttpLoggingInterceptor.Logger.DEFAULT.log("onTextChanged: $s")
 
                 trySend(s)
             }

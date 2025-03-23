@@ -75,7 +75,7 @@ class PreviewSelfieFragment : ErrorFragment() {
                     if (result is Result.Error || result is Result.Loading) {
                         btnContinue.isButtonEnabled = false
                     }
-                    HttpLoggingInterceptor.Logger.DEFAULT.log("faceResult def frag ${result}")
+//                    HttpLoggingInterceptor.Logger.DEFAULT.log("faceResult def frag ${result}")
 
                     if (result is Result.Success) {
                         val faceResult = result.data?.entity?.face
@@ -83,7 +83,7 @@ class PreviewSelfieFragment : ErrorFragment() {
                             viewModel.getStepWithPageName(
                                 navViewModel.currentPage ?: KycPages.GOVERNMENT_DATA.serverKey
                             )?.config
-                        HttpLoggingInterceptor.Logger.DEFAULT.log("faceResult $faceResult")
+//                        HttpLoggingInterceptor.Logger.DEFAULT.log("faceResult $faceResult")
                         if (faceResult == null) {
                             errorTag.text = FailedReasons.SELFIE_NO_CAPTURE.message
                             errorTag.isVisible = true

@@ -38,7 +38,6 @@ class CountryManager (
 
     private suspend fun getCountries(): List<Country> {
         return withContext(Dispatchers.Default) {
-            HttpLoggingInterceptor.Logger.DEFAULT.log("countries start fetching")
 
             if (countries != null) countries!!
             else {
@@ -47,8 +46,6 @@ class CountryManager (
 
                 val countryFiles = baseDir.list()?.toMutableList()
                         ?: mutableListOf()
-                HttpLoggingInterceptor.Logger.DEFAULT.log("countries countryFiles ${countryFiles.size}")
-                HttpLoggingInterceptor.Logger.DEFAULT.log("countries countryFiles ${countryFiles.joinToString { it }}")
 
                 phoneNumberUtil.run {
                     val fetchedCountries = supportedRegions.map {
@@ -60,9 +57,6 @@ class CountryManager (
                             Country(it, name, phoneCode, "$baseDir/$path")
                         }
                     }.awaitAll()
-
-                    HttpLoggingInterceptor.Logger.DEFAULT.log("countries fetched ${fetchedCountries.size}")
-                    HttpLoggingInterceptor.Logger.DEFAULT.log("countries fetched ${fetchedCountries.joinToString { it.name+it.path }}")
 
                     fetchedCountries.sortedBy { it.name }
                 }

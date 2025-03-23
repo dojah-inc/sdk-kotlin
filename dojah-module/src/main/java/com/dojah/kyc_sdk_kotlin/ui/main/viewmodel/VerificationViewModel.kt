@@ -200,7 +200,7 @@ class VerificationViewModel(
     }
 
     fun loadCountries(callBack: ((List<Country>) -> Unit)? = null) {
-        HttpLoggingInterceptor.Logger.DEFAULT.log("Loading countries")
+//        HttpLoggingInterceptor.Logger.DEFAULT.log("Loading countries")
         getCountries().start(viewModelScope)
         getCountries().addCallback {
             if (callBack == null) {
@@ -211,7 +211,7 @@ class VerificationViewModel(
 //                    delay(500)
 //                }
             }
-            HttpLoggingInterceptor.Logger.DEFAULT.log("loaded countries: ${it.size}")
+//            HttpLoggingInterceptor.Logger.DEFAULT.log("loaded countries: ${it.size}")
         }
     }
 

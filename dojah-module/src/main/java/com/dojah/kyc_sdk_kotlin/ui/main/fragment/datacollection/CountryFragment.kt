@@ -53,13 +53,10 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
                 showLoading()
             } else {
                 dismissLoading()
-                logger.log("Country not loading")
                 if (response is Result.Success) {
-                    logger.log("SUCCESS Country")
                     if (viewModel.selectedCountryLiveData.value?.id?.lowercase() == "ng") {
                         navViewModel.navigateNextStep()
                     } else {
-                        logger.log(" test Country ${viewModel.selectedCountryLiveData.value?.name}")
                         navViewModel.navigate(Routes.country_error_fragment, args = Bundle().apply {
                             putString(
                                 NavArguments.option,
@@ -119,8 +116,6 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
             }
 
             performOperationOnActivityAvailable {
-//                addMenu()
-//                setAppBarData(viewModel.profileLiveData.value)
             }
 
         }
@@ -144,7 +139,6 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
                         userCountry,
                         ignoreCase = true
                     ).let { isUserCountry ->
-                        HttpLoggingInterceptor.Logger.DEFAULT.log(" test Country ${it.name} == $userCountry")
                         it.selected = isUserCountry
                     }
                     return@filter serverCountries

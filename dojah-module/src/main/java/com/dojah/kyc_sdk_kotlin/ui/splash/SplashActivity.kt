@@ -149,7 +149,7 @@ class SplashActivity : AppCompatActivity() {
             if (preAuthResponseResult is Result.Success) {
                 val serverEnvironment =
                     preAuthResponseResult.data.widget?.env
-                HttpLoggingInterceptor.Logger.DEFAULT.log("sandbox extra is : ${serverEnvironment?.lowercase() == "sandbox"}")
+//                HttpLoggingInterceptor.Logger.DEFAULT.log("sandbox extra is : ${serverEnvironment?.lowercase() == "sandbox"}")
                 putExtra("sandbox", serverEnvironment?.lowercase() == "sandbox")
                 if (errorType != null) {
                     putExtra("error", errorType)

@@ -37,7 +37,7 @@ class DojahTextView : AppCompatTextView {
         defStyleAttr
     ) {
         val brandColor = SharedPreferenceManager(context).getMaterialButtonBgColor
-        HttpLoggingInterceptor.Logger.DEFAULT.log("TXT: Brand color: $brandColor");
+//        HttpLoggingInterceptor.Logger.DEFAULT.log("TXT: Brand color: $brandColor");
         if (brandColor != null) {
             for (drawable in compoundDrawables) {
                 if (drawable != null) {

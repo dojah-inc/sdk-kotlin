@@ -142,7 +142,6 @@ class OTPTextView : FrameLayout {
                 val itemView = ItemView(context, attrs)
                 itemView.setViewState(ItemView.INACTIVE)
                 itemView.boxBackgroundBorderColorActive = boxBackgroundBorderColorActive
-                HttpLoggingInterceptor.Logger.DEFAULT.log("boxBackgroundBorderColorActive view: ${itemView.boxBackgroundBorderColorActive}")
                 linearLayout.addView(itemView, i, params)
                 itemViews?.add(itemView)
             }
