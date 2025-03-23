@@ -62,43 +62,63 @@ ext {
 
 apply from: 'scripts/deploy-variables.gradle'
 
-//task androidSourcesJar(type: Jar) {
-//    archiveClassifier.set('sources')
-//    if (project.plugins.findPlugin("com.android.library")) {
-//        // For android libraries
-//        from android.sourceSets.main.java.srcDirs
-//        from android.sourceSets.main.kotlin.srcDirs
-//    } else {
-//        // For pure kotlin libraries, in case you have them
-//        from sourceSets.main.java.srcDirs
-//        from sourceSets.main.kotlin.srcDirs
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (project.plugins.findPlugin("com.android.library")) {
+        // For android libraries
+        from android.sourceSets.main.java.srcDirs
+        from android.sourceSets.main.kotlin.srcDirs
+    } else {
+        // For pure kotlin libraries, in case you have them
+        from sourceSets.main.java.srcDirs
+        from sourceSets.main.kotlin.srcDirs
+    }
+}
+
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest','createDebugCoverageReport']) {
+//    reports {
+//        xml.enabled = true
+//        html.enabled = true
 //    }
-//}
-//artifacts {
-//    archives androidSourcesJar
-//}
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/mobileRelease", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories.setFrom(files([mainSrc]))
+    classDirectories.setFrom(files([debugTree]))
+}
+
+
+artifacts {
+    archives androidSourcesJar
+}
+
 afterEvaluate {
     publishing {
         publications {
             mavenJava(MavenPublication) {
                 from components.findByName('release')
+//                from components.release
                 groupId = 'com.github.dojah-inc'
                 artifactId = 'kyc_sdk_kotlin'
-                version = '0.0.5-dev'
+                version = '0.0.8-dev'
+//                artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
 //                artifact bundleReleaseAar
                 // Two artifacts, the `aar` (or `jar`) and the sources
-//                if (project.plugins.findPlugin("com.android.library")) {
-//                    from components.findByName('release')
-//                } else {
-//                    from components.java
-//                }
-//
-//                artifact androidSourcesJar
+                if (project.plugins.findPlugin("com.android.library")) {
+                    from components.findByName('release')
+                } else {
+                    from components.java
+                }
+
+                artifact androidSourcesJar
 
 //            artifactId = 'dojah_android_sdk'
 //            version = '0.0.1'
 //              artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
-            artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
 
                 pom.withXml {
                     final dependenciesNode = asNode().appendNode('dependencies')
@@ -131,6 +151,9 @@ afterEvaluate {
         }
     }
 }
+
+//tasks.publishMavenJavaPublicationToMavenLocal.dependsOn tasks.assembleRelease
+
 
 android {
     compileSdk mobileToolsVersion.compileSdk
