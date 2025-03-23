@@ -250,7 +250,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.dojah-inc'
             artifactId = 'kyc_sdk_kotlin'
-            version = 'v0.0.3'
+            version = 'v0.0.1'
             afterEvaluate {
                 from components.mobileRelease
             }
