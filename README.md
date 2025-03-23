@@ -2,7 +2,7 @@
 
 ## Requirements
 * Minimum Android SDK version - 21
-* Supported targetSdkVersion - 34
+* Supported targetSdkVersion - 35
 
 ## Installation
 
@@ -14,13 +14,6 @@ allprojects {
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        maven {
-            url = uri("https://maven.pkg.github.com/dojah-inc/sdk-kotlin")
-            credentials {
-                username = "dojah-inc"
-                password = "[TO BE ADDED SOON]"
-            }
-        }
     }
 }
 ```
@@ -33,13 +26,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        maven {
-            url = uri("https://maven.pkg.github.com/dojah-inc/sdk-kotlin")
-            credentials {
-                username = "dojah-inc"
-                password = "[TO BE ADDED SOON]"
-            }
-        }
     }
 }
 ```
@@ -55,7 +41,7 @@ Add dojah dependency in your app/build.gradle
 dependencies {
   ...
   // Dojah Kyc SDK
-  implementation 'com.dojah_inc:dojah_android_sdk:[latest-version]'
+  implementation 'com.github.dojah-inc:sdk-kotlin:[latest-version]'
 }
 ```
 
