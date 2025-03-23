@@ -62,18 +62,17 @@ ext {
 apply from: 'scripts/deploy-variables.gradle'
 
 task downloadApiKeyFile {
-    doLast {
-        def apiKeyFile = new File("$projectDir/api_key.properties")
+//    doLast {
+        def apiKeyFile = new File("api_key.properties")
         if (!apiKeyFile.exists()) {
             def apiKeyFileUrl = "${configVariable.apiKeyUrl}"
             new URL(apiKeyFileUrl).withInputStream { i -> apiKeyFile.withOutputStream { it << i }}
         }
-    }
+//    }
 }
 
 preBuild.dependsOn downloadApiKeyFile
 
-//tasks.publishMavenJavaPublicationToMavenLocal.dependsOn tasks.assembleRelease
 
 
 android {
