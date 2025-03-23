@@ -14,22 +14,6 @@ object DojahSdk {
 
     fun with(context: Context): DojahSdk {
         DojahSdk.context = context
-//        try {
-//            // Google Play will install latest OpenSSL
-//            ProviderInstaller.installIfNeeded(context)
-//            val sslContext: SSLContext = SSLContext.getInstance("TLSv1.2")
-//            sslContext.init(null, null, SecureRandom())
-//            val sslSocketFactory = sslContext.socketFactory
-//            sslContext.createSSLEngine()
-//        } catch (e: GooglePlayServicesRepairableException) {
-//            e.printStackTrace()
-//        } catch (e: GooglePlayServicesNotAvailableException) {
-//            e.printStackTrace()
-//        } catch (e: (NoSuchAlgorithmException  )) {
-//            e.printStackTrace()
-//        } catch (e: (KeyManagementException)) {
-//            e.printStackTrace()
-//        }
         dojahContainer = DojahContainer(context)
         return this
     }
