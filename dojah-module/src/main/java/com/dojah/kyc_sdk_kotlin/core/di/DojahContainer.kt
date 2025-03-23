@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dojah.kyc_sdk_kotlin.BuildConfig
+import com.dojah.kyc_sdk_kotlin.DojahSdk
 import com.dojah.kyc_sdk_kotlin.core.Constants
 import com.dojah.kyc_sdk_kotlin.data.LocationManager
 import com.dojah.kyc_sdk_kotlin.data.io.CountryManager
@@ -22,12 +23,15 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.ref.WeakReference
 import java.util.concurrent.TimeUnit
 
 // Container of objects shared across the whole app
 class DojahContainer(
-    val context: Context,
+    private val contextRef: WeakReference<Context>,
 ) {
+    val context get() = contextRef.get()!!
+
     private val networkManager = NetworkManager(context)
 
     private val gson = Gson()

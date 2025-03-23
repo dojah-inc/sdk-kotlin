@@ -65,7 +65,6 @@ data class ImageAnalysisResponse(
 
 
                 val glassCheckFailed = glassCheckIsOn && userHasGlassesOn
-                HttpLoggingInterceptor.Logger.DEFAULT.log("faceSuccess>> $faceDetected $multifaceDetected $isBright ${!glassCheckFailed}")
                 return faceDetected == true
                         && multifaceDetected == false
                         && isBright

@@ -121,7 +121,7 @@ class DojahNavGraph {
         fun createRoutes(
             controller: NavController, pages: List<Step>, isReset: Boolean = false
         ): NavGraph {
-            HttpLoggingInterceptor.Logger.DEFAULT.log("pages $pages")
+//            HttpLoggingInterceptor.Logger.DEFAULT.log("pages $pages")
             controller.graph = controller.createGraph(
                 startDestination = Routes.verification_route
             ) {
@@ -214,7 +214,7 @@ class DojahNavGraph {
                             }
 
                         } else {
-                            HttpLoggingInterceptor.Logger.DEFAULT.log("step ${step.name} not found")
+//                            HttpLoggingInterceptor.Logger.DEFAULT.log("step ${step.name} not found")
                         }
                     }
 

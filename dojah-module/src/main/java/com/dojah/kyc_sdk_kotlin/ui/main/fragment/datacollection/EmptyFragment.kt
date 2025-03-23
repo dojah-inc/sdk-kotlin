@@ -72,7 +72,7 @@ class EmptyFragment : ErrorFragment(R.layout.fragment_empty) {
                     val countries =
                         viewModel.preAuthDataFromPref?.widget?.country ?: emptyList()
                     if (countries.size == 1) {
-                        HttpLoggingInterceptor.Logger.DEFAULT.log("is only one country")
+//                        HttpLoggingInterceptor.Logger.DEFAULT.log("is only one country")
                         viewModel.selectCountryIfJustOne(countries.first())
                     }
                 }

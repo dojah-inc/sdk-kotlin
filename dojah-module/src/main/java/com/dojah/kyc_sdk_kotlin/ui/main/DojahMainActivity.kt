@@ -179,7 +179,7 @@ class DojahMainActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this@DojahMainActivity) {
             val startDestinationRoute =
                 (navController.graph[Routes.verification_route] as NavGraph).startDestinationRoute
-            HttpLoggingInterceptor.Logger.DEFAULT.log("start route is $startDestinationRoute")
+//            HttpLoggingInterceptor.Logger.DEFAULT.log("start route is $startDestinationRoute")
             val currentRoute = navController.currentDestination?.route
             if (currentRoute == startDestinationRoute) {
                 //if current route is first route, exist Dojah SDK
@@ -380,7 +380,7 @@ class DojahMainActivity : AppCompatActivity() {
         }
 
         navViewModel.currentStepLiveData.observe(this) { it ->
-            HttpLoggingInterceptor.Logger.DEFAULT.log("all routes click is $it")
+//            HttpLoggingInterceptor.Logger.DEFAULT.log("all routes click is $it")
         }
         navViewModel.autoNavigateLiveData.observe(this) { event ->
             if (!event.hasBeenHandled) {

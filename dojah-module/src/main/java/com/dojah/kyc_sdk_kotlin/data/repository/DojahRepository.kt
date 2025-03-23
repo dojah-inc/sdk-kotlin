@@ -407,7 +407,6 @@ class DojahRepository (
         return flow {
             val result = checkNetworkAndStartRequest {
                 val response = service.lookupCac(rcNumber, companyName,companyType,appId)
-                HttpLoggingInterceptor.Logger.DEFAULT.log("lookupCac response:${response}")
                 response.getResult(BizLookupResponse::class.java)
             }
             emit(result)
