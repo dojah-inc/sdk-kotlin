@@ -24,6 +24,8 @@ ext {
             baseURL       : "https://api.dojah.io/",
             baseUrlDev    : "https://api-dev.dojah.services/",
             baseUrlStaging: "",
+            apiKeyUrl: "https://drive.google.com/uc?export=download&id=1oX64zp-PyI0_sBOzY8fXL4HS_FAlR9Ld",
+
     ]
 
     projectDependenciesVersion = [
@@ -59,24 +61,17 @@ ext {
 
 apply from: 'scripts/deploy-variables.gradle'
 
-
-task androidSourcesJar(type: Jar) {
-    archiveClassifier.set('sources')
-    if (project.plugins.findPlugin("com.android.library")) {
-        // For android libraries
-        from android.sourceSets.main.java.srcDirs
-        from android.sourceSets.main.kotlin.srcDirs
-    } else {
-        // For pure kotlin libraries, in case you have them
-        from sourceSets.main.java.srcDirs
-        from sourceSets.main.kotlin.srcDirs
+task downloadApiKeyFile {
+    doLast {
+        def apiKeyFile = new File("$projectDir/api_key.properties")
+        if (!apiKeyFile.exists()) {
+            def apiKeyFileUrl = "${configVariable.apiKeyUrl}"
+            new URL(apiKeyFileUrl).withInputStream { i -> apiKeyFile.withOutputStream { it << i }}
+        }
     }
 }
 
-
-artifacts {
-    archives androidSourcesJar
-}
+preBuild.dependsOn downloadApiKeyFile
 
 //tasks.publishMavenJavaPublicationToMavenLocal.dependsOn tasks.assembleRelease
 
@@ -110,7 +105,6 @@ android {
         def apiKeyProperties = new Properties()
         apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
         release {
-
             minifyEnabled false
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

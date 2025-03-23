@@ -1,3 +1,0 @@
-install:
-  - FILE="-Dfile=build/output/aar/dojah-module-mobile-release.aar"
-  - mvn install:install-file $FILE -Dpackaging=aar -DgeneratePom=true
