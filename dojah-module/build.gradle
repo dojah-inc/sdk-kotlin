@@ -78,10 +78,6 @@ task androidSourcesJar(type: Jar) {
 
 
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest','createDebugCoverageReport']) {
-//    reports {
-//        xml.enabled = true
-//        html.enabled = true
-//    }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/mobileRelease", excludes: fileFilter)
@@ -105,20 +101,18 @@ afterEvaluate {
                 groupId = 'com.github.dojah-inc'
                 artifactId = 'kyc_sdk_kotlin'
                 version = '0.0.8-dev'
-//                artifact("$buildDir/outputs/aar/dojah-module-mobile-release.aar")
+//                version = '0.0.1'
+                artifact("$project.buildDir/outputs/aar/dojah-module-mobile-release.aar")
+//              artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
 //                artifact bundleReleaseAar
                 // Two artifacts, the `aar` (or `jar`) and the sources
-                if (project.plugins.findPlugin("com.android.library")) {
-                    from components.findByName('release')
-                } else {
-                    from components.java
-                }
-
-                artifact androidSourcesJar
-
-//            artifactId = 'dojah_android_sdk'
-//            version = '0.0.1'
-//              artifact("$buildDir/outputs/aar/dojah-module-mobile-debug.aar")
+//                if (project.plugins.findPlugin("com.android.library")) {
+//                    from components.findByName('release')
+//                } else {
+//                    from components.java
+//                }
+//
+//                artifact androidSourcesJar
 
                 pom.withXml {
                     final dependenciesNode = asNode().appendNode('dependencies')
