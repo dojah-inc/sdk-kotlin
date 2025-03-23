@@ -106,17 +106,19 @@ android {
     }
 
     buildTypes {
-//        def apiKeyPropertiesFile = rootProject.file("api_key.properties")
-//        def apiKeyProperties = new Properties()
-//        apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+        def apiKeyPropertiesFile = rootProject.file("api_key.properties")
+        def apiKeyProperties = new Properties()
+        apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
         release {
 
             minifyEnabled false
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
-//            buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
-            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
+            buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
+            println("PLACE_KEY=\"${apiKeyProperties["PLACE_KEY"]}\"")
+//            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
+//            println("PLACE_KEY=\"${PLACE_KEY}\"")
 
         }
 
@@ -126,8 +128,8 @@ android {
 //            applicationIdSuffix ".debug"
 //            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlDev}\""
             buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
-//              buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
-            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
+              buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
+//            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
         }
 
         releaseNoMinify {
@@ -250,7 +252,8 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.dojah-inc'
             artifactId = 'kyc_sdk_kotlin'
-            version = 'v0.0.1'
+//            version = 'v0.0.1'
+            version = 'v0.0.01-dev'
             afterEvaluate {
                 from components.mobileRelease
             }
