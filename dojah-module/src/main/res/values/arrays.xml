@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="gov_ids">
+        <item>@string/bvn_verify</item>
+        <item>@string/driver_verify</item>
+        <item>@string/nin_verify</item>
+    </string-array>
+    <string-array name="doc_type">
+        <item>@string/bvn_verify</item>
+        <item>@string/driver_verify</item>
+        <item>@string/cac_verify</item>
+        <item>@string/other_verify</item>
+    </string-array>
+
+    <string-array name="verify_method">
+        <item>@string/selfie</item>
+        <item>@string/video</item>
+        <item>@string/email_verify</item>
+        <item>@string/home_address</item>
+        <item>@string/phone_verify</item>
+    </string-array>
+</resources>

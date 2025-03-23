@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_top_first_login_title_welcome">30dp</dimen>
+    <dimen name="margin_top_login_subtitle_to_title">5dp</dimen>
+    <dimen name="margin_start_stepper">4dp</dimen>
+    <dimen name="margin_end_style_transaction_pin">12dp</dimen>
+    <dimen name="height_sign_up_seeker">4dp</dimen>
+    <dimen name="margin_top_title_to_stepper">28dp</dimen>
+    <dimen name="margin_top_text_field_title">40dp</dimen>
+    <dimen name="margin_top_style_text_input_label">20dp</dimen>
+    <dimen name="margin_bottom_style_text_input_label">9dp</dimen>
+    <dimen name="margin_top_first_login_button_login">40dp</dimen>
+    <dimen name="margin_start_button_next_to_back">10dp</dimen>
+    <dimen name="padding_icon_button_next">11dp</dimen>
+    <dimen name="padding_vertical_text_input_edit_text_default">16dp</dimen>
+    <dimen name="padding_horizontal_text_input_edit_text_default">17dp</dimen>
+    <dimen name="padding_vertical_spinner_item">50dp</dimen>
+    <dimen name="margin_top_resend_code_to_continue">20dp</dimen>
+    <dimen name="padding_top_transaction_pin_root">108dp</dimen>
+</resources>

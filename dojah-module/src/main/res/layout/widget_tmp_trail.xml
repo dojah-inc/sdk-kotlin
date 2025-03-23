@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/bind">
+
+    <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahMaterialButton
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/padding_top_default"
+        android:fontFamily="@font/circular_std_bold_700"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="4dp"
+        android:text="Earn Daily"
+        android:textColor="@color/black"
+        app:backgroundTint="@color/white"
+        app:cornerRadius="24dp"
+        app:icon="@drawable/ic_info"
+        app:iconPadding="6dp"
+        app:iconSize="@dimen/padding_top_default_2"
+        app:iconTint="@color/transparent"
+        app:iconTintMode="screen"
+
+        />
+</layout>

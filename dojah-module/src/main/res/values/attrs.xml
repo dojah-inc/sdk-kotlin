@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="editTextSpinnerStyle" format="reference" />
+    <attr name="itemGroupStyle" format="reference" />
+    <attr name="DojahToolbarStyle" format="reference" />
+
+    <declare-styleable name="EditTextSpinner">
+
+        <attr name="boxStrokeSize" format="dimension|reference" />
+        <attr name="boxStrokeSizeFocused" format="dimension|reference" />
+        <attr name="strokeTint" format="color|reference" />
+        <attr name="cornerLength" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="LoadingButton">
+
+        <attr name="buttonText" format="string|reference" />
+        <attr name="buttonEnabled" format="boolean|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ItemGroup">
+
+        <attr name="imageBackgroundAlpha" format="float|reference" />
+        <attr name="icon" format="reference" />
+        <attr name="showArrow" format="boolean" />
+        <attr name="title" format="string|reference" />
+        <attr name="subtitle" format="string|reference" />
+        <attr name="textColor" format="color|reference" />
+        <attr name="iconColor" format="color|reference" />
+        <attr name="tintIcon" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="DojahToolbar">
+        <attr name="toolbarTitle" format="string|reference" />
+        <attr name="toolbarSubtitle" format="string|reference" />
+        <attr name="titleTextAppearance" format="reference" />
+        <attr name="subtitleTextAppearance" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="DebitCardView">
+        <attr name="cardNumber" format="string|reference" />
+        <attr name="holderName" format="string|reference" />
+        <attr name="expiryDate" format="string|reference" />
+
+        <attr name="cardType" format="enum">
+            <enum name="master_card" value="0" />
+            <enum name="verve_card" value="1" />
+            <enum name="visa_card" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="AccountBalanceView">
+        <attr name="availableBalance" format="string|reference" />
+        <attr name="commissionBalance" format="string|reference" />
+        <attr name="rewardPoints" format="string|reference" />
+        <attr name="obscureAmountButton" format="boolean|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="AnalysisWalletCardView">
+        <attr name="cardTitle" format="string|reference" />
+        <attr name="label1" format="string|reference" />
+        <attr name="label2" format="string|reference" />
+        <attr name="titleValue" format="string|reference" />
+        <attr name="label1Value" format="string|reference" />
+        <attr name="label2Value" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="AnalysisProgressCardView">
+        <attr name="cardProgressTitle" format="string|reference" />
+        <attr name="cardSubtitle" format="string|reference" />
+        <attr name="cardTarget" format="float|reference" />
+        <attr name="cardValue" format="float|reference" />
+        <attr name="cardProgressStatus" format="float" />
+        <attr name="cardPercent" format="string|reference" />
+        <attr name="cardFootNote" format="string|reference" />
+
+        <attr name="cardProgressType" format="enum">
+            <enum name="count_card" value="0" />
+            <enum name="amount_card" value="1" />
+        </attr>
+        <attr name="progressTrack" format="enum">
+            <enum name="behind" value="-1" />
+            <enum name="neutral" value="0" />
+            <enum name="onTrack" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SimpleAppBarView">
+        <attr name="appBarTitle" format="string|reference" />
+        <attr name="leadingIcon" format="reference" />
+        <attr name="trailingIcon" format="reference" />
+        <attr name="leadingLayout" format="reference" />
+        <attr name="trailingLayout" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RewardOptionCardView">
+        <attr name="cardOptionTitle" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="LeaderboardImageView">
+        <attr name="leaderName" format="string" />
+        <attr name="leaderPosition" format="integer" />
+        <attr name="leaderImage" format="reference" />
+        <attr name="imgSize" format="dimension" />
+        <attr name="positionSize" format="dimension" />
+        <attr name="titleWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SegmentedProgressBar">
+        <attr name="current_segment_value" format="integer" />
+        <attr name="current_segment_progress" format="integer" />
+    </declare-styleable>
+
+    <!--    Dojah Team Attributes   -->
+    <declare-styleable name="dojahThemeAttr">
+        <!--        appLogo can be in an image format (e.g svg,png...)-->
+        <attr name="appLogo" format="reference" />
+        <!--        appBarCloseIcon can be in an image format (e.g svg,png...)-->
+        <attr name="appBarCloseIcon" format="reference" />
+        <!--        appBarBackIcon can be in an image format (e.g svg,png...)-->
+        <attr name="appBarBackIcon" format="reference" />
+        <!--        icVerificationAvatar can be in an image format (e.g svg,png...)-->
+        <attr name="icVerificationAvatar" format="reference" />
+        <!--        img404 can be in an image format (e.g svg,png...)-->
+        <attr name="img404" format="reference" />
+        <!--        img404 can be in an image format (e.g svg,png...)-->
+        <attr name="countryWarning" format="reference" />
+        <!--        infoIcon can be in an image format (e.g svg,png...)-->
+        <attr name="infoIcon" format="reference" />
+        <!--        sandboxBg can be in an image format (e.g svg,png...)-->
+        <attr name="sandboxBg" format="reference" />
+        <!--        cameraPermissionAvatar can be in an image format (e.g svg,png...)-->
+        <attr name="cameraPermissionAvatar" format="reference" />
+        <!--        galleryPermissionAvatar can be in an image format (e.g svg,png...)-->
+        <attr name="galleryPermissionAvatar" format="reference" />
+        <!--        locationPermissionAvatar can be in an image format (e.g svg,png...)-->
+        <attr name="locationPermissionAvatar" format="reference" />
+        <!--        Error anim must be in .gif format-->
+        <attr name="errorAnim" format="reference" />
+        <attr name="failedAnim" format="reference" />
+        <!--        facialVerificationAnim must be in .gif format-->
+        <attr name="facialVerificationAnim" format="reference" />
+        <!--        verified anim must be in .gif format-->
+        <attr name="verifiedAnim" format="reference" />
+        <!--        verified anim must be in .gif format-->
+        <attr name="splashAnim" format="reference" />
+        <!--        infoMessageCornedBg can be in an image format (e.g svg,png...)-->
+        <attr name="infoMessageCorneredBg" format="reference" />
+        <!--        errorMessageCornedBg can be in an image format (e.g svg,png...)-->
+        <attr name="errorMessageCorneredBg" format="reference" />
+        <attr name="infoMessageColor" format="reference" />
+        <attr name="errorMessageColor" format="reference" />
+        <attr name="materialBtnStyle" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="DojahAppBarView">
+        <!--        dojahAppBarTitle can be in an image format (e.g svg,png...)-->
+        <attr name="dojahAppBarTitle" format="reference" />
+        <!--        dojahLeadingIcon can be in an image format (e.g svg,png...)-->
+        <attr name="dojahLeadingIcon" format="reference" />
+        <!--        dojahShowBackButton can be in an image format (e.g svg,png...)-->
+        <attr name="dojahShowBackButton" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="DojahMaterialButton">
+    </declare-styleable>
+
+
+    <declare-styleable name="CountryPickSpinner">
+
+        <attr name="spinBoxStrokeSize" format="dimension|reference" />
+        <attr name="spinBoxStrokeSizeFocused" format="dimension|reference" />
+        <attr name="spinStrokeTint" format="color|reference" />
+        <attr name="spinCornerLength" format="dimension|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SimpleEditTextSpinner">
+
+        <attr name="sboxStrokeSize" format="dimension|reference" />
+        <attr name="sboxStrokeSizeFocused" format="dimension|reference" />
+        <attr name="sstrokeTint" format="color|reference" />
+        <attr name="scornerLength" format="dimension|reference" />
+    </declare-styleable>
+</resources>

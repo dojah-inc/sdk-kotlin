@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="TextAppearance.Placeholder" parent="TextAppearance.Dojah.ParagraphSmall">
+        <item name="android:textColor">@color/black_100</item>
+    </style>
+
+    <style name="TextInputLayout.Dojah" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="placeholderTextAppearance">@style/TextAppearance.Placeholder</item>
+        <item name="hintTextAppearance">@style/TextAppearance.Placeholder</item>
+        <item name="prefixTextAppearance">@style/TextAppearance.Placeholder</item>
+<!--        <item name="prefixTextColor">?android:attr/textColor</item>-->
+<!--        <item name="android:textColorHint">@color/color_accent_alpha_30</item>-->
+        <item name="android:background">@color/card_back_color</item>
+        <item name="endIconTint">?android:attr/textColor</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
+        <item name="boxStrokeWidth">0.5dp</item>
+        <item name="boxStrokeWidthFocused">0.5dp</item>
+        <item name="hintEnabled">false</item>
+        <item name="textColor">@color/black_main</item>
+        <item name="errorTextColor">@color/red</item>
+        <item name="errorIconTint">@color/red</item>
+        <item name="boxStrokeErrorColor">@color/red</item>
+        <item name="placeholderTextColor">@color/color_accent_alpha_30</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.TextInput</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TextInputLayout.Dojah</item>
+    </style>
+
+    <style name="ThemeOverlay.TextInputLayout.Dojah" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Placeholder</item>
+        <item name="editTextStyle">@style/TextInputEditText.Dojah</item>
+        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextView.Dojah</item>
+        <item name="prefixTextColor">@color/purple</item>
+        <item name="errorTextColor">@color/red</item>
+    </style>
+
+    <style name="TextInputEditText.Dojah" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.Title2</item>
+        <item name="android:textColor">?android:attr/textColor</item>
+        <item name="android:paddingTop">@dimen/padding_vertical_text_input_edit_text_default</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical_text_input_edit_text_default
+        </item>
+        <item name="android:paddingStart">@dimen/padding_horizontal_text_input_edit_text_default
+        </item>
+        <item name="android:paddingEnd">@dimen/padding_horizontal_text_input_edit_text_default
+        </item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">text|textCapSentences</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+
+    <style name="AutoCompleteTextView.Dojah" parent="Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox">
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.Title2</item>
+        <item name="android:textColor">?android:attr/textColor</item>
+        <item name="android:paddingTop">@dimen/padding_vertical_text_input_edit_text_default</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical_text_input_edit_text_default
+        </item>
+        <item name="android:paddingStart">@dimen/padding_horizontal_text_input_edit_text_default
+        </item>
+        <item name="android:paddingEnd">@dimen/padding_horizontal_text_input_edit_text_default
+        </item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:inputType">none</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+
+    <style name="EditTextWithSpinner.Dojah" parent="ThemeOverlay.MaterialComponents">
+        <item name="strokeTint">@color/selector_spinner_with_text_state</item>
+        <item name="boxStrokeSizeFocused">0.5dp</item>
+        <item name="boxStrokeSize">0.5dp</item>
+        <item name="cornerLength">8dp</item>
+    </style>
+
+    <style name="Button.Nothing" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="iconPadding">0dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.TransactionPIN" parent="">
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.TextInput" parent="">
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="Button.Dojah" parent="Button.Nothing">
+        <item name="android:paddingTop">@dimen/padding_horizontal_style_button</item>
+        <item name="android:paddingBottom">@dimen/padding_horizontal_style_button</item>
+        <item name="android:paddingStart">@dimen/padding_vertical_style_button</item>
+        <item name="android:paddingEnd">@dimen/padding_vertical_style_button</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconTint">@color/selector_text_login</item>
+        <item name="iconSize">15dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/selector_text_login</item>
+        <item name="android:textAppearance">@style/TextAppearance.Dojah.Title2</item>
+        <item name="backgroundTint">@color/selector_background_login</item>
+    </style>
+
+    <style name="Button.Back" parent="Button.Dojah">
+        <item name="backgroundTint">@color/disabled_login</item>
+        <item name="android:textColor">@color/color_text_alpha_30</item>
+        <item name="icon">@drawable/ic_arrow_left</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">@color/color_text_alpha_30</item>
+        <item name="iconPadding">@dimen/padding_icon_button_next</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Circle" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Toolbar.Dojah.Agai" parent="ThemeOverlay.MaterialComponents">
+        <item name="titleTextAppearance">@style/TextAppearance.Dojah.Title4</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.Toolbar.Subtitle</item>
+    </style>
+
+    <style name="ModalBottomSheet" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="behavior_expandedOffset">10dp</item>
+<!--        <item name="behavior_fitToContents">true</item>-->
+<!--        <item name="behavior_halfExpandedRatio">0.15</item>-->
+        <item name="backgroundTint">?android:attr/colorBackground</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.BottomSheet</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.BottomSheet" parent="ShapeAppearanceOverlay.MaterialComponents.BottomSheet">
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeTopRight">8dp</item>
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="scrimBackground">@color/red</item>
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+        <item name="buttonStyle">@style/Button.Dojah</item>
+        <item name="materialButtonStyle">@style/Button.Dojah</item>
+    </style>
+
+    <style name="ModalDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="scrimBackground">@color/red</item>
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+        <item name="buttonStyle">@style/Button.Dojah</item>
+        <item name="materialButtonStyle">@style/Button.Dojah</item>
+    </style>
+
+    <style name="CircularProgressIndicator.Dojah" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="trackColor">?attr/colorAccent</item>
+        <item name="indicatorColor">?attr/colorOnPrimary</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="trackThickness">3dp</item>
+        <item name="trackCornerRadius">12dp</item>
+        <item name="indicatorSize">27dp</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="Toolbar.Navigation" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:gravity">start</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+    </style>
+
+    <style name="ItemGroup.Dojah" parent="ThemeOverlay.MaterialComponents">
+        <item name="android:background">@drawable/shape_no_stroke_radius_8</item>
+        <item name="android:backgroundTint">@color/widget_item_group</item>
+        <item name="android:paddingTop">@dimen/padding_vertical_send_money_option</item>
+        <item name="android:paddingBottom">@dimen/padding_vertical_send_money_option</item>
+        <item name="android:paddingStart">@dimen/padding_start_send_money_option</item>
+        <item name="android:paddingEnd">@dimen/padding_end_send_money_option</item>
+        <item name="textColor">?android:attr/textColor</item>
+        <item name="iconColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="TabLayout.Dojah" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/TextAppearance.TabItem</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+    </style>
+
+    <style name="Snackbar.Dojah" parent="Widget.MaterialComponents.Snackbar">
+        <item name="animationMode">slide</item>
+        <!--        <item name="elevation">0dp</item>-->
+        <!--        <item name="backgroundTint">?attr/colorOnPrimary</item>-->
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="Theme.ProgressBar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorOnPrimary">@color/grey_bg</item>
+        <!-- Secondary brand color. -->
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+
+    <!--Here, android: indeterminateDrawable sets the picture displayed in
+        the animation or the xml file of this animation and android: indeterminateOnly
+           This property is set to true,the progress bar will be ignored Progress and present
+           an infinite loop of animation
+    -->
+    <style name="CircularDeterminateProgressBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/circle_progress_drawable</item>
+    </style>
+
+    <style name="MaterialDatePicker.Dojah" parent="Widget.MaterialComponents.MaterialCalendar">
+        <item name="tabTextAppearance">@style/TextAppearance.TabItem</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorAnimationMode">elastic</item>
+        <!--        <item name="android:textAppearance">@style/TextAppearance.Dojah.ParagraphMedium</item>-->
+        <item name="shapeAppearance">@style/ShapeAppearance.Material3.MediumComponent</item>
+    </style>
+
+
+    <style name="Animation.BottomSheetDialog" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
+    </style>
+</resources>

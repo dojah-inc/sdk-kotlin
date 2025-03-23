@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_purple">#09093E</color>
+    <color name="phone_number_stroke">#4D828282</color>
+
+    <color name="disabled_login">#F6F6F6</color>
+    <color name="red">#D82020</color>
+
+    <color name="text_field_stroke">#828282</color>
+</resources>

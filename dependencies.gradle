@@ -1,0 +1,50 @@
+
+ext {
+    mobileToolsVersion = [
+            applicationId        : "com.dojah.sdk_kyc",
+            minSdk               : 21,
+            targetSdk            : 33,
+            compileSdk           : 33,
+            versionCode          : 29,
+            versionName          : "1.4.6",
+            fileProviderAuthority: "com.dojah.sdk_kyc.provider"
+    ]
+
+    configVariable = [
+            versionCode             : "2022",
+            baseURL                 : "https://mobile.dojah.com/api/",
+            baseUrlDev              : "https://api-dev.dojah.services/",
+            baseUrlStaging          : "https://dojah-mobile-api-staging.upkip.live/api/",
+    ]
+
+    projectDependenciesVersion = [
+            kotlin: "1.6.21"
+    ]
+
+    dependenciesVersion = [
+            core            : "1.8.0",
+            activity        : "1.4.0",
+            appCompat       : "1.5.0",
+            constraintLayout: "2.1.4",
+            legacySupport   : "1.0.0",
+            lifecycle       : "2.5.1",
+            recyclerView    : "1.2.1",
+            navigation      : "2.5.1",
+            preference      : "1.2.0",
+            room            : "2.4.3",
+            materialDesign  : "1.6.1",
+            retrofit        : "2.9.0",
+            gson            : "2.9.0",
+            okhttp          : "5.0.0-alpha.2",
+
+            hilt            : "2.42",
+            coil            : "2.1.0",
+
+            glide           : "4.13.2",
+
+            libphonenumber  : "8.12.31",
+            timber          : "4.7.1",
+            zxing           : "3.4.0",
+            desugar         : "1.1.5",
+    ]
+}

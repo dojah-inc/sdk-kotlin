@@ -1,0 +1,78 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="SlideAnimation.Activity" parent="@android:style/Animation.Activity">
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="Theme.Splash" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
+        <item name="android:windowAnimationStyle">@style/SlideAnimation.Activity</item>
+        <item name="android:statusBarColor" >@color/transparent</item>
+    </style>
+
+
+    <style name="Theme.Dojah" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <item name="android:colorBackground">@color/white</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:windowAnimationStyle">@style/SlideAnimation.Activity</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <!-- Secondary brand color. -->
+
+        <item name="colorControlNormal">@color/dark_purple</item>
+        <item name="colorAccent">@color/ash</item>
+        <item name="android:textColor">@color/dark_purple</item>
+        <item name="android:textColorHint">@color/color_text_alpha_30</item>
+        <item name="android:fontFamily">@font/circular_std_regular_400</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >?attr/colorOnPrimary</item>
+        <item name="tabStyle">@style/TabLayout.Dojah</item>
+        <item name="itemGroupStyle">@style/ItemGroup.Dojah</item>
+        <item name="toolbarNavigationButtonStyle">@style/Toolbar.Navigation</item>
+        <item name="editTextSpinnerStyle">@style/EditTextWithSpinner.Dojah</item>
+        <item name="materialButtonStyle">@style/Button.Dojah</item>
+        <item name="materialBtnStyle">@style/Button.Dojah</item>
+
+        <!--        <item name="materialCalendarStyle">@style/MaterialDatePicker.Dojah</item>-->
+        <item name="textInputStyle">@style/TextInputLayout.Dojah</item>
+        <item name="circularProgressIndicatorStyle">@style/CircularProgressIndicator.Dojah</item>
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
+        <item name="snackbarStyle">@style/Snackbar.Dojah</item>
+
+
+        <!--        Dojah styles    -->
+        <item name="appLogo">@drawable/app_logo</item>
+        <item name="appBarCloseIcon">@drawable/ic_close</item>
+        <item name="appBarBackIcon">@drawable/corned_arrow_back</item>
+        <item name="icVerificationAvatar">@drawable/ic_verification_avatar</item>
+        <item name="img404">@drawable/img_404</item>
+        <item name="countryWarning">@drawable/country_warning</item>
+        <item name="infoIcon">@drawable/ic_info</item>
+<!--        <item name="facialVerificationAnim">@raw/facial_verification_anim</item>-->
+        <item name="facialVerificationAnim">@raw/loading_circle</item>
+        <item name="sandboxBg">@drawable/sandbox_bg</item>
+        <item name="cameraPermissionAvatar">@drawable/ic_cam_permit</item>
+        <item name="galleryPermissionAvatar">@drawable/ic_cam_permit</item>
+        <item name="locationPermissionAvatar">@drawable/ic_locate_permit</item>
+<!--        <item name="verifiedAnim">@raw/verified_anim</item>-->
+        <item name="verifiedAnim">@raw/check_1</item>
+        <item name="errorAnim">@raw/error</item>
+        <item name="failedAnim">@raw/failed</item>
+        <item name="splashAnim">@raw/circle_loader</item>
+        <item name="infoMessageCorneredBg">@drawable/message_corned_bg</item>
+        <item name="errorMessageCorneredBg">@drawable/ic_verification_warning</item>
+        <item name="infoMessageColor">@color/accent1_500</item>
+        <item name="errorMessageColor">@color/accent2_500</item>
+        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">
+            @style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen
+        </item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar
+        </item>
+<!--        <item name="dialogTheme">@style/ModalDialog</item>-->
+    </style>
+</resources>
