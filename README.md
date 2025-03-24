@@ -1,14 +1,12 @@
 # Dojah KYC SDK (Android)
 
-[![](https://jitpack.io/v/dojah-inc/sdk-kotlin.svg)](https://jitpack.io/#dojah-inc/sdk-kotlin)
-
 
 
 ## Requirements
 * Minimum Android SDK version - 21
 * Supported targetSdkVersion - 35
 
-## Installation
+## Installation [![](https://jitpack.io/v/dojah-inc/sdk-kotlin.svg)](https://jitpack.io/#dojah-inc/sdk-kotlin)
 
 Set maven path in your root/build.gradle file:
 ```
