@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dojahtest2"
         tools:targetApi="35"
-        tools:replace="android:theme"
         >
         <activity
             android:name="com.dojah.demoapp.MainActivity"
@@ -26,16 +25,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.dojah.kyc_sdk_kotlin.ui.main.DojahMainActivity"
-            android:exported="true"
-            tools:replace="android:theme"
-            android:theme="@style/Theme.CustomDojah">
-            <intent-filter>
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
