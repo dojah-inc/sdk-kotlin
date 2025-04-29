@@ -909,7 +909,7 @@ class GovDataViewModel(
         image2: String? = null,
         page: KycPages = KycPages.ID,
         selfieType: String?,
-        liveNessErrorReason:FailedReasons = FailedReasons.ID_FAILED_MAX_TIME,
+        liveNessErrorReason: FailedReasons = FailedReasons.ID_FAILED_MAX_TIME,
     ) {
         val param =
             if (page == KycPages.BUSINESS_ID) "BUSINESS"
@@ -949,7 +949,7 @@ class GovDataViewModel(
         selfieType: String? = "selfie_type",
         continueVerification: Boolean? = null,
         docType: String? = "image",
-        liveNessErrorReason:FailedReasons = FailedReasons.SELFIE_NO_CAPTURE,
+        liveNessErrorReason: FailedReasons = FailedReasons.SELFIE_NO_CAPTURE,
     ) {
         viewModelScope.launch {
             val verificationId =
@@ -990,22 +990,15 @@ class GovDataViewModel(
                 }
                 if (it is Result.Success) {
                     if (it.data.entity?.match == true) {
-                        //then verify liveness
-                        verifyLiveness().collect { verifyResult ->
-                            if (verifyResult is Result.Success) {
-                                //then log step completed event
-                                logStepEvent(
-                                    page,
-                                    EventTypes.STEP_COMPLETED
-                                ).collect { eventResult ->
-                                    /// fire event for all liveness process
-                                    _submitLivenessLiveData.postValue(eventResult)
-                                }
-                                _verifyLiveData.postValue(verifyResult)
-                            }else if(verifyResult is Result.Error){
-                                _submitLivenessLiveData.postValue(verifyResult)
-                            }
+                        //then log step completed event
+                        logStepEvent(
+                            page,
+                            EventTypes.STEP_COMPLETED
+                        ).collect { eventResult ->
+                            /// fire event for all liveness process
+                            _submitLivenessLiveData.postValue(eventResult)
                         }
+
                     } else {
                         if (_verifyCheckRetryCountLiveData.value!! < checkRetryMax) {
                             _verifyCheckRetryCountLiveData.value =
