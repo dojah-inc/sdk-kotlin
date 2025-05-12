@@ -1,5 +1,6 @@
 package com.dojah.kyc_sdk_kotlin
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
@@ -52,5 +53,24 @@ object DojahSdk {
             putExtra("email", email)
             putExtra("extra_data", extraData)
         })
+    }
+
+    fun launchWithBackwardCompatibility(
+        activity: Activity,
+        widgetId: String,
+        referenceId: String? = null,
+        email: String? = null,
+        extraData: ExtraUserData,
+    ) {
+        if (context == null) {
+            throw Exception("You have to call the with(...) function first")
+        }
+        activity.startActivityForResult(Intent(context, SplashActivity::class.java).apply {
+//            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra("widget_id", widgetId)
+            putExtra("reference_id", referenceId)
+            putExtra("email", email)
+            putExtra("extra_data", extraData)
+        }, 1001)
     }
 }
