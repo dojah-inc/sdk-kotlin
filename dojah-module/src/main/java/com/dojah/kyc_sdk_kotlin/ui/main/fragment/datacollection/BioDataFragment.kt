@@ -1,4 +1,5 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
+
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 
 import android.annotation.SuppressLint
@@ -6,12 +7,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.text.toSpannable
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentBioDataBinding
+import com.dojah.kyc_sdk_kotlin.domain.UserData
 import com.dojah.kyc_sdk_kotlin.ui.base.ErrorFragment
 import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.dialog.CalendarDialogFragment
@@ -37,11 +40,11 @@ import java.time.temporal.ChronoUnit
 class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
     private val binding by viewBinding { FragmentBioDataBinding.bind(it) }
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
 
     private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-uuuu")
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
 
     private fun createDatePicker(time: String): MaterialDatePicker<Long> {
 
@@ -83,6 +86,7 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel.submitUserLiveData.observe(this) {
             when (it) {
                 is Result.Loading -> {
@@ -98,13 +102,33 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
 
                 is Result.Error -> {
                     dismissLoading()
-                    navigateToErrorPage(it)
+                    val userData = viewModel.extraUserDataFromPref?.userData
+                    if (userData?.allFieldsFilled() == true) {
+                        binding.root.post {
+                            binding.apply {
+                                root.isVisible = true
+                                prefillUserDataFromClient(userData)
+                            }
+                        }
+                    } else {
+                        navigateToErrorPage(it)
+                    }
                     Timber.d("submitUserLiveData>> Result.Error")
                 }
 
                 else -> {
                     Timber.d("submitUserLiveData>> else")
                 }
+            }
+        }
+
+        viewModel.extraUserDataFromPref?.userData.let {
+            if (it != null && it.allFieldsFilled()) {
+                viewModel.sendUserData(
+                    firstName = it.firstName!!,
+                    lastName = it.lastName!!,
+                    dob = it.dob!!
+                )
             }
         }
     }
@@ -115,6 +139,14 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
         binding.apply {
             checkEmptyFields()
             listenToTextChanges()
+            viewModel.extraUserDataFromPref?.userData.let {
+                if (it != null && it.allFieldsFilled()) {
+                    root.isVisible = false
+                } else
+                    if (it != null) {
+                        prefillUserDataFromClient(it)
+                    }
+            }
             (getString(R.string.policy_term_text)).toSpannable().apply {
                 val policyTxt = "Privacy Policy"
                 val termsTxt = "Terms of Use"
@@ -166,16 +198,38 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
         }
     }
 
-    fun FragmentBioDataBinding.listenToTextChanges() {
+    private fun FragmentBioDataBinding.prefillUserDataFromClient(it: UserData) {
+        if (it.firstName?.isNotBlank() == true) {
+            textEdtFirstName.setText(it.firstName)
+            textEdtFirstName.isEnabled = false
+        } else {
+            textEdtFirstName.isEnabled = true
+        }
+        if (it.lastName?.isNotBlank() == true) {
+            textEdtLastName.setText(it.lastName)
+            textEdtLastName.isEnabled = false
+        } else {
+            textEdtLastName.isEnabled = true
+        }
+        if (it.dob?.isNotBlank() == true) {
+            spinnerTextDob.setText(it.dob)
+            spinnerTextDob.isEnabled = false
+        } else {
+            spinnerTextDob.isEnabled = true
+        }
+
+    }
+
+    private fun FragmentBioDataBinding.listenToTextChanges() {
         textEdtFirstName.addTextChangedListener {
             checkEmptyFields()
         }
         textEdtLastName.addTextChangedListener {
             checkEmptyFields()
         }
-        textEdtMiddleName.addTextChangedListener {
-            checkEmptyFields()
-        }
+//        textEdtMiddleName.addTextChangedListener {
+//            checkEmptyFields()
+//        }
         spinnerTextDob.addTextChangedListener {
             checkEmptyFields()
         }
@@ -184,7 +238,7 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
     private fun FragmentBioDataBinding.checkEmptyFields() {
         btnContinue.isEnabled = textEdtFirstName.text?.isNotEmpty() == true &&
                 textEdtLastName.text?.isNotEmpty() == true &&
-                textEdtMiddleName.text?.isNotEmpty() == true &&
+//                textEdtMiddleName.text?.isNotEmpty() == true &&
                 spinnerTextDob.text?.isNotEmpty() == true
     }
 

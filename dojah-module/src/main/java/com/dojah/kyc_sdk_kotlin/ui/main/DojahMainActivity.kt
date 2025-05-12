@@ -2,6 +2,7 @@ package com.dojah.kyc_sdk_kotlin.ui.main
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
@@ -31,6 +32,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.get
 import androidx.navigation.navOptions
+import com.dojah.kyc_sdk_kotlin.DOJAH_CLOSED_RESULT
+import com.dojah.kyc_sdk_kotlin.DOJAH_RESULT_KEY
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
@@ -129,10 +132,12 @@ class DojahMainActivity : AppCompatActivity() {
                 if (currentRoute != startDestinationRoute) {
                     onBackPressedDispatcher.onBackPressed()
                 } else {
+                    setResult(RESULT_OK, Intent().putExtra(DOJAH_RESULT_KEY, DOJAH_CLOSED_RESULT))
                     finish()
                 }
             }
             toolbar.closeView.setOnClickListener {
+                setResult(RESULT_OK, Intent().putExtra(DOJAH_RESULT_KEY, DOJAH_CLOSED_RESULT))
                 finish()
             }
 
@@ -183,6 +188,7 @@ class DojahMainActivity : AppCompatActivity() {
             val currentRoute = navController.currentDestination?.route
             if (currentRoute == startDestinationRoute) {
                 //if current route is first route, exist Dojah SDK
+                setResult(RESULT_OK, Intent().putExtra(DOJAH_RESULT_KEY, DOJAH_CLOSED_RESULT))
                 finish()
             } else {
                 val isDojahRoute =
@@ -208,12 +214,18 @@ class DojahMainActivity : AppCompatActivity() {
         DojahNavGraph.createErrorRoutes(
             navController,
         )
+        onBackPressedDispatcher.addCallback {
+            setResult(RESULT_OK, Intent().putExtra(DOJAH_RESULT_KEY, DOJAH_CLOSED_RESULT))
+            finish()
+        }
 
 //        findViewById<View>(R.id.nav_host_fragment).isVisible = false
         toolbar.backView.setOnClickListener {
+            setResult(RESULT_OK, Intent().putExtra(DOJAH_RESULT_KEY, DOJAH_CLOSED_RESULT))
             finish()
         }
         toolbar.closeView.setOnClickListener {
+            setResult(RESULT_OK, Intent().putExtra(DOJAH_RESULT_KEY, DOJAH_CLOSED_RESULT))
             finish()
         }
         sandboxTag.isVisible = false
@@ -287,6 +299,10 @@ class DojahMainActivity : AppCompatActivity() {
                     if (waitingForOtherFragments) {
                         waitingForOtherFragments = false
                         ///if the resumed page is the index page, finish the activity
+                        setResult(
+                            RESULT_OK,
+                            Intent().putExtra(DOJAH_RESULT_KEY, DOJAH_CLOSED_RESULT)
+                        )
                         finish()
                     }
 
@@ -339,10 +355,18 @@ class DojahMainActivity : AppCompatActivity() {
                     val disableBackButton = {
                         binding?.toolbar?.showBackButton = false
                         onBackPressedDispatcher.addCallback(this@DojahMainActivity) {
+                            setResult(
+                                RESULT_OK,
+                                Intent().putExtra(DOJAH_RESULT_KEY, DOJAH_CLOSED_RESULT)
+                            )
                             finish()
                         }
                     }
-                    when (it.data.entity?.overallCheck) {
+                    val overallCheck = it.data.entity?.overallCheck
+                    if (overallCheck != null) {
+                        preferenceManager.setFinalResultStatus(overallCheck)
+                    }
+                    when (overallCheck) {
                         DecisionStatus.approved.name -> {
                             disableBackButton()
                             navController.navigate(

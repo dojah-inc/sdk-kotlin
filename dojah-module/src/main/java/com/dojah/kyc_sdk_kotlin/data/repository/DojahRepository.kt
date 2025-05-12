@@ -8,6 +8,7 @@ import com.dojah.kyc_sdk_kotlin.data.io.SharedPreferenceManager
 import com.dojah.kyc_sdk_kotlin.data.network.NetworkManager
 import com.dojah.kyc_sdk_kotlin.data.network.service.DojahService
 import com.dojah.kyc_sdk_kotlin.data.repository.base.BaseRepository
+import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.domain.request.AdditionalDocRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.AddressRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.AuthRequest
@@ -17,6 +18,7 @@ import com.dojah.kyc_sdk_kotlin.domain.request.EventRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.ImageAnalysisRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessCheckRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessVerifyRequest
+import com.dojah.kyc_sdk_kotlin.domain.request.MetaDataRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.OtpRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.UserDataRequest
 import com.dojah.kyc_sdk_kotlin.domain.responses.AuthResponse
@@ -48,7 +50,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import kotlin.random.Random
 
-class DojahRepository (
+class DojahRepository(
     networkManager: NetworkManager,
     gson: Gson,
     private val prefManager: SharedPreferenceManager,
@@ -70,7 +72,10 @@ class DojahRepository (
                 .getResult(DojahPricing::class.java) as Result.Success
         }
 
-    suspend fun doPreAuth(widgetId: String): Flow<Result<PreAuthResponse>> {
+    suspend fun doPreAuth(
+        widgetId: String,
+        extraUserData: ExtraUserData?
+    ): Flow<Result<PreAuthResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
                 val response = service.doPreAuth(widgetId)
@@ -82,6 +87,15 @@ class DojahRepository (
                     result.toJson,
                     SharedPreferenceManager.KEY_PRE_AUTH_RESPONSE
                 )
+
+                prefManager.setExtraUserData(
+                    extraUserData = extraUserData
+                )
+
+                HttpLoggingInterceptor.Logger.DEFAULT.log(
+                    "extra user data: ${extraUserData}"
+                )
+
                 prefManager.setBearerToken(Random.nextInt(200).toString())
                 prefManager.setPKey(result.data.publicKey ?: "")
                 prefManager.setAppId(result.data.app?.id ?: "")
@@ -400,13 +414,13 @@ class DojahRepository (
 
     suspend fun lookupCac(
         rcNumber: String,
-        companyName: String?=null,
+        companyName: String? = null,
         companyType: String,
         appId: String,
-        ): Flow<Result<BizLookupResponse>> {
+    ): Flow<Result<BizLookupResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
-                val response = service.lookupCac(rcNumber, companyName,companyType,appId)
+                val response = service.lookupCac(rcNumber, companyName, companyType, appId)
                 response.getResult(BizLookupResponse::class.java)
             }
             emit(result)
@@ -416,14 +430,24 @@ class DojahRepository (
 
     suspend fun lookupTin(
         tin: String,
-        companyName: String?=null,
+        companyName: String? = null,
         appId: String,
     ): Flow<Result<BizLookupResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
-                val response = service.lookUpTin(tin, companyName,appId)
+                val response = service.lookUpTin(tin, companyName, appId)
                 response.getResult(BizLookupResponse::class.java)
             }
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+
+    fun sendMetadata(appId: String, verificationId: Int, metadata: Map<String, Any>): Flow<Response<ResponseBody>> {
+        return flow {
+            val result =
+                service.metadata(MetaDataRequest(appId = appId, verificationId = verificationId, meta = metadata))
+
             emit(result)
         }.flowOn(Dispatchers.IO)
     }
@@ -450,6 +474,7 @@ class DojahRepository (
         prefManager.saveJsonResponse(null, SharedPreferenceManager.KEY_CHECK_IP_RESPONSE)
         prefManager.saveJsonResponse(null, SharedPreferenceManager.KEY_GET_IP_RESPONSE)
     }
+
 
 }
 

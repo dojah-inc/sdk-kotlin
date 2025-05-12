@@ -20,6 +20,7 @@ import com.dojah.kyc_sdk_kotlin.ui.base.SpinnerFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.Routes
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.GovDataViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
+import com.dojah.kyc_sdk_kotlin.ui.utils.BusinessType
 import com.dojah.kyc_sdk_kotlin.ui.utils.CompanyType
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
@@ -76,6 +77,17 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
             }
 
             govViewModel.prefillBizId(docTypes?.first())
+
+            viewModel.extraUserDataFromPref?.businessData.let {
+
+                if (it?.cac?.isNotBlank() == true) {
+                    val selection = viewModel.dojahEnum.toMap()[BusinessType.CAC.serverKey]
+                    inputRcNumber.editText!!.setText(it.cac)
+                    inputRcNumber.isEnabled = false
+                    spinnerDocType.isEnabled = false
+                    govViewModel.selectBizIdentity(selection)
+                }
+            }
 
 
             spinnerDocType.setOnClickListener {

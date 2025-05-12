@@ -3,7 +3,10 @@ package com.dojah.kyc_sdk_kotlin.data.io
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.domain.responses.AuthResponse
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,7 +24,8 @@ class SharedPreferenceManager(
         const val KEY_PKEY = "key pkey"
         const val KEY_REF = "key ref"
         const val KEY_APP_ID = "key app id"
-        const val KEY_LOCATION = "location"
+        const val KEY_DOJAH_RESULT_STATUS = "@dojah_final_result_status"
+        const val KEY_LOCATION = "@dojah_location"
 
         const val KEY_AUTH_RESPONSE = "key_analysis_response"
         const val KEY_PRE_AUTH_RESPONSE = "key_pre_auth_response"
@@ -30,6 +34,7 @@ class SharedPreferenceManager(
         const val KEY_BTN_COLOR = "key_btn_color"
         const val KEY_ID_HISTORY = "id_history"
         const val KEY_Widget_ID = "key_widget_id"
+        const val KEY_USER_EXTRA_DATA = "key_user_extra_data"
     }
 
     private val userPref: SharedPreferences =
@@ -41,10 +46,19 @@ class SharedPreferenceManager(
 
     init {
         userPref.registerOnSharedPreferenceChangeListener(this)
+//        appPref.registerOnSharedPreferenceChangeListener(this)
     }
 
     fun addCallback(callback: Callback) {
         callbacks.add(callback)
+    }
+
+    fun listenToAppPreferenceChanges(callback: (String) -> Unit) {
+        appPref.registerOnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
+            key?.let { k ->
+                callback(k)
+            }
+        }
     }
 
 
@@ -100,6 +114,31 @@ class SharedPreferenceManager(
             putString(KEY_APP_ID, appId)
         }
     }
+
+    fun setFinalResultStatus(status: String) {
+        userPref.edit {
+            putString(KEY_DOJAH_RESULT_STATUS, status)
+        }
+    }
+
+    fun getFinalResultStatus() = userPref.getString(KEY_DOJAH_RESULT_STATUS, null)
+
+
+    fun setExtraUserData(extraUserData: ExtraUserData?) {
+        if (extraUserData == null) return
+        userPref.edit {
+            putString(KEY_USER_EXTRA_DATA, Gson().toJson(extraUserData))
+        }
+
+    }
+
+    val getExtraUserData: ExtraUserData?
+        get() {
+            return userPref.getString(KEY_USER_EXTRA_DATA, null)?.let {
+                return GsonBuilder().create().fromJson(it, ExtraUserData::class.java)
+            }
+        }
+
 
     fun setBearerToken(token: String?) {
         userPref.edit {

@@ -70,7 +70,6 @@ enum class GovDocType(
     val value: String = "",
     val hasBack: Boolean = true,
 ) {
-
     DL(
         "Driver\'s License",
         "dl",

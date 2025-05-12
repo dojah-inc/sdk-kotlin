@@ -2,6 +2,8 @@ package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
@@ -10,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
+import com.dojah.kyc_sdk_kotlin.DOJAH_RESULT_KEY
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentDecisionErrorBinding
 import com.dojah.kyc_sdk_kotlin.ui.base.ErrorFragment
@@ -20,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.logging.HttpLoggingInterceptor
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -36,6 +40,14 @@ class DecisionErrorFragment : ErrorFragment(R.layout.fragment_decision_error) {
 
         CoroutineScope(Dispatchers.Main).launch{
             delay(3000)
+
+            val finalResultStatus =
+                DojahSdk.dojahContainer.sharedPreferenceManager.getFinalResultStatus()
+            HttpLoggingInterceptor.Logger.DEFAULT.log("finalResultStatus: $finalResultStatus")
+            activity?.setResult(
+                Activity.RESULT_OK,
+                Intent().putExtra(DOJAH_RESULT_KEY, finalResultStatus)
+            )
             activity?.finish()
         }
     }

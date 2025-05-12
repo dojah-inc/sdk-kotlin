@@ -10,6 +10,7 @@ import com.dojah.kyc_sdk_kotlin.domain.request.EventRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.ImageAnalysisRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessCheckRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessVerifyRequest
+import com.dojah.kyc_sdk_kotlin.domain.request.MetaDataRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.OtpRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.UserDataRequest
 import kotlinx.coroutines.delay
@@ -109,7 +110,7 @@ interface DojahService {
     @GET("${prefix}/kyc/cac")
     suspend fun lookupCac(
         @Query("rc_number") rcNumber: String,
-        @Query("company_name") companyName: String?=null,
+        @Query("company_name") companyName: String? = null,
         @Query("company_type") companyType: String,
         @Query("app_id") appId: String,
     ): Response<ResponseBody>
@@ -117,8 +118,16 @@ interface DojahService {
     @GET("${prefix}/kyc/tin")
     suspend fun lookUpTin(
         @Query("tin") tin: String,
-        @Query("company_name") companyName: String?=null,
+        @Query("company_name") companyName: String? = null,
         @Query("app_id") appId: String,
+    ): Response<ResponseBody>
+
+    //        app_id: appId,
+    //        verification_id: verificationId,
+    //        meta,
+    @POST("${prefix}/kyc/metadata")
+    suspend fun metadata(
+        @Body request: MetaDataRequest
     ): Response<ResponseBody>
 
 }
@@ -274,6 +283,12 @@ class DojahServiceMock : DojahService {
         delay(1000)
         val responseBody = cacLookUpResponse().replace("\n", "").toResponseBody()
         return Response.success(responseBody)
+    }
+
+    override suspend fun metadata(
+        request: MetaDataRequest
+    ): Response<ResponseBody> {
+        TODO("Not yet implemented")
     }
 
 }

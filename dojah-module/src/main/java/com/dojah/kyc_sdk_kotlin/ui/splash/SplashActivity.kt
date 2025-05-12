@@ -3,17 +3,32 @@ package com.dojah.kyc_sdk_kotlin.ui.splash
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.dojah.kyc_sdk_kotlin.DOJAH_APPROVED_RESULT
+import com.dojah.kyc_sdk_kotlin.DOJAH_FAILED_RESULT
+import com.dojah.kyc_sdk_kotlin.DOJAH_PENDING_RESULT
+import com.dojah.kyc_sdk_kotlin.DOJAH_RESULT_KEY
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.data.io.CountryManager
 import com.dojah.kyc_sdk_kotlin.data.io.FileManager
+import com.dojah.kyc_sdk_kotlin.databinding.SplashLoadingBinding
+import com.dojah.kyc_sdk_kotlin.databinding.SuccessViewBinding
+import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.ui.main.DojahMainActivity
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.utils.FailedReasons
+import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.atomic.AtomicReference
 
@@ -26,21 +41,26 @@ private const val DEFAULT_ERROR = "default_error"
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
-    val assetRewrite: FileManager by lazy {
+
+    private val dojahResultLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
+            if (activityResult.resultCode == RESULT_OK) {
+                HttpLoggingInterceptor.Logger.DEFAULT.log("Got Result: ${activityResult.data}")
+                setResult(RESULT_OK, activityResult.data)
+                finish()
+            }
+        }
+
+
+    private val assetRewrite: FileManager by lazy {
         DojahSdk.dojahContainer.fileManager
     }
 
-    val countryManager: CountryManager by lazy {
+    private val countryManager: CountryManager by lazy {
         DojahSdk.dojahContainer.countryManager
     }
 
-//    val locationManager: LocationManager by lazy {
-//        DojahSdk.dojahContainer.locationManager
-//    }
-
-//    private lateinit var permissionLauncher: ActivityResultLauncher<String>
-
-    private val viewModel by viewModels<VerificationViewModel>{
+    private val viewModel by viewModels<VerificationViewModel> {
         DojahSdk.dojahContainer.verificationViewModelFactory
     }
 
@@ -134,17 +154,29 @@ class SplashActivity : AppCompatActivity() {
         val widgetId = intent.getStringExtra("widget_id") ?: throw Exception("Empty Widget ID")
         val referenceId = intent.getStringExtra("reference_id")
         val email = intent.getStringExtra("email")
+        //check Build. VERSION_CODES. TIRAMISU
+        val extraData =
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                intent.getSerializableExtra("extra_data", ExtraUserData::class.java)
+            } else {
+                intent.getSerializableExtra("extra_data") as? ExtraUserData?
+            }
+        HttpLoggingInterceptor.Logger.DEFAULT.log(
+            "Splash extraData passed is: $extraData"
+        )
+
         viewModel.prefManager.setWidgetId(widgetId)
-        viewModel.authenticate(widgetId, referenceId = referenceId, email = email)
-//        viewModel.authenticate("6568cae99806dc0040cb372b")
-        //safe
-//        viewModel.authenticate("64e46e763a47c3003ff04266")
+        viewModel.authenticate(
+            widgetId,
+            referenceId = referenceId,
+            email = email,
+            extraUserData = extraData
+        )
 
     }
 
     private fun nextScreen(errorType: String? = null, message: String? = null) {
-        onBackPressedDispatcher.onBackPressed()
-        startActivity(Intent(this, DojahMainActivity::class.java).apply {
+        dojahResultLauncher.launch(Intent(this, DojahMainActivity::class.java).apply {
             val preAuthResponseResult = viewModel.preAuthDataLiveData.value
             if (preAuthResponseResult is Result.Success) {
                 val serverEnvironment =
@@ -164,5 +196,6 @@ class SplashActivity : AppCompatActivity() {
                 }
             }
         })
+        findViewById<View>(R.id.progress_indicator).isVisible = false
     }
 }

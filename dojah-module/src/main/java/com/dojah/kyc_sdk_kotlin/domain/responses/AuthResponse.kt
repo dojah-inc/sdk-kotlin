@@ -272,7 +272,6 @@ data class AuthData(
         @SerializedName("mobile") var mobile: String? = null,
         @SerializedName("nationality") var nationality: String? = null,
         @SerializedName("residence_country") var residenceCountry: String? = null
-
     )
 }
 

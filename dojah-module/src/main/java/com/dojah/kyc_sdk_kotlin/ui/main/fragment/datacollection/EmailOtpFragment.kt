@@ -1,4 +1,5 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
+
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 
 import android.annotation.SuppressLint
@@ -25,16 +26,15 @@ import com.dojah.kyc_sdk_kotlin.ui.utils.getText
 import com.google.android.material.shape.MaterialShapeDrawable
 
 
-
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
 
 class EmailOtpFragment : ErrorFragment(R.layout.fragment_otp_email) {
     private val binding by viewBinding { FragmentOtpEmailBinding.bind(it) }
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,6 +149,13 @@ class EmailOtpFragment : ErrorFragment(R.layout.fragment_otp_email) {
                 } else {
                     textInputEmail.error = "Invalid Email"
                     btnContinue.isEnabled = false
+                }
+            }
+            viewModel.extraUserDataFromPref?.userData?.let {
+
+                if (it.email?.isNotBlank() == true) {
+                    textInputEmail.editText?.setText(it.email)
+                    textInputEmail.isEnabled = false
                 }
             }
             btnContinue.setOnClickListener {

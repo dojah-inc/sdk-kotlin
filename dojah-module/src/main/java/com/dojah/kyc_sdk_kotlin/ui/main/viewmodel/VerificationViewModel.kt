@@ -19,6 +19,7 @@ import com.dojah.kyc_sdk_kotlin.data.io.SharedPreferenceManager
 import com.dojah.kyc_sdk_kotlin.data.repository.DojahRepository
 import com.dojah.kyc_sdk_kotlin.domain.Country
 import com.dojah.kyc_sdk_kotlin.domain.DocumentInfo
+import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.domain.request.CheckIpRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.EventRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.UserDataRequest
@@ -223,13 +224,14 @@ class VerificationViewModel(
         widgetId: String,
         referenceId: String? = null,
         email: String? = null,
+        extraUserData: ExtraUserData? = null,
     ) {
         val showLoader = true
         viewModelScope.launch {
             //first delete all auth-local data
             repo.deleteAllAuthData()
             //do PreAuth
-            repo.doPreAuth(widgetId)
+            repo.doPreAuth(widgetId, extraUserData = extraUserData)
                 .onStart { if (showLoader) _preAuthDataLiveData.postValue(Result.Loading) }
                 .collect { preAuthResult ->
                     _preAuthDataLiveData.postValue(preAuthResult)
@@ -244,11 +246,18 @@ class VerificationViewModel(
                             )
                         ).collect { authResult ->
                             _authDataLiveData.postValue(authResult)
+
+                            //countries from sdk routes
                             val countries = preAuthResult.data.widget.country
+                            //Auto Select country
                             if (countries.size == 1) {
                                 selectCountryIfJustOne(countries.first())
                             }
+
                             if (authResult is Result.Success) {
+                                //send metadata to server
+                                sendMetadata(authResult.data, extraUserData)
+
                                 //getUserIp
                                 repo.getUserIp().collect { ipResult ->
                                     _getIpDataLiveData.postValue(ipResult)
@@ -293,6 +302,29 @@ class VerificationViewModel(
         }
     }
 
+    private fun sendMetadata(authResult: AuthResponse, extraUserData: ExtraUserData?) {
+
+        val verificationId =
+            authResult.initData?.authData?.verificationId
+                ?: return
+
+        val appId =
+            preAuthDataFromPref?.app?.id
+                ?: return
+
+        if (extraUserData?.metadata == null) return
+
+        viewModelScope.launch {
+            repo.sendMetadata(
+                appId = appId,
+                verificationId = verificationId,
+                metadata = extraUserData.metadata
+            ).collect {
+                logger.log("VerificationViewModel-Metadata sent: $it")
+            }
+        }
+    }
+
     fun selectCountryIfJustOne(country: String) {
         loadCountries { countries ->
             val countryItem = countries.filter {
@@ -313,7 +345,7 @@ class VerificationViewModel(
         dob: String, // 1996-04-30
         firstName: String, // Osarumen
         lastName: String, // Alohan
-        middleName: String, // Eleojo
+        middleName: String?=null, // Eleojo
     ) {
         viewModelScope.launch {
             val verificationId =
@@ -708,6 +740,13 @@ class VerificationViewModel(
             return repo.getLocalResponse(
                 SharedPreferenceManager.KEY_PRE_AUTH_RESPONSE, PreAuthResponse::class.java
             )?.data
+        }
+
+
+
+    val extraUserDataFromPref: ExtraUserData?
+        get() {
+            return prefManager.getExtraUserData
         }
 
 

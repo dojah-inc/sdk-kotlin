@@ -139,8 +139,41 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                 updateUIwithSelectedGovId(it)
             }
 
+
             govViewModel.prefillGovIdentity(gIds?.first())
             prefillVerificationMethod(verificationMethods)
+
+            viewModel.extraUserDataFromPref?.govData.let {
+
+                if (it?.dl?.isNotBlank() == true) {
+                    textEdtBvn.setText(it.dl)
+                    textEdtBvn.isEnabled = false
+                    spinnerTextGid.isEnabled = false
+                    govViewModel.selectGovIdentity(viewModel.dojahEnum.toMap()[GovDocType.DL.serverKey])
+                    prefillVerificationMethod(verificationMethods)
+                }
+                if (it?.bvn?.isNotBlank() == true) {
+                    textEdtBvn.setText(it.bvn)
+                    textEdtBvn.isEnabled = false
+                    spinnerTextGid.isEnabled = false
+                    govViewModel.selectGovIdentity(viewModel.dojahEnum.toMap()[GovDocType.BVN.serverKey])
+                    prefillVerificationMethod(verificationMethods)
+                }
+                if (it?.nin?.isNotBlank() == true) {
+                    textEdtBvn.setText(it.nin)
+                    textEdtBvn.isEnabled = false
+                    spinnerTextGid.isEnabled = false
+                    govViewModel.selectGovIdentity(viewModel.dojahEnum.toMap()[GovDocType.NIN.serverKey])
+                    prefillVerificationMethod(verificationMethods)
+                }
+                if (it?.vnin?.isNotBlank() == true) {
+                    textEdtBvn.setText(it.vnin)
+                    textEdtBvn.isEnabled = false
+                    spinnerTextGid.isEnabled = false
+                    govViewModel.selectGovIdentity(viewModel.dojahEnum.toMap()[GovDocType.VNIN.serverKey])
+                    prefillVerificationMethod(verificationMethods)
+                }
+            }
 
             (verificationMethods?.isNotEmpty() == true && verificationMethods.size > 1).also { noVerifyMethod ->
                 inputVerifyWith.isVisible = noVerifyMethod == true

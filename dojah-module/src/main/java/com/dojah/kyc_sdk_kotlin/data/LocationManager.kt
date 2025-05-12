@@ -10,9 +10,9 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 @SuppressLint("MissingPermission")
-class LocationManager (
+class LocationManager(
     private val context: Context,
-    private val prefManager: SharedPreferenceManager
+    val prefManager: SharedPreferenceManager
 ) {
 
     var hasPermission = false
@@ -48,10 +48,12 @@ class LocationManager (
     }
 
     val lastLocation
-        get(): Pair<Double, Double> {
-            val lat = prefManager.location?.first ?: throw Exception("Location not found")
-            val long = prefManager.location?.second ?: throw Exception("Location not found")
-            return Pair(lat, long)
+        get(): Pair<Double, Double>? {
+            val lat = prefManager.location?.first
+            val long = prefManager.location?.second
+            if (lat != null && long != null)
+                return Pair(lat, long)
+            return null
         }
 
     fun startLocationUpdates() {
@@ -69,35 +71,37 @@ class LocationManager (
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
-    fun withinRange(
-        selectedLocation: Pair<Double, Double>,
-        deviceLocation: Pair<Double, Double>,
-        range: Double = 0.05
-    ): Boolean {
-        val lat1 = selectedLocation.first
-        val long1 = selectedLocation.second
-        val lat2 = deviceLocation.first
-        val long2 = deviceLocation.second
+    companion object {
+        fun withinRange(
+            selectedLocation: Pair<Double, Double>,
+            deviceLocation: Pair<Double, Double>,
+            range: Double = 0.05
+        ): Boolean {
+            val lat1 = selectedLocation.first
+            val long1 = selectedLocation.second
+            val lat2 = deviceLocation.first
+            val long2 = deviceLocation.second
 
-        // Converts numeric degrees to radians
-        fun toRad(value: Double): Double {
-            return (value * Math.PI) / 180;
-        };
+            // Converts numeric degrees to radians
+            fun toRad(value: Double): Double {
+                return (value * Math.PI) / 180;
+            };
 
-        val r = 6371; // km
-        val dLat = toRad(lat2 - lat1);
-        val dLon = toRad(long2 - long1);
-        val latitude1 = toRad(lat1);
-        val latitude2 = toRad(lat2);
+            val r = 6371; // km
+            val dLat = toRad(lat2 - lat1);
+            val dLon = toRad(long2 - long1);
+            val latitude1 = toRad(lat1);
+            val latitude2 = toRad(lat2);
 
-        val a =
-            sin(dLat / 2) * Math.sin(dLat / 2) +
-                    sin(dLon / 2) *
-                    sin(dLon / 2) *
-                    cos(latitude1) *
-                    cos(latitude2);
-        val c = 2 * atan2(sqrt(a), sqrt(1 - a));
-        val d = r * c;
-        return d <= range;
-    };
+            val a =
+                sin(dLat / 2) * Math.sin(dLat / 2) +
+                        sin(dLon / 2) *
+                        sin(dLon / 2) *
+                        cos(latitude1) *
+                        cos(latitude2);
+            val c = 2 * atan2(sqrt(a), sqrt(1 - a));
+            val d = r * c;
+            return d <= range;
+        }
+    }
 }
