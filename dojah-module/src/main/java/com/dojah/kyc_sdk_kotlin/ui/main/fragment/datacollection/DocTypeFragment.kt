@@ -66,35 +66,35 @@ class DocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
 
         binding.apply {
 
-            viewModel.extraUserDataFromPref?.govId.let {
-                if (it != null && it.isAnyFilled()) {
-                    val gIds = govViewModel.getDocIDTypes(viewModel)
-                    val selectedType =
-                        gIds?.first { id -> id?.id == it.getFirstIdTypeFilled(viewModel.dojahEnum)?.id }
-
-                    val selected = selectedType?.name ?: ""
-                    if (selected == GovDocType.NIN.sName) {
-                        //for nin display the idName instead
-                        spinnerTextType.setText(selectedType?.idName ?: "")
-                    } else {
-                        spinnerTextType.setText(selected)
-                    }
-                    viewModel.selectDocType(selected)
-
-                    govViewModel.downloadImageAndConvertToBase64(
-                        url = it.getFirstItemFilled()!!,
-                        onImageDownloaded = { base64 ->
-                            govViewModel.
-                        },
-                        onFailed = { error -> })
-
-//                viewModel.sendUserData(
-//                    firstName = it.firstName!!,
-//                    lastName = it.lastName!!,
-//                    dob = it.dob!!
-//                )
-                }
-            }
+//            viewModel.extraUserDataFromPref?.govId.let {
+//                if (it != null && it.isAnyFilled()) {
+//                    val gIds = govViewModel.getDocIDTypes(viewModel)
+//                    val selectedType =
+//                        gIds?.first { id -> id?.id == it.getFirstIdTypeFilled(viewModel.dojahEnum)?.id }
+//
+//                    val selected = selectedType?.name ?: ""
+//                    if (selected == GovDocType.NIN.sName) {
+//                        //for nin display the idName instead
+//                        spinnerTextType.setText(selectedType?.idName ?: "")
+//                    } else {
+//                        spinnerTextType.setText(selected)
+//                    }
+//                    viewModel.selectDocType(selected)
+//
+//                    govViewModel.downloadImageAndConvertToBase64(
+//                        url = it.getFirstItemFilled()!!,
+//                        onImageDownloaded = { base64 ->
+//                            govViewModel.
+//                        },
+//                        onFailed = { error -> })
+//
+////                viewModel.sendUserData(
+////                    firstName = it.firstName!!,
+////                    lastName = it.lastName!!,
+////                    dob = it.dob!!
+////                )
+//                }
+//            }
             requireActivity().onBackPressedDispatcher.addCallback {
                 if (popupWindow?.isShowing == true) {
                     popupWindow?.dismiss()
