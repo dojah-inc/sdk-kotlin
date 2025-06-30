@@ -19,9 +19,7 @@
 
     </queries>
 
-    <application
-        android:theme="@style/Theme.Dojah"
-        >
+    <application>
         <activity
             android:name="com.dojah.kyc_sdk_kotlin.ui.splash.SplashActivity"
             android:exported="true"
