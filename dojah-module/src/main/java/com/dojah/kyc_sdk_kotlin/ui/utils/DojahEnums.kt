@@ -2,7 +2,7 @@ package com.dojah.kyc_sdk_kotlin.ui.utils
 
 import android.text.InputType
 import com.dojah.kyc_sdk_kotlin.core.Result
-import com.dojah.kyc_sdk_kotlin.domain.responses.EnumAttr
+import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnumAttr
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.BioDataFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.BusinessDataFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.CountryFragment
@@ -315,7 +315,7 @@ enum class FailedReasons(val code: String, val message: String, val statusCode: 
     GOV_DATA_NOT_AVAILABLE("20", "Verification is not available \nin your country");
 
 
-    fun getGovBizMsg(idType: EnumAttr?): String {
+    fun getGovBizMsg(idType: DojahEnumAttr?): String {
         if (this == ID_INVALID_NOT_FOUND || this == THIRD_PARTY) {
             val govIdName = idType?.name?.replace("Number", "")?.trim()
             return this.message.replace(govIDTemplateKey, govIdName ?: "ID")

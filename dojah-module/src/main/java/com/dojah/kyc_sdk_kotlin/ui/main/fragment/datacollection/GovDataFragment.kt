@@ -16,7 +16,7 @@ import androidx.navigation.navGraphViewModels
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentGovDataBinding
-import com.dojah.kyc_sdk_kotlin.domain.responses.EnumAttr
+import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnumAttr
 import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.base.SpinnerFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.NavArguments
@@ -281,7 +281,7 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
         }
     }
 
-    private fun FragmentGovDataBinding.updateUIwithSelectedGovId(govId: EnumAttr?) {
+    private fun FragmentGovDataBinding.updateUIwithSelectedGovId(govId: DojahEnumAttr?) {
         textInputBvn.isVisible = govId != null
         textBvn.isVisible = govId != null
         textBvn.text = govId?.name

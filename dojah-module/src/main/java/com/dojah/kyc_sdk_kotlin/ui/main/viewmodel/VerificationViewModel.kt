@@ -137,8 +137,8 @@ class VerificationViewModel(
     val selectedCountryLiveData: LiveData<Country?>
         get() = _selectedCountryLiveData
 
-    private val _selectedGovIdDataLiveData = MutableLiveData<EnumAttr?>()
-    val selectedGovDataLiveData: LiveData<EnumAttr?>
+    private val _selectedGovIdDataLiveData = MutableLiveData<DojahEnumAttr?>()
+    val selectedGovDataLiveData: LiveData<DojahEnumAttr?>
         get() = _selectedGovIdDataLiveData
 
 

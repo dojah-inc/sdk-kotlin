@@ -166,8 +166,10 @@ class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
                     if (clientUserLocation != null) {
                         val lat = clientUserLocation?.latitude?.toDoubleOrNull()
                         val lng = clientUserLocation?.longitude?.toDoubleOrNull()
-                        if (lat != null && lng != null) {
-                            deviceLocation = lat to lng
+                        deviceLocation = if (lat != null && lng != null) {
+                            lat to lng
+                        } else {
+                            locationManager.lastLocation
                         }
                     } else {
                         deviceLocation = locationManager.lastLocation

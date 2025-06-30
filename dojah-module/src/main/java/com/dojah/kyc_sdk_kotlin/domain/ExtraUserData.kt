@@ -1,5 +1,8 @@
 package com.dojah.kyc_sdk_kotlin.domain
 
+import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnum
+import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnumAttr
+import com.dojah.kyc_sdk_kotlin.ui.utils.GovDocType
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -11,8 +14,7 @@ data class ExtraUserData(
     val businessData: BusinessData? = null,
     val address: String? = null,
     val metadata: Map<String, Any>? = null
-) : Serializable {
-}
+) : Serializable
 
 data class UserData(
     @SerializedName("first_name") var firstName: String? = null,
@@ -59,7 +61,54 @@ data class GovId(
     @SerializedName("nin") var nin: String? = null,
     //others:Image Url
     @SerializedName("others") var others: String? = null,
-) : Serializable
+) : Serializable {
+    fun isAnyFilled(): Boolean {
+        return national?.isNotEmpty() == true ||
+                passport?.isNotEmpty() == true ||
+                dl?.isNotEmpty() == true ||
+                voter?.isNotEmpty() == true ||
+                nin?.isNotEmpty() == true
+    }
+
+    fun getFirstIdTypeFilled(dojahEnum: DojahEnum): DojahEnumAttr? {
+        return if (national?.isNotEmpty() == true) {
+            return dojahEnum.toMap()[GovDocType.NATIONAL.serverKey]
+
+        } else if (passport?.isNotEmpty() == true) {
+            return dojahEnum.toMap()[GovDocType.PASSPORT.serverKey]
+        } else if (dl?.isNotEmpty() == true) {
+            return dojahEnum.toMap()[GovDocType.DL.serverKey]
+        } else if (voter?.isNotEmpty() == true) {
+            return dojahEnum.toMap()[GovDocType.VOTER.serverKey]
+        } else if (nin?.isNotEmpty() == true) {
+            return dojahEnum.toMap()[GovDocType.NIN.serverKey]
+        } else {
+            null
+        }
+    }
+
+    fun getFirstItemFilled(): String? {
+        return when {
+            national?.isNotEmpty() == true -> {
+                national
+            }
+
+            passport?.isNotEmpty() == true -> {
+                passport
+            }
+
+            dl?.isNotEmpty() == true -> {
+                dl
+            }
+
+            voter?.isNotEmpty() == true -> {
+                voter
+            }
+
+            else -> null
+        }
+    }
+}
 
 //location: object - latitude longitude
 data class Location(

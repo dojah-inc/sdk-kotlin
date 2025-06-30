@@ -71,10 +71,18 @@ class MainActivity : ComponentActivity() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
             if (activityResult.resultCode == RESULT_OK) {
                 activityResult.data?.getStringExtra(DOJAH_RESULT_KEY)?.let {
-                    when(it){
-                        DOJAH_APPROVED_RESULT -> Toast.makeText(this, "Approved!", Toast.LENGTH_SHORT).show()
-                        DOJAH_PENDING_RESULT -> Toast.makeText(this, "Pending!", Toast.LENGTH_SHORT).show()
-                        DOJAH_FAILED_RESULT -> Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
+                    when (it) {
+                        DOJAH_APPROVED_RESULT -> Toast.makeText(
+                            this,
+                            "Approved!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        DOJAH_PENDING_RESULT -> Toast.makeText(this, "Pending!", Toast.LENGTH_SHORT)
+                            .show()
+
+                        DOJAH_FAILED_RESULT -> Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT)
+                            .show()
                     }
                     Toast.makeText(this, "Got Result: $it", Toast.LENGTH_SHORT).show()
                 }
@@ -127,20 +135,35 @@ fun GreetingMain(context: Activity) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
 
-    val dojahResultLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_OK) {
+    val dojahResultLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
                 print("Got Result ok: $it")
-            it.data?.getStringExtra(DOJAH_RESULT_KEY)?.let {
-                when(it){
-                    DOJAH_APPROVED_RESULT -> Toast.makeText(context, "Approved!", Toast.LENGTH_SHORT).show()
-                    DOJAH_PENDING_RESULT -> Toast.makeText(context, "Pending!", Toast.LENGTH_SHORT).show()
-                    DOJAH_FAILED_RESULT -> Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
+                it.data?.getStringExtra(DOJAH_RESULT_KEY)?.let {
+                    when (it) {
+                        DOJAH_APPROVED_RESULT -> Toast.makeText(
+                            context,
+                            "Approved!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        DOJAH_PENDING_RESULT -> Toast.makeText(
+                            context,
+                            "Pending!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        DOJAH_FAILED_RESULT -> Toast.makeText(
+                            context,
+                            "Failed!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    print("Got Result: $it")
+                    Toast.makeText(context, "Got Result: $it", Toast.LENGTH_SHORT).show()
                 }
-                print("Got Result: $it")
-                Toast.makeText(context, "Got Result: $it", Toast.LENGTH_SHORT).show()
             }
         }
-    }
 
     LaunchedEffect(lifecycleState) {
         when (lifecycleState) {
@@ -473,10 +496,10 @@ fun GreetingMain(context: Activity) {
         LaunchDojahButton() {
             if (widgetIdText.isNotBlank()) {
                 DojahSdk.with(context).launch(
-                    widgetIdText,
+                    dojahLauncher = dojahResultLauncher,
+                    widgetId = widgetIdText,
                     referenceId = refrenceIdText.ifBlank { null },
                     email = emailText.ifBlank { null },
-                    dojahLauncher = dojahResultLauncher,
                     extraData = ExtraUserData(
                         userData = UserData(
                             firstName = extraFirstNameText,

@@ -14,7 +14,7 @@ import androidx.navigation.navGraphViewModels
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentBusinessDataBinding
-import com.dojah.kyc_sdk_kotlin.domain.responses.EnumAttr
+import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnumAttr
 import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.base.SpinnerFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.Routes
@@ -182,7 +182,7 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
         }
     }
 
-    private fun FragmentBusinessDataBinding.updateUIWithSelectedBizId(bizId: EnumAttr?) {
+    private fun FragmentBusinessDataBinding.updateUIWithSelectedBizId(bizId: DojahEnumAttr?) {
         inputRcNumber.isVisible = bizId != null
         textRcNumber.isVisible = bizId != null
         textRcNumber.text = bizId?.abbr

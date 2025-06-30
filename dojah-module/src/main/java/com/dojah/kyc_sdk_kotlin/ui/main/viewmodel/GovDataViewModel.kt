@@ -1,6 +1,7 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.viewmodel
 
 import android.annotation.SuppressLint
+import android.util.Base64
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,10 +21,13 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import okhttp3.logging.HttpLoggingInterceptor
 import com.dojah.kyc_sdk_kotlin.ui.utils.*
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.zip
+import java.io.IOException
 
 const val analysisRetryMax = 3
 const val checkRetryMax = 0 //0 indexed number,
@@ -39,13 +43,13 @@ class GovDataViewModel(
     val verificationTypeLiveData: LiveData<VerificationType?>
         get() = _verificationTypeLiveData
 
-    private val _selectedGovIdDataLiveData = MutableLiveData<EnumAttr?>()
-    val selectedGovDataLiveData: LiveData<EnumAttr?>
+    private val _selectedGovIdDataLiveData = MutableLiveData<DojahEnumAttr?>()
+    val selectedGovDataLiveData: LiveData<DojahEnumAttr?>
         get() = _selectedGovIdDataLiveData
 
 
-    private val _selectedBizIdDataLiveData = MutableLiveData<EnumAttr?>()
-    val selectedBizDataLiveData: LiveData<EnumAttr?>
+    private val _selectedBizIdDataLiveData = MutableLiveData<DojahEnumAttr?>()
+    val selectedBizDataLiveData: LiveData<DojahEnumAttr?>
         get() = _selectedBizIdDataLiveData
 
 
@@ -159,7 +163,7 @@ class GovDataViewModel(
     //get gov id types from GOVERNMENT_DATA page config
     fun getGovIdTypes(
         verificationVm: VerificationViewModel
-    ): List<EnumAttr?>? {
+    ): List<DojahEnumAttr?>? {
         return verificationVm.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config?.govIds?.map { govIdKey ->
             verificationVm.dojahEnum.toMap()[govIdKey]
         }
@@ -178,7 +182,7 @@ class GovDataViewModel(
     ///get doc id types from ID_OPTION page config
     fun getDocIDTypes(
         verificationVm: VerificationViewModel
-    ): List<EnumAttr?>? {
+    ): List<DojahEnumAttr?>? {
         return verificationVm.getStepWithPageName(KycPages.ID_OPTION.serverKey)?.config?.govIds?.map { govIdKey ->
             verificationVm.dojahEnum.toMap()[govIdKey]
         }
@@ -187,7 +191,7 @@ class GovDataViewModel(
     ///get biz data types from Business_data page config
     fun getBusinessTypes(
         verificationVm: VerificationViewModel
-    ): List<EnumAttr?>? {
+    ): List<DojahEnumAttr?>? {
         return getCurrentPage(KycPages.BUSINESS_DATA.serverKey)?.config?.businessTypes?.map { idKey ->
             verificationVm.dojahEnum.toMap()[idKey]
         }
@@ -198,19 +202,19 @@ class GovDataViewModel(
         return CompanyType.values().toList()
     }
 
-    fun prefillGovIdentity(id: EnumAttr?) {
+    fun prefillGovIdentity(id: DojahEnumAttr?) {
         _selectedGovIdDataLiveData.postValue(_selectedGovIdDataLiveData.value ?: id)
     }
 
-    fun prefillBizId(id: EnumAttr?) {
+    fun prefillBizId(id: DojahEnumAttr?) {
         selectBizIdentity(_selectedBizIdDataLiveData.value ?: id)
     }
 
-    fun selectGovIdentity(id: EnumAttr?) {
+    fun selectGovIdentity(id: DojahEnumAttr?) {
         _selectedGovIdDataLiveData.postValue(id)
     }
 
-    fun selectBizIdentity(id: EnumAttr?) {
+    fun selectBizIdentity(id: DojahEnumAttr?) {
         _selectedBizIdDataLiveData.postValue(id)
     }
 
@@ -1276,6 +1280,68 @@ class GovDataViewModel(
                 }
         }
     }
+
+
+    fun downloadImageAndConvertToBase64(
+        url: String,
+        onImageDownloaded: (base64: String) -> Unit,
+        onFailed: (String) -> Unit
+    ) {
+        val client = OkHttpClient()
+        val request = Request.Builder().url(url).build()
+
+        try {
+            val response = client.newCall(request).execute()
+
+            if (!response.isSuccessful) {
+                println("Failed to download image: ${response.code()}")
+            }
+
+            val imageBytes = response.body()?.bytes()
+            if (imageBytes != null) {
+                onImageDownloaded(Base64.encodeToString(imageBytes, Base64.DEFAULT))
+            } else {
+                onFailed("can't download the image")
+            }
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            onFailed(e.toString())
+        }
+    }
+
+    fun autoSendGovIdDetails(url: String,idType: String,docType:String) {
+
+        downloadImageAndConvertToBase64(url,
+            onImageDownloaded = { base64 ->
+
+                val param = idType
+                val fileInfo =
+                    mainVm.docInfoLiveData.value?.first ?: mainVm.docInfoLiveData.value?.second
+                    ?: throw Exception("can't fetch doc info")
+                val retryCount = _docAnalysisRetryCountLiveData.value ?: Pair(0, 0)
+                val continueVerify =
+                    retryCount.first >= analysisRetryMax &&
+                            retryCount.second >= analysisRetryMax
+
+                val docType = if (fileInfo.docType != "pdf") "image" else fileInfo.docType
+                checkLiveness(
+                    base64,
+                    page = KycPages.ID,
+                    param = idType,
+                    selfieType = "",
+                    continueVerification = false,
+                    docType = docType,
+                    liveNessErrorReason = FailedReasons.SELFIE_NO_CAPTURE
+                )
+            },
+            onFailed = { error ->
+                _submitGovLiveData.postValue(Result.Error.NoDataError())
+            }
+        )
+
+    }
+
 
     private fun getServerEnumOfDocType(
         docType: GovDocType,

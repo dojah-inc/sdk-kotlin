@@ -110,9 +110,9 @@ class BioDataFragment : ErrorFragment(R.layout.fragment_bio_data) {
                                 prefillUserDataFromClient(userData)
                             }
                         }
-                    } else {
-                        navigateToErrorPage(it)
                     }
+                    navigateToErrorPage(it)
+
                     Timber.d("submitUserLiveData>> Result.Error")
                 }
 

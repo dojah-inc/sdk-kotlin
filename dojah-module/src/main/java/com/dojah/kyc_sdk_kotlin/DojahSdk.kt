@@ -15,6 +15,8 @@ const val DOJAH_APPROVED_RESULT = "approved"
 const val DOJAH_PENDING_RESULT = "pending"
 const val DOJAH_FAILED_RESULT = "failed"
 
+const val BACKWARD_CALL_REQUEST_CODE = 1001
+
 object DojahSdk {
     private var contextRef: WeakReference<Context>? = null
 
@@ -37,11 +39,11 @@ object DojahSdk {
     }
 
     fun launch(
+        dojahLauncher: ActivityResultLauncher<Intent>,
         widgetId: String,
         referenceId: String? = null,
         email: String? = null,
-        dojahLauncher: ActivityResultLauncher<Intent>,
-        extraData: ExtraUserData,
+        extraData: ExtraUserData?= null,
     ) {
         if (context == null) {
             throw Exception("You have to call the with(...) function first")
@@ -60,7 +62,7 @@ object DojahSdk {
         widgetId: String,
         referenceId: String? = null,
         email: String? = null,
-        extraData: ExtraUserData,
+        extraData: ExtraUserData?=null,
     ) {
         if (context == null) {
             throw Exception("You have to call the with(...) function first")
@@ -71,6 +73,6 @@ object DojahSdk {
             putExtra("reference_id", referenceId)
             putExtra("email", email)
             putExtra("extra_data", extraData)
-        }, 1001)
+        }, BACKWARD_CALL_REQUEST_CODE)
     }
 }

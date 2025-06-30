@@ -4,56 +4,56 @@ package com.dojah.kyc_sdk_kotlin.domain.responses
 import com.google.gson.annotations.SerializedName
 
 data class DojahEnum(
-    val bvn: EnumAttr,
-    val nin: EnumAttr,
-    val vnin: EnumAttr,
-    val dl: EnumAttr,
-    val passport: EnumAttr,
-    val national: EnumAttr,
-    val permit: EnumAttr,
-    val custom: EnumAttr,
-    val voter: EnumAttr,
-    val mobile: EnumAttr,
+    val bvn: DojahEnumAttr,
+    val nin: DojahEnumAttr,
+    val vnin: DojahEnumAttr,
+    val dl: DojahEnumAttr,
+    val passport: DojahEnumAttr,
+    val national: DojahEnumAttr,
+    val permit: DojahEnumAttr,
+    val custom: DojahEnumAttr,
+    val voter: DojahEnumAttr,
+    val mobile: DojahEnumAttr,
     @SerializedName("NG-DLI")
-    val ngDli: EnumAttr,
+    val ngDli: DojahEnumAttr,
     @SerializedName("NG-PASS")
-    val ngPass: EnumAttr,
+    val ngPass: DojahEnumAttr,
     @SerializedName("NG-NAT")
-    val ngNat: EnumAttr,
+    val ngNat: DojahEnumAttr,
     @SerializedName("UK-RP")
-    val ukRp: EnumAttr,
+    val ukRp: DojahEnumAttr,
     @SerializedName("NG-CUSTOM")
-    val ngCustom: EnumAttr,
+    val ngCustom: DojahEnumAttr,
     @SerializedName("NG-VCARD")
-    val ngVcard: EnumAttr,
+    val ngVcard: DojahEnumAttr,
     @SerializedName("NG-NIN-SLIP")
-    val ngNinSlip: EnumAttr,
-    val selfie: EnumAttr,
-    val otp: EnumAttr,
+    val ngNinSlip: DojahEnumAttr,
+    val selfie: DojahEnumAttr,
+    val otp: DojahEnumAttr,
     @SerializedName("gh-dl")
-    val ghDl: EnumAttr,
+    val ghDl: DojahEnumAttr,
     @SerializedName("gh-voter")
-    val ghVoter: EnumAttr,
+    val ghVoter: DojahEnumAttr,
     @SerializedName("tz-nin")
-    val tzNin: EnumAttr,
+    val tzNin: DojahEnumAttr,
     @SerializedName("ug-id")
-    val ugId: EnumAttr,
+    val ugId: DojahEnumAttr,
     @SerializedName("ug-telco")
-    val ugTelco: EnumAttr,
+    val ugTelco: DojahEnumAttr,
     @SerializedName("ke-dl")
-    val keDl: EnumAttr,
+    val keDl: DojahEnumAttr,
     @SerializedName("ke-id")
-    val keId: EnumAttr,
+    val keId: DojahEnumAttr,
     @SerializedName("ke-kra")
-    val keKra: EnumAttr,
+    val keKra: DojahEnumAttr,
     @SerializedName("sa-dl")
-    val saDl: EnumAttr,
+    val saDl: DojahEnumAttr,
     @SerializedName("sa-id")
-    val saId: EnumAttr,
-    val cac: EnumAttr,
-    val tin: EnumAttr,
+    val saId: DojahEnumAttr,
+    val cac: DojahEnumAttr,
+    val tin: DojahEnumAttr,
 ) {
-    fun toMap(): Map<String, EnumAttr> {
+    fun toMap(): Map<String, DojahEnumAttr> {
         return mapOf(
             "bvn" to bvn,
             "nin" to nin,
@@ -90,7 +90,7 @@ data class DojahEnum(
     }
 }
 
-data class EnumAttr(
+data class DojahEnumAttr(
     override val name: String?,
     override val abbr: String?,
     override val subtext: String?,

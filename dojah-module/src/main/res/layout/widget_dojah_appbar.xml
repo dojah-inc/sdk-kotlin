@@ -30,7 +30,8 @@
             android:text="@string/back_text"
             android:textSize="@dimen/text_size_13sp"
             tools:visibility="visible"
-            tools:ignore="RelativeOverlap" />
+            tools:ignore="RelativeOverlap"
+            />
 
 
         <androidx.appcompat.widget.AppCompatImageView
