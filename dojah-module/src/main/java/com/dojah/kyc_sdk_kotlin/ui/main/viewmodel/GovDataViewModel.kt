@@ -1312,33 +1312,33 @@ class GovDataViewModel(
 
     fun autoSendGovIdDetails(url: String,idType: String,docType:String) {
 
-        downloadImageAndConvertToBase64(url,
-            onImageDownloaded = { base64 ->
-
-                val param = idType
-                val fileInfo =
-                    mainVm.docInfoLiveData.value?.first ?: mainVm.docInfoLiveData.value?.second
-                    ?: throw Exception("can't fetch doc info")
-                val retryCount = _docAnalysisRetryCountLiveData.value ?: Pair(0, 0)
-                val continueVerify =
-                    retryCount.first >= analysisRetryMax &&
-                            retryCount.second >= analysisRetryMax
-
-                val docType = if (fileInfo.docType != "pdf") "image" else fileInfo.docType
-                checkLiveness(
-                    base64,
-                    page = KycPages.ID,
-                    param = idType,
-                    selfieType = "",
-                    continueVerification = false,
-                    docType = docType,
-                    liveNessErrorReason = FailedReasons.SELFIE_NO_CAPTURE
-                )
-            },
-            onFailed = { error ->
-                _submitGovLiveData.postValue(Result.Error.NoDataError())
-            }
-        )
+//        downloadImageAndConvertToBase64(url,
+//            onImageDownloaded = { base64 ->
+//
+//                val param = idType
+//                val fileInfo =
+//                    mainVm.docInfoLiveData.value?.first ?: mainVm.docInfoLiveData.value?.second
+//                    ?: throw Exception("can't fetch doc info")
+//                val retryCount = _docAnalysisRetryCountLiveData.value ?: Pair(0, 0)
+//                val continueVerify =
+//                    retryCount.first >= analysisRetryMax &&
+//                            retryCount.second >= analysisRetryMax
+//
+//                val docType = if (fileInfo.docType != "pdf") "image" else fileInfo.docType
+//                checkLiveness(
+//                    base64,
+//                    page = KycPages.ID,
+//                    param = idType,
+//                    selfieType = "",
+//                    continueVerification = false,
+//                    docType = docType,
+//                    liveNessErrorReason = FailedReasons.SELFIE_NO_CAPTURE
+//                )
+//            },
+//            onFailed = { error ->
+//                _submitGovLiveData.postValue(Result.Error.NoDataError())
+//            }
+//        )
 
     }
 

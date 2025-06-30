@@ -21,6 +21,7 @@
 
     <application
         android:theme="style/Theme.Dojah"
+
         >
         <activity
             android:name="com.dojah.kyc_sdk_kotlin.ui.splash.SplashActivity"
