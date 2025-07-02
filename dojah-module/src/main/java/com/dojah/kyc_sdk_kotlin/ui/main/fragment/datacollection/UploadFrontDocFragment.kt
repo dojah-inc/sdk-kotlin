@@ -37,7 +37,6 @@ class UploadFrontDocFragment : ErrorFragment() {
 
         private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
-    private var permissionContract: ActivityResultLauncher<Array<String>>? = null
     private var readImagePermissionString: String? = null
 
     private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
@@ -69,17 +68,6 @@ class UploadFrontDocFragment : ErrorFragment() {
                 }
             }
         }
-        permissionContract =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-                if (it.getOrDefault(readImagePermissionString, false)) {
-                    fileContract.launch(arrayOf("image/*", "application/pdf"))
-                } else {
-                    showPermissionError {
-                        fileContract.launch(arrayOf("image/*", "application/pdf"))
-                    }
-                }
-
-            }
 
     }
 
@@ -122,29 +110,8 @@ class UploadFrontDocFragment : ErrorFragment() {
     }
 
     private fun showFilePicker() {
-        //                showPermissionError {
-//                    fileContract.launch(arrayOf("image/*", "application/pdf"))
-//                }
-        readImagePermissionString = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
-        } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }
-        readImagePermissionString?.also {
-            permissionContract?.launch(arrayOf(it))
-        }
-    }
-
-
-    private fun showPermissionError(onAllowClicked: () -> Unit) {
-        GalleryPermissionDialogFragment.getInstance(
-        ).apply {
-            onAllow = onAllowClicked
-            onExitClick = {
-            }
-
-            show(this@UploadFrontDocFragment.childFragmentManager, null)
-        }
+        fileContract.launch(arrayOf("image/*", "application/pdf"))
 
     }
+
 }

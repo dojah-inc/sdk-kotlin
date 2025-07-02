@@ -42,8 +42,6 @@ class UploadBackDocFragment : ErrorFragment() {
 
     private lateinit var fileContract: ActivityResultLauncher<Array<String>>
 
-    private var readImagePermissionString: String? = null
-    private var permissionContract: ActivityResultLauncher<Array<String>>? = null
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
 
@@ -73,18 +71,6 @@ class UploadBackDocFragment : ErrorFragment() {
                 }
             }
         }
-        permissionContract =
-            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-                if (it.getOrDefault(readImagePermissionString, false)) {
-                    fileContract.launch(arrayOf("image/*", "application/pdf"))
-                } else {
-                    showPermissionError {
-                        fileContract.launch(arrayOf("image/*", "application/pdf"))
-                    }
-                }
-
-            }
-
 
     }
 
@@ -127,29 +113,7 @@ class UploadBackDocFragment : ErrorFragment() {
     }
 
 
-    private fun showPermissionError(onAllowClicked: () -> Unit) {
-        GalleryPermissionDialogFragment.getInstance(
-        ).apply {
-            onAllow = onAllowClicked
-            onExitClick = {
-            }
-
-            show(this@UploadBackDocFragment.childFragmentManager, null)
-        }
-    }
-
-
     private fun showFilePicker() {
-        //                showPermissionError {
-//                    fileContract.launch(arrayOf("image/*", "application/pdf"))
-//                }
-        readImagePermissionString = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
-        } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }
-        readImagePermissionString?.also {
-            permissionContract?.launch(arrayOf(it))
-        }
+        fileContract.launch(arrayOf("image/*", "application/pdf"))
     }
 }
