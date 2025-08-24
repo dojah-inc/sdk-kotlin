@@ -148,8 +148,8 @@ class EmptyFragment : ErrorFragment(R.layout.fragment_empty) {
             }
             govViewModel.sendOtp(
                 viewModel,
-                phoneNumber,
-                KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey,
+                destination = phoneNumber,
+                currentRoute = KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey,
                 onSuccess = {
                     dismissLoading()
                     onOtpSent.invoke()

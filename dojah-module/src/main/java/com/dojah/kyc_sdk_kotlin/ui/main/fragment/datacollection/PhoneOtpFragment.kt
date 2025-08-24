@@ -1,4 +1,5 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
+
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 
 import android.annotation.SuppressLint
@@ -15,11 +16,13 @@ import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentOtpPhoneBinding
 import com.dojah.kyc_sdk_kotlin.ui.base.ErrorFragment
 import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel
+import com.dojah.kyc_sdk_kotlin.ui.base.SpinnerFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.Routes
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.GovDataViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.utils.FailedReasons
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
+import com.dojah.kyc_sdk_kotlin.ui.utils.VerificationMethod
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,13 +31,13 @@ import timber.log.Timber
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
 
-class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
+class PhoneOtpFragment : SpinnerFragment(R.layout.fragment_otp_phone) {
     private val binding by viewBinding { FragmentOtpPhoneBinding.bind(it) }
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
 
 
     override fun onResume() {
@@ -58,6 +61,27 @@ class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
                     navViewModel.popBackStack()
                 }
             }
+
+            val verificationMethods =
+                viewModel.getStepWithPageName(KycPages.PHONE_NUMBER.serverKey)?.config?.otpVerificationTypes
+            if (verificationMethods?.size == 1) {
+                spinnerVerifyWith.setText(verificationMethods.first())
+                btnContinue.isEnabled = true
+            }
+
+            spinnerVerifyWith.setOnClickListener {
+                displaySpinnerDropdown(
+                    it,
+                    verificationMethods?.map { type -> type },
+                    false
+                ) { index ->
+                    verificationMethods?.get(index)?.let { text ->
+                        spinnerVerifyWith.setText(text)
+                        btnContinue.isEnabled = true && layoutSpinner.editText.text.isNotBlank()
+                    }
+                }
+            }
+
             layoutSpinner.editText.addTextChangedListener {
                 if (layoutSpinner.getTextWithPrefix().isEmpty()) {
                     layoutSpinner.editText.error = null
@@ -66,7 +90,7 @@ class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
                 }
                 if (isValidPhone(layoutSpinner.getTextWithPrefix())) {
                     layoutSpinner.editText.error = null
-                    btnContinue.isEnabled = true
+                    btnContinue.isEnabled = true && spinnerVerifyWith.text.isNotBlank()
                 } else {
                     layoutSpinner.editText.error = "Invalid Phone Number"
                     btnContinue.isEnabled = false
@@ -82,7 +106,8 @@ class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
                         verificationVm = viewModel,
                         destination = layoutSpinner.getTextWithPrefix(),
                         currentRoute = KycPages.PHONE_NUMBER.serverKey,
-                        isEmail = false
+                        verificationMethod = VerificationMethod.fromString(spinnerVerifyWith.text.toString())
+                            ?: VerificationMethod.SMS
                     )
                 } else {
                     govViewModel.collectPhoneNumber(
@@ -96,7 +121,7 @@ class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
 
     private fun observeLiveData() {
         govViewModel.sendOtpLiveData.observe(requireActivity()) {
-            if(view==null){
+            if (view == null) {
                 return@observe
             }
             binding.root.post {
@@ -140,7 +165,7 @@ class PhoneOtpFragment : ErrorFragment(R.layout.fragment_otp_phone) {
             if (it == null) {
                 return@observe
             }
-            if(view==null){
+            if (view == null) {
                 return@observe
             }
             binding.root.post {

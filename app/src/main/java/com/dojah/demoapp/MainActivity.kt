@@ -493,7 +493,7 @@ fun GreetingMain(context: Activity) {
                 Spacer(Modifier.height(100.dp))
             }
         }
-        LaunchDojahButton() {
+        LaunchDojahButton {
             if (widgetIdText.isNotBlank()) {
                 DojahSdk.with(context).launch(
                     dojahLauncher = dojahResultLauncher,

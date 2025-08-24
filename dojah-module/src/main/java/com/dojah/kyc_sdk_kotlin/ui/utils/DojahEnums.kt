@@ -17,6 +17,17 @@ import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.PhoneOtpFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.SelfieDisclaimerFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.SignatureFragment
 
+enum class VerificationMethod(val method: String) {
+    SMS("sms"),
+    EMAIL("email"),
+    WHATSAPP("whatsapp");
+
+    companion object {
+        fun fromString(typeString: String): VerificationMethod? {
+            return values().find { it.method.equals(typeString, ignoreCase = true) }
+        }
+    }
+}
 
 enum class VerificationType(
     val value: String,
@@ -42,7 +53,8 @@ enum class VerificationType(
         title = "Place your face in the circle and click Record",
         preview = "Preview your Video"
     ),
-    OTP("OTP", serverKey = "otp"),
+    OTP("SMS", serverKey = "otp"),
+    WHATSAPP("Whatsapp", serverKey = "whatsappOtp", actualServerKey = "whatsappOtp"),
 
     PHONE_OTP("Phone Number OTP", "phone number"),
     EMAIL_OTP("Email OTP", "email"),
@@ -175,7 +187,7 @@ enum class CompanyType(
     BUSINESS_NAME(
         "BUSINESS_NAME",
         "Business Name",
-        ),
+    ),
     INCORPORATED_TRUSTEES(
         "INCORPORATED_TRUSTEES",
         "Incorporated Trustees",
@@ -223,6 +235,10 @@ enum class KycPages(
             ),
             Pair(
                 VerificationType.OTP.serverKey,
+                EnterOtpFragment::class.java.name,
+            ),
+            Pair(
+                VerificationType.WHATSAPP.serverKey,
                 EnterOtpFragment::class.java.name,
             ),
         )
@@ -305,12 +321,15 @@ enum class FailedReasons(val code: String, val message: String, val statusCode: 
         "$govIDTemplateKey Number is currently not available. Please try another means of identification",
         424,
     ),
-    INVALID_OTP ("04", "Invalid OTP entered. Please, input the correct OTP"),
-    OTP_NOT_SENT ("05", "OTP Could not be sent, please try again"),
-    ID_FAILED_MAX_TIME ("10", "Your verification is awaiting approval"), // max trial error gov ID
-    SELFIE_NO_CAPTURE ("06", "Please move to a well lit environment and try again"), // only for selfie
-    VIDEO_NO_CAPTURE ("07", "Please move to a well lit environment and try again"), // for video
-    GOV_ID_CAPTURE ("08", "Document is not clear enough, please try again"), // and business ID
+    INVALID_OTP("04", "Invalid OTP entered. Please, input the correct OTP"),
+    OTP_NOT_SENT("05", "OTP Could not be sent, please try again"),
+    ID_FAILED_MAX_TIME("10", "Your verification is awaiting approval"), // max trial error gov ID
+    SELFIE_NO_CAPTURE(
+        "06",
+        "Please move to a well lit environment and try again"
+    ), // only for selfie
+    VIDEO_NO_CAPTURE("07", "Please move to a well lit environment and try again"), // for video
+    GOV_ID_CAPTURE("08", "Document is not clear enough, please try again"), // and business ID
     WIDGET_NOT_AVAILABLE("15", "Widget is not supported in your country"),
     GOV_DATA_NOT_AVAILABLE("20", "Verification is not available \nin your country");
 

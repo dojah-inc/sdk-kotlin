@@ -4,7 +4,6 @@ import com.dojah.kyc_sdk_kotlin.domain.request.AuthReqSteps
 import com.dojah.kyc_sdk_kotlin.domain.request.AuthRequest
 import com.dojah.kyc_sdk_kotlin.ui.utils.*
 import com.google.gson.annotations.SerializedName
-import java.lang.Exception
 
 private val USER_DATA = "user-data"
 
@@ -24,7 +23,7 @@ data class PreAuthResponse(
 ) {
     fun toAuthRequest(referenceId: String? = null, email: String? = null): AuthRequest {
         val preAuthPages = widget.pages
-        return AuthRequest(
+        var verificationSteps = AuthRequest(
             publicKey = publicKey,
             appId = app?.id,
             type = "kyc",
@@ -37,113 +36,128 @@ data class PreAuthResponse(
             steps = mutableListOf(
                 AuthReqSteps(
                     name = INDEX_PAGE, authReqConfigConfig = Config(default = "")
-                ),
-                AuthReqSteps(
-                    name = COUNTRY_PAGE, authReqConfigConfig = Config(default = "")
                 )
+            )
+        )
 
-            ).plus(preAuthPages.map { preAuthPage ->
-                val config = preAuthPage.config ?: throw Exception("Config can't be null")
-                AuthReqSteps(
-                    name = preAuthPage.page,
-                    authReqConfigConfig = Config(
-                        default = config.default,
-                        passport = config.passport,
-                        dl = config.dl,
-                        voter = config.voter,
-                        vnin = config.vnin,
-                        bvn = config.bvn,
-                        selfie = config.selfie,
-                        otp = config.otp,
-                        national = config.national,
-                        nin = config.nin,
-                        cac = config.cac,
-                        verification = config.verification,
-                        type = config.type,
-                        version = config.version,
-                        instruction = config.instruction,
-                        information = config.information,
-                        title = config.title,
-                        brightnessThreshold = config.brightnessThreshold,
-                        glassesCheck = config.glassesCheck,
-                        disposable = config.disposable,
-                        freeProvider = config.freeProvider,
-                        flipCamera = config.flipCamera
-                    )
-                )
-            }).toMutableList().apply {
-                val govDataPage = this.findLast { it.name == governmentData }
-                val verificationEnabled =
-                    govDataPage?.authReqConfigConfig?.selfie == true || govDataPage?.authReqConfigConfig?.otp == true
-
-                if (govDataPage != null && verificationEnabled) {
-                    ///if selfie or otp is enabled, add verification page
-                    // after government data page
-                    val config = govDataPage.authReqConfigConfig
-                    val govVerifyIndex = indexOf(govDataPage) + 1
-                    this.add(
-                        govVerifyIndex,
+        preAuthPages.findLast { it.page == governmentData }?.let {
+            verificationSteps =
+                verificationSteps.copy(steps = verificationSteps.steps.toMutableList().apply {
+                    add(
                         AuthReqSteps(
-                            name = govVerification,
-                            authReqConfigConfig = Config(
-                                selfie = config?.selfie,
-                                otp = config?.otp,
-                                version = config?.version,
-                            ),
+                            name = COUNTRY_PAGE, authReqConfigConfig = Config(default = "")
                         )
                     )
-                }
+                })
+        }
 
-                val idPage = this.findLast { it.name == idPage }
-                val oneIdEnabled = idPage?.authReqConfigConfig?.ids?.reduce() { previous, next ->
-                    previous == true || next == true
-                } == true
-
-                if (idPage != null && oneIdEnabled) {
-                    ///if one id is enabled, add id option page
-                    // before id page
-                    val config = idPage.authReqConfigConfig
-                    val idOptionsIndex = (indexOf(idPage)).coerceAtLeast(0)
-                    this.add(
-                        idOptionsIndex,
-                        AuthReqSteps(
-                            name = idOptionPage,
-                            authReqConfigConfig = Config(
-                                passport = config?.passport,
-                                dl = config?.dl,
-                                voter = config?.voter,
-                                vnin = config?.vnin,
-                                bvn = config?.bvn,
-                                national = config?.national,
-                                nin = config?.nin,
-                                cac = config?.cac,
-                            ),
+        return verificationSteps.copy(
+            steps = verificationSteps.steps.plus(
+                preAuthPages.map { preAuthPage ->
+                    val config = preAuthPage.config ?: throw Exception("Config can't be null")
+                    AuthReqSteps(
+                        name = preAuthPage.page,
+                        authReqConfigConfig = Config(
+                            default = config.default,
+                            passport = config.passport,
+                            dl = config.dl,
+                            whatsappVerification = config.whatsappVerification,
+                            whatsappOtp = config.whatsappOtp,
+                            voter = config.voter,
+                            vnin = config.vnin,
+                            bvn = config.bvn,
+                            selfie = config.selfie,
+                            otp = config.otp,
+                            national = config.national,
+                            nin = config.nin,
+                            cac = config.cac,
+                            verification = config.verification,
+                            type = config.type,
+                            version = config.version,
+                            instruction = config.instruction,
+                            information = config.information,
+                            title = config.title,
+                            brightnessThreshold = config.brightnessThreshold,
+                            glassesCheck = config.glassesCheck,
+                            disposable = config.disposable,
+                            freeProvider = config.freeProvider,
+                            flipCamera = config.flipCamera
                         )
                     )
-                }
-                val emailStep = this.findLast { it.name == emailPage }
-                val nearestFirstIndex = getNearestFirstIndex()
-                val checkDuplicate = widget.duplicateCheck == true || widget.directFeedback == true
-                if (checkDuplicate && emailStep != null) {
-                    //if email page is present, move it to the nearest first index
-                    if (nearestFirstIndex != -1) {
-                        this.remove(emailStep)
-                        this.add(nearestFirstIndex + 1, emailStep)
+                }).toMutableList().apply {
+                val modifiedSteps = mutableListOf<AuthReqSteps>()
+
+                this.forEachIndexed { index, data ->
+                    // Always add the current step
+                    modifiedSteps.add(data)
+
+                    // Handle governmentData logic
+                    if (data.name == governmentData) {
+                        val verificationEnabled = data.authReqConfigConfig?.selfie == true ||
+                                data.authReqConfigConfig?.otp == true
+
+                        if (verificationEnabled) {
+                            modifiedSteps.add(
+                                AuthReqSteps(
+                                    name = govVerification,
+                                    authReqConfigConfig = Config(
+                                        selfie = data.authReqConfigConfig?.selfie,
+                                        otp = data.authReqConfigConfig?.otp,
+                                        version = data.authReqConfigConfig?.version,
+                                    )
+                                )
+                            )
+                        }
                     }
-                } else if (checkDuplicate) {
-                    //if email page is not present, add it to the nearest first index
-                    if (nearestFirstIndex != -1) {
-                        this.add(
+
+                    // Handle ID page logic
+                    if (data.name == idPage) {
+                        val oneIdEnabled = data.authReqConfigConfig?.ids?.reduce { prev, next ->
+                            prev == true || next == true
+                        } == true
+
+                        if (oneIdEnabled) {
+                            modifiedSteps.add(
+                                modifiedSteps.lastIndex.coerceAtLeast(0),
+                                AuthReqSteps(
+                                    name = idOptionPage,
+                                    authReqConfigConfig = Config(
+                                        passport = data.authReqConfigConfig?.passport,
+                                        dl = data.authReqConfigConfig?.dl,
+                                        voter = data.authReqConfigConfig?.voter,
+                                        vnin = data.authReqConfigConfig?.vnin,
+                                        bvn = data.authReqConfigConfig?.bvn,
+                                        national = data.authReqConfigConfig?.national,
+                                        nin = data.authReqConfigConfig?.nin,
+                                        cac = data.authReqConfigConfig?.cac,
+                                    )
+                                )
+                            )
+                        }
+                    }
+                }
+
+                // Process email step separately
+                val checkDuplicate = widget.duplicateCheck == true || widget.directFeedback == true
+                if (checkDuplicate) {
+                    val emailStep = modifiedSteps.findLast { it.name == emailPage }
+                    val nearestFirstIndex = modifiedSteps.getNearestFirstIndex()
+
+                    if (emailStep != null) {
+                        modifiedSteps.remove(emailStep)
+                        modifiedSteps.add(nearestFirstIndex + 1, emailStep)
+                    } else {
+                        modifiedSteps.add(
                             nearestFirstIndex + 1,
                             AuthReqSteps(name = emailPage, authReqConfigConfig = Config())
                         )
                     }
-
                 }
 
-            }.mapIndexed { index, it -> it.copy(id = index) }
-
-        )
+                // Apply modified steps
+                this.clear()
+                this.addAll(modifiedSteps)
+            }.mapIndexed { index, it -> it.copy(id = index) })
     }
 
     private fun MutableList<AuthReqSteps>.getNearestFirstIndex(): Int {

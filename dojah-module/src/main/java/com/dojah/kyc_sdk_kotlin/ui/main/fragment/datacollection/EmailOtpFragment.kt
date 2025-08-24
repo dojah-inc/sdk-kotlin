@@ -21,6 +21,7 @@ import com.dojah.kyc_sdk_kotlin.ui.main.fragment.Routes
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.GovDataViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
+import com.dojah.kyc_sdk_kotlin.ui.utils.VerificationMethod
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 import com.dojah.kyc_sdk_kotlin.ui.utils.getText
 import com.google.android.material.shape.MaterialShapeDrawable
@@ -165,7 +166,7 @@ class EmailOtpFragment : ErrorFragment(R.layout.fragment_otp_email) {
                         verificationVm = viewModel,
                         destination = textInputEmail.getText().trim(),
                         currentRoute = KycPages.EMAIL.serverKey,
-                        isEmail = true
+                        verificationMethod = VerificationMethod.EMAIL
                     )
                 } else {
                     govViewModel.collectEmailWithoutOtp(

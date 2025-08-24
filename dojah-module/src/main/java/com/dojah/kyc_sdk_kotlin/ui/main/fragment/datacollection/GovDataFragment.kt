@@ -4,12 +4,16 @@ import com.dojah.kyc_sdk_kotlin.DojahSdk
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.View
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.navGraphViewModels
@@ -114,12 +118,18 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
         }
     }
 
+    private fun updateButtonState() = binding.apply {
+        val enabled = textEdtBvn.text?.isNotBlank() == true && spinnerVerifyWith.text?.isNotBlank() == true
+        btnContinue.isEnabled = enabled
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val gIds = govViewModel.getGovIdTypes(viewModel)
 
         val verificationMethods = govViewModel.getVerifyMethods(viewModel)
 
         binding.apply {
+            updateButtonState()
             errorTag.background = MaterialShapeDrawable().apply {
                 setTint(ContextCompat.getColor(requireContext(), R.color.error_bg_color))
 
@@ -142,6 +152,10 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
 
             govViewModel.prefillGovIdentity(gIds?.first())
             prefillVerificationMethod(verificationMethods)
+
+            textEdtBvn.addTextChangedListener {
+                updateButtonState()
+            }
 
             viewModel.extraUserDataFromPref?.govData.let {
 
@@ -196,6 +210,8 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                         tmpMethods?.get(index) ?: return@displaySpinnerDropdown
                     govViewModel.selectVerificationType(verifyType)
                     spinnerVerifyWith.setText(verifyType)
+
+                    updateButtonState()
                 }
             }
 
@@ -248,8 +264,6 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
             }
 
 //            performOperationOnActivityAvailable {}
-
-
         }
     }
 
@@ -266,6 +280,8 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                 govViewModel.selectVerificationType(null)
                 spinnerVerifyWith.text = null
             }
+
+            updateButtonState()
         }
     }
 
@@ -275,6 +291,7 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                 logger.log("prefillVerificationMethod each origin: $method")
 
                 return@filter method.lowercase() != VerificationType.OTP.serverKey.lowercase()
+                        && method.lowercase() != VerificationType.WHATSAPP.value.lowercase()
             }
         } else {
             return verificationMethods

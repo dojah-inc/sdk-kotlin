@@ -98,7 +98,6 @@ data class AuthResponse(
 }
 
 data class Config(
-
     @SerializedName("default") var default: String? = null,
     @SerializedName("passport") var passport: Boolean? = null,
     @SerializedName("dl") var dl: Boolean? = null,
@@ -112,6 +111,8 @@ data class Config(
     @SerializedName("cac") var cac: Boolean? = null,
     @SerializedName("tin") var tin: Boolean? = null,
     @SerializedName("verification") var verification: Boolean? = null,
+    @SerializedName("whatsappVerification") var whatsappVerification: Boolean? = null,
+    @SerializedName("whatsappOtp") var whatsappOtp: Boolean? = null,
     @SerializedName("type") var type: String? = null,
     @SerializedName("version") var version: Int? = null,
     @SerializedName("instruction") var instruction: String? = null,
@@ -125,6 +126,12 @@ data class Config(
     @SerializedName("phone") var phone: String? = null,
     @SerializedName("flipCamera") var flipCamera: Boolean? = null,
 ) {
+    val otpVerificationTypes: List<String>
+        get() = listOfNotNull(
+            "SMS".takeIf { otp == true },
+            "Whatsapp".takeIf { whatsappVerification == true }
+        )
+
     val ids: List<Boolean?>
         get() {
             return listOf(
@@ -165,6 +172,7 @@ data class Config(
                     //add otp screen if enabled except for driver licence
                     add("otp")
                 }
+                if (whatsappOtp == true) add("whatsappOtp")
                 if (selfie == true)
                     if (version == 3)
                         add("selfie")

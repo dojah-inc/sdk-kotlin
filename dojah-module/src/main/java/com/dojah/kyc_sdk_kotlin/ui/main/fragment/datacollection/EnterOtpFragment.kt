@@ -1,4 +1,5 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
+
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 
 import android.annotation.SuppressLint
@@ -25,12 +26,14 @@ import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.GovDataViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.utils.FailedReasons
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
+import com.dojah.kyc_sdk_kotlin.ui.utils.VerificationMethod
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 import com.dojah.kyc_sdk_kotlin.ui.utils.getAttr
 import com.dojah.kyc_sdk_kotlin.ui.utils.setClickableText
 import com.otpview.OTPListener
 
 import okhttp3.logging.HttpLoggingInterceptor
+import androidx.core.graphics.toColorInt
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -40,9 +43,9 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
 
     private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
-    private val activityGovViewModel by activityViewModels<GovDataViewModel>(){ DojahSdk.dojahContainer.govViewModelFactory }
+    private val activityGovViewModel by activityViewModels<GovDataViewModel>() { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{ DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
 
     private var otpCode: String? = null
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
@@ -65,11 +68,7 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
                         setTextColor(
                             ColorStateList.valueOf(
                                 viewModel.prefManager.getMaterialButtonBgColor.let { brandColor ->
-                                    if (brandColor == null) {
-                                        context.getAttr(androidx.appcompat.R.attr.colorPrimary)
-                                    } else {
-                                        Color.parseColor(brandColor)
-                                    }
+                                    brandColor?.toColorInt() ?: context.getAttr(androidx.appcompat.R.attr.colorPrimary)
                                 }
                             )
                         )
@@ -150,7 +149,8 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
                         currentRoute = navViewModel.currentPage
                             ?: KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey,
                         resent = true,
-                        isEmail = navViewModel.currentPage == KycPages.EMAIL.serverKey,
+                        verificationMethod = if (navViewModel.currentPage == KycPages.EMAIL.serverKey) VerificationMethod.EMAIL
+                        else VerificationMethod.SMS,
                     )
                 }
             }
@@ -175,9 +175,9 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
             logger.log("start: $start")
             logger.log("end: $end")
             val resolvedId = if (end != null) {
-                val aestericks = (start..end).map {
+                val aestericks = (start..end).joinToString("") {
                     "*"
-                }.joinToString("")
+                }
                 id.replaceRange(start, end, aestericks)
             } else {
                 id
@@ -211,7 +211,7 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
                         logger.log("brand color is null")
                         null
                     } else {
-                        Color.parseColor(brandColor)
+                        brandColor.toColorInt()
                     }
                 }
             otpView.otpListener = object : OTPListener {

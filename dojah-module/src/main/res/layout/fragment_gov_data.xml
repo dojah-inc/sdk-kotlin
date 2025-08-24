@@ -136,6 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
             android:text="@string/_continue"
+            android:enabled="false"
             app:iconGravity="textEnd"
             app:iconPadding="11dp" />
 

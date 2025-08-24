@@ -21,43 +21,43 @@ class DojahAppBarView : ConstraintLayout {
         set(value) {
             field = value
             binding.backButton.isVisible = value
-            if (!value) {
-                binding.logo.layoutParams = binding.logo.layoutParams.apply {
-                    (this as RelativeLayout.LayoutParams).apply {
-                        addRule(
-                            RelativeLayout.CENTER_HORIZONTAL,
-                            0
-                        )
-                        addRule(
-                            RelativeLayout.CENTER_IN_PARENT,
-                            0
-                        )
-                        addRule(
-                            RelativeLayout.ALIGN_PARENT_START,
-                            RelativeLayout.TRUE
-                        )
-
-                    }
-                }
-            } else {
-                binding.logo.layoutParams = binding.logo.layoutParams.apply {
-                    (this as RelativeLayout.LayoutParams).apply {
-                        addRule(
-                            RelativeLayout.ALIGN_PARENT_START,
-                            0
-                        )
-                        addRule(
-                            RelativeLayout.CENTER_IN_PARENT,
-                            0
-                        )
-                        addRule(
-                            RelativeLayout.CENTER_HORIZONTAL,
-                            RelativeLayout.TRUE
-                        )
-                    }
-
-                }
-            }
+//            if (!value) {
+//                binding.logo.layoutParams = binding.logo.layoutParams.apply {
+//                    (this as RelativeLayout.LayoutParams).apply {
+//                        addRule(
+//                            RelativeLayout.CENTER_HORIZONTAL,
+//                            0
+//                        )
+//                        addRule(
+//                            RelativeLayout.CENTER_IN_PARENT,
+//                            0
+//                        )
+//                        addRule(
+//                            RelativeLayout.ALIGN_PARENT_START,
+//                            RelativeLayout.TRUE
+//                        )
+//
+//                    }
+//                }
+//            } else {
+//                binding.logo.layoutParams = binding.logo.layoutParams.apply {
+//                    (this as RelativeLayout.LayoutParams).apply {
+//                        addRule(
+//                            RelativeLayout.ALIGN_PARENT_START,
+//                            0
+//                        )
+//                        addRule(
+//                            RelativeLayout.CENTER_IN_PARENT,
+//                            0
+//                        )
+//                        addRule(
+//                            RelativeLayout.CENTER_HORIZONTAL,
+//                            RelativeLayout.TRUE
+//                        )
+//                    }
+//
+//                }
+//            }
 //            invalidate()
         }
 

@@ -266,7 +266,7 @@ class GovDataViewModel(
                 }
                 val typeSelectResult = it.first
                 if (typeSelectResult is Result.Error) {
-                    _submitGovLiveData.postValue(typeSelectResult as Result.Error)
+                    _submitGovLiveData.postValue(typeSelectResult)
                     return@collect
                 }
                 if (lookUpResult is Result.Success && typeSelectResult is Result.Success) {
@@ -336,11 +336,15 @@ class GovDataViewModel(
 
 
                                 if (govCompleteResult is Result.Success) {
-                                    if (_verificationTypeLiveData.value == VerificationType.OTP) {
+                                    if (_verificationTypeLiveData.value == VerificationType.OTP
+                                        || _verificationTypeLiveData.value == VerificationType.WHATSAPP
+                                    ) {
                                         if (destination != null) {
                                             sendOtp(
                                                 verifyVm,
                                                 destination = destination,
+                                                verificationMethod = if (_verificationTypeLiveData.value == VerificationType.OTP) VerificationMethod.SMS
+                                                else VerificationMethod.WHATSAPP,
                                                 currentRoute = KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
                                             )
                                         }
@@ -513,25 +517,26 @@ class GovDataViewModel(
     suspend fun sendOtp(
         verifyVm: VerificationViewModel,
         destination: String,
+        verificationMethod: VerificationMethod = VerificationMethod.SMS,
         currentRoute: String,
         resent: Boolean = false,
-        isEmail: Boolean = false,
         onSuccess: () -> Unit? = {},
         onError: () -> Unit? = {},
     ) {
 
         //Options        ['sms', 'whatsapp', 'voice'], or 'email'
-        val payload = if (isEmail) OtpRequest(
+        val payload = if (verificationMethod == VerificationMethod.EMAIL) OtpRequest(
             email = destination,
             senderId = "kedesa",
-            channel = "email",
+            channel = VerificationMethod.EMAIL.name.lowercase(),
             length = 4
         ) else OtpRequest(
             destination = destination,
             senderId = "kedesa",
-            channel = "sms",
+            channel = verificationMethod.name.lowercase(),
             length = 4
         )
+
         logger.log("Send Otp request: $payload")
         _isResentOtpLiveData.postValue(resent)
 
@@ -575,15 +580,15 @@ class GovDataViewModel(
         destination: String,
         currentRoute: String,
         resent: Boolean = false,
-        isEmail: Boolean = false,
+        verificationMethod: VerificationMethod = VerificationMethod.SMS,
     ) {
         viewModelScope.launch {
             sendOtp(
                 verificationVm,
                 destination,
                 currentRoute = currentRoute,
-                resent,
-                isEmail = isEmail
+                resent = resent,
+                verificationMethod = verificationMethod
             )
         }
     }
@@ -1310,7 +1315,7 @@ class GovDataViewModel(
         }
     }
 
-    fun autoSendGovIdDetails(url: String,idType: String,docType:String) {
+    fun autoSendGovIdDetails(url: String, idType: String, docType: String) {
 
 //        downloadImageAndConvertToBase64(url,
 //            onImageDownloaded = { base64 ->

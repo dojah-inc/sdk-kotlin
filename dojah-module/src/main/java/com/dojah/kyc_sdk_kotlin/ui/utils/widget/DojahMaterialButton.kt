@@ -1,6 +1,7 @@
 package com.dojah.kyc_sdk_kotlin.ui.utils.widget
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -42,7 +43,19 @@ class DojahMaterialButton : MaterialButton {
         R.attr.materialBtnStyle
     ) {
         try {
-            setBackgroundColor(getBrandButtonColor(context))
+            val states = arrayOf(
+                intArrayOf(-android.R.attr.state_enabled), // disabled
+                intArrayOf(android.R.attr.state_enabled)   // enabled
+            )
+
+            val colors = intArrayOf(
+                Color.LTGRAY, // disabled color
+                getBrandButtonColor(context)  // enabled color
+            )
+
+            backgroundTintList = ColorStateList(states, colors)
+            //setBackgroundColor(getBrandButtonColor(context))
+
         } catch (e: Exception) {
             HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
         }

@@ -63,9 +63,34 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+            <TextView
+                android:id="@+id/text_verify_with"
+                style="@style/TextView.InputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/verify_with" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_verify_with"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconDrawable="@drawable/ic_dropdown"
+                app:endIconMode="custom"
+                app:endIconTint="?android:attr/textColor">
+
+                <AutoCompleteTextView
+                    android:id="@+id/spinner_verify_with"
+                    android:layout_width="match_parent"
+                    style="@style/TextAppearance.Dojah.ParagraphSmall"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
             <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahMaterialButton
                 android:id="@+id/btn_continue"
                 android:layout_width="match_parent"
+                android:enabled="false"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16dp"
                 android:text="@string/_continue" />
