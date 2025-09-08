@@ -1,4 +1,5 @@
 ext["PLACE_KEY"] = ''
+ext["AES_ENC_SECRET"] = ''
 
 File secretPropsFile = project.rootProject.file('api_key.properties')
 if (secretPropsFile.exists()) {
@@ -9,4 +10,5 @@ if (secretPropsFile.exists()) {
 } else {
     // Use system environment variables
     ext["PLACE_KEY"] = System.getenv('PLACE_KEY')
+    ext["AES_ENC_SECRET"] = System.getenv('AES_ENC_SECRET')
 }

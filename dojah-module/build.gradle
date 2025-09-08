@@ -109,6 +109,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
             buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
+            buildConfigField "String", "AES_ENC_SECRET", "\"${apiKeyProperties["AES_ENC_SECRET"]}\""
             println("PLACE_KEY=\"${apiKeyProperties["PLACE_KEY"]}\"")
 //            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
 //            println("PLACE_KEY=\"${PLACE_KEY}\"")
@@ -122,6 +123,7 @@ android {
 //            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlDev}\""
             buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
               buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
+              buildConfigField "String", "AES_ENC_SECRET", "\"${apiKeyProperties["AES_ENC_SECRET"]}\""
 //            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
         }
 

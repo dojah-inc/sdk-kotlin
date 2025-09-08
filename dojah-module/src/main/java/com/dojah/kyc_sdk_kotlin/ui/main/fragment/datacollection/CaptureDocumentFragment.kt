@@ -1,4 +1,5 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
+
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 
 import android.net.Uri
@@ -23,15 +24,14 @@ import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 import okhttp3.logging.HttpLoggingInterceptor
 
 
-
 class CaptureDocumentFragment : ErrorFragment() {
 
     private val binding by viewBinding { FragmentCaptureDocumentBinding.bind(it) }
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
     private val logger: HttpLoggingInterceptor.Logger = HttpLoggingInterceptor.Logger.DEFAULT
 
 
@@ -74,7 +74,7 @@ class CaptureDocumentFragment : ErrorFragment() {
                     tmpFileNamePrefix = "doc_type_${viewModel.docTypeLiveData.value?.id}",
                     onSaved = {
                         val savedUri = Uri.fromFile(it)
-                        viewModel.setFrontDocUri(requireContext(),savedUri, isUpload = false)
+                        viewModel.setFrontDocUri(requireContext(), savedUri, isUpload = false)
                         navViewModel.navigate(Routes.preview_doc_route)
                     })
 

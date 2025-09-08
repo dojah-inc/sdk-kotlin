@@ -3,8 +3,8 @@ ext {
     mobileToolsVersion = [
             applicationId        : "com.dojah.sdk_kyc",
             minSdk               : 21,
-            targetSdk            : 33,
-            compileSdk           : 33,
+            targetSdk            : 34,
+            compileSdk           : 34,
             versionCode          : 29,
             versionName          : "1.4.6",
             fileProviderAuthority: "com.dojah.sdk_kyc.provider"

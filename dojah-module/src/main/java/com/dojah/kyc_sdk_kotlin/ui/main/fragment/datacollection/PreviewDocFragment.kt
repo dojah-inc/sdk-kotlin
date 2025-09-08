@@ -4,10 +4,12 @@ import com.dojah.kyc_sdk_kotlin.DojahSdk
 
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.core.view.isVisible
@@ -15,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
+import com.dojah.kyc_sdk_kotlin.core.util.encrypted
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentPreviewDriverLicenceBinding
 import com.dojah.kyc_sdk_kotlin.ui.base.ErrorFragment
 import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel
@@ -146,6 +149,7 @@ class PreviewDocFragment : ErrorFragment() {
         return inflater.inflate(R.layout.fragment_preview_driver_licence, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
 
@@ -208,14 +212,14 @@ class PreviewDocFragment : ErrorFragment() {
                         if (isOtherDocPage) {
                             govViewModel.sendAdditionalDoc(
                                 mainVm = viewModel,
-                                image1,
+                                image1.encrypted(),
                             )
                         } else {
                             val currentPage =
                                 navViewModel.currentPage ?: throw Exception("Current page is null")
                             govViewModel.doCheckForDocId(
                                 mainVm = viewModel,
-                                image1,
+                                image1.encrypted(),
                                 image2,
                                 page = KycPages.findPageEnum(currentPage) ?: KycPages.ID,
                                 selfieType = if (isBusinessDocPage) null else "selfie_type",

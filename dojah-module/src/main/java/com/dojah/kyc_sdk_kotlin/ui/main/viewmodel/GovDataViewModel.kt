@@ -1,13 +1,16 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.viewmodel
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Base64
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.core.util.DojahPricingUtil
+import com.dojah.kyc_sdk_kotlin.core.util.encrypted
 import com.dojah.kyc_sdk_kotlin.data.io.SharedPreferenceManager
 import com.dojah.kyc_sdk_kotlin.data.repository.DojahRepository
 import com.dojah.kyc_sdk_kotlin.domain.request.AdditionalDocRequest
@@ -950,6 +953,7 @@ class GovDataViewModel(
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun checkLiveness(
         image: String,
         image2: String? = null,
@@ -970,8 +974,8 @@ class GovDataViewModel(
                     ?: 0) >= analysisRetryMax)
             repo.checkLiveness(
                 LivenessCheckRequest(
-                    image,
-                    image2,
+                    image.encrypted(),
+                    image2?.encrypted(),
                     verificationId,
                     stepNumber,
                     param,
