@@ -220,7 +220,7 @@ class PreviewDocFragment : ErrorFragment() {
                             govViewModel.doCheckForDocId(
                                 mainVm = viewModel,
                                 image1.encrypted(),
-                                image2,
+                                image2?.encrypted(),
                                 page = KycPages.findPageEnum(currentPage) ?: KycPages.ID,
                                 selfieType = if (isBusinessDocPage) null else "selfie_type",
                                 liveNessErrorReason = if (isBusinessDocPage) FailedReasons.GOV_ID_CAPTURE

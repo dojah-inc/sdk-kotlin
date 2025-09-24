@@ -975,8 +975,8 @@ class GovDataViewModel(
                     ?: 0) >= analysisRetryMax)
             repo.checkLiveness(
                 LivenessCheckRequest(
-                    image.encrypted(),
-                    image2?.encrypted(),
+                    image,
+                    image2,
                     verificationId,
                     stepNumber,
                     param,

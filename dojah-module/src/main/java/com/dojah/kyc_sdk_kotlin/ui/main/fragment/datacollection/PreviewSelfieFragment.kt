@@ -20,6 +20,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.navGraphViewModels
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
+import com.dojah.kyc_sdk_kotlin.core.util.encrypted
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentPreviewSelfieBinding
 import com.dojah.kyc_sdk_kotlin.ui.base.ErrorFragment
 import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel
@@ -213,7 +214,7 @@ class PreviewSelfieFragment : ErrorFragment() {
                 if (verificationType == VerificationType.Selfie) {
                     verificationImage?.let { image ->
                         govViewModel.checkLiveness(
-                            image,
+                            image.encrypted(),
                             page = navViewModel.currentPage?.let { KycPages.findPageEnum(it) }
                                 ?: KycPages.GOVERNMENT_DATA_VERIFICATION
                         )
