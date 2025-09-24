@@ -140,6 +140,7 @@ class PreviewSelfieFragment : ErrorFragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun performAnalysis(
     ) {
         val verificationType = govViewModel.verificationTypeLiveData.value
@@ -152,7 +153,7 @@ class PreviewSelfieFragment : ErrorFragment() {
             govViewModel.startLoadingImageAnalysis()
             verificationImage = uri.toFile().readBytes().toByteString().base64()
             govViewModel.performImageAnalysis(
-                verificationImage!!,
+                verificationImage!!.encrypted(),
                 currentRoute = navViewModel.currentPage
             )
         } else {
