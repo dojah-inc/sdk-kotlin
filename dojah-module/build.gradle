@@ -24,6 +24,7 @@ ext {
             baseURL       : "https://api.dojah.io/",
             baseUrlDev    : "https://api-dev.dojah.services/",
             baseUrlStaging: "",
+            aesEncSecret: "6543210987654321",
             apiKeyUrl: "https://drive.google.com/uc?export=download&id=1oX64zp-PyI0_sBOzY8fXL4HS_FAlR9Ld",
 
     ]
@@ -109,7 +110,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
             buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
-            buildConfigField "String", "AES_ENC_SECRET", "\"${apiKeyProperties["AES_ENC_SECRET"]}\""
+            buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
             println("PLACE_KEY=\"${apiKeyProperties["PLACE_KEY"]}\"")
 //            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
 //            println("PLACE_KEY=\"${PLACE_KEY}\"")
@@ -121,9 +122,10 @@ android {
 
 //            applicationIdSuffix ".debug"
 //            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlDev}\""
-            buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
+              buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
               buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
-              buildConfigField "String", "AES_ENC_SECRET", "\"${apiKeyProperties["AES_ENC_SECRET"]}\""
+              buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
+              println("AES_ENC_SECRET=\"${configVariable.aesEncSecret}\"")
 //            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
         }
 

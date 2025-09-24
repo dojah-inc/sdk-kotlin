@@ -6,10 +6,12 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
 import androidx.core.view.isVisible
@@ -170,6 +172,7 @@ class PreviewSelfieFragment : ErrorFragment() {
         return inflater.inflate(R.layout.fragment_preview_selfie, container, false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
             viewModel.prefManager.getMaterialButtonBgColor?.also {

@@ -915,6 +915,7 @@ class GovDataViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun doCheckForDocId(
         mainVm: VerificationViewModel,
         image: String,
