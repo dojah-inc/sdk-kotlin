@@ -931,7 +931,7 @@ class GovDataViewModel(
                     docType = mainVm.docTypeLiveData.value
                         ?: throw Exception("Doc type is null"),
                     selectedCountryCode = mainVm.selectedCountryLiveData.value?.id
-                        ?: throw Exception("Country code is null")
+                        ?: "NG"
                 )
         val fileInfo =
             mainVm.docInfoLiveData.value?.first ?: mainVm.docInfoLiveData.value?.second
@@ -1239,7 +1239,7 @@ class GovDataViewModel(
                 ?: throw Exception("Doc type is null"),
                 selectedCountryCode = navGraphVm.selectedCountryLiveData.value?.id
                     ?: activityVm.selectedCountryLiveData.value?.id
-                    ?: throw Exception("Country code is null")
+                    ?: "ng"
             )
             val typeSelectEventRequest = navGraphVm.buildEventRequest(
                 eventType = EventTypes.VERIFICATION_TYPE_SELECTED.serverKey,

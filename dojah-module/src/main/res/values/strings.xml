@@ -57,8 +57,8 @@
     <string name="please_review_capture">Please take a moment to review the captured image to ensure it is clear and readable.</string>
     <string name="make_sure_visible">Make sure the entire document or ID card is fully visible within the frame.</string>
     <string name="look_for_obstruction">Look out for any reflections that could obstruct the document’s visibility.</string>
-    <string name="preview_your_id">Preview your ID</string>
-    <string name="preview_your_selfie">Preview your Selfie</string>
+    <string name="preview_your_id">Preview</string>
+    <string name="preview_your_selfie">Preview</string>
     <string name="capture_the_back_of_your_id">Capture the back of your ID</string>
     <string name="upload_the_front_of_your_id">Upload the front of your ID</string>
     <string name="click__select_from_device">Click here to select from \nyour device.</string>
@@ -76,7 +76,9 @@
     <string name="how_to_allow_permission">How to allow permission</string>
     <string name="take_moment_ensure_readable">Please take a moment to review the captured image to ensure it is clear and readable.</string>
     <string name="please_make_sure_you_are_in_a_well_lit_environment">Please make sure you are in a well lit environment</string>
-    <string name="place_your_face_in_the_circle_and_click_capture">Place your face in the circle and click Capture</string>
+    <string name="place_your_face_in_the_circle_and_click_capture">Position your face ONLY within the dotted shape</string>
+    <string name="about_to_capture_selfie_label">Image now in frame and about to capture</string>
+    <string name="now_capturing_selfie_label">Hold still, capturing…</string>
     <string name="if_blurry">If the image is blurry or dark, you may retake the photo by pressing the designated button.</string>
     <string name="if_satisfied_continue">If you are satisfied with the captured image, proceed to the next step to continue with the verification process.</string>
     <string name="success_msg">Your identification has been successfully verified, you will now be redirected</string>
@@ -112,5 +114,12 @@
     <string name="verification_status">Verification Status</string>
     <string name="verification_failed">Verification failed</string>
     <string name="company_type">Company Type</string>
+    <!--   Liveness -->
+    <string name="multiple_faces_detected">Multiple faces detected.</string>
+    <string name="move_back">Move back a little.</string>
+    <string name="move_closer">Move closer to the camera.</string>
+    <string name="centre_face">Center your face in the oval</string>
+    <string name="more_lighting">Poor lighting. Move to a well-lit environment</string>
+    <string name="reduce_lighting">High lighting. Move to a balance-lit environment</string>
 
 </resources>

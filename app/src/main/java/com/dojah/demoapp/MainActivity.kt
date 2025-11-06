@@ -28,6 +28,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -50,10 +51,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.dojah.demoapp.ui.theme.Dojahtest2Theme
 import com.dojah.demoapp.ui.widget.DojahDropDownInputField
-import com.dojah.kyc_sdk_kotlin.DOJAH_RESULT_KEY
 import com.dojah.kyc_sdk_kotlin.DOJAH_APPROVED_RESULT
 import com.dojah.kyc_sdk_kotlin.DOJAH_FAILED_RESULT
 import com.dojah.kyc_sdk_kotlin.DOJAH_PENDING_RESULT
+import com.dojah.kyc_sdk_kotlin.DOJAH_RESULT_KEY
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 import com.dojah.kyc_sdk_kotlin.domain.BusinessData
 import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
@@ -61,8 +62,6 @@ import com.dojah.kyc_sdk_kotlin.domain.GovData
 import com.dojah.kyc_sdk_kotlin.domain.GovId
 import com.dojah.kyc_sdk_kotlin.domain.Location
 import com.dojah.kyc_sdk_kotlin.domain.UserData
-import timber.log.Timber
-import java.util.logging.Logger
 
 class MainActivity : ComponentActivity() {
 
@@ -179,366 +178,370 @@ fun GreetingMain(context: Activity) {
                 idHistory.clear()
                 idHistory.addAll(DojahSdk.with(context).getIdHistory())
             }
+
+            else -> {}
         }
     }
 
-    Box {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            item {
-                Spacer(Modifier.height(100.dp))
+    Scaffold { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                item {
+                    Spacer(Modifier.height(100.dp))
 
-                OutlinedTextField(
-                    value = widgetIdText,
-                    onValueChange = { widgetIdText = it },
-                    label = { Text("Widget ID") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-            item {
-                Text(
-                    text = "Widget Id History",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp),
-                )
-            }
-
-            items(idHistory.size) { index ->
-                val item = idHistory[index]
-                TextButton(
-                    onClick = {
-                        widgetIdText = item.second
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
-                        .padding(bottom = 16.dp)
-                        .align(Alignment.CenterStart),
-                ) {
+                    OutlinedTextField(
+                        value = widgetIdText,
+                        onValueChange = { widgetIdText = it },
+                        label = { Text("Widget ID") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TEXT_INPUT_HEIGHT.dp)
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp)
+                    )
+                }
+                item {
                     Text(
-                        text = "${item.first}: ${item.second}",
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
-            item {
-
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 8.dp)
-                )
-                OutlinedTextField(
-                    value = refrenceIdText,
-                    onValueChange = { refrenceIdText = it },
-                    label = { Text("Reference ID (Optional)") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-
-            item {
-                OutlinedTextField(
-                    value = emailText,
-                    onValueChange = { emailText = it },
-                    label = { Text("Email (Optional)") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-
-            item {
-                //GovId
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    OutlinedTextField(
-                        value = govIdText,
-                        onValueChange = {
-                            govIdText = it
-                            govIdOption = govIdOption.first to it
-                        },
-                        label = { Text("Gov ID:Image (Optional)") },
+                        text = "Widget Id History",
                         modifier = Modifier
-                            .weight(1f)
-                            .height(TEXT_INPUT_HEIGHT.dp)
-                            .padding(start = 32.dp)
-                            .padding(bottom = 16.dp)
-                            .align(Alignment.CenterVertically)
+                            .fillMaxWidth()
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp),
                     )
-
-                    Spacer(Modifier.width(12.dp))
-                    DojahDropDownInputField(
-                        labelText = govIdOption.first,
-                        options = govIdOptions,
-                        indicatorColor = Color.Black,
-                        containerColor = Color.Transparent,
-//                    borderWidth = 1.dp,
-                        dropDownColor = Color.Gray,
-                        columnModifier = Modifier
-                            .weight(0.5f)
-                            .height((TEXT_INPUT_HEIGHT * 0.88).dp)
-                            .padding(end = 29.dp)
-                            .padding(bottom = 12.dp, top = 3.dp)
-                            .align(Alignment.CenterVertically),
-                        textFieldModifier = Modifier,
-                        borderShape = RoundedCornerShape(4.dp),
-                        onValueChange = { selection ->
-                            govIdOption = selection to govIdText
-
-                        }
-                    )
-
                 }
-            }
 
-            item {
-                //GovData
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    OutlinedTextField(
-                        value = govDataText,
-                        onValueChange = {
-                            govDataText = it
-                            govDataOption = govIdOption.first to it
+                items(idHistory.size) { index ->
+                    val item = idHistory[index]
+                    TextButton(
+                        onClick = {
+                            widgetIdText = item.second
                         },
-                        label = { Text("Gov Data (Optional)") },
                         modifier = Modifier
-                            .weight(1f)
-                            .height(TEXT_INPUT_HEIGHT.dp)
-                            .padding(start = 32.dp)
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp)
                             .padding(bottom = 16.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-
-                    Spacer(Modifier.width(12.dp))
-                    DojahDropDownInputField(
-                        labelText = govDataOption.first,
-                        options = govDataOptions,
-                        indicatorColor = Color.Black,
-                        containerColor = Color.Transparent,
-//                    borderWidth = 1.dp,
-                        dropDownColor = Color.Gray,
-                        columnModifier = Modifier
-                            .weight(0.5f)
-                            .height((TEXT_INPUT_HEIGHT * 0.88).dp)
-                            .padding(end = 29.dp)
-                            .padding(bottom = 12.dp, top = 3.dp)
-                            .align(Alignment.CenterVertically),
-                        textFieldModifier = Modifier,
-                        borderShape = RoundedCornerShape(4.dp),
-                        onValueChange = { selection ->
-                            govDataOption = selection to govDataText
-                        }
-                    )
-
+                            .align(Alignment.CenterStart),
+                    ) {
+                        Text(
+                            text = "${item.first}: ${item.second}",
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
-            }
+                item {
 
-            item {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 8.dp)
+                    )
                     OutlinedTextField(
-                        value = businessText,
-                        onValueChange = {
-                            businessText = it
-                            businessOption = businessOption.first to it
-                        },
-                        label = { Text("Business Data (Optional)") },
+                        value = refrenceIdText,
+                        onValueChange = { refrenceIdText = it },
+                        label = { Text("Reference ID (Optional)") },
                         modifier = Modifier
-                            .weight(1f)
+                            .fillMaxWidth()
                             .height(TEXT_INPUT_HEIGHT.dp)
-                            .padding(start = 32.dp)
+                            .padding(horizontal = 32.dp)
                             .padding(bottom = 16.dp)
-                            .align(Alignment.CenterVertically)
                     )
+                }
 
-                    Spacer(Modifier.width(12.dp))
-                    DojahDropDownInputField(
-                        labelText = businessOption.first,
-                        options = businessOptions,
-                        indicatorColor = Color.Black,
-                        containerColor = Color.Transparent,
+                item {
+                    OutlinedTextField(
+                        value = emailText,
+                        onValueChange = { emailText = it },
+                        label = { Text("Email (Optional)") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TEXT_INPUT_HEIGHT.dp)
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp)
+                    )
+                }
+
+                item {
+                    //GovId
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        OutlinedTextField(
+                            value = govIdText,
+                            onValueChange = {
+                                govIdText = it
+                                govIdOption = govIdOption.first to it
+                            },
+                            label = { Text("Gov ID:Image (Optional)") },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(TEXT_INPUT_HEIGHT.dp)
+                                .padding(start = 32.dp)
+                                .padding(bottom = 16.dp)
+                                .align(Alignment.CenterVertically)
+                        )
+
+                        Spacer(Modifier.width(12.dp))
+                        DojahDropDownInputField(
+                            labelText = govIdOption.first,
+                            options = govIdOptions,
+                            indicatorColor = Color.Black,
+                            containerColor = Color.Transparent,
 //                    borderWidth = 1.dp,
-                        dropDownColor = Color.Gray,
-                        columnModifier = Modifier
-                            .weight(0.5f)
-                            .height((TEXT_INPUT_HEIGHT * 0.88).dp)
-                            .padding(end = 29.dp)
-                            .padding(bottom = 12.dp, top = 3.dp)
-                            .align(Alignment.CenterVertically),
-                        textFieldModifier = Modifier,
-                        borderShape = RoundedCornerShape(4.dp),
-                        onValueChange = { selection ->
-                            businessOption = selection to businessText
+                            dropDownColor = Color.Gray,
+                            columnModifier = Modifier
+                                .weight(0.5f)
+                                .height((TEXT_INPUT_HEIGHT * 0.88).dp)
+                                .padding(end = 29.dp)
+                                .padding(bottom = 12.dp, top = 3.dp)
+                                .align(Alignment.CenterVertically),
+                            textFieldModifier = Modifier,
+                            borderShape = RoundedCornerShape(4.dp),
+                            onValueChange = { selection ->
+                                govIdOption = selection to govIdText
 
-                        }
+                            }
+                        )
+
+                    }
+                }
+
+                item {
+                    //GovData
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        OutlinedTextField(
+                            value = govDataText,
+                            onValueChange = {
+                                govDataText = it
+                                govDataOption = govIdOption.first to it
+                            },
+                            label = { Text("Gov Data (Optional)") },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(TEXT_INPUT_HEIGHT.dp)
+                                .padding(start = 32.dp)
+                                .padding(bottom = 16.dp)
+                                .align(Alignment.CenterVertically)
+                        )
+
+                        Spacer(Modifier.width(12.dp))
+                        DojahDropDownInputField(
+                            labelText = govDataOption.first,
+                            options = govDataOptions,
+                            indicatorColor = Color.Black,
+                            containerColor = Color.Transparent,
+//                    borderWidth = 1.dp,
+                            dropDownColor = Color.Gray,
+                            columnModifier = Modifier
+                                .weight(0.5f)
+                                .height((TEXT_INPUT_HEIGHT * 0.88).dp)
+                                .padding(end = 29.dp)
+                                .padding(bottom = 12.dp, top = 3.dp)
+                                .align(Alignment.CenterVertically),
+                            textFieldModifier = Modifier,
+                            borderShape = RoundedCornerShape(4.dp),
+                            onValueChange = { selection ->
+                                govDataOption = selection to govDataText
+                            }
+                        )
+
+                    }
+                }
+
+                item {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        OutlinedTextField(
+                            value = businessText,
+                            onValueChange = {
+                                businessText = it
+                                businessOption = businessOption.first to it
+                            },
+                            label = { Text("Business Data (Optional)") },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(TEXT_INPUT_HEIGHT.dp)
+                                .padding(start = 32.dp)
+                                .padding(bottom = 16.dp)
+                                .align(Alignment.CenterVertically)
+                        )
+
+                        Spacer(Modifier.width(12.dp))
+                        DojahDropDownInputField(
+                            labelText = businessOption.first,
+                            options = businessOptions,
+                            indicatorColor = Color.Black,
+                            containerColor = Color.Transparent,
+//                    borderWidth = 1.dp,
+                            dropDownColor = Color.Gray,
+                            columnModifier = Modifier
+                                .weight(0.5f)
+                                .height((TEXT_INPUT_HEIGHT * 0.88).dp)
+                                .padding(end = 29.dp)
+                                .padding(bottom = 12.dp, top = 3.dp)
+                                .align(Alignment.CenterVertically),
+                            textFieldModifier = Modifier,
+                            borderShape = RoundedCornerShape(4.dp),
+                            onValueChange = { selection ->
+                                businessOption = selection to businessText
+
+                            }
+                        )
+
+                    }
+                }
+
+
+                item {
+                    OutlinedTextField(
+                        value = extraFirstNameText,
+                        onValueChange = { extraFirstNameText = it },
+                        label = { Text("FirstName (Optional)") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TEXT_INPUT_HEIGHT.dp)
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp)
                     )
+                }
 
+                item {
+                    OutlinedTextField(
+                        value = extraLastNameText,
+                        onValueChange = { extraLastNameText = it },
+                        label = { Text("LastName (Optional)") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TEXT_INPUT_HEIGHT.dp)
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp)
+                    )
+                }
+
+                item {
+                    OutlinedTextField(
+                        value = extraDobText,
+                        onValueChange = { extraDobText = it },
+                        label = { Text("Date of Birth (Optional)") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TEXT_INPUT_HEIGHT.dp)
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp)
+                    )
+                }
+
+                item {
+                    OutlinedTextField(
+                        value = extraEmailText,
+                        onValueChange = { extraEmailText = it },
+                        label = { Text("Email (Optional)") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TEXT_INPUT_HEIGHT.dp)
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp)
+                    )
+                }
+
+
+                item {
+                    OutlinedTextField(
+                        value = addressText,
+                        onValueChange = { addressText = it },
+                        label = { Text("Address (Optional)") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TEXT_INPUT_HEIGHT.dp)
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp)
+                    )
+                }
+                item {
+                    OutlinedTextField(
+                        value = latitudeText,
+                        onValueChange = { latitudeText = it },
+                        label = { Text("Latitude (Optional)") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TEXT_INPUT_HEIGHT.dp)
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp)
+                    )
+                }
+                item {
+                    OutlinedTextField(
+                        value = longitudeText,
+                        onValueChange = { longitudeText = it },
+                        label = { Text("Longitude (Optional)") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(TEXT_INPUT_HEIGHT.dp)
+                            .padding(horizontal = 32.dp)
+                            .padding(bottom = 16.dp)
+                    )
+                }
+
+                item {
+                    Spacer(Modifier.height(100.dp))
                 }
             }
-
-
-            item {
-                OutlinedTextField(
-                    value = extraFirstNameText,
-                    onValueChange = { extraFirstNameText = it },
-                    label = { Text("FirstName (Optional)") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-
-            item {
-                OutlinedTextField(
-                    value = extraLastNameText,
-                    onValueChange = { extraLastNameText = it },
-                    label = { Text("LastName (Optional)") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-
-            item {
-                OutlinedTextField(
-                    value = extraDobText,
-                    onValueChange = { extraDobText = it },
-                    label = { Text("Date of Birth (Optional)") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-
-            item {
-                OutlinedTextField(
-                    value = extraEmailText,
-                    onValueChange = { extraEmailText = it },
-                    label = { Text("Email (Optional)") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-
-
-            item {
-                OutlinedTextField(
-                    value = addressText,
-                    onValueChange = { addressText = it },
-                    label = { Text("Address (Optional)") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-            item {
-                OutlinedTextField(
-                    value = latitudeText,
-                    onValueChange = { latitudeText = it },
-                    label = { Text("Latitude (Optional)") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-            item {
-                OutlinedTextField(
-                    value = longitudeText,
-                    onValueChange = { longitudeText = it },
-                    label = { Text("Longitude (Optional)") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(TEXT_INPUT_HEIGHT.dp)
-                        .padding(horizontal = 32.dp)
-                        .padding(bottom = 16.dp)
-                )
-            }
-
-            item {
-                Spacer(Modifier.height(100.dp))
-            }
-        }
-        LaunchDojahButton {
-            if (widgetIdText.isNotBlank()) {
-                DojahSdk.with(context).launch(
-                    dojahLauncher = dojahResultLauncher,
-                    widgetId = widgetIdText,
-                    referenceId = refrenceIdText.ifBlank { null },
-                    email = emailText.ifBlank { null },
-                    extraData = ExtraUserData(
-                        userData = UserData(
-                            firstName = extraFirstNameText,
-                            lastName = extraLastNameText,
-                            // format: dd-mm-yyy
-                            dob = extraDobText,
-                            email = extraEmailText,
-                        ),
-                        govId = GovId(
-                            dl = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "dl" },
-                            voter = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "voter" },
-                            nin = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "nin" },
-                            others = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "others" },
-                            passport = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "passport" },
-                            national = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "national" },
-                        ),
-                        govData = GovData(
-                            dl = govDataOption.second.takeIf { it.isNotBlank() && govDataOption.first == "dl" },
-                            nin = govDataOption.second.takeIf { it.isNotBlank() && govDataOption.first == "nin" },
-                            bvn = govDataOption.second.takeIf { it.isNotBlank() && govDataOption.first == "bvn" },
-                            vnin = govDataOption.second.takeIf { it.isNotBlank() && govDataOption.first == "vnin" },
-                        ),
-                        businessData = BusinessData(
-                            cac = businessOption.second.takeIf { it.isNotBlank() && businessOption.first == "cac" },
-                        ),
-                        location = Location(
-                            longitude = longitudeText.takeIf { it.isNotBlank() },
-                            latitude = latitudeText.takeIf { it.isNotBlank() },
-                        ),
-                        address = addressText,
-                        metadata = mapOf("key1" to "value1"),
+            LaunchDojahButton {
+                if (widgetIdText.isNotBlank()) {
+                    DojahSdk.with(context).launch(
+                        dojahLauncher = dojahResultLauncher,
+                        widgetId = widgetIdText,
+                        referenceId = refrenceIdText.ifBlank { null },
+                        email = emailText.ifBlank { null },
+                        extraData = ExtraUserData(
+                            userData = UserData(
+                                firstName = extraFirstNameText,
+                                lastName = extraLastNameText,
+                                // format: dd-mm-yyy
+                                dob = extraDobText,
+                                email = extraEmailText,
+                            ),
+                            govId = GovId(
+                                dl = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "dl" },
+                                voter = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "voter" },
+                                nin = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "nin" },
+                                others = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "others" },
+                                passport = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "passport" },
+                                national = govIdOption.second.takeIf { it.isNotBlank() && govIdOption.first == "national" },
+                            ),
+                            govData = GovData(
+                                dl = govDataOption.second.takeIf { it.isNotBlank() && govDataOption.first == "dl" },
+                                nin = govDataOption.second.takeIf { it.isNotBlank() && govDataOption.first == "nin" },
+                                bvn = govDataOption.second.takeIf { it.isNotBlank() && govDataOption.first == "bvn" },
+                                vnin = govDataOption.second.takeIf { it.isNotBlank() && govDataOption.first == "vnin" },
+                            ),
+                            businessData = BusinessData(
+                                cac = businessOption.second.takeIf { it.isNotBlank() && businessOption.first == "cac" },
+                            ),
+                            location = Location(
+                                longitude = longitudeText.takeIf { it.isNotBlank() },
+                                latitude = latitudeText.takeIf { it.isNotBlank() },
+                            ),
+                            address = addressText,
+                            metadata = mapOf("key1" to "value1"),
+                        )
                     )
-                )
-            } else {
-                Toast.makeText(
-                    context,
-                    "you have to enter a valid Widget ID",
-                    Toast.LENGTH_SHORT
-                ).show()
+                } else {
+                    Toast.makeText(
+                        context,
+                        "you have to enter a valid Widget ID",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }

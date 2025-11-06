@@ -40,7 +40,7 @@ data class PreAuthResponse(
             )
         )
 
-        preAuthPages.findLast { it.page == governmentData || it.page == idPage }?.let {
+        preAuthPages.findLast { it.page == governmentData }?.let {
             verificationSteps =
                 verificationSteps.copy(steps = verificationSteps.steps.toMutableList().apply {
                     add(

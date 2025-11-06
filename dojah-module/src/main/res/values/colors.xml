@@ -101,6 +101,7 @@
     <color name="accent2_500">#A13E3F</color>
     <color name="accent1_500">#4A878D</color>
     <color name="black">#FF000000</color>
+    <color name="title">#FFF6F9FF</color>
     <color name="brand_dojah">#3F7CDB</color>
     <color name="brand_200">#9FBDED</color>
     <color name="black_100">#CECED2</color>

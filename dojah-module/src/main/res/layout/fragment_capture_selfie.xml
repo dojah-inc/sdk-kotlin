@@ -25,14 +25,16 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_16dp"
                 android:layout_marginBottom="@dimen/margin_20dp"
-                android:background="@color/black"
+                android:background="@color/title"
                 android:gravity="center"
-                app:cardBackgroundColor="@color/black"
-                app:cardCornerRadius="@dimen/_334dp">
+                android:elevation="0dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/title"
+                app:cardCornerRadius="@dimen/margin_10dp">
 
                 <TextView
                     android:id="@+id/title_text"
-                    style="@style/TextAppearance.Dojah.ParagraphTiny"
+                    style="@style/TextAppearance.Dojah.Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -45,22 +47,22 @@
                     android:paddingVertical="4dp"
                     android:text="@string/place_your_face_in_the_circle_and_click_capture"
                     android:textAlignment="center"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
             </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_pic"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:visibility="gone"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Chip"
-                tools:background="@color/green"
-                tools:src="@color/card_stroke_color" />
+            <!--            <com.google.android.material.imageview.ShapeableImageView-->
+            <!--                android:id="@+id/image_pic"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="200dp"-->
+            <!--                android:visibility="gone"-->
+            <!--                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Chip"-->
+            <!--                tools:background="@color/green"-->
+            <!--                tools:src="@color/card_stroke_color" />-->
 
 
             <RelativeLayout
-                android:layout_width="257dp"
-                android:layout_height="256dp"
+                android:layout_width="285dp"
+                android:layout_height="360dp"
                 android:layout_gravity="center">
 
                 <!--                <com.airbnb.lottie.LottieAnimationView-->
@@ -73,38 +75,32 @@
                 <!--                    app:lottie_loop="true"-->
                 <!--                    app:lottie_rawRes="?attr/facialVerificationAnim" />-->
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/dotted_circle"
-                    android:tint="@color/progress_color"
-                    android:visibility="visible"
-                    app:tint="@color/progress_color"
+                <!--                <androidx.appcompat.widget.AppCompatImageView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:background="@drawable/dotted_circle"-->
+                <!--                    android:tint="@color/progress_color"-->
+                <!--                    android:visibility="visible"-->
+                <!--                    app:tint="@color/progress_color"-->
 
-                    />
+                <!--                    />-->
 
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_18dp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/inner_dot"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/dotted_circle_inner"
-                        android:tint="@color/progress_color"
-                        android:visibility="visible"
-                        app:tint="@color/progress_color"
-                        />
-
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardCornerRadius="280dp"
+                        android:layout_width="0dp"
+                        android:layout_height="360dp"
                         android:layout_margin="2dp"
+                        app:layout_constraintDimensionRatio="3:4"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:cardElevation="0dp">
 
                         <androidx.camera.view.PreviewView
@@ -112,21 +108,54 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
 
+                        <ImageView
+                            android:id="@+id/camera_preview"
+                            android:visibility="invisible"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@color/card_stroke_color" />
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/animation_view"
+                            android:layout_width="300dp"
+                            android:layout_height="450dp"
+                            android:layout_gravity="center"
+                            android:visibility="visible"
+                            android:scaleType="fitXY"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/ic_camera_scanning" />
+
                         <View
                             android:id="@+id/progress_bg"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@color/white" />
+                            android:background="@color/white"
+                            android:visibility="gone" />
 
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:src="@color/black_200"-->
-<!--                            />-->
+                        <View
+                            android:id="@+id/selfie_image_notifier_view"
+                            android:layout_margin="@dimen/margin_32dp"
+                            android:layout_width="205dp"
+                            android:layout_gravity="center"
+                            android:foregroundGravity="center"
+                            android:background="@drawable/ic_capture_ready"
+                            android:layout_height="256dp"/>
+
+                        <TextView
+                            android:id="@+id/camera_ready_counter"
+                            android:textColor="@color/black"
+                            android:textSize="70sp"
+                            tools:text="3"
+                            android:visibility="gone"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
 
                     </androidx.cardview.widget.CardView>
-                </RelativeLayout>
-
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/progress"
@@ -178,12 +207,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/done"
                 android:visibility="gone" />
-
-            <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahMaterialButton
-                android:id="@+id/capture_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/capture" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -61,6 +61,7 @@ class VerificationViewModel(
     private val _timerOtpLiveData = MutableLiveData<String>()
     private val _timerOtpDoneLiveData = MutableLiveData<Boolean>(false)
     private val _preAuthDataLiveData = MutableLiveData<Result<PreAuthResponse>>()
+    private val _selfieAnalysisResultLiveData = MutableLiveData<String?>()
     private val _authDataLiveData = MutableLiveData<Result<AuthResponse>>()
     private val _authVerificationCompletedLD = MutableLiveData<Boolean>(false)
     private val _checkIpDataLiveData = MutableLiveData<Result<CheckIpResponse>>()
@@ -77,6 +78,9 @@ class VerificationViewModel(
         get() = _authDataLiveData
     val authVerificationCompletedLD: LiveData<Boolean>
         get() = _authVerificationCompletedLD
+
+    val selfieAnalyisResultLiveData: LiveData<String?>
+        get() = _selfieAnalysisResultLiveData
 
     val checkIpDataLiveData: LiveData<Result<CheckIpResponse>>
         get() = _checkIpDataLiveData
@@ -178,6 +182,10 @@ class VerificationViewModel(
             frontDocInfo to _docInfoLiveData.value?.second
         )
         return frontDocInfo
+    }
+
+    fun setAnalysisResult(result: String?) {
+        _selfieAnalysisResultLiveData.postValue(result)
     }
 
     fun setSelfieUri(uri: Uri) {

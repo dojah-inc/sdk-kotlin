@@ -5,11 +5,14 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Size
 import android.widget.Toast
 import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.FallbackStrategy
@@ -27,13 +30,14 @@ import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.Executor
 
 class CameraUtil {
 
     companion object {
 
         private var imageCapture: ImageCapture? = null
-
+        private var imageAnalyzer: ImageAnalysis? = null
         private var videoCapture: VideoCapture<Recorder>? = null
 
         @SuppressLint("StaticFieldLeak")
@@ -111,12 +115,14 @@ class CameraUtil {
                     }
         }
 
-
         fun startCamera(
             fragment: Fragment,
             camera: PreviewView,
+            executor: Executor? = null,
             isVideo: Boolean = false,
             isFront: Boolean = true,
+            isLiveness: Boolean = false,
+            onImageChanged: (ImageProxy) -> Unit = {},
             onPreviewUpdate: (PreviewView.StreamState) -> Unit
         ) {
             camera.previewStreamState.observe(fragment.viewLifecycleOwner) {
@@ -128,7 +134,6 @@ class CameraUtil {
             cameraProviderFuture.addListener({
                 // Used to bind the lifecycle of cameras to the lifecycle owner
                 cameraProvider = cameraProviderFuture.get()
-
 
                 // Preview
                 val preview = Preview.Builder()
@@ -166,6 +171,28 @@ class CameraUtil {
                         Timber.e("Use case binding failed")
                     }
 
+                } else if (isLiveness) {
+                    imageAnalyzer = ImageAnalysis.Builder()
+                        //.setTargetRotation(camera.display.rotation)
+                        .setTargetResolution(Size(640, 480))
+                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                        .build()
+                        .also { analyzer ->
+                            executor?.let {
+                                analyzer.setAnalyzer(executor) { imageProxy ->
+                                    onImageChanged(imageProxy)
+                                }
+                            }
+                        }
+
+                    try {
+                        cameraProvider?.unbindAll()
+                        cameraProvider?.bindToLifecycle(
+                            fragment.viewLifecycleOwner, cameraSelector, preview, imageAnalyzer
+                        )
+                    } catch (exc: Exception) {
+                        Timber.e("Use case binding failed")
+                    }
                 } else {
 //                cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 

@@ -1,8 +1,10 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
+
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Outline
 import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
@@ -11,6 +13,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.net.toFile
@@ -39,85 +42,48 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okio.ByteString.Companion.toByteString
 
 
-
 class PreviewSelfieFragment : ErrorFragment() {
 
 
     private val binding by viewBinding { FragmentPreviewSelfieBinding.bind(it) }
 
 
-        private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
+    private val viewModel by navGraphViewModels<VerificationViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.verificationViewModelFactory }
     private val govViewModel by navGraphViewModels<GovDataViewModel>(Routes.verification_route) { DojahSdk.dojahContainer.govViewModelFactory }
 
-    private val navViewModel by activityViewModels<NavigationViewModel>{DojahSdk.dojahContainer.navViewModelFactory}
+    private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
 
     private var verificationImage: String? = null
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         observeLiveData()
-        performAnalysis()
     }
 
-    private fun observeLiveData() {
-        govViewModel.imageAnalysisLiveData.observe(this) { result ->
-            binding.root.post {
-                binding.apply {
-                    val (rootView: ViewGroup, windowBackground: Drawable?) = getBlurView()
-                    val verificationType = govViewModel.verificationTypeLiveData.value
-
+    private fun updateAnalysisError() {
+        binding.root.post {
+            binding.apply {
+                val errorMessage = viewModel.selfieAnalyisResultLiveData.value
+                if (errorMessage.isNullOrEmpty()) {
                     errorTag.isVisible = false
-                    btnContinue.isLoading = result is Result.Loading
-                    showLoadingProgress(
-                        verificationType = verificationType,
-                        uri = viewModel.selfieUriLiveData.value,
-                        rootView = rootView,
-                        windowBackground = windowBackground,
-                        loading = result is Result.Loading
-                    )
-                    if (result is Result.Error || result is Result.Loading) {
-                        btnContinue.isButtonEnabled = false
-                    }
-//                    HttpLoggingInterceptor.Logger.DEFAULT.log("faceResult def frag ${result}")
-
-                    if (result is Result.Success) {
-                        val faceResult = result.data?.entity?.face
-                        val config =
-                            viewModel.getStepWithPageName(
-                                navViewModel.currentPage ?: KycPages.GOVERNMENT_DATA.serverKey
-                            )?.config
-//                        HttpLoggingInterceptor.Logger.DEFAULT.log("faceResult $faceResult")
-                        if (faceResult == null) {
-                            errorTag.text = FailedReasons.SELFIE_NO_CAPTURE.message
-                            errorTag.isVisible = true
-                            btnContinue.isButtonEnabled = false
-                        } else if (faceResult.faceSuccess(config)) {
-                            errorTag.isVisible = false
-                            btnContinue.isButtonEnabled = true
-                            errorTag.isVisible = false
-                        } else {
-                            errorTag.text = faceResult.getFaceErrorMessage(config)
-                            errorTag.isVisible = true
-                        }
-                    } else if (result is Result.Error) {
-                        errorTag.text = FailedReasons.SELFIE_NO_CAPTURE.message
-                        errorTag.isVisible = true
-                    }
-//                    govViewModel.resetImageAnalysisLiveData()
+                    btnContinue.isButtonEnabled = true
+                } else {
+                    errorTag.text = errorMessage
+                    errorTag.isVisible = true
+                    btnContinue.isButtonEnabled = false
                 }
             }
         }
+    }
 
+    private fun observeLiveData() {
         govViewModel.analysisRetryCountLiveData.observe(this) {
             binding.root.post {
                 binding.apply {
                     if (it >= analysisRetryMax) {
                         errorTag.isVisible = false
                         btnRetake.isEnabled = false
-                        btnContinue.isButtonEnabled = true
-                    } else {
-                        btnRetake.isEnabled = true
-                        btnContinue.isButtonEnabled = false
                     }
                 }
             }
@@ -136,35 +102,6 @@ class PreviewSelfieFragment : ErrorFragment() {
                 govViewModel.resetDocTypeLiveData()
                 navViewModel.navigateNextStep()
             }
-
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun performAnalysis(
-    ) {
-        val verificationType = govViewModel.verificationTypeLiveData.value
-        val uri: Uri? =
-            viewModel.selfieUriLiveData.value
-        if (verificationType == VerificationType.Selfie) {
-            if (uri == null) {
-                throw Exception("Uri is null")
-            }
-            govViewModel.startLoadingImageAnalysis()
-            verificationImage = uri.toFile().readBytes().toByteString().base64()
-            govViewModel.performImageAnalysis(
-                verificationImage!!.encrypted(),
-                currentRoute = navViewModel.currentPage
-            )
-        } else {
-            viewModel.viewModelScope.launch {
-                delay(2000)
-                binding.root.post {
-                    binding.apply {
-                        btnContinue.isButtonEnabled = true
-                    }
-                }
-            }
         }
     }
 
@@ -177,22 +114,35 @@ class PreviewSelfieFragment : ErrorFragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.apply {
-            viewModel.prefManager.getMaterialButtonBgColor?.also {
-                try {
-                    innerDot.backgroundTintList = ColorStateList.valueOf(Color.parseColor(it))
-                } catch (e: Exception) {
-                    HttpLoggingInterceptor.Logger.DEFAULT.log("${e.message}")
+
+            val (rootView: ViewGroup, windowBackground: Drawable?) = getBlurView()
+            // Set an outline provider to clip the CardView to a perfect oval
+            cardPreview.outlineProvider = object : ViewOutlineProvider() {
+                override fun getOutline(view: View, outline: Outline) {
+                    val width = view.width
+                    val height = view.height
+                    val margin = view.resources.getDimensionPixelSize(R.dimen.margin_18dp)
+                    // Adjust for margins to align with the camera_overlay_view drawable
+                    val left = margin
+                    val top = margin
+                    val right = width - margin
+                    val bottom = height - margin
+                    // Create a vertically stretched elliptical outline
+                    outline.setOval(left, top, right, bottom)
                 }
             }
+            cardPreview.clipToOutline = true
+
             val verificationType = govViewModel.verificationTypeLiveData.value
             val uri: Uri? =
                 viewModel.selfieUriLiveData.value
+
+            verificationImage = uri?.toFile()?.readBytes()?.toByteString()?.base64()
 
             errorTag.background = MaterialShapeDrawable().apply {
                 setTint(ContextCompat.getColor(requireContext(), R.color.error_bg_color))
 
                 setCornerSize(136.toFloat())
-
             }
             errorTag.isVisible = false
             btnContinue.isButtonEnabled = false
@@ -203,15 +153,12 @@ class PreviewSelfieFragment : ErrorFragment() {
             }
             title.text = verificationType?.preview
             displayCapturedView(verificationType, uri)
-            val (rootView: ViewGroup, windowBackground: Drawable?) = getBlurView()
 
             btnRetake.setOnClickListener {
                 navViewModel.popBackStack()
             }
             btnContinue.setOnClickListener {
                 showLoadingProgress(verificationType, uri, rootView, windowBackground)
-
-
                 if (verificationType == VerificationType.Selfie) {
                     verificationImage?.let { image ->
                         govViewModel.checkLiveness(
@@ -229,11 +176,10 @@ class PreviewSelfieFragment : ErrorFragment() {
                             "${Routes.success_route}/${getString(R.string.success_msg)}"
                         )
                     }
-
                 }
-
-
             }
+
+            updateAnalysisError()
         }
     }
 
@@ -245,7 +191,6 @@ class PreviewSelfieFragment : ErrorFragment() {
         loading: Boolean = true,
     ) {
         processing.isVisible = loading
-        blurView.isVisible = loading
         if (verificationType == VerificationType.SelfieVideo) {
             videoPreview.pause()
 
@@ -256,8 +201,8 @@ class PreviewSelfieFragment : ErrorFragment() {
             videoPreview.isVisible = false
             cameraPreview.isVisible = true
             cameraPreview.load(frameAtTime, isCenterCrop = true)
-
         }
+
         val radius = 20f
         blurView.setupWith(
             rootView,

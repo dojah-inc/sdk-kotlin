@@ -43,7 +43,7 @@ enum class VerificationType(
         actualServerKey = "selfie",
         type = "capture",
         title = "Place your face in the circle and click Capture",
-        preview = "Preview your Selfie",
+        preview = "Preview",
     ),
     SelfieVideo(
         "Video KYC",

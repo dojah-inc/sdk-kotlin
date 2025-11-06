@@ -22,6 +22,11 @@
 -keep class com.dojah.kyc_sdk_kotlin.domain.** { *; }
 -keep class com.dojah.kyc_sdk_kotlin.core.Result
 
+-keep class com.google.mlkit.vision.face.** { *; }
+-keep class com.google.mlkit.vision.common.** { *; }
+-dontwarn com.google.mlkit.vision.face.**
+-dontwarn com.google.mlkit.vision.common.**
+
 #For retrofit
 -keepattributes Signature, InnerClasses, EnclosingMethod
 -keepattributes RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations

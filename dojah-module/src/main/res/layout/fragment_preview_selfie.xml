@@ -24,60 +24,52 @@
 
 
         <RelativeLayout
-            android:layout_width="257dp"
+            android:layout_width="205dp"
             android:layout_height="256dp"
             android:layout_gravity="center">
 
-<!--            <com.airbnb.lottie.LottieAnimationView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:visibility="visible"-->
-<!--                app:lottie_autoPlay="true"-->
-<!--                app:lottie_colorFilter="@color/progress_color"-->
-<!--                app:lottie_loop="true"-->
-<!--                app:lottie_rawRes="?attr/facialVerificationAnim" />-->
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/inner_dot"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/dotted_circle_preview"
-                android:visibility="visible"
-                />
+                android:layout_height="match_parent">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_preview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_14dp"
-                app:cardBackgroundColor="@color/black"
-                app:cardCornerRadius="280dp"
-                app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/camera_preview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@color/card_stroke_color" />
-
-                <VideoView
-                    android:id="@+id/video_preview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_preview"
+                    android:layout_width="0dp"
+                    app:layout_constraintDimensionRatio="3:4"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="256dp"
                     android:layout_gravity="center"
-                    android:src="@color/card_stroke_color"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:layout_margin="2dp"
+                    app:cardBackgroundColor="@color/black"
+                    app:cardElevation="0dp">
 
-                <eightbitlab.com.blurview.BlurView
+                    <ImageView
+                        android:id="@+id/camera_preview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@color/card_stroke_color" />
+
+                    <VideoView
+                        android:id="@+id/video_preview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@color/card_stroke_color"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <eightbitlab.com.blurview.BlurView
                     android:id="@+id/blurView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                 </eightbitlab.com.blurview.BlurView>
-            </androidx.cardview.widget.CardView>
+
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <androidx.appcompat.widget.AppCompatTextView
