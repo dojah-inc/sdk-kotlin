@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class AuthRequest(
 
     @SerializedName("public_key") var publicKey: String? = null,
+    @SerializedName("widget_id") val widgetId: String? = null,
     @SerializedName("app_id") var appId: String? = null,
     @SerializedName("type") var type: String? = null,
     @SerializedName("review_process") var reviewProcess: String? = null,
@@ -17,8 +18,8 @@ data class AuthRequest(
     @SerializedName("rules") var rules: Widget.Rules? = Widget.Rules(),
     @SerializedName("reference_id") var referenceId: String? = null,
     @SerializedName("email") var email: String? = null,
-
-    )
+    @SerializedName("source") val source: String? = null,
+)
 
 
 data class AuthReqSteps(

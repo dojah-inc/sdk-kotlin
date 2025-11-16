@@ -24,9 +24,14 @@ object DojahSdk {
 
     lateinit var dojahContainer: DojahContainer
 
-    fun with(context: Context): DojahSdk {
+    fun with(context: Context, source: String? = null): DojahSdk {
         this.contextRef = WeakReference(context)
         dojahContainer = DojahContainer(contextRef!!)
+
+        with(dojahContainer) {
+            source?.takeIf { it.isNotBlank() }
+                ?.let { sharedPreferenceManager.setAndroidSource(source) }
+        }
         return this
     }
 
@@ -43,7 +48,7 @@ object DojahSdk {
         widgetId: String,
         referenceId: String? = null,
         email: String? = null,
-        extraData: ExtraUserData?= null,
+        extraData: ExtraUserData? = null,
     ) {
         if (context == null) {
             throw Exception("You have to call the with(...) function first")
@@ -62,7 +67,7 @@ object DojahSdk {
         widgetId: String,
         referenceId: String? = null,
         email: String? = null,
-        extraData: ExtraUserData?=null,
+        extraData: ExtraUserData? = null,
     ) {
         if (context == null) {
             throw Exception("You have to call the with(...) function first")

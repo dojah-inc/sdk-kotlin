@@ -111,7 +111,13 @@ class DojahRepository(
 
         return flow {
             val result = checkNetworkAndStartRequest {
-                val response = service.doAuth(authRequest)
+                val response =
+                    service.doAuth(
+                        authRequest.copy(
+                            source = prefManager.getAndroidSource(),
+                            widgetId = prefManager.getWidgetId()
+                        )
+                    )
                 response.getResult(AuthResponse::class.java)
             }
             if (result is Result.Success) {
@@ -443,10 +449,20 @@ class DojahRepository(
     }
 
 
-    fun sendMetadata(appId: String, verificationId: Int, metadata: Map<String, Any>): Flow<Response<ResponseBody>> {
+    fun sendMetadata(
+        appId: String,
+        verificationId: Int,
+        metadata: Map<String, Any>
+    ): Flow<Response<ResponseBody>> {
         return flow {
             val result =
-                service.metadata(MetaDataRequest(appId = appId, verificationId = verificationId, meta = metadata))
+                service.metadata(
+                    MetaDataRequest(
+                        appId = appId,
+                        verificationId = verificationId,
+                        meta = metadata
+                    )
+                )
 
             emit(result)
         }.flowOn(Dispatchers.IO)

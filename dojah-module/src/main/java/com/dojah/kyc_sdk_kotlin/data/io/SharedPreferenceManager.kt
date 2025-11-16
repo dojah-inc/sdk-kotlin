@@ -13,12 +13,16 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import timber.log.Timber
 
+private const val ANDROID_NATIVE = "android_native"
+
 class SharedPreferenceManager(
     private val context: Context
 ) : SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
         ///Dojah keys
         const val KEY_BEARER_TOKEN = " bearer token"
+        const val ANDROID_SOURCE = "android_source"
+        const val WIDGET_ID = "widget_id"
         const val KEY_NOTIFICATION_TOKEN = "notification_token"
         const val KEY_SESSION_ID = "session id"
         const val KEY_PKEY = "key pkey"
@@ -73,6 +77,14 @@ class SharedPreferenceManager(
             putString(KEY_LOCATION, "$latitude,$longitude")
         }
     }
+
+    fun setAndroidSource(source: String?) {
+        appPref.edit {
+            putString(ANDROID_SOURCE, source)
+        }
+    }
+
+    fun getAndroidSource() = userPref.getString(ANDROID_SOURCE, ANDROID_NATIVE)
 
     val location
         get(): Pair<Double, Double>? {
@@ -159,7 +171,7 @@ class SharedPreferenceManager(
         }
     }
 
-    private fun getWidgetId() = userPref.getString(KEY_Widget_ID, null)
+    fun getWidgetId() = userPref.getString(KEY_Widget_ID, null)
 
     fun addIdToHistory(data: AuthResponse) {
         appPref.edit {
