@@ -163,8 +163,8 @@ class DojahRepository(
 
         return flow {
             val result = checkNetworkAndStartRequest {
-                val response =
-                    service.checkUserIp(request)
+                val data = request.copy(deviceFingerprint = prefManager.getDeviceSignature())
+                val response = service.checkUserIp(data)
                 response.getResult(CheckIpResponse::class.java)
             }
             if (result is Result.Success) {

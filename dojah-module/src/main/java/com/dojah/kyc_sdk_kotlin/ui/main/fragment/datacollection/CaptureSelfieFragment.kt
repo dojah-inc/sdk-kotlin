@@ -184,7 +184,7 @@ class CaptureSelfieFragment : ErrorFragment() {
         val faceProportion = faceWidth / imageWidth
 
         val minProportion = 0.3f // Minimum acceptable proportion
-        val maxProportion = 0.6f // Maximum acceptable proportion
+        val maxProportion = 0.8f // Maximum acceptable proportion
 
         return when {
             faceProportion < minProportion -> getString(R.string.move_closer)

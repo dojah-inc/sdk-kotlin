@@ -22,6 +22,7 @@ class SharedPreferenceManager(
         ///Dojah keys
         const val KEY_BEARER_TOKEN = " bearer token"
         const val ANDROID_SOURCE = "android_source"
+        const val ANDROID_DEVICE_ID = "android_divice_id"
         const val WIDGET_ID = "widget_id"
         const val KEY_NOTIFICATION_TOKEN = "notification_token"
         const val KEY_SESSION_ID = "session id"
@@ -78,13 +79,21 @@ class SharedPreferenceManager(
         }
     }
 
+    fun setDeviceSignature(signature: String?) {
+        appPref.edit {
+            putString(ANDROID_DEVICE_ID, signature)
+        }
+    }
+
+    fun getDeviceSignature(): String? = appPref.getString(ANDROID_DEVICE_ID, "")
+
     fun setAndroidSource(source: String?) {
         appPref.edit {
             putString(ANDROID_SOURCE, source)
         }
     }
 
-    fun getAndroidSource() = userPref.getString(ANDROID_SOURCE, ANDROID_NATIVE)
+    fun getAndroidSource() = appPref.getString(ANDROID_SOURCE, ANDROID_NATIVE)
 
     val location
         get(): Pair<Double, Double>? {

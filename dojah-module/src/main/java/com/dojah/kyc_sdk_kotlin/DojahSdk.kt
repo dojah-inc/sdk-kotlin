@@ -3,8 +3,11 @@ package com.dojah.kyc_sdk_kotlin
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.RequiresApi
 import com.dojah.kyc_sdk_kotlin.core.di.DojahContainer
+import com.dojah.kyc_sdk_kotlin.data.io.DeviceIdManager
 import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.ui.splash.SplashActivity
 import java.lang.ref.WeakReference
@@ -24,9 +27,16 @@ object DojahSdk {
 
     lateinit var dojahContainer: DojahContainer
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun with(context: Context, source: String? = null): DojahSdk {
         this.contextRef = WeakReference(context)
         dojahContainer = DojahContainer(contextRef!!)
+
+        contextRef?.get()?.let {
+            dojahContainer.sharedPreferenceManager.setDeviceSignature(
+                DeviceIdManager.androidId(it)
+            )
+        }
 
         with(dojahContainer) {
             source?.takeIf { it.isNotBlank() }

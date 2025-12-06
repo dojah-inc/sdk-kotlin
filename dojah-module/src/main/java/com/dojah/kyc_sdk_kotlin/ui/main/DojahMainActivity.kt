@@ -1,4 +1,6 @@
 package com.dojah.kyc_sdk_kotlin.ui.main
+import com.microsoft.clarity.Clarity
+import com.microsoft.clarity.ClarityConfig
 
 import android.app.Activity
 import android.content.Context
@@ -49,6 +51,7 @@ import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.splash.COUNTRY_ERROR
 import com.dojah.kyc_sdk_kotlin.ui.splash.VERIFICATION_COMPLETE_ERROR
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
+import com.microsoft.clarity.models.LogLevel
 
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -61,8 +64,8 @@ class DojahMainActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_DESTINATION = "com.dojah.sdk_kyc.MainActivity_Destination"
         const val DESTINATION_NOTIFICATION = "destination notification"
+        private const val CLARITY_PROJECT_ID = "tphs12qwad"
     }
-
 
     private var binding: ActivityMainDojahBinding? = null
 
@@ -90,6 +93,16 @@ class DojahMainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val config = ClarityConfig(
+            projectId = CLARITY_PROJECT_ID,
+            logLevel = LogLevel.None // Note: Use "LogLevel.Verbose" value while testing to debug initialization issues.
+        )
+
+        Clarity.initialize(applicationContext, config)
+
+        Clarity.setCustomTag("source", preferenceManager.getAndroidSource())
+
         changeStatusBarIconToDark()
 
 //        onBackPressedCallback.isEnabled

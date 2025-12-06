@@ -240,6 +240,7 @@ dependencies {
     implementation libs.places
     implementation libs.vectorchildfinder
     implementation libs.resizer
+    implementation libs.clarity
 
     implementation libs.face.detection
     implementation(libs.kotlinx.coroutines.android)
