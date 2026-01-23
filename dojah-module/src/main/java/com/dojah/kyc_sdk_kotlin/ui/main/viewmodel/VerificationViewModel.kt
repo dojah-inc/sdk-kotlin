@@ -353,7 +353,7 @@ class VerificationViewModel(
         dob: String, // 1996-04-30
         firstName: String, // Osarumen
         lastName: String, // Alohan
-        middleName: String?=null, // Eleojo
+        middleName: String? = null, // Eleojo
     ) {
         viewModelScope.launch {
             val verificationId =
@@ -402,8 +402,10 @@ class VerificationViewModel(
         selectedAddressLatitude: Double,
         selectedAddressLongitude: Double,
         addressName: String,
+        deviceLocation: Pair<Double, Double>,
         match: Boolean
     ) {
+        prefManager.setLocation(deviceLocation.first, deviceLocation.second)
         val doVerification =
             getStepWithPageName(KycPages.ADDRESS.serverKey)?.config?.verification ?: false
         viewModelScope.launch {
@@ -416,9 +418,7 @@ class VerificationViewModel(
             }.collect {
                 if (it is Result.Success) {
                     if (doVerification) {
-                        repo.sendAddress(
-                            match,
-                        ).collect { sendAddressResult ->
+                        repo.sendAddress(match).collect { sendAddressResult ->
                             if (sendAddressResult is Result.Success) {
                                 logStepEvent(
                                     page = KycPages.ADDRESS,
@@ -432,7 +432,9 @@ class VerificationViewModel(
                                     page = KycPages.ADDRESS,
                                     event = EventTypes.STEP_FAILED,
                                     error = sendAddressResult
-                                )
+                                ).collect { result ->
+                                    //   _submitAddressLiveData.postValue(result)
+                                }
                             }
                         }
                     } else {
@@ -449,7 +451,9 @@ class VerificationViewModel(
                         page = KycPages.ADDRESS,
                         event = EventTypes.STEP_FAILED,
                         error = it
-                    )
+                    ).collect { result ->
+
+                    }
                 }
             }
         }
@@ -749,7 +753,6 @@ class VerificationViewModel(
                 SharedPreferenceManager.KEY_PRE_AUTH_RESPONSE, PreAuthResponse::class.java
             )?.data
         }
-
 
 
     val extraUserDataFromPref: ExtraUserData?

@@ -119,25 +119,25 @@ class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
         }
         if (clientUserLocation == null && address != null) {
 
-            if (locationManager.lastLocation != null) {
-                viewModel.sendAddress(
-                    locationManager.lastLocation?.first!!,
-                    locationManager.lastLocation?.second!!,
-                    address,
-                    match = true
-                )
-            } else {
-                locationManager.prefManager.listenToAppPreferenceChanges {
-                    if (it == SharedPreferenceManager.KEY_LOCATION) {
-                        viewModel.sendAddress(
-                            locationManager.lastLocation?.first!!,
-                            locationManager.lastLocation?.second!!,
-                            address,
-                            match = true
-                        )
-                    }
-                }
-            }
+//            if (locationManager.lastLocation != null) {
+//                viewModel.sendAddress(
+//                    locationManager.lastLocation?.first!!,
+//                    locationManager.lastLocation?.second!!,
+//                    address,
+//                    match = true
+//                )
+//            } else {
+//                locationManager.prefManager.listenToAppPreferenceChanges {
+//                    if (it == SharedPreferenceManager.KEY_LOCATION) {
+//                        viewModel.sendAddress(
+//                            locationManager.lastLocation?.first!!,
+//                            locationManager.lastLocation?.second!!,
+//                            address,
+//                            match = true
+//                        )
+//                    }
+//                }
+//            }
         }
     }
 
@@ -161,7 +161,7 @@ class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
                 val selectedPlace = addressSpinner.selectedPlace
                 val latLng = selectedPlace?.latLng
                 if (latLng != null) {
-                    var deviceLocation: Pair<Double, Double>? = null
+                    var deviceLocation: Pair<Double, Double>?
 
                     if (clientUserLocation != null) {
                         val lat = clientUserLocation?.latitude?.toDoubleOrNull()
@@ -178,7 +178,8 @@ class HomeAddressFragment : ErrorFragment(R.layout.fragment_home_address) {
                         viewModel.sendAddress(
                             latLng.latitude,
                             latLng.longitude,
-                            selectedPlace.address?.toString() ?: "",
+                            selectedPlace.address ?: "",
+                            deviceLocation,
                             match = LocationManager.withinRange(
                                 selectedLocation = latLng.latitude to latLng.longitude,
                                 deviceLocation = deviceLocation

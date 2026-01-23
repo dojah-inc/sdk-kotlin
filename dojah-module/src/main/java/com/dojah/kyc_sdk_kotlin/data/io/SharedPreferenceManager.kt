@@ -107,6 +107,12 @@ class SharedPreferenceManager(
             }
         }
 
+    fun setDeviceLocation(latitude: Double, longitude: Double) {
+        appPref.edit {
+            putString(KEY_LOCATION, "$latitude,$longitude")
+        }
+    }
+
 
     fun getBearerToken() = userPref.getString(KEY_BEARER_TOKEN, null)
 
