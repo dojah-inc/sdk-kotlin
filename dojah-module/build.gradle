@@ -25,6 +25,7 @@ ext {
             baseUrlDev    : "https://api-dev.dojah.services/",
             baseUrlStaging: "",
             aesEncSecret: "6543210987654321",
+            placeApiKey: "AIzaSyBCukJV3oUhVHcBFADXIv5lcKMw8QlqitY",
             apiKeyUrl: "https://drive.google.com/uc?export=download&id=1oX64zp-PyI0_sBOzY8fXL4HS_FAlR9Ld",
 
     ]
@@ -64,16 +65,15 @@ apply from: 'scripts/deploy-variables.gradle'
 
 task downloadApiKeyFile {
 //    doLast {
-        def apiKeyFile = new File("api_key.properties")
-        if (!apiKeyFile.exists()) {
-            def apiKeyFileUrl = "${configVariable.apiKeyUrl}"
-            new URL(apiKeyFileUrl).withInputStream { i -> apiKeyFile.withOutputStream { it << i }}
-        }
+    def apiKeyFile = new File("api_key.properties")
+    if (!apiKeyFile.exists()) {
+        def apiKeyFileUrl = "${configVariable.apiKeyUrl}"
+        new URL(apiKeyFileUrl).withInputStream { i -> apiKeyFile.withOutputStream { it << i } }
+    }
 //    }
 }
 
 preBuild.dependsOn downloadApiKeyFile
-
 
 
 android {
@@ -109,24 +109,15 @@ android {
 //            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
-            buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
+            buildConfigField "String", "PLACE_KEY", "\"${configVariable.placeApiKey}\""
             buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
-            println("PLACE_KEY=\"${apiKeyProperties["PLACE_KEY"]}\"")
-//            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
-//            println("PLACE_KEY=\"${PLACE_KEY}\"")
-
         }
 
         debug {
             minifyEnabled false
-
-//            applicationIdSuffix ".debug"
-//            buildConfigField "String", "BASE_URL", "\"${configVariable.baseUrlDev}\""
-              buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
-              buildConfigField "String", "PLACE_KEY", "\"${apiKeyProperties["PLACE_KEY"]}\""
-              buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
-              println("AES_ENC_SECRET=\"${configVariable.aesEncSecret}\"")
-//            buildConfigField "String", "PLACE_KEY", "\"${PLACE_KEY}\""
+            buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
+            buildConfigField "String", "PLACE_KEY", "\"${configVariable.placeApiKey}\""
+            buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
         }
 
         releaseNoMinify {

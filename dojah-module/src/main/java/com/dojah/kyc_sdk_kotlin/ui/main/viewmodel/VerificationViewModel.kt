@@ -257,8 +257,10 @@ class VerificationViewModel(
 
                             //countries from sdk routes
                             val countries = preAuthResult.data.widget.country
-                            //Auto Select country
-                            if (countries.size == 1) {
+                            //Auto Select country if country is required and only one country is available
+                            val requireCountry = getStepWithPageName(KycPages.COUNTRY.serverKey)
+
+                            if (countries.size == 1 && requireCountry != null) {
                                 selectCountryIfJustOne(countries.first())
                             }
 
