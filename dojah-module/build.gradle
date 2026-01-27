@@ -24,9 +24,9 @@ ext {
             baseURL       : "https://api.dojah.io/",
             baseUrlDev    : "https://api-dev.dojah.services/",
             baseUrlStaging: "",
-            aesEncSecret: "6543210987654321",
-            placeApiKey: "AIzaSyBCukJV3oUhVHcBFADXIv5lcKMw8QlqitY",
-            apiKeyUrl: "https://drive.google.com/uc?export=download&id=1oX64zp-PyI0_sBOzY8fXL4HS_FAlR9Ld",
+            aesEncSecret  : "6543210987654321",
+            placeApiKey   : "AIzaSyBCukJV3oUhVHcBFADXIv5lcKMw8QlqitY",
+            apiKeyUrl     : "https://drive.google.com/uc?export=download&id=1oX64zp-PyI0_sBOzY8fXL4HS_FAlR9Ld",
 
     ]
 
@@ -101,9 +101,9 @@ android {
     }
 
     buildTypes {
-        def apiKeyPropertiesFile = file("api_key.properties")
-        def apiKeyProperties = new Properties()
-        apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+        //def apiKeyPropertiesFile = file("api_key.properties")
+        //def apiKeyProperties = new Properties()
+        // apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
         release {
             minifyEnabled false
 //            shrinkResources true
