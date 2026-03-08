@@ -22,9 +22,6 @@ import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 import com.dojah.kyc_sdk_kotlin.ui.utils.openAppSystemSettings
 
-
-
-
 class CaptureBackDocFragment : ErrorFragment() {
 
     private val binding by viewBinding { FragmentCaptureDocumentBinding.bind(it) }

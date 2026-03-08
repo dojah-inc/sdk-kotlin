@@ -14,6 +14,7 @@ import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.CaptureBackDocFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.CaptureDocumentFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.CaptureSelfieFragment
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.CaptureUtilityBillFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.DecisionErrorFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.DojahCountryErrorFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.DojahErrorFragment
@@ -21,9 +22,11 @@ import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.EmptyFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.EnterOtpFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.PreviewDocFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.PreviewSelfieFragment
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.PreviewUtilityBillFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.SuccessFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.UploadBackDocFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.UploadFrontDocFragment
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.UploadUtilityBillFragment
 import okhttp3.logging.HttpLoggingInterceptor
 import com.dojah.kyc_sdk_kotlin.ui.utils.*
 
@@ -44,6 +47,9 @@ object Routes {
     const val country_error_fragment = "error_country_fragment"
     const val success_route = "success_route"
     const val otp_route = "otp_route"
+    const val utility_bill_route = "capture_utility_bill_route"
+    const val preview_utility_billl_route = "preview_utility_bill_route"
+    const val upload_utility_billl_route = "upload_utility_bill_route"
 
     fun getOptionRoute(
         pageName: String,
@@ -139,6 +145,9 @@ class DojahNavGraph {
                     fragment<PreviewSelfieFragment>(Routes.preview_selfie_fragment)
                     fragment<PreviewDocFragment>(Routes.preview_doc_route)
                     fragment<EnterOtpFragment>(Routes.otp_route)
+                    fragment<CaptureUtilityBillFragment>(Routes.utility_bill_route)
+                    fragment<PreviewUtilityBillFragment>(Routes.preview_utility_billl_route)
+                    fragment<UploadUtilityBillFragment>(Routes.upload_utility_billl_route)
                     fragment<DojahErrorFragment>("${Routes.error_fragment}/{${NavArguments.option}}") {
                         argument(NavArguments.option) {
                             type = NavType.StringType

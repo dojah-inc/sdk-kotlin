@@ -141,7 +141,7 @@ class SimpleEditTextSpinner : LinearLayout {
         binding.apply {
             edtLayoutSpinner.textChanges()
                 .filterNot { it.isNullOrBlank() && itemSelected }
-                .debounce(3000)
+                .debounce(500)
                 .flatMapLatest {
                     flow {
                         if (itemSelected) {
@@ -221,11 +221,54 @@ class SimpleEditTextSpinner : LinearLayout {
         }
     }
 
+    /**
+     * Listener interface for text changes.
+     */
+    interface OnTextChangedListener {
+        fun onTextChanged(text: String)
+    }
+
+    interface OnItemSelectedListener {
+        fun onItemSelected(text: String)
+    }
+
+    private var onTextChangedListener: OnTextChangedListener? = null
+    private var onItemSelectedListener: OnItemSelectedListener? = null
+
+    /**
+     * Set the listener for text changes.
+     */
+    fun setOnTextChangedListener(listener: OnTextChangedListener) {
+        this.onTextChangedListener = listener
+    }
+
+    fun setOnItemSelectedListener(listener: OnItemSelectedListener) {
+        this.onItemSelectedListener = listener
+    }
+
     init {
         orientation = VERTICAL
 
         binding.layoutSpinner.addOnEditTextAttachedListener {
-            defaultInputType = it.editText!!.inputType
+            val editText = it.editText
+            editText?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    onTextChangedListener?.onTextChanged(s?.toString() ?: "")
+                }
+            })
+            defaultInputType = editText?.inputType ?: 0
             it.clearOnEditTextAttachedListeners()
         }
 
@@ -429,6 +472,7 @@ class SimpleEditTextSpinner : LinearLayout {
 
             itemSelected = true
             layoutSpinner.setText(item.address)
+            onItemSelectedListener?.onItemSelected(item.address.toString())
         }
     }
 
@@ -644,4 +688,3 @@ fun EditText.textChanges(): Flow<CharSequence?> {
         awaitClose { removeTextChangedListener(listener) }
     }.onStart { emit(text) }
 }
-

@@ -373,6 +373,9 @@ class DojahRepository(
         selectedAddressLatitude: Double,
         selectedAddressLongitude: Double,
         addressName: String,
+        state: String? = null,
+        lga: String? = null,
+        landmark: String? = null,
     ): Flow<Result<SimpleResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
@@ -385,6 +388,9 @@ class DojahRepository(
                             addressName,
                             sessionId = prefManager.getSessionId()
                                 ?: throw Exception("SessionId not found"),
+                            state = state,
+                            lga = lga,
+                            landmark = landmark
                         )
                     )
                 response.getResult(SimpleResponse::class.java)

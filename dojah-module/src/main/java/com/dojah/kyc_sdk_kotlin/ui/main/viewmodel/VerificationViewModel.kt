@@ -18,6 +18,7 @@ import com.dojah.kyc_sdk_kotlin.data.io.CountryManager
 import com.dojah.kyc_sdk_kotlin.data.io.SharedPreferenceManager
 import com.dojah.kyc_sdk_kotlin.data.repository.DojahRepository
 import com.dojah.kyc_sdk_kotlin.domain.Country
+import com.dojah.kyc_sdk_kotlin.domain.CountryState
 import com.dojah.kyc_sdk_kotlin.domain.DocumentInfo
 import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.domain.request.CheckIpRequest
@@ -49,6 +50,7 @@ class VerificationViewModel(
     private val logger: HttpLoggingInterceptor.Logger = HttpLoggingInterceptor.Logger.DEFAULT
     private val _countryLiveData = MutableLiveData<List<Country>>()
     private val _frontDocUriLiveData = MutableLiveData<Uri>()
+    private val _utilityBillUriLiveData = MutableLiveData<DocumentInfo>()
 
     //this stores the front and back doc uri info
     private val _docInfoLiveData = MutableLiveData<Pair<DocumentInfo?, DocumentInfo?>>()
@@ -68,6 +70,8 @@ class VerificationViewModel(
     private val _getIpDataLiveData = MutableLiveData<Result<GetIpResponse>>()
     private val _authErrLiveData = MutableLiveData<String>()
     private val _pages = MutableLiveData<List<Step>?>()
+    private val _statesLiveData = MutableLiveData<List<CountryState>>()
+    private val _citiesLiveData = MutableLiveData<List<String>>()
 
     val pages: LiveData<List<Step>?>
         get() = _pages
@@ -78,6 +82,15 @@ class VerificationViewModel(
         get() = _authDataLiveData
     val authVerificationCompletedLD: LiveData<Boolean>
         get() = _authVerificationCompletedLD
+
+    val states: LiveData<List<CountryState>>
+        get() = _statesLiveData
+
+    val utilityBillLiveData: LiveData<DocumentInfo>
+        get() = _utilityBillUriLiveData
+
+    val cities: LiveData<List<String>>
+        get() = _citiesLiveData
 
     val selfieAnalyisResultLiveData: LiveData<String?>
         get() = _selfieAnalysisResultLiveData
@@ -173,6 +186,15 @@ class VerificationViewModel(
         prefManager.setMaterialButtonBgColor(newColor)
     }
 
+    fun setUtilityBillUri(context: Context, uri: Uri, isUpload: Boolean = false): DocumentInfo? {
+        val docInfo = getDocInfo(context, uri, isUpload = isUpload)
+        docInfo?.let {
+            _utilityBillUriLiveData.postValue(it.copy(docUri = uri))
+        }
+
+        return docInfo
+    }
+
     fun setFrontDocUri(context: Context, uri: Uri, isUpload: Boolean): DocumentInfo? {
         val frontDocInfo = getDocInfo(context, uri, isUpload)
         _isBackDocLiveData.postValue(false)
@@ -208,6 +230,15 @@ class VerificationViewModel(
         _docTypeLiveData.postValue(GovDocType.enumOfValue(type))
     }
 
+    fun getStateCities(state: String, filter: String? = null) {
+        val cities = _statesLiveData.value?.firstOrNull {
+            it.name.equals(state, ignoreCase = true)
+        }?.subdivision?.filter {
+            it.contains(filter ?: "", ignoreCase = true)
+        } ?: emptyList()
+        _citiesLiveData.postValue(cities)
+    }
+
     fun loadCountries(callBack: ((List<Country>) -> Unit)? = null) {
 //        HttpLoggingInterceptor.Logger.DEFAULT.log("Loading countries")
         getCountries().start(viewModelScope)
@@ -226,6 +257,12 @@ class VerificationViewModel(
 
     fun getCountries(): CountryManager {
         return DojahSdk.dojahContainer.countryManager
+    }
+
+    fun loadUserCountryStates() {
+        val countryName = prefManager.getUserCountryName() ?: return
+        val states = countryManager.getCountryStatesList(countryName)
+        _statesLiveData.postValue(states)
     }
 
     fun authenticate(
@@ -280,8 +317,15 @@ class VerificationViewModel(
                                                 verificationId = authResult.data.initData?.authData?.verificationId,
                                             )
                                         ).collect {
-                                            _checkIpDataLiveData.postValue(it)
-                                            if (it is Result.Error) {
+                                            if (it is Result.Success) {
+                                                _checkIpDataLiveData.postValue(it)
+                                                it.data.entity?.country?.let { country ->
+                                                    prefManager.setUserCountryName(country)
+                                                    val states =
+                                                        countryManager.getCountryStatesList(country)
+                                                    _statesLiveData.postValue(states)
+                                                }
+                                            } else if (it is Result.Error) {
                                                 _authErrLiveData.postValue(
                                                     getErrorMessage(
                                                         it
@@ -405,7 +449,10 @@ class VerificationViewModel(
         selectedAddressLongitude: Double,
         addressName: String,
         deviceLocation: Pair<Double, Double>,
-        match: Boolean
+        match: Boolean,
+        state: String? = null,
+        province: String? = null,
+        landmark: String? = null,
     ) {
         prefManager.setLocation(deviceLocation.first, deviceLocation.second)
         val doVerification =
@@ -414,7 +461,10 @@ class VerificationViewModel(
             repo.sendBaseAddress(
                 selectedAddressLatitude,
                 selectedAddressLongitude,
-                addressName
+                addressName,
+                state,
+                province,
+                landmark
             ).onStart {
                 _submitAddressLiveData.postValue(Result.Loading)
             }.collect {
@@ -422,30 +472,31 @@ class VerificationViewModel(
                     if (doVerification) {
                         repo.sendAddress(match).collect { sendAddressResult ->
                             if (sendAddressResult is Result.Success) {
-                                logStepEvent(
-                                    page = KycPages.ADDRESS,
-                                    event = EventTypes.STEP_COMPLETED
-                                ).collect { eventResult ->
-                                    _submitAddressLiveData.postValue(eventResult)
-                                }
+                                _submitAddressLiveData.postValue(it)
+//                                logStepEvent(
+//                                    page = KycPages.ADDRESS,
+//                                    event = EventTypes.STEP_COMPLETED
+//                                ).collect { eventResult ->
+//
+//                                }
                             } else if (sendAddressResult is Result.Error) {
                                 _submitAddressLiveData.postValue(it)
-                                logStepEvent(
-                                    page = KycPages.ADDRESS,
-                                    event = EventTypes.STEP_FAILED,
-                                    error = sendAddressResult
-                                ).collect { result ->
-                                    //   _submitAddressLiveData.postValue(result)
-                                }
+//                                logStepEvent(
+//                                    page = KycPages.ADDRESS,
+//                                    event = EventTypes.STEP_FAILED,
+//                                    error = sendAddressResult
+//                                ).collect { result ->
+//                                    //   _submitAddressLiveData.postValue(result)
+//                                }
                             }
                         }
                     } else {
-                        logStepEvent(
-                            page = KycPages.ADDRESS,
-                            event = EventTypes.STEP_COMPLETED
-                        ).collect { eventResult ->
-                            _submitAddressLiveData.postValue(eventResult)
-                        }
+//                        logStepEvent(
+//                            page = KycPages.ADDRESS,
+//                            event = EventTypes.STEP_COMPLETED
+//                        ).collect { eventResult ->
+//                            _submitAddressLiveData.postValue(eventResult)
+//                        }
                     }
                 } else if (it is Result.Error) {
                     _submitAddressLiveData.postValue(it)

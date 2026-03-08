@@ -19,11 +19,56 @@
 
 
             <TextView
-                android:id="@+id/text_bvn"
+                android:id="@+id/text_state"
                 style="@style/TextView.InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/home_address" />
+                android:text="@string/home_state" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/home_state_spinner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconDrawable="@drawable/ic_dropdown"
+                app:endIconMode="custom"
+                app:endIconTint="?android:attr/textColor">
+
+                <AutoCompleteTextView
+                    android:id="@+id/home_state_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.Dojah.ParagraphSmall"
+                    android:hint="@string/select" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/home_lga_text"
+                style="@style/TextView.InputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_lga" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/home_lga_spinner"
+                    style="@style/TextAppearance.Dojah.ParagraphSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_lga"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/text_street_address"
+                style="@style/TextView.InputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_street" />
 
             <com.dojah.kyc_sdk_kotlin.ui.utils.widget.SimpleEditTextSpinner
                 android:id="@+id/address_spinner"
@@ -36,6 +81,27 @@
                 app:sstrokeTint="@color/card_stroke_color"
                 />
 
+
+            <TextView
+                android:id="@+id/text_landmark"
+                style="@style/TextView.InputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_landmark" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_spinner_landmark_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/home_landmark_spinner"
+                    style="@style/TextAppearance.Dojah.ParagraphSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/landmark"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahMaterialButton
                 android:id="@+id/btn_continue"

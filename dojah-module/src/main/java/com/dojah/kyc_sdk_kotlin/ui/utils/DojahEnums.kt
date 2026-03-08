@@ -55,6 +55,22 @@ enum class VerificationType(
     ),
     OTP("SMS", serverKey = "otp"),
     WHATSAPP("Whatsapp", serverKey = "whatsappOtp", actualServerKey = "whatsappOtp"),
+    UTILITY_BILL(
+        "Utility Bill",
+        "utility_bill",
+        actualServerKey = "utility_bill",
+        type = "utility",
+        "Upload Utility Bill Document",
+        "Ensure your utility bill is not more than 3 months old and clearly shows your address and date",
+    ),
+    LIVE_LOCATION(
+        "Live Location",
+        "live-location",
+        actualServerKey = "live_location",
+        type = "location",
+        "Capture your Live Location",
+        "Make sure your Live Location is properly placed, and hold it still for a few seconds",
+    ),
 
     PHONE_OTP("Phone Number OTP", "phone number"),
     EMAIL_OTP("Email OTP", "email"),
@@ -323,6 +339,7 @@ enum class FailedReasons(val code: String, val message: String, val statusCode: 
     ),
     INVALID_OTP("04", "Invalid OTP entered. Please, input the correct OTP"),
     OTP_NOT_SENT("05", "OTP Could not be sent, please try again"),
+    UTILITY_BILL_UPLOAD_FAILED("30", "Utility Bill upload failed. Please try again"), // only for utility bill
     ID_FAILED_MAX_TIME("10", "Your verification is awaiting approval"), // max trial error gov ID
     SELFIE_NO_CAPTURE(
         "06",

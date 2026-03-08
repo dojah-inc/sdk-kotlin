@@ -30,6 +30,7 @@
             android:name="com.dojah.kyc_sdk_kotlin.ui.main.DojahMainActivity"
             android:exported="true"
             android:theme="@style/Theme.Dojah"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
 

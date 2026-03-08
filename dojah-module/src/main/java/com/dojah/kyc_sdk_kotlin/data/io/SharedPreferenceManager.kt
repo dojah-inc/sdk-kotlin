@@ -24,6 +24,7 @@ class SharedPreferenceManager(
         const val ANDROID_SOURCE = "android_source"
         const val ANDROID_DEVICE_ID = "android_divice_id"
         const val WIDGET_ID = "widget_id"
+        const val USER_COUNTRY_NAME = "user_country_name"
         const val KEY_NOTIFICATION_TOKEN = "notification_token"
         const val KEY_SESSION_ID = "session id"
         const val KEY_PKEY = "key pkey"
@@ -84,6 +85,14 @@ class SharedPreferenceManager(
             putString(ANDROID_DEVICE_ID, signature)
         }
     }
+
+    fun setUserCountryName(countryName: String?) {
+        appPref.edit {
+            putString(USER_COUNTRY_NAME, countryName)
+        }
+    }
+
+    fun getUserCountryName(): String? = appPref.getString(USER_COUNTRY_NAME, null)
 
     fun getDeviceSignature(): String? = appPref.getString(ANDROID_DEVICE_ID, "")
 

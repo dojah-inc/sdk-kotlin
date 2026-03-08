@@ -51,7 +51,10 @@
     <string name="upload_instead">Upload instead</string>
     <string name="capture">Capture</string>
     <string name="make_sure_driver_id_is_placed">Make sure your Driver\’s License is properly placed, and hold it still for a few seconds</string>
+    <string name="utility_bill_instruction">Ensure your utility bil is not more than 3 months old</string>
+    <string name="utility_bill_preview_instruction">Ensure your utility bill is not more than 3 months old and clearly shows your address and date</string>
     <string name="capture_the_front_of_your_id">Capture the front of your ID</string>
+    <string name="capture_utility_bill">Capture Utility Bill</string>
     <string name="continue_on_my_smartphone">Continue on my Smartphone</string>
     <string name="retake">Retake</string>
     <string name="please_review_capture">Please take a moment to review the captured image to ensure it is clear and readable.</string>
@@ -61,6 +64,7 @@
     <string name="preview_your_selfie">Preview</string>
     <string name="capture_the_back_of_your_id">Capture the back of your ID</string>
     <string name="upload_the_front_of_your_id">Upload the front of your ID</string>
+    <string name="upload_utility_bill">Upload a recent utility bill</string>
     <string name="click__select_from_device">Click here to select from \nyour device.</string>
     <string name="capture_instead">Capture instead</string>
     <string name="image_thumbnails">image Thumbnails</string>
@@ -87,6 +91,14 @@
     <string name="phone_number">Phone number</string>
     <string name="enter_phone_number">Enter phone number</string>
     <string name="home_address">Home Address</string>
+    <string name="home_state">State</string>
+    <string name="home_street">Street</string>
+    <string name="select_state">Select State</string>
+    <string name="select_lga">LGA or Province</string>
+    <string name="home_lga">Local Government Area / Province</string>
+    <string name="enter_lga">LGA / Province</string>
+    <string name="home_landmark">Landmark (Optional)</string>
+    <string name="landmark">Landmark</string>
     <string name="rc_number">RC number</string>
     <string name="tin_number">TIN number</string>
     <string name="business_name">Business name</string>

@@ -180,7 +180,6 @@ class PreviewDocFragment : ErrorFragment() {
                 binding.processingText.setTextColor(color)
             }
 
-
             val info = if (isBackDoc == true) {
                 viewModel.docInfoLiveData.value?.second
             } else {

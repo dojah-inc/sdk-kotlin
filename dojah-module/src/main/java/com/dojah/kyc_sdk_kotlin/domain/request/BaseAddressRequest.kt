@@ -8,5 +8,8 @@ import com.google.gson.annotations.SerializedName
     val latitude: Double?, // 8.9628944
     val longitude: Double?, // 7.383398499999998
     val name: String?, // Goshen Close, Lugbe Abuja Municipal Area Council, Nigeria
-    @SerializedName("session_id") val sessionId: String? // 65c37ea22a88c900308a4ae7
+    @SerializedName("session_id") val sessionId: String?, // 65c37ea22a88c900308a4ae7
+    val state: String?, // Abuja
+    val lga: String?, // Nigeria
+    val landmark: String?, // Opposite Lugbe Police Station
 )

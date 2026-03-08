@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.core.util.DojahPricingUtil
-import com.dojah.kyc_sdk_kotlin.core.util.encrypted
 import com.dojah.kyc_sdk_kotlin.data.io.SharedPreferenceManager
 import com.dojah.kyc_sdk_kotlin.data.repository.DojahRepository
 import com.dojah.kyc_sdk_kotlin.domain.request.AdditionalDocRequest
@@ -18,18 +17,40 @@ import com.dojah.kyc_sdk_kotlin.domain.request.EventRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessCheckRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessVerifyRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.OtpRequest
-import com.dojah.kyc_sdk_kotlin.domain.responses.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
-import okhttp3.logging.HttpLoggingInterceptor
-import com.dojah.kyc_sdk_kotlin.ui.utils.*
+import com.dojah.kyc_sdk_kotlin.domain.responses.AuthResponse
+import com.dojah.kyc_sdk_kotlin.domain.responses.DocImageAnalysisResponse
+import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnum
+import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnumAttr
+import com.dojah.kyc_sdk_kotlin.domain.responses.DojahPricing
+import com.dojah.kyc_sdk_kotlin.domain.responses.GovIdEntityInterface
+import com.dojah.kyc_sdk_kotlin.domain.responses.ImageAnalysisResponse
+import com.dojah.kyc_sdk_kotlin.domain.responses.LivenessCheckResponse
+import com.dojah.kyc_sdk_kotlin.domain.responses.LivenessVerifyResponse
+import com.dojah.kyc_sdk_kotlin.domain.responses.PreAuthResponse
+import com.dojah.kyc_sdk_kotlin.domain.responses.SendOtpEntity
+import com.dojah.kyc_sdk_kotlin.domain.responses.SendOtpResponse
+import com.dojah.kyc_sdk_kotlin.domain.responses.SimpleResponse
+import com.dojah.kyc_sdk_kotlin.domain.responses.Step
+import com.dojah.kyc_sdk_kotlin.domain.responses.ValidateOtpEntity
+import com.dojah.kyc_sdk_kotlin.domain.responses.ValidateOtpResponse
+import com.dojah.kyc_sdk_kotlin.ui.utils.BusinessType
+import com.dojah.kyc_sdk_kotlin.ui.utils.CompanyType
+import com.dojah.kyc_sdk_kotlin.ui.utils.EventTypes
+import com.dojah.kyc_sdk_kotlin.ui.utils.FailedReasons
+import com.dojah.kyc_sdk_kotlin.ui.utils.GovDocType
+import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
+import com.dojah.kyc_sdk_kotlin.ui.utils.VerificationMethod
+import com.dojah.kyc_sdk_kotlin.ui.utils.VerificationType
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.launch
+import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 
 const val analysisRetryMax = 3
@@ -955,6 +976,65 @@ class GovDataViewModel(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    fun checkUtilityBillImage(page: KycPages, image: String) {
+        viewModelScope.launch {
+            val verificationId =
+                getAuthDataFromPref()?.initData?.authData?.verificationId
+                    ?: throw Exception("Verification id is null")
+
+            val stepNumber = getCurrentPage(page.serverKey)?.id
+                ?: throw Exception("Step number is null")
+
+            repo.checkLiveness(
+                LivenessCheckRequest(
+                    utilityBillImage = image,
+                    param = "utility_bill",
+                    verificationId = verificationId,
+                    stepNumber = stepNumber,
+                    docType = "image",
+                )
+            ).onStart {
+                /// start loading @check, and stop @ step event
+                /// or on error
+                _submitLivenessLiveData.postValue(Result.Loading)
+            }.collect {
+                if (it is Result.Error) {
+                    logStepEvent(
+                        page,
+                        EventTypes.STEP_FAILED,
+                        error = it,
+                    ).collect { _ ->
+                        /// fire event for all liveliness process
+                        _submitLivenessLiveData.postValue(it)
+                    }
+                    return@collect
+                }
+                else if (it is Result.Success) {
+                    if (it.data.entity?.match == true) {
+                        //then log step completed event
+                        logStepEvent(
+                            page,
+                            EventTypes.STEP_COMPLETED
+                        ).collect { eventResult ->
+                            /// fire event for all liveness process
+                            _submitLivenessLiveData.postValue(eventResult)
+                        }
+                    } else {
+                        logStepEvent(
+                            page,
+                            EventTypes.STEP_FAILED,
+                            failedReasons = FailedReasons.UTILITY_BILL_UPLOAD_FAILED
+                        ).collect { eventResult ->
+                            /// fire event for all liveliness process
+                            _submitLivenessLiveData.postValue(eventResult)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun checkLiveness(
         image: String,
         image2: String? = null,
@@ -1057,7 +1137,6 @@ class GovDataViewModel(
             )
         )
     }
-
 
     fun sendAdditionalDoc(
         mainVm: VerificationViewModel,
@@ -1362,14 +1441,14 @@ class GovDataViewModel(
             entry.key.lowercase()
                 .startsWith(selectedCountryCode.lowercase())
                     && entry.value.id == docType.serverKey
-        }?.value?.enum ?: throw Exception("No enum found for this doc type")
+        }?.value?.enum ?: "other"
     }
 
     private fun getServerEnumValueOfDocType(
         docType: GovDocType,
         selectedCountryCode: String
     ): String {
-        val defaultValue = dojahEnum.toMap()[docType.serverKey]?.value
+        val defaultValue = dojahEnum.toMap()[docType.serverKey]?.value ?: dojahEnum.other.value
         val firstValueSplit = defaultValue?.split("-")?.firstOrNull()
             ?: throw Exception("No enum found for this doc type")
         logger.log("firstValueSplit $firstValueSplit, selectedCountryCode $selectedCountryCode")

@@ -5,6 +5,7 @@ data class Country(
     val name: String,
     val code: String,
     val path: String,
+    val states: List<CountryState> = emptyList(),
     var selected: Boolean = false,
 ) {
 
@@ -28,5 +29,24 @@ data class Country(
         result = 31 * result + code.hashCode()
         result = 31 * result + path.hashCode()
         return result
+    }
+}
+
+data class CountryState(
+    val name: String,
+    val subdivision: List<String>,
+) {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as CountryState
+
+        return name == other.name
+    }
+
+    override fun hashCode(): Int {
+        return 31 * name.hashCode()
     }
 }

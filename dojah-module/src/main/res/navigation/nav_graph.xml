@@ -66,6 +66,12 @@
             android:label="@string/empty"
             tools:layout="@layout/fragment_home_address" />
 
+        <fragment
+            android:id="@+id/frag_utility_bill"
+            android:name="com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.CaptureUtilityBillFragment"
+            android:label="@string/empty"
+            tools:layout="@layout/fragment_capture_utility_bill"/>
+
 
         <fragment
             android:id="@+id/frag_success"
