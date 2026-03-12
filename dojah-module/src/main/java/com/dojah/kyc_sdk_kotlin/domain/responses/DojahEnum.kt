@@ -57,12 +57,12 @@ data class DojahEnum(
     val saId: DojahEnumAttr,
     val cac: DojahEnumAttr,
     val tin: DojahEnumAttr,
-    val other: DojahEnumAttr,
+    val other: DojahEnumAttr
 ) {
     fun toMap(): Map<String, DojahEnumAttr> {
         return mapOf(
             "bvn" to bvn,
-            "other" to other,
+            "other" to DojahEnumAttr(),
             "nin" to nin,
             "ao-nin" to aoNin,
             "za-id" to zaId,
@@ -101,20 +101,20 @@ data class DojahEnum(
 }
 
 data class DojahEnumAttr(
-    override val name: String?,
-    override val abbr: String?,
-    override val subtext: String?,
-    override val subtext2: String?,
-    override val placeholder: String?,
-    override val enum: String?,
-    override val spanid: String?,
-    override val inputType: String?,
-    override val inputMode: String?,
-    override val minLength: String?,
-    override val maxLength: String?,
-    override val id: String?,
-    override val idName: String?,
-    override val value: String?,
+    override val name: String? = null,
+    override val abbr: String? = null,
+    override val subtext: String? = null,
+    override val subtext2: String? = null,
+    override val placeholder: String? = null,
+    override val enum: String? = null,
+    override val spanid: String? = null,
+    override val inputType: String? = null,
+    override val inputMode: String? = null,
+    override val minLength: String? = null,
+    override val maxLength: String? = null,
+    override val id: String? = null,
+    override val idName: String? = null,
+    override val value: String? = null,
 ) : DojahEnumInterface
 
 interface DojahEnumInterface {

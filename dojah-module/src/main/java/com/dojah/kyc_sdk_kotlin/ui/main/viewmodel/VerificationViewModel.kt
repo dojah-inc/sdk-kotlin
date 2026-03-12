@@ -472,22 +472,22 @@ class VerificationViewModel(
                     if (doVerification) {
                         repo.sendAddress(match).collect { sendAddressResult ->
                             if (sendAddressResult is Result.Success) {
-                                _submitAddressLiveData.postValue(it)
-//                                logStepEvent(
-//                                    page = KycPages.ADDRESS,
-//                                    event = EventTypes.STEP_COMPLETED
-//                                ).collect { eventResult ->
-//
-//                                }
+
+                                logStepEvent(
+                                    page = KycPages.ADDRESS,
+                                    event = EventTypes.STEP_COMPLETED
+                                ).collect { eventResult ->
+                                    _submitAddressLiveData.postValue(it)
+                                }
+
                             } else if (sendAddressResult is Result.Error) {
-                                _submitAddressLiveData.postValue(it)
-//                                logStepEvent(
-//                                    page = KycPages.ADDRESS,
-//                                    event = EventTypes.STEP_FAILED,
-//                                    error = sendAddressResult
-//                                ).collect { result ->
-//                                    //   _submitAddressLiveData.postValue(result)
-//                                }
+                                logStepEvent(
+                                    page = KycPages.ADDRESS,
+                                    event = EventTypes.STEP_FAILED,
+                                    error = sendAddressResult
+                                ).collect { result ->
+                                    _submitAddressLiveData.postValue(it)
+                                }
                             }
                         }
                     } else {

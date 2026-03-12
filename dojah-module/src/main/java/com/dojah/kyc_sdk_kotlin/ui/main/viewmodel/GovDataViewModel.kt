@@ -1437,11 +1437,11 @@ class GovDataViewModel(
         selectedCountryCode: String
     ): String {
         return dojahEnum.toMap().entries.find { entry ->
-            logger.log("key ${entry.key} value ${entry.value.id} docType ${docType.serverKey}, selectedCountryCode $selectedCountryCode")
+            //logger.log("key ${entry.key} value ${entry.value.id} docType ${docType.serverKey}, selectedCountryCode $selectedCountryCode")
             entry.key.lowercase()
                 .startsWith(selectedCountryCode.lowercase())
                     && entry.value.id == docType.serverKey
-        }?.value?.enum ?: "other"
+        }?.value?.enum ?: docType.serverKey
     }
 
     private fun getServerEnumValueOfDocType(
