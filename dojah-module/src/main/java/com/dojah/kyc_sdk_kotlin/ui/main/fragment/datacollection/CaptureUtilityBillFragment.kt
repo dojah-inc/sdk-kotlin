@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import androidx.camera.view.PreviewView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -19,7 +18,6 @@ import com.dojah.kyc_sdk_kotlin.ui.main.fragment.Routes
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.utils.CameraUtil
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
-import kotlin.getValue
 
 class CaptureUtilityBillFragment : ErrorFragment() {
     private val binding by viewBinding { FragmentCaptureUtilityBillBinding.bind(it) }

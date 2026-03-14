@@ -176,7 +176,7 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
                     bizNumber.toString(),
 //                    businessName.toString(),
                     null,
-                    companyType!!
+                    companyType
                 )
             }
         }
