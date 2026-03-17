@@ -15,7 +15,7 @@ ext {
             targetSdk            : 34,
             compileSdk           : 34,
             versionCode          : 30,
-            versionName          : "0.2.5",
+            versionName          : "0.2.6",
             fileProviderAuthority: "com.dojah.kyc_sdk_kotlin.provider"
     ]
 

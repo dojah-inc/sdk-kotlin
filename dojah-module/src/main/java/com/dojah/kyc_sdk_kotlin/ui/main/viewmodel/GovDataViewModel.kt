@@ -1202,7 +1202,6 @@ class GovDataViewModel(
                 selectedIdEnum = selectedTypeEnum,
                 userId = number,
                 stepNumber = stepNumber
-
             ).onStart {
                 _submitBizLiveData.postValue(Result.Loading)
             }.collect {

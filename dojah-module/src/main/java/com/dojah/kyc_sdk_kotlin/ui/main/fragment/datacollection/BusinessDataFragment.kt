@@ -118,7 +118,7 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
                 }
                 displaySpinnerDropdown(
                     it,
-                    companyTypes.map { enum -> enum?.title ?: "" },
+                    companyTypes.map { enum -> enum.title },
                     false
                 ) { index ->
                     val type = companyTypes[index]
@@ -171,13 +171,16 @@ class BusinessDataFragment : SpinnerFragment(R.layout.fragment_business_data) {
                         inputRcNumber.editText!!.error = null
                     }
                 }
-                govViewModel.submitBusinessData(
-                    viewModel,
-                    bizNumber.toString(),
-//                    businessName.toString(),
-                    null,
-                    companyType
-                )
+
+                companyType?.let { type ->
+                    govViewModel.submitBusinessData(
+                        viewModel,
+                        bizNumber.toString(),
+                        null,
+                        type
+                    )
+                }
+
             }
         }
     }

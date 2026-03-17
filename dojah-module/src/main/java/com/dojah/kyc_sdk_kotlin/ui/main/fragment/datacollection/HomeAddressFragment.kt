@@ -70,9 +70,7 @@ class HomeAddressFragment : SpinnerFragment(R.layout.fragment_home_address) {
             }
 
             else -> {
-                showPermissionError {
-                    cameraContract.launch(Manifest.permission.CAMERA)
-                }
+                cameraContract.launch(Manifest.permission.CAMERA)
             }
         }
     }

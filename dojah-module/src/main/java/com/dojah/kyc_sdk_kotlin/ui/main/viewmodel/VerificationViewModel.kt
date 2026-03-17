@@ -476,7 +476,7 @@ class VerificationViewModel(
                                 logStepEvent(
                                     page = KycPages.ADDRESS,
                                     event = EventTypes.STEP_COMPLETED
-                                ).collect { eventResult ->
+                                ).collect { _ ->
                                     _submitAddressLiveData.postValue(it)
                                 }
 
@@ -491,12 +491,12 @@ class VerificationViewModel(
                             }
                         }
                     } else {
-//                        logStepEvent(
-//                            page = KycPages.ADDRESS,
-//                            event = EventTypes.STEP_COMPLETED
-//                        ).collect { eventResult ->
-//                            _submitAddressLiveData.postValue(eventResult)
-//                        }
+                        logStepEvent(
+                            page = KycPages.ADDRESS,
+                            event = EventTypes.STEP_COMPLETED
+                        ).collect { eventResult ->
+                            _submitAddressLiveData.postValue(eventResult)
+                        }
                     }
                 } else if (it is Result.Error) {
                     _submitAddressLiveData.postValue(it)
@@ -504,9 +504,7 @@ class VerificationViewModel(
                         page = KycPages.ADDRESS,
                         event = EventTypes.STEP_FAILED,
                         error = it
-                    ).collect { result ->
-
-                    }
+                    ).collect { _ -> }
                 }
             }
         }
