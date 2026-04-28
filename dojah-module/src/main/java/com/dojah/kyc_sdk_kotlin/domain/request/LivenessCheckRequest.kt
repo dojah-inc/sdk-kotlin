@@ -16,4 +16,6 @@ data class LivenessCheckRequest(
     @SerializedName("front_of_house_image") val frontOfHouseImage: String? = null, // true
     @SerializedName("outside_gate_image") val outsideGateImage: String? = null, // true
     @SerializedName("street_image") val streetImage: String? = null, // true
+    @SerializedName("live_location_longitude") val liveLocationLongitude: Double? = null, // true
+    @SerializedName("live_location_latitude") val liveLocationLatitude: Double? = null, // true
 )

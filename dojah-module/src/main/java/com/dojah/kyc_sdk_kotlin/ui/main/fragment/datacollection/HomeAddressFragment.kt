@@ -127,10 +127,6 @@ class HomeAddressFragment : SpinnerFragment(R.layout.fragment_home_address) {
             locationManager.startLocationUpdates()
         }
 
-        viewModel.states.observe(requireActivity()) {
-
-        }
-
         viewModel.cities.observe(requireActivity()) {
             if (it.isEmpty()) {
                 return@observe
@@ -153,12 +149,17 @@ class HomeAddressFragment : SpinnerFragment(R.layout.fragment_home_address) {
                 if (it is Result.Success) {
                     viewModel.getStepWithPageName(KycPages.ADDRESS.serverKey)?.config?.let { config ->
                         if (config.utilityBill == true) {
-                            // if utility bill is required, we navigate to the next step which is the utility bill upload page, otherwise we check for live location requirement or just navigate to the next step
+                            // if utility bill is required, navigate to utility bill upload page
                             checkCameraPermission {
                                 navViewModel.navigate(Routes.utility_bill_route)
                             }
                         } else if (config.liveLocation == true) {
                             // navigate to live location page is required
+                            // building photos required — reset index and launch capture flow
+                            viewModel.clearBuildingPhotos()
+                            checkCameraPermission {
+                                navViewModel.navigate(Routes.capture_building_photo_route)
+                            }
                         } else {
                             navViewModel.navigateNextStep()
                         }

@@ -143,6 +143,10 @@ class GovDataViewModel(
     val submitLivenessLiveData: LiveData<Result<SimpleResponse?>?>
         get() = _submitLivenessLiveData
 
+    private val _submitLiveLocationLiveData = MutableLiveData<Result<SimpleResponse?>?>()
+    val submitLiveLocationLiveData: LiveData<Result<SimpleResponse?>?>
+        get() = _submitLiveLocationLiveData
+
     private val _analysisRetryCountLiveData = MutableLiveData<Int>(0)
     val analysisRetryCountLiveData: LiveData<Int>
         get() = _analysisRetryCountLiveData
@@ -976,6 +980,75 @@ class GovDataViewModel(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    fun checkLiveLocationImages(
+        page: KycPages,
+        front: String,
+        outside: String,
+        street: String,
+        latitude: Double,
+        longitude: Double,
+    ) {
+        viewModelScope.launch {
+            val verificationId =
+                getAuthDataFromPref()?.initData?.authData?.verificationId
+                    ?: throw Exception("Verification id is null")
+
+            val stepNumber = getCurrentPage(page.serverKey)?.id
+                ?: throw Exception("Step number is null")
+
+            repo.checkLiveness(
+                LivenessCheckRequest(
+                    frontOfHouseImage = front,
+                    outsideGateImage = outside,
+                    streetImage = street,
+                    param = "live_location",
+                    verificationId = verificationId,
+                    stepNumber = stepNumber,
+                    docType = "image",
+                    liveLocationLatitude = latitude,
+                    liveLocationLongitude = longitude,
+                )
+            ).onStart {
+                /// start loading @check, and stop @ step event
+                /// or on error
+                _submitLiveLocationLiveData.postValue(Result.Loading)
+            }.collect {
+                if (it is Result.Error) {
+                    logStepEvent(
+                        page,
+                        EventTypes.STEP_FAILED,
+                        error = it,
+                    ).collect { _ ->
+                        /// fire event for all liveliness process
+                        _submitLiveLocationLiveData.postValue(it)
+                    }
+                    return@collect
+                } else if (it is Result.Success) {
+                    if (it.data.entity?.match == true) {
+                        //then log step completed event
+                        logStepEvent(
+                            page,
+                            EventTypes.STEP_COMPLETED
+                        ).collect { eventResult ->
+                            /// fire event for all liveness process
+                            _submitLiveLocationLiveData.postValue(eventResult)
+                        }
+                    } else {
+                        logStepEvent(
+                            page,
+                            EventTypes.STEP_FAILED,
+                            failedReasons = FailedReasons.UTILITY_BILL_UPLOAD_FAILED
+                        ).collect { eventResult ->
+                            /// fire event for all liveliness process
+                            _submitLiveLocationLiveData.postValue(eventResult)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     fun checkUtilityBillImage(page: KycPages, image: String) {
         viewModelScope.launch {
             val verificationId =
@@ -1008,8 +1081,7 @@ class GovDataViewModel(
                         _submitLivenessLiveData.postValue(it)
                     }
                     return@collect
-                }
-                else if (it is Result.Success) {
+                } else if (it is Result.Success) {
                     if (it.data.entity?.match == true) {
                         //then log step completed event
                         logStepEvent(

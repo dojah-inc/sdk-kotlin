@@ -3,6 +3,7 @@ package com.dojah.kyc_sdk_kotlin.domain.responses
 import com.dojah.kyc_sdk_kotlin.domain.request.AuthReqSteps
 import com.dojah.kyc_sdk_kotlin.domain.request.AuthRequest
 import com.dojah.kyc_sdk_kotlin.ui.utils.*
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
 private val USER_DATA = "user-data"
@@ -191,7 +192,7 @@ data class Widget(
     @SerializedName("ip_screening") var ipScreening: IpScreening? = IpScreening(),
     @SerializedName("duplicate_check") var duplicateCheck: Boolean? = null,
     @SerializedName("direct_feedback") var directFeedback: Boolean? = null,
-    @SerializedName("rules") var rules: Rules? = Rules(),
+    @SerializedName("rules") var rules: JsonObject? = null,
 ) {
     data class AmlScreening(
         @SerializedName("action_returned") var actionReturned: String? = null,
@@ -200,27 +201,6 @@ data class Widget(
     data class IpScreening(
         @SerializedName("action_blacklisted") var actionBlacklisted: String? = null,
     )
-
-
-    data class Rules(
-
-        @SerializedName("user_data") var userData: UserData? = UserData(),
-        @SerializedName("aml_screening") var amlScreening: AmlScreening? = null,
-        @SerializedName("ip_screening") var ipScreening: IpScreening? = null,
-        @SerializedName("liveness_match") var livenessMatch: LivenessMatch? = LivenessMatch()
-
-    ) {
-
-        data class UserData(
-            @SerializedName("fields") var fields: ArrayList<String> = arrayListOf(),
-            @SerializedName("action") var action: String? = null
-        )
-
-        data class LivenessMatch(
-            @SerializedName("glassesCheck") var glassesCheck: Boolean? = null,
-            @SerializedName("brightnessThreshold") var brightnessThreshold: Int? = null
-        )
-    }
 }
 
 data class App(

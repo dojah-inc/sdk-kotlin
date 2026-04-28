@@ -1,7 +1,7 @@
 package com.dojah.kyc_sdk_kotlin.domain.request
 
 import com.dojah.kyc_sdk_kotlin.domain.responses.Config
-import com.dojah.kyc_sdk_kotlin.domain.responses.Widget
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
 
@@ -15,7 +15,7 @@ data class AuthRequest(
     @SerializedName("steps") var steps: List<AuthReqSteps> = listOf(),
     @SerializedName("duplicate_check") var duplicateCheck: Boolean? = null,
     @SerializedName("direct_feedback") var directFeedback: Boolean? = null,
-    @SerializedName("rules") var rules: Widget.Rules? = Widget.Rules(),
+    @SerializedName("rules") var rules: JsonObject? = null,
     @SerializedName("reference_id") var referenceId: String? = null,
     @SerializedName("email") var email: String? = null,
     @SerializedName("source") val source: String? = null,

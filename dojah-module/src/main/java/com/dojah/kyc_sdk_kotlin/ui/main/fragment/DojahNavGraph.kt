@@ -27,6 +27,9 @@ import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.SuccessFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.UploadBackDocFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.UploadFrontDocFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.UploadUtilityBillFragment
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.CaptureBuildingPhotoFragment
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.PreviewBuildingPhotoFragment
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.UploadBuildingPhotoFragment
 import okhttp3.logging.HttpLoggingInterceptor
 import com.dojah.kyc_sdk_kotlin.ui.utils.*
 
@@ -50,6 +53,9 @@ object Routes {
     const val utility_bill_route = "capture_utility_bill_route"
     const val preview_utility_billl_route = "preview_utility_bill_route"
     const val upload_utility_billl_route = "upload_utility_bill_route"
+    const val capture_building_photo_route = "capture_building_photo_route"
+    const val preview_building_photo_route = "preview_building_photo_route"
+    const val upload_building_photo_route = "upload_building_photo_route"
 
     fun getOptionRoute(
         pageName: String,
@@ -148,6 +154,9 @@ class DojahNavGraph {
                     fragment<CaptureUtilityBillFragment>(Routes.utility_bill_route)
                     fragment<PreviewUtilityBillFragment>(Routes.preview_utility_billl_route)
                     fragment<UploadUtilityBillFragment>(Routes.upload_utility_billl_route)
+                    fragment<CaptureBuildingPhotoFragment>(Routes.capture_building_photo_route)
+                    fragment<PreviewBuildingPhotoFragment>(Routes.preview_building_photo_route)
+                    fragment<UploadBuildingPhotoFragment>(Routes.upload_building_photo_route)
                     fragment<DojahErrorFragment>("${Routes.error_fragment}/{${NavArguments.option}}") {
                         argument(NavArguments.option) {
                             type = NavType.StringType

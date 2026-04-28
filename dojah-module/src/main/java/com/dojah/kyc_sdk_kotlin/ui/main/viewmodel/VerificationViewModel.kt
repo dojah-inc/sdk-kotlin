@@ -52,6 +52,16 @@ class VerificationViewModel(
     private val _frontDocUriLiveData = MutableLiveData<Uri>()
     private val _utilityBillUriLiveData = MutableLiveData<DocumentInfo>()
 
+    // Building photos: stores up to 3 captured/uploaded photos (index 0,1,2)
+    private val _buildingPhotoUrisLiveData = MutableLiveData(
+        mutableListOf<DocumentInfo?>(null, null, null)
+    )
+
+    // Tracks which building photo step (0, 1, 2) is currently being captured/previewed
+    private val _currentBuildingPhotoIndexLiveData = MutableLiveData(0)
+    val currentBuildingPhotoIndex: Int
+        get() = _currentBuildingPhotoIndexLiveData.value ?: 0
+
     //this stores the front and back doc uri info
     private val _docInfoLiveData = MutableLiveData<Pair<DocumentInfo?, DocumentInfo?>>()
     private val _backDocUriLiveData = MutableLiveData<Uri>()
@@ -88,6 +98,9 @@ class VerificationViewModel(
 
     val utilityBillLiveData: LiveData<DocumentInfo>
         get() = _utilityBillUriLiveData
+
+    val buildingPhotoUrisLiveData: LiveData<MutableList<DocumentInfo?>>
+        get() = _buildingPhotoUrisLiveData
 
     val cities: LiveData<List<String>>
         get() = _citiesLiveData
@@ -193,6 +206,25 @@ class VerificationViewModel(
         }
 
         return docInfo
+    }
+
+    fun setBuildingPhotoUri(context: Context, index: Int, uri: Uri, isUpload: Boolean = false): DocumentInfo? {
+        val docInfo = getDocInfo(context, uri, isUpload = isUpload)
+        docInfo?.let {
+            val current: MutableList<DocumentInfo?> = _buildingPhotoUrisLiveData.value ?: mutableListOf(null, null, null)
+            current[index] = it.copy(docUri = uri)
+            _buildingPhotoUrisLiveData.postValue(current)
+        }
+        return docInfo
+    }
+
+    fun setCurrentBuildingPhotoIndex(index: Int) {
+        _currentBuildingPhotoIndexLiveData.postValue(index)
+    }
+
+    fun clearBuildingPhotos() {
+        _buildingPhotoUrisLiveData.postValue(mutableListOf(null, null, null))
+        _currentBuildingPhotoIndexLiveData.postValue(0)
     }
 
     fun setFrontDocUri(context: Context, uri: Uri, isUpload: Boolean): DocumentInfo? {

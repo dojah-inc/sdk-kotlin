@@ -113,6 +113,7 @@ data class Config(
     @SerializedName("verification") var verification: Boolean? = null,
     @SerializedName("utilityBill") var utilityBill: Boolean? = null,
     @SerializedName("liveLocation") var liveLocation: Boolean? = null,
+    @SerializedName("buildingPhotos") var buildingPhotos: Boolean? = null,
     @SerializedName("hideUpload") var hideUpload: Boolean? = null,
     @SerializedName("whatsappVerification") var whatsappVerification: Boolean? = null,
     @SerializedName("whatsappOtp") var whatsappOtp: Boolean? = null,
@@ -131,7 +132,7 @@ data class Config(
 ) {
     val otpVerificationTypes: List<String>
         get() = listOfNotNull(
-            "SMS".takeIf { otp == true },
+            "OTP".takeIf { otp == true || verification == true },
             "Whatsapp".takeIf { whatsappVerification == true }
         )
 

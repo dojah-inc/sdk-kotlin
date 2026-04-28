@@ -2,7 +2,6 @@ package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
 
 import android.graphics.Bitmap
 import android.graphics.Outline
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,14 +11,12 @@ import android.view.ViewOutlineProvider
 import androidx.annotation.RequiresApi
 import androidx.camera.view.PreviewView
 import androidx.core.graphics.get
-import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.navGraphViewModels
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.util.CancellableCountDownTimer
-import com.dojah.kyc_sdk_kotlin.core.util.encrypted
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentCaptureSelfieBinding
 import com.dojah.kyc_sdk_kotlin.ui.base.ErrorFragment
 import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel

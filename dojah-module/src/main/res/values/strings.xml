@@ -55,6 +55,16 @@
     <string name="utility_bill_preview_instruction">Ensure your utility bill is not more than 3 months old and clearly shows your address and date</string>
     <string name="capture_the_front_of_your_id">Capture the front of your ID</string>
     <string name="capture_utility_bill">Capture Utility Bill</string>
+    <string name="capture_building_photo">Capture Building Photo</string>
+    <string name="building_photo_title_1">Capture the front of your house from within your compound</string>
+    <string name="building_photo_title_2">Capture an image of your house showing the gate and house number</string>
+    <string name="building_photo_title_3">Capture your street showing parts of your house</string>
+    <string name="building_photo_instruction_1">Verify your physical presence at your provided address</string>
+    <string name="building_photo_instruction_2">Take a clear photo of the side of the building</string>
+    <string name="building_photo_instruction_3">Take a clear photo of the entrance of the building</string>
+    <string name="building_photo_preview_instruction">Ensure the photo is clear and the building is fully visible</string>
+    <string name="upload_building_photo">Upload a photo of the building</string>
+    <string name="photo_of">Photo %1$d of %2$d</string>
     <string name="continue_on_my_smartphone">Continue on my Smartphone</string>
     <string name="retake">Retake</string>
     <string name="please_review_capture">Please take a moment to review the captured image to ensure it is clear and readable.</string>
