@@ -56,9 +56,7 @@ class HomeAddressFragment : SpinnerFragment(R.layout.fragment_home_address) {
     private var selectedState: CountryState? = null
     private var selectedCity: String? = null
 
-    private val locationManager: LocationManager by lazy {
-        DojahSdk.dojahContainer.locationManager
-    }
+    private val locationManager: LocationManager = DojahSdk.dojahContainer.locationManager
 
     private fun checkCameraPermission(onGranted: () -> Unit) {
         when {
@@ -120,7 +118,11 @@ class HomeAddressFragment : SpinnerFragment(R.layout.fragment_home_address) {
 
         viewModel.loadUserCountryStates()
 
-        context?.let { Places.initialize(it, BuildConfig.PLACE_KEY) }
+        context?.let {
+            if (!Places.isInitialized()) {
+                Places.initialize(it, BuildConfig.PLACE_KEY)
+            }
+        }
 
         checkLocationPermission {
             locationManager.hasPermission = true
@@ -214,11 +216,6 @@ class HomeAddressFragment : SpinnerFragment(R.layout.fragment_home_address) {
         updateButtonState()
 
         binding.apply {
-            if (clientUserLocation == null && viewModel.extraUserDataFromPref?.address != null) {
-                root.isVisible = false
-            } else {
-                root.isVisible = true
-            }
             requireActivity().onBackPressedDispatcher.addCallback {
                 if (addressSpinner.popupWindow?.isShowing == true) {
                     addressSpinner.popupWindow?.dismiss()
@@ -305,9 +302,15 @@ class HomeAddressFragment : SpinnerFragment(R.layout.fragment_home_address) {
                         deviceLocation = locationManager.lastLocation
                     }
                     if (deviceLocation != null) {
+                        val distanceInMeters = LocationManager.distanceBetween(
+                            selectedLocation = latLng.latitude to latLng.longitude,
+                            deviceLocation = deviceLocation
+                        )
+
                         viewModel.sendAddress(
                             latLng.latitude,
                             latLng.longitude,
+                            distance = distanceInMeters,
                             selectedPlace.address ?: "",
                             deviceLocation,
                             match = LocationManager.withinRange(

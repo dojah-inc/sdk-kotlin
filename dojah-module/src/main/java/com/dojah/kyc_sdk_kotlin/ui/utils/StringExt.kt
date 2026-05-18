@@ -1,10 +1,12 @@
 package com.dojah.kyc_sdk_kotlin.ui.utils
 
+import android.graphics.Color
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import androidx.core.graphics.toColorInt
 
 fun String.containsADigitChar(): Boolean {
     val p: Pattern = Pattern.compile("^(?=.*?[0-9]).+$")
@@ -12,6 +14,12 @@ fun String.containsADigitChar(): Boolean {
     // & regular expression
     val m: Matcher = p.matcher(this)
     return m.matches()
+}
+
+fun String.normaliseColor(): Int {
+    val code = this.replace("#", "")
+    val colorString = if (code.length < 6) code.padEnd(6, '0') else code
+    return "#$colorString".toColorInt()
 }
 
 fun String.addChars(): Int {

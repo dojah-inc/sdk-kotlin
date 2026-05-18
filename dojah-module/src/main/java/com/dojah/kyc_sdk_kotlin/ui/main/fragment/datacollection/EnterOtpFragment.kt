@@ -34,6 +34,7 @@ import com.otpview.OTPListener
 
 import okhttp3.logging.HttpLoggingInterceptor
 import androidx.core.graphics.toColorInt
+import com.dojah.kyc_sdk_kotlin.ui.utils.normaliseColor
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -68,7 +69,7 @@ class EnterOtpFragment : ErrorFragment(R.layout.fragment_enter_otp2) {
                         setTextColor(
                             ColorStateList.valueOf(
                                 viewModel.prefManager.getMaterialButtonBgColor.let { brandColor ->
-                                    brandColor?.toColorInt() ?: context.getAttr(androidx.appcompat.R.attr.colorPrimary)
+                                    brandColor?.normaliseColor() ?: context.getAttr(androidx.appcompat.R.attr.colorPrimary)
                                 }
                             )
                         )

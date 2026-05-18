@@ -17,6 +17,26 @@
 
 
     <application>
+        <!-- Sentry error monitoring configuration (DSN configured via BuildConfig in DojahSdk) -->
+        <meta-data
+            android:name="io.sentry.dsn"
+            android:value="https://eb0d1a34dd73551c03fffc1d0f55bda8@logs.dojah.services/11" />
+        <meta-data
+            android:name="io.sentry.send-default-pii"
+            android:value="true" />
+        <meta-data
+            android:name="io.sentry.traces-sample-rate"
+            android:value="0.2" />
+        <meta-data
+            android:name="io.sentry.anr.enable"
+            android:value="true" />
+        <meta-data
+            android:name="io.sentry.attach-screenshot"
+            android:value="true" />
+        <meta-data
+            android:name="io.sentry.attach-view-hierarchy"
+            android:value="true" />
+
         <activity
             android:name="com.dojah.kyc_sdk_kotlin.ui.splash.SplashActivity"
             android:exported="true"
@@ -29,8 +49,8 @@
         <activity
             android:name="com.dojah.kyc_sdk_kotlin.ui.main.DojahMainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Dojah"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Dojah"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
 

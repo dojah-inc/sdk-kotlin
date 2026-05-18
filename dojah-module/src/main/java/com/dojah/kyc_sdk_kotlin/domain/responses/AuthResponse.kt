@@ -110,6 +110,16 @@ data class Config(
     @SerializedName("nin") var nin: Boolean? = null,
     @SerializedName("cac") var cac: Boolean? = null,
     @SerializedName("tin") var tin: Boolean? = null,
+    @SerializedName("za-id") var zaId: Boolean? = null,
+    @SerializedName("gh-dl") var ghDl: Boolean? = null,
+    @SerializedName("gh-voter") var ghVoter: Boolean? = null,
+    @SerializedName("tz-nin") var tzNin: Boolean? = null,
+    @SerializedName("ug-id") var ugId: Boolean? = null,
+    @SerializedName("ke-id") var keId: Boolean? = null,
+    @SerializedName("ke-dl") var keDl: Boolean? = null,
+    @SerializedName("ke-kra") var keKra: Boolean? = null,
+    @SerializedName("sa-dl") var saDl: Boolean? = null,
+    @SerializedName("sa-id") var saId: Boolean? = null,
     @SerializedName("verification") var verification: Boolean? = null,
     @SerializedName("utilityBill") var utilityBill: Boolean? = null,
     @SerializedName("liveLocation") var liveLocation: Boolean? = null,
@@ -154,7 +164,7 @@ data class Config(
             ).apply {
                 if (passport == true)
                     add(GovDocType.PASSPORT.serverKey)
-                if (dl == true)
+                if (dl == true || keDl == true || saDl == true || ghDl == true)
                     add(GovDocType.DL.serverKey)
                 if (bvn == true)
                     add(GovDocType.BVN.serverKey)
@@ -164,7 +174,7 @@ data class Config(
                     add(GovDocType.NIN.serverKey)
                 if (vnin == true)
                     add(GovDocType.VNIN.serverKey)
-                if (national == true)
+                if (national == true || keId == true || saId == true || ugId == true)
                     add(GovDocType.NATIONAL.serverKey)
             }
         }

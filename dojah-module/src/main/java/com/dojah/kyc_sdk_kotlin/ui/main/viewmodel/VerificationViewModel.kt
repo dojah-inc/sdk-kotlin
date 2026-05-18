@@ -171,7 +171,6 @@ class VerificationViewModel(
     val selectedGovDataLiveData: LiveData<DojahEnumAttr?>
         get() = _selectedGovIdDataLiveData
 
-
     private val _submitGovLiveData = MutableLiveData<Result<String>>()
     val submitGovLiveData: LiveData<Result<String>>
         get() = _submitGovLiveData
@@ -208,10 +207,16 @@ class VerificationViewModel(
         return docInfo
     }
 
-    fun setBuildingPhotoUri(context: Context, index: Int, uri: Uri, isUpload: Boolean = false): DocumentInfo? {
+    fun setBuildingPhotoUri(
+        context: Context,
+        index: Int,
+        uri: Uri,
+        isUpload: Boolean = false
+    ): DocumentInfo? {
         val docInfo = getDocInfo(context, uri, isUpload = isUpload)
         docInfo?.let {
-            val current: MutableList<DocumentInfo?> = _buildingPhotoUrisLiveData.value ?: mutableListOf(null, null, null)
+            val current: MutableList<DocumentInfo?> =
+                _buildingPhotoUrisLiveData.value ?: mutableListOf(null, null, null)
             current[index] = it.copy(docUri = uri)
             _buildingPhotoUrisLiveData.postValue(current)
         }
@@ -479,6 +484,7 @@ class VerificationViewModel(
     fun sendAddress(
         selectedAddressLatitude: Double,
         selectedAddressLongitude: Double,
+        distance: Double,
         addressName: String,
         deviceLocation: Pair<Double, Double>,
         match: Boolean,
@@ -502,14 +508,24 @@ class VerificationViewModel(
             }.collect {
                 if (it is Result.Success) {
                     if (doVerification) {
-                        repo.sendAddress(match).collect { sendAddressResult ->
+                        repo.sendAddress(match, distance).collect { sendAddressResult ->
                             if (sendAddressResult is Result.Success) {
 
-                                logStepEvent(
-                                    page = KycPages.ADDRESS,
-                                    event = EventTypes.STEP_COMPLETED
-                                ).collect { _ ->
-                                    _submitAddressLiveData.postValue(it)
+                                if (match) {
+                                    logStepEvent(
+                                        page = KycPages.ADDRESS,
+                                        event = EventTypes.STEP_COMPLETED
+                                    ).collect { _ ->
+                                        _submitAddressLiveData.postValue(it)
+                                    }
+                                } else {
+                                    logStepEvent(
+                                        page = KycPages.ADDRESS,
+                                        event = EventTypes.STEP_FAILED,
+                                        failedReasons = FailedReasons.INVALID_ADDRESS
+                                    ).collect { eventResult ->
+                                        _submitAddressLiveData.postValue(eventResult)
+                                    }
                                 }
 
                             } else if (sendAddressResult is Result.Error) {

@@ -19,6 +19,7 @@ import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.GovDataViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.google.gson.Gson
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import io.sentry.okhttp.SentryOkHttpInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -53,6 +54,9 @@ class DojahContainer(
             readTimeout(Constants.READ_TIMEOUT, TimeUnit.SECONDS)
 //            addInterceptor(VersionCodeInterceptor(BuildConfig.VERSION_CODE, gson))
             addInterceptor(HeaderInterceptor(sharedPreferenceManager))
+
+            // Sentry OkHttp integration — HTTP breadcrumbs + distributed tracing spans
+            addInterceptor(SentryOkHttpInterceptor())
 
             cache(null)
 

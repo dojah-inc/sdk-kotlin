@@ -68,3 +68,7 @@
 #-keepnames class io.grpc.internal.**
 #-keepclassmembers class io.grpc.internal.** { *; }
 #-dontwarn io.grpc.**
+
+# Sentry — SDK ships its own consumer ProGuard rules; these ensure readable stack traces
+-keepattributes SourceFile,LineNumberTable
+-dontwarn io.sentry.**

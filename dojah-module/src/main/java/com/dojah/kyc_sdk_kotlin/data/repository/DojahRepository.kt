@@ -402,6 +402,7 @@ class DojahRepository(
 
     suspend fun sendAddress(
         match: Boolean,
+        distance: Double,
     ): Flow<Result<SimpleResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
@@ -413,6 +414,7 @@ class DojahRepository(
                             location?.first ?: throw Exception("Latitude not found"),
                             location.second,
                             match,
+                            distance = distance,
                             sessionId = prefManager.getSessionId()
                                 ?: throw Exception("SessionId not found"),
                         )

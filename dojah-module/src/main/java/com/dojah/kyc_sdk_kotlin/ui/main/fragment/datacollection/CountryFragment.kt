@@ -24,8 +24,10 @@ import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 import com.dojah.kyc_sdk_kotlin.ui.utils.getAttr
 import com.dojah.kyc_sdk_kotlin.ui.utils.performOperationOnActivityAvailable
 import com.dojah.kyc_sdk_kotlin.ui.utils.setClickableText
+import com.google.gson.annotations.SerializedName
 
 import okhttp3.logging.HttpLoggingInterceptor
+import kotlin.sequences.ifEmpty
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -110,9 +112,7 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
             }
 
             btnContinue.setOnClickListener {
-
                 viewModel.logCountryEvents()
-
             }
 
             performOperationOnActivityAvailable {
@@ -128,25 +128,50 @@ class CountryFragment : ErrorFragment(R.layout.fragment_country) {
     private fun reloadCountries() {
         val serverCountries = viewModel.getCountriesFullFromPrefs(requireContext())
         val userCountry = viewModel.getUserCountryFromPrefs()
+
+        val configs = viewModel.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config
+
+        // Extract available country codes from config
+        val availableCountryCodes = configs?.let { config ->
+            config::class.java.declaredFields
+                .filter { it.type == Boolean::class.javaObjectType }
+                .mapNotNull { field ->
+                    field.isAccessible = true
+                    if ((field.get(config) as? Boolean) == true) {
+                        field.getAnnotation(SerializedName::class.java)?.value
+                    } else null
+                }
+                .mapNotNull { key ->
+                    val match = Regex("^([a-z]{2})-").find(key)
+                    match?.groupValues?.get(1)?.lowercase()
+                        ?: if (!key.contains("-")) "ng" else null
+                }
+                .toSet()
+        } ?: emptySet()
+
         viewModel.countryLiveData.observe(viewLifecycleOwner) {
             binding.layoutSpinner.apply {
                 onCountrySelected = { country ->
                     viewModel.setSelectedCountry(country)
                 }
 
-                val tmpItems = it.filter {
-                    it.name.equals(
-                        userCountry,
-                        ignoreCase = true
-                    ).let { isUserCountry ->
-                        it.selected = isUserCountry
+                val tmpItems = it.filter { country ->
+                    country.name.equals(userCountry, ignoreCase = true).also { isUserCountry ->
+                        country.selected = isUserCountry
                     }
-                    return@filter serverCountries
-                        ?.contains(it.name) == true
+                    val countryInServer = serverCountries?.contains(country.name) == true
+                    val countryInConfig = availableCountryCodes.isEmpty() ||
+                            availableCountryCodes.contains(country.id.lowercase())
+                    countryInServer && countryInConfig
                 }
 
-                items = tmpItems.ifEmpty { it }
-
+                items = tmpItems.ifEmpty { it }.apply {
+                    if (size == 1) {
+                        first().selected = true
+                        selectedCountry = first()
+                        viewModel.setSelectedCountry(first())
+                    }
+                }
             }
         }
         viewModel.loadCountries()

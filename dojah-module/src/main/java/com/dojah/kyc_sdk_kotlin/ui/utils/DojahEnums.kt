@@ -338,6 +338,7 @@ enum class FailedReasons(val code: String, val message: String, val statusCode: 
         424,
     ),
     INVALID_OTP("04", "Invalid OTP entered. Please, input the correct OTP"),
+    INVALID_ADDRESS("28", "The tracked geo-location is not within 50m radius of submitted address"), // only for live location
     OTP_NOT_SENT("05", "OTP Could not be sent, please try again"),
     UTILITY_BILL_UPLOAD_FAILED("30", "Utility Bill upload failed. Please try again"), // only for utility bill
     ID_FAILED_MAX_TIME("10", "Your verification is awaiting approval"), // max trial error gov ID

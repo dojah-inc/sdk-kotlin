@@ -10,6 +10,12 @@ import com.dojah.kyc_sdk_kotlin.core.di.DojahContainer
 import com.dojah.kyc_sdk_kotlin.data.io.DeviceIdManager
 import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.ui.splash.SplashActivity
+import io.sentry.Sentry
+import io.sentry.SentryLevel
+import io.sentry.android.core.SentryAndroid
+import io.sentry.android.replay.maskAllImages
+import io.sentry.android.replay.maskAllText
+import io.sentry.android.timber.SentryTimberIntegration
 import java.lang.ref.WeakReference
 
 const val DOJAH_RESULT_KEY = "result"
@@ -38,11 +44,77 @@ object DojahSdk {
             )
         }
 
+        // Initialize Sentry error monitoring & tracing
+        initSentry(context.applicationContext)
+
         with(dojahContainer) {
             source?.takeIf { it.isNotBlank() }
                 ?.let { sharedPreferenceManager.setAndroidSource(source) }
         }
         return this
+    }
+
+    private var sentryInitialized = false
+
+    private fun initSentry(context: Context) {
+        if (sentryInitialized) return
+
+        try {
+            SentryAndroid.init(context) { options ->
+                options.dsn = BuildConfig.SENTRY_DSN
+
+                // Environment and release
+                options.environment = if (BuildConfig.DEBUG) "debug" else "release"
+                options.release = "com.dojah.kyc_sdk_kotlin@${BuildConfig.VERSION_NAME}"
+
+                // Tracing — 100% in dev, 20% in production
+                options.tracesSampleRate = if (BuildConfig.DEBUG) 1.0 else 0.2
+
+                // Session Replay (API 26+; silent no-op on API 21–25)
+                options.sessionReplay.sessionSampleRate = 0.1   // 10% of all sessions
+                options.sessionReplay.onErrorSampleRate = 1.0   // 100% on error
+                options.sessionReplay.maskAllText = true         // mask text for privacy
+                options.sessionReplay.maskAllImages = true       // mask images for privacy
+
+                // Structured logging
+                options.logs.isEnabled = true
+
+                // Error enrichment
+                options.isAttachScreenshot = true
+                options.isAttachViewHierarchy = true
+
+                // ANR detection
+                options.isAnrEnabled = true
+
+                // Send PII (disabled for SDK — host app controls PII policy)
+                options.isSendDefaultPii = false
+
+                // Trace propagation to Dojah API for distributed tracing
+                options.setTracePropagationTargets(
+                    listOf(
+                        "api.dojah.io",
+                        ".*\\.dojah\\.io",
+                        ".*\\.dojah\\.services"
+                    )
+                )
+
+                // Debug logging — only in debug builds
+                options.isDebug = BuildConfig.DEBUG
+
+                // Bridge Timber logs → Sentry breadcrumbs & events
+                options.addIntegration(
+                    SentryTimberIntegration(
+                        minEventLevel = SentryLevel.ERROR,
+                        minBreadcrumbLevel = SentryLevel.INFO
+                    )
+                )
+            }
+
+            sentryInitialized = true
+        } catch (e: Exception) {
+            // Sentry init failure must never crash the host app
+            e.printStackTrace()
+        }
     }
 
     fun getIdHistory(): List<Pair<String, String>> {

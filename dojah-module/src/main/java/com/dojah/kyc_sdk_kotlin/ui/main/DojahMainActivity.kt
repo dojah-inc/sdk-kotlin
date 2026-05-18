@@ -51,6 +51,7 @@ import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.splash.COUNTRY_ERROR
 import com.dojah.kyc_sdk_kotlin.ui.splash.VERIFICATION_COMPLETE_ERROR
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
+import com.dojah.kyc_sdk_kotlin.ui.utils.normaliseColor
 import com.microsoft.clarity.models.LogLevel
 
 import kotlinx.coroutines.Job
@@ -159,7 +160,7 @@ class DojahMainActivity : AppCompatActivity() {
             logger.log("BTN: Brand color: ${brandColor}")
             if (brandColor != null) {
                 try {
-                    progressIndicator.trackColor = Color.parseColor(brandColor)
+                    progressIndicator.trackColor = brandColor.normaliseColor()
                 } catch (e: Exception) {
                     logger.log("${e.message}")
                 }

@@ -34,6 +34,7 @@ glide = "4.16.0"
 room = "2.4.3"
 vectorchildfinder = "1.0.0"
 view = "2.4.0"
+sentry = "8.33.0"
 
 [libraries]
 clarity = { module = "com.microsoft.clarity:clarity", version.ref = "clarity" }
@@ -115,6 +116,13 @@ gson = { module = 'com.google.code.gson:gson', version = "2.9.0" }
 materialdesign = { module = 'com.google.android.material:material', version = "1.6.1" }
 vectorchildfinder = { module = "com.github.devsideal:VectorChildFinder", version.ref = "vectorchildfinder" }
 view = { module = "com.kizitonwose.calendar:view", version.ref = "view" }
+sentry-bom = { module = "io.sentry:sentry-bom", version.ref = "sentry" }
+sentry-android = { module = "io.sentry:sentry-android" }
+sentry-okhttp = { module = "io.sentry:sentry-okhttp" }
+sentry-android-timber = { module = "io.sentry:sentry-android-timber" }
+sentry-android-navigation = { module = "io.sentry:sentry-android-navigation" }
+sentry-android-fragment = { module = "io.sentry:sentry-android-fragment" }
+sentry-kotlin-extensions = { module = "io.sentry:sentry-kotlin-extensions" }
 
 
 [bundles]

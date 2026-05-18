@@ -42,7 +42,6 @@
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="false"
             android:layout_marginHorizontal="@dimen/margin_24dp"
-            android:src="?attr/appLogo"
             tools:src="?attr/appLogo"
             android:visibility="visible"
             />

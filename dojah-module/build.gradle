@@ -15,7 +15,7 @@ ext {
             targetSdk            : 34,
             compileSdk           : 34,
             versionCode          : 30,
-            versionName          : "0.2.7",
+            versionName          : "0.2.8",
             fileProviderAuthority: "com.dojah.kyc_sdk_kotlin.provider"
     ]
 
@@ -27,6 +27,7 @@ ext {
             aesEncSecret  : "6543210987654321",
             placeApiKey   : "AIzaSyBCukJV3oUhVHcBFADXIv5lcKMw8QlqitY",
             apiKeyUrl     : "https://drive.google.com/uc?export=download&id=1oX64zp-PyI0_sBOzY8fXL4HS_FAlR9Ld",
+            sentryDsn     : "https://eb0d1a34dd73551c03fffc1d0f55bda8@logs.dojah.services/11",
 
     ]
 
@@ -111,6 +112,8 @@ android {
             buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
             buildConfigField "String", "PLACE_KEY", "\"${configVariable.placeApiKey}\""
             buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
+            buildConfigField "String", "VERSION_NAME", "\"${configVariable.versionName}\""
+            buildConfigField "String", "SENTRY_DSN", "\"${configVariable.sentryDsn}\""
         }
 
         debug {
@@ -118,6 +121,8 @@ android {
             buildConfigField "String", "BASE_URL", "\"${configVariable.baseURL}\""
             buildConfigField "String", "PLACE_KEY", "\"${configVariable.placeApiKey}\""
             buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
+            buildConfigField "String", "VERSION_NAME", "\"${configVariable.versionName}\""
+            buildConfigField "String", "SENTRY_DSN", "\"${configVariable.sentryDsn}\""
         }
 
         releaseNoMinify {
@@ -235,6 +240,15 @@ dependencies {
 
     implementation libs.face.detection
     implementation(libs.kotlinx.coroutines.android)
+
+    // Sentry error monitoring, tracing & integrations (BOM for consistent versions)
+    implementation platform(libs.sentry.bom)
+    implementation libs.sentry.android
+    implementation libs.sentry.okhttp                // OkHttp/Retrofit HTTP breadcrumbs + tracing
+    implementation libs.sentry.android.timber        // Timber log bridge
+    implementation libs.sentry.android.navigation    // Jetpack Navigation screen tracking
+    implementation libs.sentry.android.fragment      // Fragment lifecycle tracing
+    implementation libs.sentry.kotlin.extensions     // Coroutine context propagation
 
 }
 

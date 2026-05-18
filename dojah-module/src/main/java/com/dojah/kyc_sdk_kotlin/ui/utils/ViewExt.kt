@@ -74,7 +74,7 @@ fun TextView.setClickableText(
                     if (it == null) {
                         color?.let { newColor -> ds.color = newColor }
                     } else {
-                        ds.color = Color.parseColor(it)
+                        ds.color = it.normaliseColor()
                     }
                 }
                 ds.isUnderlineText = false

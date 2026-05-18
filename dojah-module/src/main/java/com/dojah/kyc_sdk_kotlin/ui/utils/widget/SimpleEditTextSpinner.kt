@@ -87,6 +87,23 @@ class SimpleEditTextSpinner : LinearLayout {
                 newItem: SpinnerAdapter.PlaceAutocomplete
             ) = oldItem == newItem
         }
+
+        /**
+         * App-lifetime singleton PlacesClient to avoid creating multiple gRPC ManagedChannels.
+         * Each call to Places.createClient() allocates a new ManagedChannel; the Places SDK
+         * does not expose a way to shut them down, so creating more than one causes:
+         * "Previous channel was not shutdown properly" RuntimeExceptions.
+         *
+         * Uses applicationContext so there is no Activity/View memory leak.
+         */
+        private var sharedPlacesClient: PlacesClient? = null
+
+        @Synchronized
+        fun getOrCreatePlacesClient(context: Context): PlacesClient {
+            return sharedPlacesClient ?: Places.createClient(context.applicationContext).also {
+                sharedPlacesClient = it
+            }
+        }
     }
 
     val binding: WidgetEditTextSpinnerBinding =
@@ -502,7 +519,8 @@ class SimpleEditTextSpinner : LinearLayout {
     inner class SpinnerAdapter(val onItemClicked: (place: PlaceAutocomplete) -> Unit) :
         ListAdapter<SpinnerAdapter.PlaceAutocomplete, SpinnerAdapter.ViewHolder>(DIFF_UTIL),
         Filterable {
-        private val placesClient: PlacesClient = Places.createClient(context)
+        private val placesClient: PlacesClient
+            get() = getOrCreatePlacesClient(context)
         private var mResultList = ArrayList<PlaceAutocomplete>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

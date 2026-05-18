@@ -23,6 +23,7 @@ import com.dojah.kyc_sdk_kotlin.ui.base.ErrorFragment
 import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.NavArguments
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
+import com.dojah.kyc_sdk_kotlin.ui.utils.normaliseColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -66,7 +67,7 @@ class SuccessFragment : ErrorFragment(R.layout.success_view) {
                         LottieProperty.COLOR_FILTER
                     ) {
                         PorterDuffColorFilter(
-                            Color.parseColor(brandColor),
+                            brandColor.normaliseColor(),
                             PorterDuff.Mode.SRC_ATOP
                         )
                     }

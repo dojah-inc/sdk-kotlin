@@ -29,6 +29,8 @@ import com.dojah.kyc_sdk_kotlin.ui.utils.*
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 
 import timber.log.Timber
+import kotlin.compareTo
+import androidx.core.graphics.toColorInt
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
@@ -71,7 +73,7 @@ class IndexDisclaimerFragment : ErrorFragment(R.layout.dialog_disclaimer) {
                 VectorChildFinder(requireContext(), R.drawable.ic_verification_avatar, logo)
 
             SharedPreferenceManager(requireContext()).getMaterialButtonBgColor?.also {
-                val color = Color.parseColor(it)
+                val color = it.normaliseColor()
                 vector.findPathByName("path1").fillColor = color
                 vector.findPathByName("path1").fillAlpha = 0.4f
                 vector.findPathByName("path2").strokeColor = color
