@@ -1,22 +1,18 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
 
-import com.dojah.kyc_sdk_kotlin.DojahSdk
-
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
 import android.text.InputFilter
 import android.text.InputType
-import android.text.TextWatcher
 import android.view.View
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.navGraphViewModels
+import com.dojah.kyc_sdk_kotlin.DojahSdk
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentGovDataBinding
@@ -27,13 +23,15 @@ import com.dojah.kyc_sdk_kotlin.ui.main.fragment.NavArguments
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.Routes
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.GovDataViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
+import com.dojah.kyc_sdk_kotlin.ui.utils.FailedReasons
+import com.dojah.kyc_sdk_kotlin.ui.utils.GovDocType
+import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
+import com.dojah.kyc_sdk_kotlin.ui.utils.VerificationType
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
-
-import okhttp3.logging.HttpLoggingInterceptor
-import com.dojah.kyc_sdk_kotlin.ui.utils.*
 import com.google.android.material.shape.MaterialShapeDrawable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.logging.HttpLoggingInterceptor
 
 
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")

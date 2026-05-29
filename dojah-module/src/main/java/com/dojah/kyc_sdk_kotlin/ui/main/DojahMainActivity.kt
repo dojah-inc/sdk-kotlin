@@ -1,11 +1,8 @@
 package com.dojah.kyc_sdk_kotlin.ui.main
-import com.microsoft.clarity.Clarity
-import com.microsoft.clarity.ClarityConfig
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.TypedValue
@@ -52,8 +49,9 @@ import com.dojah.kyc_sdk_kotlin.ui.splash.COUNTRY_ERROR
 import com.dojah.kyc_sdk_kotlin.ui.splash.VERIFICATION_COMPLETE_ERROR
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
 import com.dojah.kyc_sdk_kotlin.ui.utils.normaliseColor
+import com.microsoft.clarity.Clarity
+import com.microsoft.clarity.ClarityConfig
 import com.microsoft.clarity.models.LogLevel
-
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

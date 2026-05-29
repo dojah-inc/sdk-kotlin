@@ -21,10 +21,13 @@ import com.dojah.kyc_sdk_kotlin.domain.Country
 import com.dojah.kyc_sdk_kotlin.domain.CountryState
 import com.dojah.kyc_sdk_kotlin.domain.DocumentInfo
 import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
+import com.dojah.kyc_sdk_kotlin.domain.request.AnswerRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.CheckIpRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.EventRequest
+import com.dojah.kyc_sdk_kotlin.domain.request.QuestionsEventRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.UserDataRequest
 import com.dojah.kyc_sdk_kotlin.domain.responses.*
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.customquestions.QuestionAnswer
 import com.dojah.kyc_sdk_kotlin.ui.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -123,6 +126,15 @@ class VerificationViewModel(
     private val _eventLiveData = MutableLiveData<Pair<EventRequest, Result<SimpleResponse>>?>()
     val eventLiveData: LiveData<Pair<EventRequest, Result<SimpleResponse>>?>
         get() = _eventLiveData
+
+    private val _questionEventLiveData =
+        MutableLiveData<Pair<QuestionsEventRequest, Result<SimpleResponse>>?>()
+    val questionEventLiveData: LiveData<Pair<QuestionsEventRequest, Result<SimpleResponse>>?>
+        get() = _questionEventLiveData
+
+    fun resetQuestionEvent() {
+        _questionEventLiveData.postValue(null)
+    }
 
     private val _mailLiveData = MutableLiveData<Pair<List<String>?, List<String>?>>()
     val mailLiveData: LiveData<Pair<List<String>?, List<String>?>>
@@ -300,6 +312,19 @@ class VerificationViewModel(
         val countryName = prefManager.getUserCountryName() ?: return
         val states = countryManager.getCountryStatesList(countryName)
         _statesLiveData.postValue(states)
+    }
+
+    fun sendCustomQuestionAnswer(answers: List<QuestionAnswer>) {
+        viewModelScope.launch {
+            val request = buildCustomQuestionsStepEventRequest(
+                event = EventTypes.STEP_COMPLETED,
+                answers = answers,
+            )
+
+            repo.logQuestionEvent(request).collect {
+                _questionEventLiveData.postValue(request to it)
+            }
+        }
     }
 
     fun authenticate(
@@ -671,6 +696,43 @@ class VerificationViewModel(
         }
     }
 
+    private fun buildCustomQuestionsStepEventRequest(
+        event: EventTypes,
+        answers: List<QuestionAnswer>,
+        services: List<String> = listOf(),
+    ): QuestionsEventRequest {
+
+        val page = KycPages.CUSTOM_QUESTIONS
+        val verificationId =
+            authDataFromPref?.initData?.authData?.verificationId
+                ?: throw Exception("Verification id is null")
+        val stepNumber =
+            getStepWithPageName(page.serverKey)?.id
+                ?: throw Exception("No stepNumber")
+
+        return QuestionsEventRequest(
+            stepNumber = stepNumber,
+            eventType = event.serverKey,
+            eventValue = answers.map {
+                AnswerRequest(
+                    text = it.text,
+                    type = it.type,
+                    options = it.options?.map { option -> option.second },
+                    answer = when (val ans = it.answer) {
+                        is Pair<*, *> -> ans.second
+                        is List<*> -> ans.filterIsInstance<Pair<*, *>>().map { pair -> pair.second }
+                        else -> ans
+                    }
+                )
+            },
+            verificationId = verificationId,
+            pageKey = page.serverKey,
+            services = services
+        ).apply {
+            logger.log("EventRequest: $this")
+        }
+    }
+
 
     private fun buildStepEventRequest(
         page: KycPages,
@@ -798,6 +860,9 @@ class VerificationViewModel(
                 locale.displayLanguage, it
             ).displayCountry
         }?.toList()
+        if (fullSupportedCountryList?.isEmpty() == true) {
+            return originalCountryList
+        }
         return fullSupportedCountryList
     }
 

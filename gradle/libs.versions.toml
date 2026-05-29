@@ -35,6 +35,9 @@ room = "2.4.3"
 vectorchildfinder = "1.0.0"
 view = "2.4.0"
 sentry = "8.33.0"
+runtime-android = "1.11.2"
+ui-android = "1.11.2"
+kotlin = "2.2.10"
 
 [libraries]
 clarity = { module = "com.microsoft.clarity:clarity", version.ref = "clarity" }
@@ -123,6 +126,8 @@ sentry-android-timber = { module = "io.sentry:sentry-android-timber" }
 sentry-android-navigation = { module = "io.sentry:sentry-android-navigation" }
 sentry-android-fragment = { module = "io.sentry:sentry-android-fragment" }
 sentry-kotlin-extensions = { module = "io.sentry:sentry-kotlin-extensions" }
+androidx-compose-runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtime-android" }
+androidx-compose-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "ui-android" }
 
 
 [bundles]
@@ -138,14 +143,15 @@ camera = ["camera-camera2", "camera-lifecycle", "camera-video", "androidx-camera
 
 
 [plugins]
-gradle = { id = 'com.android.tools.build:gradle', version = "7.3.0" }
-gradle-kotlin = { id = 'org.jetbrains.kotlin:kotlin-gradle-plugin', version = "1.7.10" }
+gradle = { id = 'com.android.tools.build:gradle', version = "8.6.0" }
+gradle-kotlin = { id = 'org.jetbrains.kotlin:kotlin-gradle-plugin', version = "1.8.10" }
 
 google = { id = 'com.google.gms:google-services', version = "4.3.14" }
 
-application = { id = 'com.android.application', version = '7.3.0' }
-library = { id = 'com.android.library', version = '7.3.0' }
-kotlin-android = { id = 'org.jetbrains.kotlin.android', version = '1.6.21' }
+application = { id = 'com.android.application', version = '7.3.1' }
+library = { id = 'com.android.library', version = '7.3.1' }
+kotlin-android = { id = 'org.jetbrains.kotlin.android', version = '2.3.21' }
 hilt = { id = 'com.google.dagger.hilt.android', version.ref = "hilt" }
 navigation = { id = 'androidx.navigation:navigation-safe-args-gradle-plugin', version.ref = "navigation" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 #navigation = { id = 'androidx.navigation.safeargs.kotlin', version.ref = "navigation" }

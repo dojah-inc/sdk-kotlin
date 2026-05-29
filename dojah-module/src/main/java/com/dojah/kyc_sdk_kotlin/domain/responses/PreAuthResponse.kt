@@ -93,7 +93,8 @@ data class PreAuthResponse(
                             glassesCheck = config.glassesCheck,
                             disposable = config.disposable,
                             freeProvider = config.freeProvider,
-                            flipCamera = config.flipCamera
+                            flipCamera = config.flipCamera,
+                            questions = config.questions
                         )
                     )
                 }).toMutableList().apply {

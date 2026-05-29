@@ -124,15 +124,15 @@ fun DojahDropDownInputField(
                     },
                     shape = borderShape,
                     textStyle = MaterialTheme.typography.titleMedium.copy(color = Color.Gray),
-                    colors = TextFieldDefaults.textFieldColors(
-                        focusedIndicatorColor = indicatorColor,
-                        unfocusedIndicatorColor = indicatorColor,
-                        disabledIndicatorColor = indicatorColor,
-                        containerColor = containerColor,
-//                        focusedContainerColor = containerColor,
-//                        unfocusedContainerColor = containerColor,
-//                        disabledContainerColor = containerColor,
-                    ),
+//                    colors = TextFieldDefaults.textFieldColors(
+//                        focusedIndicatorColor = indicatorColor,
+//                        unfocusedIndicatorColor = indicatorColor,
+//                        disabledIndicatorColor = indicatorColor,
+//                        containerColor = containerColor,
+////                        focusedContainerColor = containerColor,
+////                        unfocusedContainerColor = containerColor,
+////                        disabledContainerColor = containerColor,
+//                    ),
                 )
                 DropdownMenu(
                     expanded = expanded,

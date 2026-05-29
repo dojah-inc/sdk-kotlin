@@ -67,6 +67,11 @@
             tools:layout="@layout/fragment_home_address" />
 
         <fragment
+            android:id="@+id/customQuestionsFragment"
+            android:name="com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.customquestions.CustomQuestionsFragment"
+            android:label="CustomQuestionsFragment" />
+
+        <fragment
             android:id="@+id/frag_utility_bill"
             android:name="com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.CaptureUtilityBillFragment"
             android:label="@string/empty"

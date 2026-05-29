@@ -3,9 +3,7 @@ package com.dojah.kyc_sdk_kotlin.ui.splash
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,22 +11,15 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.dojah.kyc_sdk_kotlin.DOJAH_APPROVED_RESULT
-import com.dojah.kyc_sdk_kotlin.DOJAH_FAILED_RESULT
-import com.dojah.kyc_sdk_kotlin.DOJAH_PENDING_RESULT
-import com.dojah.kyc_sdk_kotlin.DOJAH_RESULT_KEY
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.data.io.CountryManager
 import com.dojah.kyc_sdk_kotlin.data.io.FileManager
-import com.dojah.kyc_sdk_kotlin.databinding.SplashLoadingBinding
-import com.dojah.kyc_sdk_kotlin.databinding.SuccessViewBinding
 import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.ui.main.DojahMainActivity
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.utils.FailedReasons
-import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.atomic.AtomicReference
 
@@ -112,10 +103,11 @@ class SplashActivity : AppCompatActivity() {
             if (it is Result.Success && preAuthResult is Result.Success) {
 
                 val fullSupportedCountryNames =
-                    viewModel.getFullCountryNames(this)
+                    viewModel.getFullCountryNames(this, arrayListOf("Nigeria"))
                 val userCountry = it.data.entity?.country ?: ""
                 // if user country is among the supported country
-                if (fullSupportedCountryNames?.contains(userCountry) == true) {
+                if (fullSupportedCountryNames?.map { name -> name.lowercase() }
+                        ?.contains(userCountry.lowercase()) == true) {
 //                    Toast.makeText(this, "$userFullCountry is supported", Toast.LENGTH_LONG).show()
                     if (atomic.get().second) nextScreen()
                     else atomic.set(Triple(first = true, second = false, third = null))

@@ -69,6 +69,7 @@ class CaptureSelfieFragment : ErrorFragment() {
         },
         onFinish = {
             faceDetection.getSingleFrameImage(requireContext())?.let {
+                faceDetection.stop()
                 cameraExecutor?.shutdown()
                 cameraExecutor = null
 
@@ -295,9 +296,11 @@ class CaptureSelfieFragment : ErrorFragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onDestroy() {
+        faceDetection.stop()
         cameraExecutor?.shutdown()
         captureReadyTimer.stop()
         cameraExecutor = null
+        faceDetector.close()
         super.onDestroy()
     }
 

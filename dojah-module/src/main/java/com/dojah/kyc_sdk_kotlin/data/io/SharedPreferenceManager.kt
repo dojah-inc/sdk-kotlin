@@ -16,7 +16,7 @@ import timber.log.Timber
 private const val ANDROID_NATIVE = "android_native"
 
 class SharedPreferenceManager(
-    private val context: Context
+    context: Context
 ) : SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
         ///Dojah keys

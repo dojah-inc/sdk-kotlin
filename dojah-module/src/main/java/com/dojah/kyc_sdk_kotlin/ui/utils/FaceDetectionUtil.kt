@@ -19,7 +19,12 @@ class FaceDetectionUtil(
     private val onFacesDetected: (faces: List<Face>, image: Bitmap?) -> Unit
 ) : ImageAnalysis.Analyzer {
 
+    @Volatile private var stopped = false
     private var singleFrame: Bitmap? = null
+
+    fun stop() {
+        stopped = true
+    }
 
     fun getSingleFrameImage(context: Context): Uri? {
         return try {
@@ -45,20 +50,27 @@ class FaceDetectionUtil(
 
     @OptIn(ExperimentalGetImage::class)
     override fun analyze(imageProxy: ImageProxy) {
+        if (stopped) {
+            imageProxy.close()
+            return
+        }
+
         imageProxy.image?.let {
-            val image = InputImage.fromMediaImage(it, imageProxy.imageInfo.rotationDegrees)
+            // Capture bitmap BEFORE starting async ML Kit processing.
+            // InputImage.fromMediaImage holds a reference to the same YUV ByteBuffers that
+            // the JNI face detector reads natively. Calling toBitmap() after process() starts
+            // causes concurrent native buffer access from two threads → segfault.
             singleFrame = imageProxy.toBitmap()
+            val image = InputImage.fromMediaImage(it, imageProxy.imageInfo.rotationDegrees)
 
             this.faceDetector.process(image)
                 .addOnSuccessListener { faces ->
                     onFacesDetected(faces, singleFrame)
                 }
                 .addOnFailureListener { error ->
-                    // Handle any errors here
                     println("Error detecting faces: ${error.message}")
                 }
                 .addOnCompleteListener {
-                    // When done, close the image
                     imageProxy.close()
                 }
 

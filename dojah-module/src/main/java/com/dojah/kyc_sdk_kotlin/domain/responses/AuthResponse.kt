@@ -97,6 +97,12 @@ data class AuthResponse(
     }
 }
 
+data class Question(
+    @SerializedName("text") val text: String? = null,
+    @SerializedName("type") val type: String? = null,
+    @SerializedName("options") val options: List<String>? = null,
+)
+
 data class Config(
     @SerializedName("default") var default: String? = null,
     @SerializedName("passport") var passport: Boolean? = null,
@@ -139,6 +145,8 @@ data class Config(
     @SerializedName("mode") var mode: String? = null,
     @SerializedName("phone") var phone: String? = null,
     @SerializedName("flipCamera") var flipCamera: Boolean? = null,
+    @SerializedName("questions") var questions: List<Question>? = null,
+
 ) {
     val otpVerificationTypes: List<String>
         get() = listOfNotNull(

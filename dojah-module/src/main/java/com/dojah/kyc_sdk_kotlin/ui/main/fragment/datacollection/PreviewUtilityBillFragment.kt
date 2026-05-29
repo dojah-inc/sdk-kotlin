@@ -1,6 +1,5 @@
 package com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
 import com.dojah.kyc_sdk_kotlin.core.util.encrypted
 import com.dojah.kyc_sdk_kotlin.databinding.FragmentPreviewUtilityBillBinding
-import com.dojah.kyc_sdk_kotlin.domain.DocumentInfo
 import com.dojah.kyc_sdk_kotlin.ui.base.ErrorFragment
 import com.dojah.kyc_sdk_kotlin.ui.base.NavigationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.Routes
@@ -25,7 +23,6 @@ import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 import com.dojah.kyc_sdk_kotlin.ui.utils.load
 import okio.ByteString.Companion.toByteString
-import kotlin.getValue
 
 class PreviewUtilityBillFragment : ErrorFragment() {
     private val binding by viewBinding { FragmentPreviewUtilityBillBinding.bind(it) }

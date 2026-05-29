@@ -12,6 +12,7 @@ import com.dojah.kyc_sdk_kotlin.domain.request.LivenessCheckRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessVerifyRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.MetaDataRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.OtpRequest
+import com.dojah.kyc_sdk_kotlin.domain.request.QuestionsEventRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.UserDataRequest
 import kotlinx.coroutines.delay
 import okhttp3.ResponseBody
@@ -39,6 +40,9 @@ interface DojahService {
 
     @POST("${prefix}/kyc/events")
     suspend fun logEvent(@Body data: EventRequest): Response<ResponseBody>
+
+    @POST("${prefix}/kyc/events")
+    suspend fun logEvent(@Body data: QuestionsEventRequest): Response<ResponseBody>
 
     @GET("${prefix}/kyc/bvn")
     suspend fun lookUpBvn(@Query("bvn") bvn: String): Response<ResponseBody>
@@ -165,6 +169,12 @@ class DojahServiceMock : DojahService {
     }
 
     override suspend fun logEvent(data: EventRequest): Response<ResponseBody> {
+        delay(1000 * 2)
+        val responseBody = simpleEventResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun logEvent(data: QuestionsEventRequest): Response<ResponseBody> {
         delay(1000 * 2)
         val responseBody = simpleEventResponse().replace("\n", "").toResponseBody()
         return Response.success(responseBody)

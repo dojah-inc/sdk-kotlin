@@ -6,6 +6,7 @@ import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnumAttr
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.BioDataFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.BusinessDataFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.CountryFragment
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.customquestions.CustomQuestionsFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.DisclaimerFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.DocTypeFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.EmailOtpFragment
@@ -287,6 +288,10 @@ enum class KycPages(
         "address",
         HomeAddressFragment::class.java.name,
     ),
+    CUSTOM_QUESTIONS(
+        "custom-questions",
+        CustomQuestionsFragment::class.java.name,
+    ),
     SELFIE(
         "selfie",
         SelfieDisclaimerFragment::class.java.name,
@@ -338,9 +343,15 @@ enum class FailedReasons(val code: String, val message: String, val statusCode: 
         424,
     ),
     INVALID_OTP("04", "Invalid OTP entered. Please, input the correct OTP"),
-    INVALID_ADDRESS("28", "The tracked geo-location is not within 50m radius of submitted address"), // only for live location
+    INVALID_ADDRESS(
+        "28",
+        "The tracked geo-location is not within 50m radius of submitted address"
+    ), // only for live location
     OTP_NOT_SENT("05", "OTP Could not be sent, please try again"),
-    UTILITY_BILL_UPLOAD_FAILED("30", "Utility Bill upload failed. Please try again"), // only for utility bill
+    UTILITY_BILL_UPLOAD_FAILED(
+        "30",
+        "Utility Bill upload failed. Please try again"
+    ), // only for utility bill
     ID_FAILED_MAX_TIME("10", "Your verification is awaiting approval"), // max trial error gov ID
     SELFIE_NO_CAPTURE(
         "06",

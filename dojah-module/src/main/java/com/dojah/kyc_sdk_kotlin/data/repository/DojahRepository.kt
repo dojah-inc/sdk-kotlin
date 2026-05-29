@@ -20,6 +20,7 @@ import com.dojah.kyc_sdk_kotlin.domain.request.LivenessCheckRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessVerifyRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.MetaDataRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.OtpRequest
+import com.dojah.kyc_sdk_kotlin.domain.request.QuestionsEventRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.UserDataRequest
 import com.dojah.kyc_sdk_kotlin.domain.responses.AuthResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.BizLookupResponse
@@ -40,6 +41,7 @@ import com.dojah.kyc_sdk_kotlin.domain.responses.SendOtpResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.SimpleResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.ValidateOtpResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.VninLookUpResponse
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.customquestions.QuestionAnswer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -180,6 +182,23 @@ class DojahRepository(
     }
 
     suspend fun logEvent(data: EventRequest): Flow<Result<SimpleResponse>> {
+        return flow {
+            val result = checkNetworkAndStartRequest {
+                val response =
+                    service.logEvent(
+                        data.copy(
+                            appId = prefManager.getAppId(),
+                            sessionId = prefManager.getSessionId()
+                        )
+                    )
+                response.getResult(SimpleResponse::class.java)
+            }
+            emit(result)
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun logQuestionEvent(data: QuestionsEventRequest): Flow<Result<SimpleResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
                 val response =

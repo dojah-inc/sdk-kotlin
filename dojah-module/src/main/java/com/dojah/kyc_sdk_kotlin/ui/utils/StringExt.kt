@@ -16,6 +16,16 @@ fun String.containsADigitChar(): Boolean {
     return m.matches()
 }
 
+fun String.toTitleCase(): String {
+    return lowercase()
+        .split(" ")
+        .joinToString(" ") { word ->
+            word.replaceFirstChar { char ->
+                char.uppercase()
+            }
+        }
+}
+
 fun String.normaliseColor(): Int {
     val code = this.replace("#", "")
     val colorString = if (code.length < 6) code.padEnd(6, '0') else code
@@ -61,8 +71,8 @@ fun String.normalize(): String {
     }
 }
 
-fun String?.formatAnalysisDate(showMonth: Boolean=false, pattern: String = "yyyy-MM-dd"): String {
-    val serverDate: String?= this
+fun String?.formatAnalysisDate(showMonth: Boolean = false, pattern: String = "yyyy-MM-dd"): String {
+    val serverDate: String? = this
     val format = SimpleDateFormat(pattern, Locale.getDefault())
     val date: Date? = try {
         format.parse(serverDate ?: "")

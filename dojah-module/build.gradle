@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id "androidx.navigation.safeargs"
     id 'maven-publish'
+    alias(libs.plugins.kotlin.compose)
 
 }
 
@@ -12,8 +13,8 @@ ext {
     mobileToolsVersion = [
             applicationId        : "com.dojah.kyc_sdk_kotlin",
             minSdk               : 21,
-            targetSdk            : 34,
-            compileSdk           : 34,
+            targetSdk            : 35,
+            compileSdk           : 35,
             versionCode          : 30,
             versionName          : "0.3.0",
             fileProviderAuthority: "com.dojah.kyc_sdk_kotlin.provider"
@@ -32,7 +33,7 @@ ext {
     ]
 
     projectDependenciesVersion = [
-            kotlin: "1.6.21"
+            kotlin: "2.1.0"
     ]
 
     dependenciesVersion = [
@@ -82,10 +83,6 @@ android {
 
     namespace = "com.dojah.kyc_sdk_kotlin"
 
-    lintOptions {
-        abortOnError false
-        lintConfig = file("$rootDir/glide_lint_ignore.xml")
-    }
     defaultConfig {
 //        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -139,8 +136,6 @@ android {
         mobile {
             minSdk mobileToolsVersion.minSdk
             targetSdk mobileToolsVersion.targetSdk
-            versionCode mobileToolsVersion.versionCode
-            versionName mobileToolsVersion.versionName
             manifestPlaceholders += [authority: mobileToolsVersion.fileProviderAuthority]
 
             buildConfigField "String", "FILE_PROVIDER_AUTHORITY", "\"${mobileToolsVersion.fileProviderAuthority}\""
@@ -158,6 +153,7 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+
 
     java {
         toolchain {
@@ -179,13 +175,19 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        compose = true
         buildConfig = true
+    }
+    lint {
+        abortOnError false
     }
 
 }
 
 dependencies {
 
+    implementation libs.androidx.compose.runtime.android
+    implementation libs.androidx.compose.ui.android
     implementation libs.androidx.paging.runtime.ktx.v311
 //    implementation libs.multidex
     coreLibraryDesugaring(libs.desugar)
@@ -237,6 +239,14 @@ dependencies {
     implementation libs.vectorchildfinder
     implementation libs.resizer
     implementation libs.clarity
+    implementation libs.androidx.activity.compose
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.lifecycle.runtime.compose
+    implementation libs.androidx.ui
+    implementation libs.androidx.ui.graphics
+    implementation libs.androidx.material3
+    implementation libs.androidx.ui.tooling
+    implementation libs.androidx.ui.tooling.preview
 
     implementation libs.face.detection
     implementation(libs.kotlinx.coroutines.android)
