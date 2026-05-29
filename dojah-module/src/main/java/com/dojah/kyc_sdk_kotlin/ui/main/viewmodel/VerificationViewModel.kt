@@ -127,13 +127,8 @@ class VerificationViewModel(
     val eventLiveData: LiveData<Pair<EventRequest, Result<SimpleResponse>>?>
         get() = _eventLiveData
 
-    private val _questionEventLiveData =
-        MutableLiveData<Pair<QuestionsEventRequest, Result<SimpleResponse>>?>()
-    val questionEventLiveData: LiveData<Pair<QuestionsEventRequest, Result<SimpleResponse>>?>
-        get() = _questionEventLiveData
-
     fun resetQuestionEvent() {
-        _questionEventLiveData.postValue(null)
+        _eventLiveData.postValue(null)
     }
 
     private val _mailLiveData = MutableLiveData<Pair<List<String>?, List<String>?>>()
@@ -194,6 +189,11 @@ class VerificationViewModel(
     private val _submitUserLiveData = MutableLiveData<Result<SimpleResponse>>()
     val submitUserLiveData: LiveData<Result<SimpleResponse>>
         get() = _submitUserLiveData
+
+    private val _submitQuestionLiveData = MutableLiveData<Result<SimpleResponse>>()
+    val submitQuestionLiveData: LiveData<Result<SimpleResponse>>
+        get() = _submitQuestionLiveData
+
 
     val dojahEnum
         get(): DojahEnum {
@@ -316,13 +316,27 @@ class VerificationViewModel(
 
     fun sendCustomQuestionAnswer(answers: List<QuestionAnswer>) {
         viewModelScope.launch {
-            val request = buildCustomQuestionsStepEventRequest(
-                event = EventTypes.STEP_COMPLETED,
-                answers = answers,
-            )
+            val request = buildCustomQuestionsStepEventRequest(answers = answers)
 
-            repo.logQuestionEvent(request).collect {
-                _questionEventLiveData.postValue(request to it)
+            repo.logQuestionEvent(request).onStart {
+                _submitQuestionLiveData.postValue(Result.Loading)
+            }.collect {
+                if (it is Result.Success) {
+                    logStepEvent(
+                        page = KycPages.CUSTOM_QUESTIONS,
+                        event = EventTypes.STEP_COMPLETED
+                    ).collect { eventResult ->
+                        _submitQuestionLiveData.postValue(eventResult)
+                    }
+                } else {
+                    logStepEvent(
+                        page = KycPages.CUSTOM_QUESTIONS,
+                        event = EventTypes.STEP_FAILED,
+                        failedReasons = FailedReasons.INVALID_ADDRESS
+                    ).collect { eventResult ->
+                        _submitQuestionLiveData.postValue(eventResult)
+                    }
+                }
             }
         }
     }
@@ -697,7 +711,6 @@ class VerificationViewModel(
     }
 
     private fun buildCustomQuestionsStepEventRequest(
-        event: EventTypes,
         answers: List<QuestionAnswer>,
         services: List<String> = listOf(),
     ): QuestionsEventRequest {
@@ -712,7 +725,7 @@ class VerificationViewModel(
 
         return QuestionsEventRequest(
             stepNumber = stepNumber,
-            eventType = event.serverKey,
+            eventType = "questions",
             eventValue = answers.map {
                 AnswerRequest(
                     text = it.text,
