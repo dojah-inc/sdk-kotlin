@@ -101,10 +101,10 @@ class SplashActivity : AppCompatActivity() {
         viewModel.checkIpDataLiveData.observe(this) {
             val preAuthResult = viewModel.preAuthDataLiveData.value
             if (it is Result.Success && preAuthResult is Result.Success) {
-
-                val fullSupportedCountryNames =
-                    viewModel.getFullCountryNames(this, arrayListOf("Nigeria"))
                 val userCountry = it.data.entity?.country ?: ""
+                val fullSupportedCountryNames =
+                    viewModel.getFullCountryNames(this, arrayListOf(userCountry))
+
                 // if user country is among the supported country
                 if (fullSupportedCountryNames?.map { name -> name.lowercase() }
                         ?.contains(userCountry.lowercase()) == true) {
