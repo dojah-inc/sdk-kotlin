@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.CountDownTimer
 import android.provider.OpenableColumns
+import androidx.annotation.RequiresApi
 import androidx.core.os.ConfigurationCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import com.dojah.kyc_sdk_kotlin.DojahSdk
 import com.dojah.kyc_sdk_kotlin.R
 import com.dojah.kyc_sdk_kotlin.core.Result
+import com.dojah.kyc_sdk_kotlin.core.util.encrypted
 import com.dojah.kyc_sdk_kotlin.data.io.CountryManager
 import com.dojah.kyc_sdk_kotlin.data.io.SharedPreferenceManager
 import com.dojah.kyc_sdk_kotlin.data.repository.DojahRepository
@@ -190,9 +192,9 @@ class VerificationViewModel(
     val submitUserLiveData: LiveData<Result<SimpleResponse>>
         get() = _submitUserLiveData
 
-    private val _submitQuestionLiveData = MutableLiveData<Result<SimpleResponse>>()
-    val submitQuestionLiveData: LiveData<Result<SimpleResponse>>
-        get() = _submitQuestionLiveData
+    private val _submitEventLiveData = MutableLiveData<Result<SimpleResponse>>()
+    val submitEventLiveData: LiveData<Result<SimpleResponse>>
+        get() = _submitEventLiveData
 
 
     val dojahEnum
@@ -314,19 +316,47 @@ class VerificationViewModel(
         _statesLiveData.postValue(states)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun sendSignatureData(name: String, signature: String) {
+        viewModelScope.launch {
+            val request = buildSignatureStepEventRequest(name = name, signature)
+
+            repo.logEvent(request).onStart {
+                _submitEventLiveData.postValue(Result.Loading)
+            }.collect {
+                if (it is Result.Success) {
+                    logStepEvent(
+                        page = KycPages.SIGNATURE,
+                        event = EventTypes.STEP_COMPLETED
+                    ).collect { eventResult ->
+                        _submitEventLiveData.postValue(eventResult)
+                    }
+                } else {
+                    logStepEvent(
+                        page = KycPages.SIGNATURE,
+                        event = EventTypes.STEP_FAILED,
+                        failedReasons = FailedReasons.INVALID_ADDRESS
+                    ).collect { eventResult ->
+                        _submitEventLiveData.postValue(eventResult)
+                    }
+                }
+            }
+        }
+    }
+
     fun sendCustomQuestionAnswer(answers: List<QuestionAnswer>) {
         viewModelScope.launch {
             val request = buildCustomQuestionsStepEventRequest(answers = answers)
 
             repo.logQuestionEvent(request).onStart {
-                _submitQuestionLiveData.postValue(Result.Loading)
+                _submitEventLiveData.postValue(Result.Loading)
             }.collect {
                 if (it is Result.Success) {
                     logStepEvent(
                         page = KycPages.CUSTOM_QUESTIONS,
                         event = EventTypes.STEP_COMPLETED
                     ).collect { eventResult ->
-                        _submitQuestionLiveData.postValue(eventResult)
+                        _submitEventLiveData.postValue(eventResult)
                     }
                 } else {
                     logStepEvent(
@@ -334,7 +364,7 @@ class VerificationViewModel(
                         event = EventTypes.STEP_FAILED,
                         failedReasons = FailedReasons.INVALID_ADDRESS
                     ).collect { eventResult ->
-                        _submitQuestionLiveData.postValue(eventResult)
+                        _submitEventLiveData.postValue(eventResult)
                     }
                 }
             }
@@ -597,7 +627,6 @@ class VerificationViewModel(
         }
     }
 
-
     private suspend fun logStepEvent(
         page: KycPages,
         event: EventTypes,
@@ -710,6 +739,31 @@ class VerificationViewModel(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun buildSignatureStepEventRequest(
+        name: String,
+        signature: String,
+        services: List<String> = listOf(),
+    ): EventRequest {
+        val config = getStepWithPageName(KycPages.SIGNATURE.serverKey)?.config
+        val page = KycPages.SIGNATURE
+        val verificationId =
+            authDataFromPref?.initData?.authData?.verificationId
+                ?: throw Exception("Verification id is null")
+        val stepNumber =
+            getStepWithPageName(page.serverKey)?.id
+                ?: throw Exception("No stepNumber")
+
+        return EventRequest(
+            stepNumber = stepNumber,
+            eventType = "signature",
+            eventValue = "${name}|${config?.information}|${signature}",
+            verificationId = verificationId,
+            pageKey = page.serverKey,
+            services = services
+        )
+    }
+
     private fun buildCustomQuestionsStepEventRequest(
         answers: List<QuestionAnswer>,
         services: List<String> = listOf(),
@@ -745,7 +799,6 @@ class VerificationViewModel(
             logger.log("EventRequest: $this")
         }
     }
-
 
     private fun buildStepEventRequest(
         page: KycPages,

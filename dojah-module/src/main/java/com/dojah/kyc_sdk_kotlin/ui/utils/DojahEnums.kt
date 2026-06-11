@@ -17,6 +17,7 @@ import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.IndexDisclaimerF
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.PhoneOtpFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.SelfieDisclaimerFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.SignatureFragment
+import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.capturesignature.CaptureSignatureFragment
 
 enum class VerificationMethod(val method: String) {
     SMS("sms"),
@@ -302,7 +303,7 @@ enum class KycPages(
     ),
     SIGNATURE(
         "signature",
-        SignatureFragment::class.java.name,
+        CaptureSignatureFragment::class.java.name,
     );
 
     companion object {

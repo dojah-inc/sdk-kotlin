@@ -82,7 +82,7 @@ class CustomQuestionsFragment : ErrorFragment() {
     }
 
     private fun observeOutput() {
-        viewModel.submitQuestionLiveData.observe(viewLifecycleOwner) {
+        viewModel.submitEventLiveData.observe(viewLifecycleOwner) {
             it ?: return@observe
             when (it) {
                 is Result.Loading -> {

@@ -32,6 +32,7 @@ resizer = "v1.5"
 retrofit = "2.9.0"
 glide = "4.16.0"
 room = "2.4.3"
+signature-pad = "0.2.0"
 vectorchildfinder = "1.0.0"
 view = "2.4.0"
 sentry = "8.33.0"
@@ -85,6 +86,7 @@ play-services-places = { module = "com.google.android.gms:play-services-places",
 recyclerview = { module = 'androidx.recyclerview:recyclerview', version = "1.2.1" }
 
 resizer = { module = "com.github.hkk595:Resizer", version.ref = "resizer" }
+signature-pad = { module = "se.warting.signature:signature-pad", version.ref = "signature-pad" }
 swiperefresh = { module = 'androidx.swiperefreshlayout:swiperefreshlayout', version = "1.1.0" }
 
 navigation-fragment = { module = 'androidx.navigation:navigation-fragment-ktx', version.ref = "navigation" }

@@ -117,6 +117,10 @@
     <string name="resend_code">Resend code</string>
     <string name="record">Record</string>
     <string name="submit">Submit</string>
+    <string name="full_name_text">Enter your full name</string>
+    <string name="signature_text">Add your signature and confirm below</string>
+    <string name="clear_signature">Clear Signature</string>
+    <string name="confirm_signature">I sign and confirm</string>
     <string name="processing_load">\tProcessing...</string>
     <string name="verification_is_not_allowed_in_your_country">Verification is not allowed in\nyour country</string>
     <string name="something_is_broken">Something is broken</string>

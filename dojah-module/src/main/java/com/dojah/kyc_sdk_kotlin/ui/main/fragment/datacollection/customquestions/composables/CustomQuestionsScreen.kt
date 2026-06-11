@@ -34,6 +34,7 @@ import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.customquestions.
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.customquestions.QuestionsOutput
 import com.dojah.kyc_sdk_kotlin.ui.utils.normaliseColor
 import com.dojah.kyc_sdk_kotlin.ui.utils.toTitleCase
+import com.dojah.kyc_sdk_kotlin.ui.utils.widget.DojahButton
 
 internal val QuestionBackground = Color(0xFFF9F9F9)
 internal val QuestionBorder = Color(0xFFE3E3E6)
@@ -107,40 +108,22 @@ internal fun CustomQuestionsScreen(
 
         Box(modifier = Modifier.height(8.dp))
 
-        Button(
-            enabled = allAnswered,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = activeColor,
-                disabledContainerColor = activeColor.copy(alpha = 0.4f),
-                contentColor = Color.White,
-                disabledContentColor = Color.White.copy(alpha = 0.8f)
-            ),
-            onClick = {
-                val output = QuestionsOutput(
-                    eventValue = input.questions.mapIndexed { index, question ->
-                        QuestionAnswer(
-                            text = question.text.toTitleCase(),
-                            type = question.type,
-                            options = question.options.takeIf {
-                                question.type != QuestionType.text
-                            },
-                            answer = answers[index] ?: ""
-                        )
-                    }
-                )
-
-                onContinue(output)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp),
-            shape = RoundedCornerShape(8.dp)
-        ) {
-            Text(
-                stringResource(R.string.submit),
-                style = MaterialTheme.typography.titleMedium.copy(fontSize = 16.sp)
+        DojahButton(text = stringResource(R.string.submit), onClick = {
+            val output = QuestionsOutput(
+                eventValue = input.questions.mapIndexed { index, question ->
+                    QuestionAnswer(
+                        text = question.text.toTitleCase(),
+                        type = question.type,
+                        options = question.options.takeIf {
+                            question.type != QuestionType.text
+                        },
+                        answer = answers[index] ?: ""
+                    )
+                }
             )
-        }
+
+            onContinue(output)
+        })
 
         Box(modifier = Modifier.height(16.dp))
     }

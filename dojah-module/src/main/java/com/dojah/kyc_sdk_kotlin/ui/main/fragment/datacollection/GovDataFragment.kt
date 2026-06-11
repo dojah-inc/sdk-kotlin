@@ -45,6 +45,9 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
     private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
 
+    val verificationMethods: List<String>
+        get() = govViewModel.getVerifyMethods(viewModel) ?: emptyList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         govViewModel.submitGovLiveData.observe(this) {
@@ -59,7 +62,7 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
 
                     if (govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id && verificationMethods?.size == 1 &&
                         verificationMethods.first()
-                            .lowercase() == VerificationType.OTP.serverKey.lowercase()
+                            .equals(VerificationType.OTP.serverKey, ignoreCase = true)
                     ) {
                         navViewModel.navigateNextStep(args = Bundle().apply {
                             putBoolean(
@@ -117,14 +120,20 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
     }
 
     private fun updateButtonState() = binding.apply {
-        val enabled = textEdtBvn.text?.isNotBlank() == true && spinnerVerifyWith.text?.isNotBlank() == true
-        btnContinue.isEnabled = enabled
+        binding.apply {
+            val hasInput = textEdtBvn.text?.isNotBlank() == true
+            val spinnerHasSelection = spinnerVerifyWith.text?.isNotBlank() == true
+            val isDlSelected = govViewModel.selectedGovDataLiveData.value?.id == GovDocType.DL.id
+            val noVerificationMethods = verificationMethods.isEmpty()
+
+            // enabled when there's input AND (spinner has selection OR selected id is DL OR there are no verification methods)
+            btnContinue.isEnabled =
+                hasInput && (spinnerHasSelection || isDlSelected || noVerificationMethods)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val gIds = govViewModel.getGovIdTypes(viewModel)
-
-        val verificationMethods = govViewModel.getVerifyMethods(viewModel)
 
         binding.apply {
             updateButtonState()

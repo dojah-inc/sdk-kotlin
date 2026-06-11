@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace 'com.dojah.demoapp'
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
         applicationId "com.dojah.demoapp"
         minSdk 24
