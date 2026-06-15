@@ -312,8 +312,10 @@ class VerificationViewModel(
 
     fun loadUserCountryStates() {
         val countryName = prefManager.getUserCountryName() ?: return
-        val states = countryManager.getCountryStatesList(countryName)
-        _statesLiveData.postValue(states)
+        viewModelScope.launch {
+            val states = countryManager.getCountryStatesList(countryName)
+            _statesLiveData.postValue(states)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

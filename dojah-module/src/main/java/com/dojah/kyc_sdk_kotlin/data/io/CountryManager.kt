@@ -25,7 +25,10 @@ class CountryManager(
     private val listeners = mutableListOf<CountryCallback>()
     private var countriesList = mutableListOf<Country>()
 
-    fun getCountryStatesList(countryName: String): List<CountryState> {
+    suspend fun getCountryStatesList(countryName: String): List<CountryState> {
+        if (countriesList.isEmpty()) {
+            getCountries()
+        }
         val country = countriesList.firstOrNull {
             it.name.equals(countryName, ignoreCase = true)
         }
@@ -86,11 +89,12 @@ class CountryManager(
                                     val stateJson = statesJson.optJSONObject(index)
                                     CountryState(
                                         stateJson.optString("name"),
-                                        stateJson.optJSONArray("subdivision")?.let { subdivisionArray ->
-                                            List(subdivisionArray.length()) { subIndex ->
-                                                subdivisionArray.optString(subIndex)
-                                            }
-                                        } ?: emptyList()
+                                        stateJson.optJSONArray("subdivision")
+                                            ?.let { subdivisionArray ->
+                                                List(subdivisionArray.length()) { subIndex ->
+                                                    subdivisionArray.optString(subIndex)
+                                                }
+                                            } ?: emptyList()
                                     )
                                 }
                             )
