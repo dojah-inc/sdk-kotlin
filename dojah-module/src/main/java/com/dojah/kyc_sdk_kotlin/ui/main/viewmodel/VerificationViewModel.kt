@@ -653,9 +653,7 @@ class VerificationViewModel(
         ) {
             repo.dojahPricing.data.verificationMap()[page.serverKey]?.verification
                 ?.also { price ->
-                    services.add(
-                        price,
-                    )
+                    services.add(price)
                 }
         }
 

@@ -53,6 +53,7 @@ data class AuthResponse(
                         national = idConfig?.national,
                         nin = idConfig?.nin,
                         cac = idConfig?.cac,
+                        bvnAdvance = idConfig?.bvnAdvance
                     ),
                 )
             }
@@ -110,6 +111,7 @@ data class Config(
     @SerializedName("voter") var voter: Boolean? = null,
     @SerializedName("vnin") var vnin: Boolean? = null,
     @SerializedName("bvn") var bvn: Boolean? = null,
+    @SerializedName("bvnAdvance") var bvnAdvance: Boolean? = null,
     @SerializedName("selfie") var selfie: Boolean? = null,
     @SerializedName("otp") var otp: Boolean? = null,
     @SerializedName("national") var national: Boolean? = null,
@@ -159,6 +161,7 @@ data class Config(
             return listOf(
                 passport,
                 dl,
+                bvnAdvance,
                 voter,
                 vnin,
                 bvn,
@@ -176,6 +179,8 @@ data class Config(
                     add(GovDocType.DL.serverKey)
                 if (bvn == true)
                     add(GovDocType.BVN.serverKey)
+                if(bvnAdvance == true)
+                    add(GovDocType.BVN_ADVANCE.serverKey)
                 if (voter == true)
                     add(GovDocType.VOTER.serverKey)
                 if (nin == true)

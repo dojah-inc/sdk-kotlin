@@ -76,7 +76,7 @@ internal fun CaptureSignatureScreen(
             .padding(horizontal = 16.dp)
     ) {
         Text(
-            text = data.title.toTitleCase(),
+            text = (data.title ?: stringResource(R.string.signature_title)).toTitleCase(),
             style = MaterialTheme.typography.titleMedium.copy(
                 fontSize = 16.sp,
                 color = Color(0xFF1B2A4E)

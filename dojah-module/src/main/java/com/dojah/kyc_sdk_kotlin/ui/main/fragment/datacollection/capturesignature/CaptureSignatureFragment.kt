@@ -48,7 +48,7 @@ class CaptureSignatureFragment : ErrorFragment() {
                     val config =
                         viewModel.getStepWithPageName(KycPages.SIGNATURE.serverKey)?.config
                     CaptureSignatureUIData(
-                        title = config?.title.orEmpty(),
+                        title = config?.title,
                         description = config?.information.orEmpty()
                     )
                 }

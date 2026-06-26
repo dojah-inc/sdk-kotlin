@@ -117,6 +117,7 @@
     <string name="resend_code">Resend code</string>
     <string name="record">Record</string>
     <string name="submit">Submit</string>
+    <string name="signature_title">Sign and confirm information</string>
     <string name="full_name_text">Enter your full name</string>
     <string name="signature_text">Add your signature and confirm below</string>
     <string name="clear_signature">Clear Signature</string>

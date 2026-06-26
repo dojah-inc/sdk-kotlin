@@ -1,5 +1,6 @@
 package com.dojah.kyc_sdk_kotlin.core.util
 
+import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnum
 import com.dojah.kyc_sdk_kotlin.domain.responses.DojahPricing
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.GovDataViewModel
 import com.dojah.kyc_sdk_kotlin.ui.utils.EventTypes
@@ -26,9 +27,7 @@ object DojahPricingUtil {
                     if (doVerification) {
                         pricing.verificationMap()[page.serverKey]?.verification
                             ?.also { price ->
-                                services.add(
-                                    price,
-                                )
+                                services.add(price)
                             }
                     }
                 }
@@ -49,10 +48,12 @@ object DojahPricingUtil {
                 KycPages.GOVERNMENT_DATA.serverKey -> {
                     govViewModel?.selectedGovDataLiveData?.value?.name?.also {
                         val selectedId = GovDocType.enumOfValue(it)?.serverKey
-                        pricing.governmentData?.toMap()?.get(selectedId)
+                        val isBvnAdvance =
+                            govViewModel.getCurrentPage(page.serverKey)?.config?.bvnAdvance == true
+                        pricing.governmentData?.toMap()
+                            ?.get(if (isBvnAdvance) "bvnAdvance" else selectedId)
                             ?.also { price ->
                                 services.add(price)
-
                             }
                     }
                 }

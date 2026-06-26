@@ -443,7 +443,10 @@ class GovDataViewModel(
         dojahConstants: DojahEnum,
         userId: String,
     ) = when (selectedIdEnum) {
-        dojahConstants.bvn.enum -> repo.lookUpBvn(userId)
+        dojahConstants.bvn.enum -> repo.lookUpBvn(
+            userId,
+            getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)?.config?.bvnAdvance == true
+        )
 
         dojahConstants.nin.enum -> repo.lookUpNin(userId)
 

@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class DojahEnum(
     val bvn: DojahEnumAttr,
+    val bvnAdvance: DojahEnumAttr,
     @SerializedName("za-id")
     val zaId: DojahEnumAttr,
     @SerializedName("ao-nin")
@@ -62,6 +63,7 @@ data class DojahEnum(
     fun toMap(): Map<String, DojahEnumAttr> {
         return mapOf(
             "bvn" to bvn,
+            "bvnAdvance" to bvnAdvance,
             "other" to DojahEnumAttr(),
             "nin" to nin,
             "ao-nin" to aoNin,

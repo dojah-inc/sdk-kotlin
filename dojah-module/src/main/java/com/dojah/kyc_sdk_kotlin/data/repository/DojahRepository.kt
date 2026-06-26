@@ -215,11 +215,13 @@ class DojahRepository(
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun lookUpBvn(bvn: String): Flow<Result<BvnLookUpResponse>> {
+    suspend fun lookUpBvn(
+        bvn: String,
+        isAdvance: Boolean = false
+    ): Flow<Result<BvnLookUpResponse>> {
         return flow {
             val result = checkNetworkAndStartRequest {
-                val response =
-                    service.lookUpBvn(bvn)
+                val response = if (!isAdvance) service.lookUpBvn(bvn) else service.lookUpBvnAdvance(bvn)
                 response.getResult(BvnLookUpResponse::class.java)
             }
             emit(result)

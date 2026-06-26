@@ -62,6 +62,7 @@ data class PreAuthResponse(
                             default = config.default,
                             passport = config.passport,
                             dl = config.dl,
+                            bvnAdvance = config.bvnAdvance,
                             whatsappVerification = config.whatsappVerification,
                             whatsappOtp = config.whatsappOtp,
                             voter = config.voter,

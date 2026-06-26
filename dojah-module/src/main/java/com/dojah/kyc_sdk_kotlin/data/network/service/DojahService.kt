@@ -47,6 +47,9 @@ interface DojahService {
     @GET("${prefix}/kyc/bvn")
     suspend fun lookUpBvn(@Query("bvn") bvn: String): Response<ResponseBody>
 
+    @GET("${prefix}/kyc/bvn/advance")
+    suspend fun lookUpBvnAdvance(@Query("bvn") bvn: String): Response<ResponseBody>
+
     @GET("${prefix}/kyc/nin")
     suspend fun lookUpNin(@Query("nin") nin: String): Response<ResponseBody>
 
@@ -181,6 +184,12 @@ class DojahServiceMock : DojahService {
     }
 
     override suspend fun lookUpBvn(bvn: String): Response<ResponseBody> {
+        delay(1000)
+        val responseBody = bvnResponse().replace("\n", "").toResponseBody()
+        return Response.success(responseBody)
+    }
+
+    override suspend fun lookUpBvnAdvance(bvn: String): Response<ResponseBody> {
         delay(1000)
         val responseBody = bvnResponse().replace("\n", "").toResponseBody()
         return Response.success(responseBody)

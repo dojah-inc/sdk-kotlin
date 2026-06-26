@@ -116,6 +116,13 @@ enum class GovDocType(
         "Make sure your CAC Document is properly placed, and hold it still for a few seconds",
         inputType = InputType.TYPE_CLASS_NUMBER,
     ),
+    BVN_ADVANCE(
+        "Bank Verification Number",
+        "bvnAdvance",
+        "Capture the CAC Document",
+        "Make sure your CAC Document is properly placed, and hold it still for a few seconds",
+        inputType = InputType.TYPE_CLASS_NUMBER,
+    ),
     VOTER(
         "Voter\'s Card",
         "voter",
