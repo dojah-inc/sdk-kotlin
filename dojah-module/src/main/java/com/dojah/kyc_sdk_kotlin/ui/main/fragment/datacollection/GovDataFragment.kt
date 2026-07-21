@@ -139,10 +139,9 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
             updateButtonState()
             errorTag.background = MaterialShapeDrawable().apply {
                 setTint(ContextCompat.getColor(requireContext(), R.color.error_bg_color))
-
                 setCornerSize(30.toFloat())
-
             }
+
             errorTag.isVisible = false
             requireActivity().onBackPressedDispatcher.addCallback {
                 if (popupWindow?.isShowing == true) {

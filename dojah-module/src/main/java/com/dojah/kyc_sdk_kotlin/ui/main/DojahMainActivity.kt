@@ -57,6 +57,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
+import kotlin.math.max
 
 
 class DojahMainActivity : AppCompatActivity() {
@@ -103,6 +104,9 @@ class DojahMainActivity : AppCompatActivity() {
         Clarity.setCustomTag("source", preferenceManager.getAndroidSource())
 
         changeStatusBarIconToDark()
+
+        navViewModel.setLastPageIndex(-1)
+        navViewModel.setCurrentPageIndex(-1)
 
 //        onBackPressedCallback.isEnabled
 
@@ -425,57 +429,73 @@ class DojahMainActivity : AppCompatActivity() {
                         ?.lastOrNull()
                     val currentRoute = lastStoredRoute ?: navController.currentDestination?.route
 
-                    val pages = viewModel.getPagesFromPrefs()
-                    val indexOfCurrent = pages?.indexOfFirst { it.name == currentRoute }
+                    val pages = viewModel.getPagesFromPrefs() ?: return@also
+
+                    val lastPageIndex = navViewModel.getCurrentPageIndex()
+                    val indexOfCurrent = pages.indexOfFirst { it.name == currentRoute }
+
+                    val resolvedCurrentIndex = max(lastPageIndex ?: -1, indexOfCurrent)
+
                     val skipNextScreen = eventValue.first?.getBoolean(
                         NavArguments.skipNext, false
                     ) ?: false
 
-                    if (indexOfCurrent != null) {
-                        val nextIndex = indexOfCurrent + (if (skipNextScreen) 2 else 1)
-                        if (nextIndex <= pages.size - 1) {
-                            var nextRoute = pages[nextIndex].name ?: ""
-                            if (nextRoute == KycPages.COUNTRY.serverKey) {
-                                // if nextRoute is Country page,
-                                // check if country is more than one
-                                // before launching the country page,
-                                // else just jump the country page
-                                val isSingleCountry =
-                                    viewModel.getCountriesFullFromPrefs(this)?.size == 1
+                    val nextIndex = resolvedCurrentIndex + (if (skipNextScreen) 2 else 1)
+
+                    navViewModel.setLastPageIndex(resolvedCurrentIndex)
+                    navViewModel.setCurrentPageIndex(nextIndex)
+
+                    if (nextIndex <= pages.size - 1) {
+                        var nextRoute = pages[nextIndex].name ?: ""
+                        if (nextRoute == KycPages.COUNTRY.serverKey) {
+                            // if nextRoute is Country page,
+                            // check if country is more than one
+                            // before launching the country page,
+                            // else just jump the country page
+                            val isSingleCountry =
+                                viewModel.getCountriesFullFromPrefs(this)?.size == 1
 //
-                                if (isSingleCountry) {
-                                    //skip country page and auto-select the country
-                                    val nextNextIndex = (nextIndex + 1).coerceAtMost(pages.size - 1)
-                                    nextRoute =
-                                        pages[nextNextIndex].name
-                                            ?: ""
-                                }
+                            if (isSingleCountry) {
+                                //skip country page and auto-select the country
+                                val nextNextIndex = (nextIndex + 1).coerceAtMost(pages.size - 1)
+                                nextRoute =
+                                    pages[nextNextIndex].name
+                                        ?: ""
                             }
-                            navViewModel.pushNextDojahRoute(nextRoute)
-                            val bundle = eventValue.first
-
-                            val destination =
-                                if (bundle == null) {
-                                    nextRoute
-                                } else {
-
-                                    val bundleOptionName = bundle.getString(
-                                        NavArguments.option, null
-                                    )
-
-                                    Routes.getOptionRoute(
-                                        nextRoute,
-                                        optionPageName = bundleOptionName,
-                                    )
-                                }
-                            logger.log("nextRoute in main is $nextRoute")
-                            navController.navigate(
-                                destination, createNavOptions(eventValue.second)
-                            )
-                        } else {
-                            //This is the last step, make a decision
-                            navViewModel.makeFinalDecision()
                         }
+                        navViewModel.pushNextDojahRoute(nextRoute)
+                        val bundle = eventValue.first
+
+                        val destination =
+                            if (bundle == null) {
+                                nextRoute
+                            } else {
+
+                                val bundleOptionName = bundle.getString(
+                                    NavArguments.option, null
+                                )
+
+                                Routes.getOptionRoute(
+                                    nextRoute,
+                                    optionPageName = bundleOptionName,
+                                )
+                            }
+                        logger.log("nextRoute in main is $nextRoute")
+                        val currentDestinationRoute =
+                            navController.currentDestination?.route
+                                ?.substringBefore("/{")
+                        val destinationRoute = destination.substringBefore("/")
+
+                        if (currentDestinationRoute == destinationRoute) {
+                            navController.popBackStack()
+                        }
+
+                        navController.navigate(
+                            destination, createNavOptions(eventValue.second)
+                        )
+                    } else {
+                        //This is the last step, make a decision
+                        navViewModel.makeFinalDecision()
                     }
                 }
             }

@@ -192,7 +192,7 @@ class GovDataViewModel(
     fun getGovIdTypes(
         verificationVm: VerificationViewModel
     ): List<DojahEnumAttr?>? {
-        return verificationVm.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config?.govIds?.map { govIdKey ->
+        return verificationVm.getCurrentPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config?.govIds?.map { govIdKey ->
             verificationVm.dojahEnum.toMap()[govIdKey]
         }
     }
@@ -231,7 +231,7 @@ class GovDataViewModel(
     }
 
     fun prefillGovIdentity(id: DojahEnumAttr?) {
-        _selectedGovIdDataLiveData.postValue(_selectedGovIdDataLiveData.value ?: id)
+        _selectedGovIdDataLiveData.postValue(id ?: _selectedGovIdDataLiveData.value)
     }
 
     fun prefillBizId(id: DojahEnumAttr?) {

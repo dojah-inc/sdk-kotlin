@@ -22,6 +22,8 @@ class SharedPreferenceManager(
         ///Dojah keys
         const val KEY_BEARER_TOKEN = " bearer token"
         const val ANDROID_SOURCE = "android_source"
+        const val CURRENT_PAGE_INDEX = "current_page_index"
+        const val LAST_PAGE_INDEX = "last_page_index"
         const val ANDROID_DEVICE_ID = "android_divice_id"
         const val WIDGET_ID = "widget_id"
         const val USER_COUNTRY_NAME = "user_country_name"
@@ -91,6 +93,22 @@ class SharedPreferenceManager(
             putString(USER_COUNTRY_NAME, countryName)
         }
     }
+
+    fun setLastPageIndex(page: Int) {
+        appPref.edit {
+            putInt(LAST_PAGE_INDEX, page)
+        }
+    }
+
+    fun setCurrentPageIndex(page: Int) {
+        appPref.edit {
+            putInt(CURRENT_PAGE_INDEX, page)
+        }
+    }
+
+    fun getCurrentPageIndex(): Int = appPref.getInt(CURRENT_PAGE_INDEX, -1)
+
+    fun getLastPageIndex(): Int = appPref.getInt(LAST_PAGE_INDEX, -1)
 
     fun getUserCountryName(): String? = appPref.getString(USER_COUNTRY_NAME, null)
 

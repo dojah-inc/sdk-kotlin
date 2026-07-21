@@ -995,6 +995,13 @@ class VerificationViewModel(
         return getPagesFromPrefs()?.find { it.name == currentPage }
     }
 
+    fun getCurrentPageName(ensureName: String? = null): Step? {
+        val currentPageIndex = prefManager.getCurrentPageIndex()
+        val step = getPagesFromPrefs()?.get(currentPageIndex)
+        return ensureName?.let {
+            if (step?.name == ensureName) step else null
+        } ?: step
+    }
 
     private fun getDocInfo(context: Context, uri: Uri, isUpload: Boolean): DocumentInfo? {
         if (!isUpload) {

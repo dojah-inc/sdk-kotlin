@@ -16,7 +16,7 @@ ext {
             targetSdk            : 35,
             compileSdk           : 36,
             versionCode          : 30,
-            versionName          : "0.3.6",
+            versionName          : "0.3.7",
             fileProviderAuthority: "com.dojah.kyc_sdk_kotlin.provider"
     ]
 
@@ -269,7 +269,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.dojah-inc'
             artifactId = 'kyc_sdk_kotlin'
-            version = 'v0.3.6'
+            version = 'v0.3.7'
 //          version = 'v0.0.01-dev'
             afterEvaluate {
                 from components.mobileRelease

@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
  * to the Activity who will then handle the navigation. This ensures all
  * navigations are performed from one point
  */
-class NavigationViewModel (
+class NavigationViewModel(
     private val prefManager: SharedPreferenceManager,
     private val repo: DojahRepository,
 ) : ViewModel() {
@@ -64,6 +64,23 @@ class NavigationViewModel (
         _finalDecisionLiveData.value = null
     }
 
+    fun setCurrentPageIndex(index: Int) {
+        prefManager.setCurrentPageIndex(index)
+    }
+
+    fun getCurrentPageIndex(): Int? {
+        val index = prefManager.getCurrentPageIndex()
+        return if (index == -1) null
+        else index
+    }
+
+    fun setLastPageIndex(index: Int) {
+        prefManager.setLastPageIndex(index)
+    }
+
+    fun getLastPageIndex(): Int {
+        return prefManager.getLastPageIndex()
+    }
 
     fun navigateOld(destination: Int, args: Bundle? = null, popAction: PopAction? = null) {
         viewModelScope.launch(Dispatchers.Main) {

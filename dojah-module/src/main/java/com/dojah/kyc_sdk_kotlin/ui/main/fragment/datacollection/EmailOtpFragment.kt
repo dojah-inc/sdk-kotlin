@@ -152,13 +152,7 @@ class EmailOtpFragment : ErrorFragment(R.layout.fragment_otp_email) {
                     btnContinue.isEnabled = false
                 }
             }
-            viewModel.extraUserDataFromPref?.userData?.let {
 
-                if (it.email?.isNotBlank() == true) {
-                    textInputEmail.editText?.setText(it.email)
-                    textInputEmail.isEnabled = false
-                }
-            }
             btnContinue.setOnClickListener {
                 val mailConfig = viewModel.getStepWithPageName(KycPages.EMAIL.serverKey)?.config
                 if (mailConfig?.verification == true) {
@@ -173,6 +167,16 @@ class EmailOtpFragment : ErrorFragment(R.layout.fragment_otp_email) {
                         viewModel,
                         email = textInputEmail.getText().trim(),
                     )
+                }
+            }
+
+            viewModel.extraUserDataFromPref?.userData?.let {
+
+                if (it.email?.isNotBlank() == true) {
+                    textInputEmail.editText?.setText(it.email)
+                    textInputEmail.isEnabled = false
+
+                    btnContinue.performClick()
                 }
             }
 
