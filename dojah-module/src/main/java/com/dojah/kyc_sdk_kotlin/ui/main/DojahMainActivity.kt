@@ -146,6 +146,8 @@ class DojahMainActivity : AppCompatActivity() {
                     (navController.graph[Routes.verification_route] as NavGraph).startDestinationRoute
                 logger.log("start route is $startDestinationRoute")
                 if (currentRoute != startDestinationRoute) {
+                    navViewModel.setLastPageIndex(-1)
+                    navViewModel.setCurrentPageIndex(-1)
                     onBackPressedDispatcher.onBackPressed()
                 } else {
                     setResult(RESULT_OK, Intent().putExtra(DOJAH_RESULT_KEY, DOJAH_CLOSED_RESULT))

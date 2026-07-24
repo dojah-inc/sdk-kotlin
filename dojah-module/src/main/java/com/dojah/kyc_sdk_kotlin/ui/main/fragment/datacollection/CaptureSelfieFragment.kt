@@ -392,6 +392,4 @@ class CaptureSelfieFragment : ErrorFragment() {
     private fun previewSelfie() {
         navViewModel.navigate(Routes.preview_selfie_fragment)
     }
-
-
 }

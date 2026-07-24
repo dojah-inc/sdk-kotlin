@@ -145,7 +145,6 @@ class EmailOtpFragment : ErrorFragment(R.layout.fragment_otp_email) {
                     } else {
                         textInputEmail.error = null
                         btnContinue.isEnabled = true
-
                     }
                 } else {
                     textInputEmail.error = "Invalid Email"

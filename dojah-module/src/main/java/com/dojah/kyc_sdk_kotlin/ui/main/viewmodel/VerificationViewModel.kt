@@ -1081,7 +1081,7 @@ class VerificationViewModel(
 
     fun isFreeMail(searchItem: String): Boolean {
         val mailConfig = getStepWithPageName(KycPages.EMAIL.serverKey)?.config
-        if (mailConfig?.freeProvider != true) {
+        if (mailConfig?.freeProvider == true) {
             return false
         }
         val search = searchItem.replaceBefore("@", "").replace("@", "")

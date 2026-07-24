@@ -195,7 +195,7 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                 }
             }
 
-            (verificationMethods?.isNotEmpty() == true && verificationMethods.size > 1).also { noVerifyMethod ->
+            (verificationMethods.isNotEmpty() && verificationMethods.size > 1).also { noVerifyMethod ->
                 inputVerifyWith.isVisible = noVerifyMethod == true
                 textVerifyWith.isVisible = noVerifyMethod == true
             }
@@ -266,7 +266,6 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
 
 
                 govViewModel.submitGovDataForm(viewModel, textEdtBvn.text.toString())
-
             }
 
 //            performOperationOnActivityAvailable {}

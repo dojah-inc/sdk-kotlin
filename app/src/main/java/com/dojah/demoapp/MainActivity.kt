@@ -113,14 +113,14 @@ private val businessOptions = listOf("cac")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GreetingMain(context: Activity) {
-    var widgetIdText by rememberSaveable { mutableStateOf("69b6de64593a8fc0db4b4ea5") }
+    var widgetIdText by rememberSaveable { mutableStateOf("6a0ca3849e9b60b7a53e4c23") }
     var refrenceIdText by rememberSaveable { mutableStateOf("") }
     var emailText by rememberSaveable { mutableStateOf("") }
     var extraFirstNameText by rememberSaveable { mutableStateOf("Abdul") }
     var extraLastNameText by rememberSaveable { mutableStateOf("Ola") }
     //  dd-mm-yyyy
     var extraDobText by rememberSaveable { mutableStateOf("02-03-1991") }
-    var extraEmailText by rememberSaveable { mutableStateOf("s@sail.com") }
+    var extraEmailText by rememberSaveable { mutableStateOf("") }
     var govDataOption by rememberSaveable { mutableStateOf(govDataOptions.first() to "323323232323") }
     var govIdOption by rememberSaveable { mutableStateOf(govIdOptions.first() to "https://nairametrics.com/wp-content/uploads/2013/11/nigeria-national-identity-smart-cards-combine-id-and-mastercard.jpg") }
     var businessOption by rememberSaveable { mutableStateOf(businessOptions.first() to "3081661") }

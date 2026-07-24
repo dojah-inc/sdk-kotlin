@@ -71,11 +71,9 @@ class GovDataViewModel(
     val selectedGovDataLiveData: LiveData<DojahEnumAttr?>
         get() = _selectedGovIdDataLiveData
 
-
     private val _selectedBizIdDataLiveData = MutableLiveData<DojahEnumAttr?>()
     val selectedBizDataLiveData: LiveData<DojahEnumAttr?>
         get() = _selectedBizIdDataLiveData
-
 
     private val _submitGovLiveData = MutableLiveData<Result<String>?>()
     val submitGovLiveData: LiveData<Result<String>?>
@@ -90,7 +88,6 @@ class GovDataViewModel(
     private val _sendOtpLiveData = MutableLiveData<Result<SendOtpResponse?>>()
     val sendOtpLiveData: LiveData<Result<SendOtpResponse?>>
         get() = _sendOtpLiveData
-
 
     private val _validateOtpLiveData = MutableLiveData<Result<ValidateOtpResponse?>?>()
     val validateOtpLiveData: LiveData<Result<ValidateOtpResponse?>?>
@@ -111,8 +108,6 @@ class GovDataViewModel(
     private val _isResentOtpLiveData = MutableLiveData<Boolean>()
     val isResentOtpLiveData: LiveData<Boolean>
         get() = _isResentOtpLiveData
-
-
     private val _imageAnalysisLiveData = MutableLiveData<Result<ImageAnalysisResponse?>?>()
     val imageAnalysisLiveData: LiveData<Result<ImageAnalysisResponse?>?>
         get() = _imageAnalysisLiveData
@@ -201,7 +196,7 @@ class GovDataViewModel(
     fun getVerifyMethods(
         verificationVm: VerificationViewModel
     ): List<String>? {
-        return verificationVm.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config?.verificationMethods?.map { method ->
+        return verificationVm.getCurrentPageName(KycPages.GOVERNMENT_DATA.serverKey)?.config?.verificationMethods?.map { method ->
             VerificationType.findEnumWithKey(method)?.value ?: method
         }
     }
@@ -254,7 +249,8 @@ class GovDataViewModel(
         services: List<String> = listOf(),
     ) {
         val dojahConstants = dojahEnum
-        val stepNumber = verifyVm.getStepWithPageName(KycPages.GOVERNMENT_DATA.serverKey)?.id
+        val step = verifyVm.getCurrentPageName(KycPages.GOVERNMENT_DATA.serverKey)
+        val stepNumber = step?.id
             ?: throw Exception("No stepNumber")
 
         viewModelScope.launch {
@@ -276,7 +272,10 @@ class GovDataViewModel(
                 /** startLoading */
             }.zip(
                 doGovIdLookUp(
-                    selectedIdEnum, dojahConstants, userInputId,
+                    selectedIdEnum,
+                    dojahConstants,
+                    userInputId,
+                    step.config?.bvnAdvance == true
                 )
             ) { typeSelectResult, lookUpResult ->
                 return@zip typeSelectResult to lookUpResult
@@ -442,10 +441,11 @@ class GovDataViewModel(
         selectedIdEnum: String,
         dojahConstants: DojahEnum,
         userId: String,
+        isBvnAdvance: Boolean = false
     ) = when (selectedIdEnum) {
         dojahConstants.bvn.enum -> repo.lookUpBvn(
             userId,
-            getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)?.config?.bvnAdvance == true
+            isBvnAdvance
         )
 
         dojahConstants.nin.enum -> repo.lookUpNin(userId)
@@ -1542,7 +1542,7 @@ class GovDataViewModel(
         page: KycPages,
         event: EventTypes,
         failedReasons: FailedReasons? = null,
-        error: Result.Error? = null
+        error: Result.Error? = null,
     ): Flow<Result<SimpleResponse>> {
         var failureCode: String? = null
 
@@ -1591,8 +1591,10 @@ class GovDataViewModel(
     }
 
     fun getCurrentPage(currentPage: String): Step? {
+        val currentPageIndex = prefManager.getCurrentPageIndex()
         val steps = getAuthDataFromPref()?.initData?.authData?.pages
-        return steps?.find { it.name == currentPage }
+        val step = steps?.get(currentPageIndex)
+        return if (step?.name == currentPage) step else null
     }
 
     private fun getAuthDataFromPref(): AuthResponse? {
