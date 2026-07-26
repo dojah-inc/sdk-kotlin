@@ -20,11 +20,12 @@ The current unit-test task builds successfully:
 9 tests, 0 failures
 ```
 
+This report assumes that **one Android engineer** will design, implement, review, stabilize, and document the tests. No parallel engineering capacity is assumed.
+
 The recommended delivery target is:
 
-- **4–5 weeks** for critical unit-test protection with one Android engineer
-- **6–8 weeks** for unit tests plus Android-facing integration coverage
-- Approximately **3–5 weeks** with two engineers working in parallel
+- **6 weeks** for the critical JVM unit-test suite
+- **8 weeks** for the critical unit-test suite plus selected Android-facing integration tests
 
 ## Objectives
 
@@ -483,31 +484,38 @@ Testing every declared function would increase maintenance cost without providin
 - RecyclerView binding without transformations
 - One-line wrappers already exercised through higher-level flow tests
 
-## Delivery Timeline
+## Single-Engineer Delivery Timeline
 
-The following estimate assumes one Android engineer working primarily on tests, with normal code-review availability.
+The following is a favorable but achievable timeline for one Android engineer working primarily on this initiative. It assumes stable requirements, timely access to API contracts, and no major production interruption.
 
-| Phase | Duration | Deliverable |
-|---|---:|---|
-| Baseline and infrastructure | 2–3 days | Test libraries, fixtures, coroutine rules, coverage, and CI |
-| API, error, and repository layer | 5–7 days | Reliable network and response-mapping coverage |
-| `VerificationViewModel` | 5–7 days | Authentication, user, address, event, and page logic |
-| `GovDataViewModel` | 8–10 days | Government ID, business, OTP, document, and liveness flows |
-| Utilities, security, navigation, and preferences | 5–7 days | Supporting critical logic covered |
-| Android integration tests | 7–10 days | Fragment, permission, URI, capture, and navigation validation |
-| Stabilization and documentation | 2–3 days | Flake removal, reports, team handover, and CI enforcement |
+| Week | Areas | Planned outcome |
+|---|---|---|
+| Week 1 | Test infrastructure and `BaseRepository` | Test libraries, coroutine rules, mocks/fakes, fixtures, coverage reporting, CI setup, and response/error-mapping tests |
+| Week 2 | `DojahRepository` | Authentication, OTP, lookup, address, metadata, image-analysis, liveness, upload, decision, caching, and network-error tests |
+| Week 3 | `VerificationViewModel` | Authentication orchestration, user submission, address verification, signature, custom questions, country/page selection, and state-management tests |
+| Week 4 | `GovDataViewModel`, part 1 | Verification-type selection, government ID types, BVN/NIN/vNIN/driver's licence branches, validation, and OTP behavior |
+| Week 5 | `GovDataViewModel`, part 2 | Business verification, image/document analysis, utility bill, live-location images, liveness, additional documents, signatures, and event logging |
+| Week 6 | Supporting critical logic and stabilization | Error/failure mapping, security, location calculations, navigation, preferences, country/configuration, email rules, pricing, timers, coverage review, and flaky-test correction |
+| Week 7 | Android-facing integration tests, part 1 | Preferences, files and URIs, header interceptor, fragment validation, permission results, loading/error states, and navigation routing |
+| Week 8 | Android-facing integration tests, part 2 and handover | OTP/custom widgets, document/selfie/building capture paths, activity results, final regression run, documentation, and stakeholder report |
 
-### Overall Estimate
+### Delivery Milestones
 
-- **Critical unit-test protection only:** 4–5 weeks
-- **Unit tests and Android-facing integration coverage:** 6–8 weeks
-- **Two engineers working in parallel:** approximately 3–5 weeks
+- **End of Week 1:** Automated test foundation and CI execution are available.
+- **End of Week 3:** Repository and main verification orchestration have meaningful protection.
+- **End of Week 5:** Core government, business, OTP, document, and liveness logic is covered.
+- **End of Week 6:** Critical JVM unit-test scope is complete.
+- **End of Week 8:** Selected Android integration coverage, stabilization, and handover are complete.
 
-The two-engineer estimate includes time for review, test stabilization, and coordination around shared ViewModel and repository files.
+### Scope Commitment
+
+- **Primary commitment:** Complete the critical unit-test scope by the end of Week 6.
+- **Extended commitment:** Complete selected Android-facing integration tests by the end of Week 8.
+- UI rendering, full end-to-end backend tests, device-matrix testing, and exhaustive visual regression testing are outside this unit-testing estimate.
 
 ## Recommended Stakeholder Commitment
 
-> Within five weeks, establish automated coverage for the SDK's critical authentication, API response, verification, OTP, address, government ID, business ID, security, and navigation logic. In weeks six to eight, extend coverage to Android-specific UI, permission, document-capture, and navigation-integration scenarios.
+> As the sole engineer assigned to this initiative, I will establish automated coverage for the SDK's critical authentication, API-response, verification, OTP, address, government ID, business ID, security, persistence, and navigation logic within six weeks. In weeks seven and eight, I will add selected Android-specific integration coverage, stabilize the suite, and provide the final coverage and risk report.
 
 ## Suggested Success Criteria
 
@@ -529,16 +537,3 @@ The two-engineer estimate includes time for review, test stabilization, and coor
 - Network tests should use mocks or fakes and must not call production APIs.
 - Existing hardcoded secrets and API configuration should be reviewed separately from the testing initiative.
 - The timeline assumes stable product requirements during implementation.
-
-## Recommended Reporting
-
-Stakeholder reporting should be issued weekly and include:
-
-- Test cases added
-- Priority areas completed
-- Line and branch coverage by critical class
-- Defects discovered by the new tests
-- Blockers or required refactoring
-- Flaky-test count
-- Remaining effort against the delivery plan
-
