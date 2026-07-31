@@ -19,10 +19,12 @@ class CancellableCountDownTimer(
 
         job = CoroutineScope(Dispatchers.Main).launch {
             onStart()
-            for (i in totalSeconds downTo 0) {
+            for (i in totalSeconds downTo 1) {
                 onTick(i)
-                delay(1000L) // Wait for 1 second
+                delay(1000L)
             }
+            onTick(0)
+            job = null
             onFinish()
         }
     }

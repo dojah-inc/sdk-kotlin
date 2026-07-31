@@ -130,20 +130,20 @@ data class PreAuthResponse(
                             prev == true || next == true
                         } == true
 
-                        if (oneIdEnabled) {
+                        if (!oneIdEnabled) {
                             modifiedSteps.add(
                                 modifiedSteps.lastIndex.coerceAtLeast(0),
                                 AuthReqSteps(
                                     name = idOptionPage,
                                     authReqConfigConfig = Config(
-                                        passport = data.authReqConfigConfig?.passport,
-                                        dl = data.authReqConfigConfig?.dl,
-                                        voter = data.authReqConfigConfig?.voter,
-                                        vnin = data.authReqConfigConfig?.vnin,
-                                        bvn = data.authReqConfigConfig?.bvn,
-                                        national = data.authReqConfigConfig?.national,
-                                        nin = data.authReqConfigConfig?.nin,
-                                        cac = data.authReqConfigConfig?.cac,
+                                        passport = data.authReqConfigConfig?.passport ?: true,
+                                        dl = data.authReqConfigConfig?.dl ?: true,
+                                        voter = data.authReqConfigConfig?.voter ?: true,
+                                        vnin = data.authReqConfigConfig?.vnin ?: true,
+                                        bvn = data.authReqConfigConfig?.bvn ?: true,
+                                        national = data.authReqConfigConfig?.national ?: true,
+                                        nin = data.authReqConfigConfig?.nin ?: true,
+                                        cac = data.authReqConfigConfig?.cac ?: true,
                                     )
                                 )
                             )

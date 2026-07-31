@@ -27,6 +27,8 @@ class FaceDetectionUtil(
     }
 
     fun getSingleFrameImage(context: Context): Uri? {
+        val frame = singleFrame ?: return null
+
         return try {
             // Create temp file
             val photoFile = File.createTempFile(
@@ -37,7 +39,7 @@ class FaceDetectionUtil(
 
             // Compress and save bitmap
             FileOutputStream(photoFile).use { outputStream ->
-                singleFrame?.rotate(-90F)?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                frame.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                 outputStream.flush()
             }
 
@@ -55,17 +57,27 @@ class FaceDetectionUtil(
             return
         }
 
-        imageProxy.image?.let {
+        val mediaImage = imageProxy.image
+        if (mediaImage == null) {
+            imageProxy.close()
+            return
+        }
+
+        try {
             // Capture bitmap BEFORE starting async ML Kit processing.
             // InputImage.fromMediaImage holds a reference to the same YUV ByteBuffers that
             // the JNI face detector reads natively. Calling toBitmap() after process() starts
             // causes concurrent native buffer access from two threads → segfault.
-            singleFrame = imageProxy.toBitmap()
-            val image = InputImage.fromMediaImage(it, imageProxy.imageInfo.rotationDegrees)
+            val rotationDegrees = imageProxy.imageInfo.rotationDegrees
+            val bitmap = imageProxy.toBitmap().let { frame ->
+                if (rotationDegrees == 0) frame else frame.rotate(rotationDegrees.toFloat())
+            }
+            singleFrame = bitmap
+            val image = InputImage.fromMediaImage(mediaImage, rotationDegrees)
 
             this.faceDetector.process(image)
                 .addOnSuccessListener { faces ->
-                    onFacesDetected(faces, singleFrame)
+                    onFacesDetected(faces, bitmap)
                 }
                 .addOnFailureListener { error ->
                     println("Error detecting faces: ${error.message}")
@@ -73,8 +85,10 @@ class FaceDetectionUtil(
                 .addOnCompleteListener {
                     imageProxy.close()
                 }
-
-        }?.run { imageProxy.close() }
+        } catch (error: Exception) {
+            imageProxy.close()
+            println("Error preparing image for face detection: ${error.message}")
+        }
     }
 
     companion object Companion {

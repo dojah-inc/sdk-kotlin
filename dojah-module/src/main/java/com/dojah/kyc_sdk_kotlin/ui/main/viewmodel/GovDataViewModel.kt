@@ -1444,7 +1444,6 @@ class GovDataViewModel(
         }
     }
 
-
     fun downloadImageAndConvertToBase64(
         url: String,
         onImageDownloaded: (base64: String) -> Unit,
@@ -1522,7 +1521,7 @@ class GovDataViewModel(
         docType: GovDocType,
         selectedCountryCode: String
     ): String {
-        val defaultValue = dojahEnum.toMap()[docType.serverKey]?.value ?: dojahEnum.other.value
+        val defaultValue = dojahEnum.toMap()[docType.serverKey]?.value ?: "other"
         val firstValueSplit = defaultValue?.split("-")?.firstOrNull()
             ?: throw Exception("No enum found for this doc type")
         logger.log("firstValueSplit $firstValueSplit, selectedCountryCode $selectedCountryCode")

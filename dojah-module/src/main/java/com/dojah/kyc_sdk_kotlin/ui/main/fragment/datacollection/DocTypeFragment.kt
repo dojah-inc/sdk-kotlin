@@ -23,7 +23,6 @@ import com.dojah.kyc_sdk_kotlin.ui.utils.performOperationOnActivityAvailable
 
 import okhttp3.logging.HttpLoggingInterceptor
 
-
 @SuppressLint("UnsafeRepeatOnLifecycleDetector")
 
 class DocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
@@ -34,9 +33,7 @@ class DocTypeFragment : SpinnerFragment(R.layout.fragment_doc_type) {
     private val viewModelActivity by activityViewModels<VerificationViewModel> { defaultViewModelProviderFactory }
 
     private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
-    private var verificationType: String? = null
     val logger = HttpLoggingInterceptor.Logger.DEFAULT
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

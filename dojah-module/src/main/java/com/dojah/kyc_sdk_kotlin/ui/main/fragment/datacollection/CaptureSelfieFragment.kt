@@ -43,6 +43,7 @@ class CaptureSelfieFragment : ErrorFragment() {
     private lateinit var faceDetection: FaceDetectionUtil
     lateinit var faceDetector: FaceDetector
     private var verificationImage: String? = null
+    private var consecutiveInvalidFrames = 0
 
     private val binding by viewBinding { FragmentCaptureSelfieBinding.bind(it) }
 
@@ -175,6 +176,13 @@ class CaptureSelfieFragment : ErrorFragment() {
         binding.cameraReadyCounter.isVisible = false
     }
 
+    private fun stopTimerAfterDetectionSettles() {
+        consecutiveInvalidFrames++
+        if (consecutiveInvalidFrames >= MAX_CONSECUTIVE_INVALID_FRAMES) {
+            stopTimer()
+        }
+    }
+
     private fun getDistanceError(face: Face, image: Bitmap): String? {
         val bounds = face.boundingBox
         val faceWidth = bounds.width().toFloat()
@@ -254,13 +262,13 @@ class CaptureSelfieFragment : ErrorFragment() {
 
             if (faces.isEmpty()) {
                 titleText.text = getString(R.string.place_your_face_in_the_circle_and_click_capture)
-                stopTimer()
+                stopTimerAfterDetectionSettles()
                 return
             }
 
             if (faces.size > 1) {
                 titleText.text = getString(R.string.multiple_faces_detected)
-                stopTimer()
+                stopTimerAfterDetectionSettles()
                 return
             }
 
@@ -271,13 +279,14 @@ class CaptureSelfieFragment : ErrorFragment() {
 
             if (result != null) {
                 titleText.text = result
-                stopTimer()
+                stopTimerAfterDetectionSettles()
                 selfieImageNotifierView.setBackgroundResource(R.drawable.ic_capture_ready)
 
                 return
             }
 
             if (faces.isNotEmpty()) {
+                consecutiveInvalidFrames = 0
                 startTimer()
             } else {
                 stopTimer()
@@ -358,7 +367,7 @@ class CaptureSelfieFragment : ErrorFragment() {
                 progressBg.isVisible = it == PreviewView.StreamState.IDLE
                 progress.isVisible = it == PreviewView.StreamState.IDLE
 
-                if (it != PreviewView.StreamState.IDLE) {
+                if (it == PreviewView.StreamState.IDLE) {
                     stopTimer()
                 }
             }
@@ -391,5 +400,9 @@ class CaptureSelfieFragment : ErrorFragment() {
 
     private fun previewSelfie() {
         navViewModel.navigate(Routes.preview_selfie_fragment)
+    }
+
+    private companion object {
+        const val MAX_CONSECUTIVE_INVALID_FRAMES = 3
     }
 }

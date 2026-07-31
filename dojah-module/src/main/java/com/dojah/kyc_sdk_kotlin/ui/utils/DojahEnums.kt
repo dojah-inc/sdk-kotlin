@@ -16,7 +16,6 @@ import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.HomeAddressFragm
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.IndexDisclaimerFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.PhoneOtpFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.SelfieDisclaimerFragment
-import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.SignatureFragment
 import com.dojah.kyc_sdk_kotlin.ui.main.fragment.datacollection.capturesignature.CaptureSignatureFragment
 
 enum class VerificationMethod(val method: String) {
@@ -172,6 +171,12 @@ enum class GovDocType(
         "cac",
         "Capture the CAC Document",
         "Make sure your CAC Document is properly placed, and hold it still for a few seconds",
+        hasBack = false,
+    ),
+    ID(
+        "ID",
+        "id",
+        "Upload/Capture Document",
         hasBack = false,
     ),
     OTHER(
