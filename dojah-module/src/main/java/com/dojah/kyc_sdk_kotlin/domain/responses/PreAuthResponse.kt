@@ -130,24 +130,24 @@ data class PreAuthResponse(
                             prev == true || next == true
                         } == true
 
-                        if (!oneIdEnabled) {
-                            modifiedSteps.add(
-                                modifiedSteps.lastIndex.coerceAtLeast(0),
-                                AuthReqSteps(
-                                    name = idOptionPage,
-                                    authReqConfigConfig = Config(
-                                        passport = data.authReqConfigConfig?.passport ?: true,
-                                        dl = data.authReqConfigConfig?.dl ?: true,
-                                        voter = data.authReqConfigConfig?.voter ?: true,
-                                        vnin = data.authReqConfigConfig?.vnin ?: true,
-                                        bvn = data.authReqConfigConfig?.bvn ?: true,
-                                        national = data.authReqConfigConfig?.national ?: true,
-                                        nin = data.authReqConfigConfig?.nin ?: true,
-                                        cac = data.authReqConfigConfig?.cac ?: true,
-                                    )
-                                )
+                        val config = Config(
+                            passport = data.authReqConfigConfig?.passport ?: !oneIdEnabled,
+                            dl = data.authReqConfigConfig?.dl ?: !oneIdEnabled,
+                            voter = data.authReqConfigConfig?.voter ?: !oneIdEnabled,
+                            vnin = data.authReqConfigConfig?.vnin ?: !oneIdEnabled,
+                            bvn = data.authReqConfigConfig?.bvn ?: !oneIdEnabled,
+                            national = data.authReqConfigConfig?.national ?: !oneIdEnabled,
+                            nin = data.authReqConfigConfig?.nin ?: !oneIdEnabled,
+                            cac = data.authReqConfigConfig?.cac ?: !oneIdEnabled,
+                        )
+
+                        modifiedSteps.add(
+                            modifiedSteps.lastIndex.coerceAtLeast(0),
+                            AuthReqSteps(
+                                name = idOptionPage,
+                                authReqConfigConfig = config
                             )
-                        }
+                        )
                     }
                 }
 
