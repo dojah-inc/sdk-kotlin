@@ -305,7 +305,7 @@ fun ninResponse(): String = """{
         "telephoneno": "08012345678",
         "birthdate": "01-01-1982",
         "photo": "/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgc...",
-        "gender": "m",
+        "gender": "m"
     }
 }
 """.trimIndent()

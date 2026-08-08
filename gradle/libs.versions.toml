@@ -39,6 +39,12 @@ sentry = "8.33.0"
 runtime-android = "1.11.2"
 ui-android = "1.11.2"
 kotlin = "2.2.10"
+mockk = "1.13.13"
+coroutines-test = "1.9.0"
+arch-core-testing = "2.2.0"
+mockwebserver = "4.12.0"
+kover = "0.8.3"
+robolectric = "4.14.1"
 
 [libraries]
 clarity = { module = "com.microsoft.clarity:clarity", version.ref = "clarity" }
@@ -74,6 +80,11 @@ activity = { module = 'androidx.activity:activity-ktx', version = "1.4.0" }
 constraint_layout = { module = 'androidx.constraintlayout:constraintlayout', version = "2.1.4" }
 face-detection = { module = "com.google.mlkit:face-detection", version.ref = "face-detection" }
 junit = { module = "junit:junit", version.ref = "junit" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines-test" }
+androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "arch-core-testing" }
+mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "mockwebserver" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
@@ -156,4 +167,5 @@ kotlin-android = { id = 'org.jetbrains.kotlin.android', version = '2.3.21' }
 hilt = { id = 'com.google.dagger.hilt.android', version.ref = "hilt" }
 navigation = { id = 'androidx.navigation:navigation-safe-args-gradle-plugin', version.ref = "navigation" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 #navigation = { id = 'androidx.navigation.safeargs.kotlin', version.ref = "navigation" }

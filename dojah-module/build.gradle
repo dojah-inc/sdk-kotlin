@@ -6,6 +6,7 @@ plugins {
     id "androidx.navigation.safeargs"
     id 'maven-publish'
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kover)
 
 }
 
@@ -195,6 +196,11 @@ dependencies {
 
     // Tests
     testImplementation libs.junit
+    testImplementation libs.mockk
+    testImplementation libs.kotlinx.coroutines.test
+    testImplementation libs.androidx.arch.core.testing
+    testImplementation libs.mockwebserver
+    testImplementation libs.robolectric
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
 
@@ -263,6 +269,19 @@ dependencies {
 
 }
 
+
+kover {
+    reports {
+        filters {
+            excludes {
+                packages(
+                    "com.dojah.kyc_sdk_kotlin.databinding",
+                    "com.dojah.kyc_sdk_kotlin.databinding.*",
+                )
+            }
+        }
+    }
+}
 
 publishing {
     publications {

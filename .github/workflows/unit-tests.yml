@@ -1,0 +1,43 @@
+name: Dojah SDK Unit Tests
+
+on:
+  pull_request:
+    paths:
+      - 'dojah-module/**'
+      - 'gradle/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'dojah-module/**'
+      - 'gradle/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Run dojah-module unit tests
+        run: ./gradlew :dojah-module:testMobileDebugUnitTest --no-daemon
+
+      - name: Generate Kover coverage report
+        run: ./gradlew :dojah-module:koverXmlReportMobileDebug --no-daemon
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kover-report
+          path: dojah-module/build/reports/kover/reportMobileDebug.xml
