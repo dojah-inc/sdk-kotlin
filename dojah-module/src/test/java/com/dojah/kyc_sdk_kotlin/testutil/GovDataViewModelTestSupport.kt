@@ -6,6 +6,7 @@ import com.dojah.kyc_sdk_kotlin.core.mock_data.cacLookUpResponse
 import com.dojah.kyc_sdk_kotlin.core.mock_data.driverLicenceResponse
 import com.dojah.kyc_sdk_kotlin.core.mock_data.enumData
 import com.dojah.kyc_sdk_kotlin.core.mock_data.imageAnalysisResponse
+import com.dojah.kyc_sdk_kotlin.core.mock_data.livenessCheckResponse
 import com.dojah.kyc_sdk_kotlin.core.mock_data.ninResponse
 import com.dojah.kyc_sdk_kotlin.core.mock_data.pricing
 import com.dojah.kyc_sdk_kotlin.core.mock_data.sendOtpResponse
@@ -23,8 +24,10 @@ import com.dojah.kyc_sdk_kotlin.domain.responses.Config
 import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnum
 import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnumAttr
 import com.dojah.kyc_sdk_kotlin.domain.responses.DojahPricing
+import com.dojah.kyc_sdk_kotlin.domain.responses.DocImageAnalysisResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.DriverLicenceResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.ImageAnalysisResponse
+import com.dojah.kyc_sdk_kotlin.domain.responses.LivenessCheckResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.NinLookUpResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.SendOtpResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.SimpleResponse
@@ -132,6 +135,61 @@ object GovDataViewModelTestSupport {
 
     fun parseImageAnalysisResponse(): ImageAnalysisResponse =
         gson.fromJson(imageAnalysisResponse(), ImageAnalysisResponse::class.java)
+
+    fun parseLivenessCheckResponse(match: Boolean = true): LivenessCheckResponse {
+        val parsed = gson.fromJson(livenessCheckResponse(), LivenessCheckResponse::class.java)
+        return parsed.copy(entity = parsed.entity?.copy(match = match))
+    }
+
+    fun parseSuccessfulDocImageAnalysis(): DocImageAnalysisResponse =
+        gson.fromJson(
+            """
+            {
+              "entity": {
+                "id": {
+                  "labels_detected": true,
+                  "message": "labels detected",
+                  "details": {
+                    "document": 97.0,
+                    "id_cards": 92.0,
+                    "passport": 91.0,
+                    "driving_license": 72.0,
+                    "text": 99.0
+                  }
+                }
+              }
+            }
+            """.trimIndent(),
+            DocImageAnalysisResponse::class.java,
+        )
+
+    fun parseFailedDocImageAnalysis(): DocImageAnalysisResponse =
+        gson.fromJson(
+            """
+            {
+              "entity": {
+                "id": {
+                  "labels_detected": false,
+                  "message": "No ID card detected, please try again",
+                  "details": {}
+                }
+              }
+            }
+            """.trimIndent(),
+            DocImageAnalysisResponse::class.java,
+        )
+
+    fun authWithStepConfig(page: KycPages, config: Config): AuthResponse {
+        val auth = VerificationViewModelTestSupport.parseAuthResponse()
+        val steps = auth.initData?.authData?.steps?.map { step ->
+            if (step.name == page.serverKey) step.copy(config = config) else step
+        }.orEmpty()
+        return auth.copy(
+            initData = auth.initData?.copy(
+                authData = auth.initData?.authData?.copy(steps = steps),
+            ),
+        )
+    }
 
     fun parseSendOtpResponse(): SendOtpResponse =
         gson.fromJson(sendOtpResponse(), SendOtpResponse::class.java)

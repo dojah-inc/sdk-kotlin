@@ -1,6 +1,6 @@
 # Dojah Kotlin SDK — Unit Testing Progress Report
 
-**Report date:** 8 August 2026  
+**Report date:** 11 August 2026  
 **Module:** `dojah-module`  
 **Test task:** `:dojah-module:testMobileDebugUnitTest`  
 **Coverage tool:** Kover (`:dojah-module:koverXmlReportMobileDebug`)
@@ -9,17 +9,17 @@
 
 ## Executive Summary
 
-The unit testing initiative has moved from **9 exploratory tests with near-zero meaningful coverage** to a **148-test suite with 0 failures**, CI integration, and structured coverage on all Priority 1 foundation layers plus substantial ViewModel coverage.
+The unit testing initiative has moved from **9 exploratory tests with near-zero meaningful coverage** to a **179-test suite with 0 failures**, CI integration, and structured coverage across Priority 1 layers plus Week 5–6 utilities.
 
 | Metric | Baseline (plan) | Current |
 |--------|-----------------|---------|
-| Tests | 9 | **148** |
+| Tests | 9 | **179** |
 | Failures | 0 | **0** |
-| Module line coverage | ~0% effective | **22.1%** (2,142 / 9,709 lines) |
-| Module instruction coverage | — | **24.0%** (15,500 / 64,596 instructions) |
+| Module line coverage (8 Aug) | ~0% effective | **22.1%** (2,142 / 9,709 lines) — re-run Kover to refresh |
+| Module instruction coverage (8 Aug) | — | **24.0%** (15,500 / 64,596 instructions) |
 | CI | None | **GitHub Actions** on PR/push |
 
-**Timeline vs plan:** Weeks **1–4 complete**, Week **3** and **5 partially complete**, Weeks **6–8 not started**.
+**Timeline vs plan:** Weeks **1–5 complete**, Week **6 largely complete** (pricing, timer, StringExt), Weeks **7–8 not started**.
 
 ---
 
@@ -29,35 +29,39 @@ The unit testing initiative has moved from **9 exploratory tests with near-zero 
 |------|---------------|--------|-------|
 | **1** | Infrastructure + `BaseRepository` | **Complete** | MockK, coroutines-test, MockWebServer, Robolectric, Kover, test utilities, CI |
 | **2** | `DojahRepository` | **Complete** | 35 tests (auth + KYC flows) |
-| **3** | `VerificationViewModel` | **Partial (~60%)** | Auth, submission, state covered; signature, custom questions, timers not covered |
+| **3** | `VerificationViewModel` | **Complete** | Auth, submission, state, signature, custom questions, logEvent, timer smoke |
 | **4** | `GovDataViewModel` part 1 | **Complete** | Config, gov submission branches, OTP |
-| **5** | `GovDataViewModel` part 2 | **Partial (~40%)** | Image analysis, business data, signature done; liveness, doc analysis, utility bill, live location, additional docs pending |
-| **6** | Supporting logic + stabilization | **Not started** | Navigation, preferences, pricing util, timers |
+| **5** | `GovDataViewModel` part 2 | **Complete** | Image/doc analysis, business, signature, liveness, utility bill, live location, additional docs |
+| **6** | Supporting logic + stabilization | **Mostly complete** | Pricing util, countdown timer, StringExt; navigation/preferences still open |
 | **7–8** | Android integration tests | **Not started** | Fragments, activities, capture flows |
 
 ---
 
-## Test Suite Breakdown (148 Tests)
+## Test Suite Breakdown (179 Tests)
 
 | Test Class | Tests | Primary Target |
 |------------|------:|----------------|
 | `DojahRepositoryKycTest` | 23 | `DojahRepository` (lookups, OTP, address, liveness, uploads) |
 | `BaseRepositoryTest` | 15 | `BaseRepository` |
 | `GovDataViewModelConfigTest` | 13 | `GovDataViewModel` (selection/config) |
+| `StringExtTest` | 13 | `StringExt` utilities |
 | `DojahRepositoryAuthTest` | 12 | `DojahRepository` (auth, IP, metadata) |
 | `VerificationViewModelStateTest` | 12 | `VerificationViewModel` (state/URI/country) |
 | `ErrorMappingTest` | 10 | `VerificationViewModel` error helpers |
+| `GovDataViewModelLivenessTest` | 9 | `GovDataViewModel` (liveness, docs, location, uploads) |
 | `GovDataViewModelOtpTest` | 8 | `GovDataViewModel` (OTP flows) |
+| `DojahPricingUtilTest` | 8 | `DojahPricingUtil` |
 | `FailedReasonsTest` | 7 | `FailedReasons` enum |
-| `StringExtTest` | 7 | `StringExt` utilities |
 | `GovDataViewModelSubmissionTest` | 6 | `GovDataViewModel` (BVN/NIN/vNIN/DL) |
 | `AesEncryptionTest` | 6 | `AesEncryption` |
 | `VerificationViewModelSubmissionTest` | 6 | `VerificationViewModel` (user data, address) |
 | `LocationManagerTest` | 6 | `LocationManager.Companion` (distance/range) |
 | `GovDataViewModelExtendedTest` | 5 | `GovDataViewModel` (image, business, signature) |
+| `VerificationViewModelExtendedTest` | 5 | `VerificationViewModel` (signature, questions, logEvent) |
 | `SecurityManagerTest` | 4 | `SecurityManager` |
 | `EventTest` | 4 | `Event` wrapper |
 | `VerificationViewModelAuthTest` | 4 | `VerificationViewModel` (authenticate flow) |
+| `CancellableCountDownTimerTest` | 3 | `CancellableCountDownTimer` |
 
 ---
 
@@ -189,11 +193,9 @@ src/test/java/com/dojah/kyc_sdk_kotlin/testutil/
 
 ## Recommended Next Steps
 
-1. **Finish Week 5** — `GovDataViewModel`: liveness, doc image analysis, utility bill, live location, additional documents, `logIdOptionEvents`
-2. **Complete Week 3 gaps** — `VerificationViewModel`: signature, custom questions, OTP timer, `logEvent`
-3. **Week 6** — `DojahPricingUtil`, `CancellableCountDownTimer`, navigation, preferences, remaining `StringExt` helpers
-4. **Raise branch coverage** on OTP and address paths toward the 80% plan target
-5. **Weeks 7–8** — Robolectric/instrumentation for fragments and capture flows
+1. **Week 6 remainder** — Navigation helpers, SharedPreferenceManager critical paths, remaining ViewModel edge cases (`doCheckForDocId`, `logIdOptionEvents`, `autoSendGovIdDetails`)
+2. **Refresh Kover report** — Re-run coverage after this batch to update class-level percentages
+3. **Weeks 7–8** — Robolectric/instrumentation for fragments and capture flows
 
 ---
 
@@ -215,8 +217,4 @@ src/test/java/com/dojah/kyc_sdk_kotlin/testutil/
 
 ## Bottom Line
 
-The SDK now has a solid automated test foundation with **148 passing tests** and strong coverage on repository, security, and error-mapping layers. ViewModel coverage is meaningful but incomplete (~60–67% line, ~35–42% branch). Overall module coverage is **22%** because UI fragments, activities, and navigation (~78% of the codebase) are intentionally out of scope until Weeks 7–8.
-
-**Related documents:**
-
-- [SDK_UNIT_TESTING_PLAN.md](./SDK_UNIT_TESTING_PLAN.md) — original testing plan and scope
+The SDK now has **179 passing tests** covering repositories, security, GovData/Verification ViewModels (including liveness and document flows), pricing, timers, and string utilities. Weeks 1–6 of the unit-test plan are essentially complete for JVM logic. Remaining work is navigation/preferences polish and Weeks 7–8 Android-facing integration tests.

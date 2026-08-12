@@ -7,15 +7,16 @@ on:
       - 'gradle/**'
       - 'build.gradle'
       - 'settings.gradle'
+      - '.github/workflows/unit-tests.yml'
   push:
     branches:
-      - main
-      - master
+      - '**'
     paths:
       - 'dojah-module/**'
       - 'gradle/**'
       - 'build.gradle'
       - 'settings.gradle'
+      - '.github/workflows/unit-tests.yml'
 
 jobs:
   unit-tests:
@@ -30,6 +31,9 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Run dojah-module unit tests
         run: ./gradlew :dojah-module:testMobileDebugUnitTest --no-daemon
 
@@ -37,7 +41,9 @@ jobs:
         run: ./gradlew :dojah-module:koverXmlReportMobileDebug --no-daemon
 
       - name: Upload coverage artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: kover-report
           path: dojah-module/build/reports/kover/reportMobileDebug.xml
+          if-no-files-found: ignore
