@@ -11,6 +11,7 @@ import com.dojah.kyc_sdk_kotlin.testutil.getOrAwaitValue
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -95,6 +96,26 @@ class GovDataViewModelLivenessTest {
         ) { ResultTestUtil.isError(it) }
 
         assertTrue(ResultTestUtil.isError(result))
+    }
+
+    @Test
+    fun `checkLiveness does not crash when page index is reset after back or rotation`() = runTest {
+        every { harness.prefManager.getCurrentPageIndex() } returns -1
+        coEvery { harness.repo.checkLiveness(any()) } returns flowOf(
+            Result.Success(GovDataViewModelTestSupport.parseLivenessCheckResponse(match = true)),
+        )
+
+        val result = harness.govViewModel.submitLivenessLiveData.getOrAwaitValue(
+            afterObserve = {
+                harness.govViewModel.checkLiveness(
+                    image = "base64-selfie",
+                    page = KycPages.SELFIE,
+                )
+            },
+        ) { ResultTestUtil.isSuccess(it) }
+
+        assertTrue(ResultTestUtil.isSuccess(result))
+        coVerify { harness.repo.logEvent(any()) }
     }
 
     @Test

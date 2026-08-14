@@ -143,6 +143,15 @@ class GovDataViewModelConfigTest {
     }
 
     @Test
+    fun `getCurrentPage returns null when page index is unset`() {
+        every { harness.prefManager.getCurrentPageIndex() } returns -1
+
+        val step = harness.govViewModel.getCurrentPage(KycPages.GOVERNMENT_DATA.serverKey)
+
+        assertNull(step)
+    }
+
+    @Test
     fun `reset helpers clear live data holders`() {
         harness.govViewModel.selectGovIdentity(GovDataViewModelTestSupport.bvnIdentity())
         harness.govViewModel.resetSubmitGovLiveData()

@@ -106,7 +106,8 @@
                         <androidx.camera.view.PreviewView
                             android:id="@+id/camera"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            app:implementationMode="compatible" />
 
                         <ImageView
                             android:id="@+id/camera_preview"

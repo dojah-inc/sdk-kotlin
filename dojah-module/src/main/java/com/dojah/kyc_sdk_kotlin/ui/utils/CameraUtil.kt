@@ -14,6 +14,9 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
+import androidx.camera.core.UseCase
+import androidx.camera.core.resolutionselector.ResolutionSelector
+import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.FallbackStrategy
 import androidx.camera.video.MediaStoreOutputOptions
@@ -25,6 +28,7 @@ import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import timber.log.Timber
 import java.io.File
@@ -125,92 +129,178 @@ class CameraUtil {
             onImageChanged: (ImageProxy) -> Unit = {},
             onPreviewUpdate: (PreviewView.StreamState) -> Unit
         ) {
-            camera.previewStreamState.observe(fragment.viewLifecycleOwner) {
-                onPreviewUpdate(it)
+            // TextureView works on emulators and inside NestedScrollView / clipToOutline.
+            // SurfaceView (PERFORMANCE) commonly stays black in those cases.
+            camera.implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+
+            camera.previewStreamState.observe(fragment.viewLifecycleOwner) { state ->
+                if (fragment.view == null) return@observe
+                onPreviewUpdate(state)
             }
 
+            camera.doOnLayout {
+                if (!fragment.isAdded || fragment.view == null) return@doOnLayout
+                bindCameraToLifecycle(
+                    fragment = fragment,
+                    camera = camera,
+                    executor = executor,
+                    isVideo = isVideo,
+                    isFront = isFront,
+                    isLiveness = isLiveness,
+                    onImageChanged = onImageChanged
+                )
+            }
+        }
+
+        private fun bindCameraToLifecycle(
+            fragment: Fragment,
+            camera: PreviewView,
+            executor: Executor?,
+            isVideo: Boolean,
+            isFront: Boolean,
+            isLiveness: Boolean,
+            onImageChanged: (ImageProxy) -> Unit
+        ) {
             val cameraProviderFuture = ProcessCameraProvider.getInstance(fragment.requireContext())
 
             cameraProviderFuture.addListener({
-                // Used to bind the lifecycle of cameras to the lifecycle owner
-                cameraProvider = cameraProviderFuture.get()
+                if (!fragment.isAdded || fragment.view == null) return@addListener
 
-                // Preview
-                val preview = Preview.Builder()
-                    .build()
-                    .also {
-                        it.setSurfaceProvider(camera.surfaceProvider)
-                    }
-
-                val cameraSelector =
-                    if (isFront) CameraSelector.DEFAULT_FRONT_CAMERA else CameraSelector.DEFAULT_BACK_CAMERA
-
-
-                if (isVideo) {
-
-                    val qualitySelector = QualitySelector.fromOrderedList(
-                        listOf(Quality.UHD, Quality.FHD, Quality.HD, Quality.SD),
-                        FallbackStrategy.lowerQualityOrHigherThan(Quality.SD)
-                    )
-                    val recorder = Recorder.Builder().apply {
-                        setAspectRatio(AspectRatio.RATIO_4_3)
-                        setQualitySelector(qualitySelector)
-                    }.build()
-
-                    videoCapture = VideoCapture.withOutput(recorder)
-
-                    try {
-                        // Unbind use cases before rebinding
-                        cameraProvider?.unbindAll()
-
-                        // Bind use cases to camera
-                        cameraProvider?.bindToLifecycle(
-                            fragment.viewLifecycleOwner, cameraSelector, preview, videoCapture
-                        )
-                    } catch (exc: Exception) {
-                        Timber.e("Use case binding failed")
-                    }
-
-                } else if (isLiveness) {
-                    imageAnalyzer = ImageAnalysis.Builder()
-                        //.setTargetRotation(camera.display.rotation)
-                        .setTargetResolution(Size(640, 480))
-                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                        .build()
-                        .also { analyzer ->
-                            executor?.let {
-                                analyzer.setAnalyzer(executor) { imageProxy ->
-                                    onImageChanged(imageProxy)
-                                }
-                            }
-                        }
-
-                    try {
-                        cameraProvider?.unbindAll()
-                        cameraProvider?.bindToLifecycle(
-                            fragment.viewLifecycleOwner, cameraSelector, preview, imageAnalyzer
-                        )
-                    } catch (exc: Exception) {
-                        Timber.e("Use case binding failed")
-                    }
-                } else {
-//                cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-                    imageCapture = ImageCapture.Builder()
-                        .build()
-                    try {
-                        // Unbind use cases before rebinding
-                        cameraProvider?.unbindAll()
-                        // Bind use cases to camera
-                        cameraProvider?.bindToLifecycle(
-                            fragment.viewLifecycleOwner, cameraSelector, preview, imageCapture
-                        )
-                    } catch (exc: Exception) {
-                        Timber.e("Use case binding failed")
-                    }
+                val provider = cameraProviderFuture.get().also { cameraProvider = it }
+                val cameraSelector = resolveCameraSelector(provider, isFront) ?: run {
+                    Timber.e("No camera available on this device or emulator")
+                    return@addListener
                 }
 
+                val preview = Preview.Builder()
+                    .build()
+                    .also { it.setSurfaceProvider(camera.surfaceProvider) }
+
+                var secondaryUseCase: UseCase? = when {
+                    isVideo -> {
+                        val qualitySelector = QualitySelector.fromOrderedList(
+                            listOf(Quality.UHD, Quality.FHD, Quality.HD, Quality.SD),
+                            FallbackStrategy.lowerQualityOrHigherThan(Quality.SD)
+                        )
+                        val recorder = Recorder.Builder().apply {
+                            setAspectRatio(AspectRatio.RATIO_4_3)
+                            setQualitySelector(qualitySelector)
+                        }.build()
+                        VideoCapture.withOutput(recorder).also { videoCapture = it }
+                    }
+
+                    isLiveness -> {
+                        buildImageAnalyzer(preferTargetResolution = true, executor, onImageChanged)
+                            .also { imageAnalyzer = it }
+                    }
+
+                    else -> ImageCapture.Builder().build().also { imageCapture = it }
+                }
+
+                var bound = bindUseCases(fragment, cameraSelector, preview, secondaryUseCase)
+
+                // Emulator HALs often reject Preview + ImageAnalysis at a fixed resolution.
+                if (!bound && isLiveness) {
+                    imageAnalyzer = buildImageAnalyzer(
+                        preferTargetResolution = false,
+                        executor = executor,
+                        onImageChanged = onImageChanged
+                    )
+                    secondaryUseCase = imageAnalyzer
+                    bound = bindUseCases(fragment, cameraSelector, preview, secondaryUseCase)
+                }
+
+                if (!bound) {
+                    val fallbackSelector = oppositeCameraSelector(cameraSelector)
+                    if (fallbackSelector != null && provider.hasCamera(fallbackSelector)) {
+                        bindUseCases(fragment, fallbackSelector, preview, secondaryUseCase)
+                    }
+                }
             }, ContextCompat.getMainExecutor(fragment.requireContext()))
+        }
+
+        private fun buildImageAnalyzer(
+            preferTargetResolution: Boolean,
+            executor: Executor?,
+            onImageChanged: (ImageProxy) -> Unit
+        ): ImageAnalysis {
+            val builder = ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+
+            if (preferTargetResolution) {
+                builder.setResolutionSelector(
+                    ResolutionSelector.Builder()
+                        .setResolutionStrategy(
+                            ResolutionStrategy(
+                                Size(640, 480),
+                                ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER_THEN_HIGHER
+                            )
+                        )
+                        .build()
+                )
+            }
+
+            return builder.build().also { analyzer ->
+                executor?.let {
+                    analyzer.setAnalyzer(it) { imageProxy ->
+                        onImageChanged(imageProxy)
+                    }
+                }
+            }
+        }
+
+        private fun resolveCameraSelector(
+            provider: ProcessCameraProvider,
+            preferFront: Boolean
+        ): CameraSelector? {
+            val preferred =
+                if (preferFront) CameraSelector.DEFAULT_FRONT_CAMERA else CameraSelector.DEFAULT_BACK_CAMERA
+            if (provider.hasCamera(preferred)) return preferred
+
+            val fallback = oppositeCameraSelector(preferred) ?: return null
+            if (provider.hasCamera(fallback)) {
+                Timber.w("Preferred camera unavailable, falling back to the other lens")
+                return fallback
+            }
+            return null
+        }
+
+        private fun oppositeCameraSelector(selector: CameraSelector): CameraSelector? {
+            return when (selector) {
+                CameraSelector.DEFAULT_FRONT_CAMERA -> CameraSelector.DEFAULT_BACK_CAMERA
+                CameraSelector.DEFAULT_BACK_CAMERA -> CameraSelector.DEFAULT_FRONT_CAMERA
+                else -> null
+            }
+        }
+
+        private fun bindUseCases(
+            fragment: Fragment,
+            cameraSelector: CameraSelector,
+            preview: Preview,
+            secondaryUseCase: UseCase?
+        ): Boolean {
+            val provider = cameraProvider ?: return false
+            return try {
+                provider.unbindAll()
+                if (secondaryUseCase != null) {
+                    provider.bindToLifecycle(
+                        fragment.viewLifecycleOwner,
+                        cameraSelector,
+                        preview,
+                        secondaryUseCase
+                    )
+                } else {
+                    provider.bindToLifecycle(
+                        fragment.viewLifecycleOwner,
+                        cameraSelector,
+                        preview
+                    )
+                }
+                true
+            } catch (exc: Exception) {
+                Timber.e(exc, "Use case binding failed")
+                false
+            }
         }
 
     }

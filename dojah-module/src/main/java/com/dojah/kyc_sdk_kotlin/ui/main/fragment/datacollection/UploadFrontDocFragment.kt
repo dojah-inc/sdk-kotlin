@@ -38,29 +38,25 @@ class UploadFrontDocFragment : ErrorFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fileContract = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
-            if (it != null) {
-                binding.apply {
-
-                    btnUpload.isButtonEnabled = true
-                    val frontDocInfo =
-                        viewModel.setFrontDocUri(requireContext(), it, isUpload = true)
-                    frontDocInfo?.also { info ->
-                        logger.log("file name: $info")
-                        if (info.docType != "pdf") {
-                            pdfNameTv.isVisible = false
-                            docPreview.isVisible = true
-                            docPreview.load(it, isCenterCrop = true)
-                        } else {
-                            textDocument.isVisible = false
-                            pdfNameTv.isVisible = true
-                            pdfNameTv.text = info.fullName
-                        }
+            if (it == null || !isAdded || view == null) return@registerForActivityResult
+            binding.apply {
+                btnUpload.isButtonEnabled = true
+                val frontDocInfo =
+                    viewModel.setFrontDocUri(requireContext(), it, isUpload = true)
+                frontDocInfo?.also { info ->
+                    logger.log("file name: $info")
+                    if (info.docType != "pdf") {
+                        pdfNameTv.isVisible = false
+                        docPreview.isVisible = true
+                        docPreview.load(it, isCenterCrop = true)
+                    } else {
+                        textDocument.isVisible = false
+                        pdfNameTv.isVisible = true
+                        pdfNameTv.text = info.fullName
                     }
-
                 }
             }
         }
-
     }
 
     override fun onCreateView(

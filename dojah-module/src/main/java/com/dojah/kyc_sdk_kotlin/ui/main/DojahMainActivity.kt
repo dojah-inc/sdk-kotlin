@@ -105,8 +105,10 @@ class DojahMainActivity : AppCompatActivity() {
 
         changeStatusBarIconToDark()
 
-        navViewModel.setLastPageIndex(-1)
-        navViewModel.setCurrentPageIndex(-1)
+        if (savedInstanceState == null) {
+            navViewModel.setLastPageIndex(-1)
+            navViewModel.setCurrentPageIndex(-1)
+        }
 
 //        onBackPressedCallback.isEnabled
 

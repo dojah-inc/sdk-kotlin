@@ -56,33 +56,38 @@ class CaptureSelfieFragment : ErrorFragment() {
     private val captureReadyTimer = CancellableCountDownTimer(
         totalSeconds = 3L,
         onTick = {
-            if (it > 0) {
-                binding.cameraReadyCounter.text = it.toString()
-                binding.titleText.text = getString(R.string.about_to_capture_selfie_label)
-            } else {
-                binding.titleText.text = getString(R.string.now_capturing_selfie_label)
-            }
+            withBinding {
+                if (it > 0) {
+                    cameraReadyCounter.text = it.toString()
+                    titleText.text = getString(R.string.about_to_capture_selfie_label)
+                } else {
+                    titleText.text = getString(R.string.now_capturing_selfie_label)
+                }
 
-            binding.animationView.isVisible = false
+                animationView.isVisible = false
+            }
         },
         onStart = {
-            binding.cameraReadyCounter.isVisible = true
+            withBinding { cameraReadyCounter.isVisible = true }
         },
         onFinish = {
-            faceDetection.getSingleFrameImage(requireContext())?.let {
+            if (!isAdded || view == null) return@CancellableCountDownTimer
+            faceDetection.getSingleFrameImage(requireContext())?.let { uri ->
                 faceDetection.stop()
                 cameraExecutor?.shutdown()
                 cameraExecutor = null
 
-                viewModel.setSelfieUri(it)
+                viewModel.setSelfieUri(uri)
 
-                binding.root.post {
-                    binding.cameraReadyCounter.isVisible = false
-                    binding.animationView.isVisible = true
-                    binding.camera.isVisible = false
-                    binding.cameraPreview.load(it, isCenterCrop = true)
-                    binding.selfieImageNotifierView.isVisible = false
-                    binding.cameraPreview.isVisible = true
+                view?.post {
+                    withBinding {
+                        cameraReadyCounter.isVisible = false
+                        animationView.isVisible = true
+                        camera.isVisible = false
+                        cameraPreview.load(uri, isCenterCrop = true)
+                        selfieImageNotifierView.isVisible = false
+                        cameraPreview.isVisible = true
+                    }
                 }
             }
         }
@@ -173,9 +178,15 @@ class CaptureSelfieFragment : ErrorFragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun stopTimer() {
         captureReadyTimer.stop()
-        binding.cameraReadyCounter.isVisible = false
+        withBinding { cameraReadyCounter.isVisible = false }
     }
 
+    private inline fun withBinding(block: FragmentCaptureSelfieBinding.() -> Unit) {
+        if (!isAdded || view == null) return
+        binding.block()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun stopTimerAfterDetectionSettles() {
         consecutiveInvalidFrames++
         if (consecutiveInvalidFrames >= MAX_CONSECUTIVE_INVALID_FRAMES) {
@@ -250,7 +261,7 @@ class CaptureSelfieFragment : ErrorFragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun onFacesDetected(faces: List<Face>, image: Bitmap?) {
-        with(binding) {
+        withBinding {
 
             val outlinedPattern: Int = if (faces.isNotEmpty() && faces.size == 1) {
                 R.drawable.ic_camera_face_detected
@@ -304,12 +315,26 @@ class CaptureSelfieFragment : ErrorFragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onDestroy() {
-        faceDetection.stop()
-        cameraExecutor?.shutdown()
+    override fun onDestroyView() {
         captureReadyTimer.stop()
+        if (::faceDetection.isInitialized) {
+            faceDetection.stop()
+        }
+        cameraExecutor?.shutdown()
         cameraExecutor = null
-        faceDetector.close()
+        super.onDestroyView()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onDestroy() {
+        if (::faceDetection.isInitialized) {
+            faceDetection.stop()
+        }
+        cameraExecutor?.shutdown()
+        cameraExecutor = null
+        if (::faceDetector.isInitialized) {
+            faceDetector.close()
+        }
         super.onDestroy()
     }
 
@@ -320,6 +345,9 @@ class CaptureSelfieFragment : ErrorFragment() {
             type == VerificationType.SelfieVideo
 
         cameraExecutor = Executors.newSingleThreadExecutor()
+        consecutiveInvalidFrames = 0
+        faceDetection.start()
+        viewModel.clearSelfieUri()
 
         binding.apply {
 
@@ -352,10 +380,9 @@ class CaptureSelfieFragment : ErrorFragment() {
 //            val currentPageName =
 //                navViewModel.currentPage ?: KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
 //            val isFront = viewModel.getStepWithPageName(currentPageName)?.config?.flipCamera?:false
-            //start camera
             CameraUtil.startCamera(
-                requireParentFragment(),
-                binding.camera,
+                this@CaptureSelfieFragment,
+                camera,
                 isVideo = isVideo,
                 isLiveness = !isVideo,
                 executor = cameraExecutor,
@@ -363,12 +390,14 @@ class CaptureSelfieFragment : ErrorFragment() {
                     cameraExecutor?.let {
                         faceDetection.analyze(imageProxy)
                     }
-                }) {
-                progressBg.isVisible = it == PreviewView.StreamState.IDLE
-                progress.isVisible = it == PreviewView.StreamState.IDLE
-
-                if (it == PreviewView.StreamState.IDLE) {
+                }
+            ) { streamState ->
+                if (streamState == PreviewView.StreamState.IDLE) {
                     stopTimer()
+                }
+                withBinding {
+                    progressBg.isVisible = streamState == PreviewView.StreamState.IDLE
+                    progress.isVisible = streamState == PreviewView.StreamState.IDLE
                 }
             }
 

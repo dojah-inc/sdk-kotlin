@@ -1592,7 +1592,7 @@ class GovDataViewModel(
     fun getCurrentPage(currentPage: String): Step? {
         val currentPageIndex = prefManager.getCurrentPageIndex()
         val steps = getAuthDataFromPref()?.initData?.authData?.pages
-        val step = steps?.get(currentPageIndex)
+        val step = steps?.getOrNull(currentPageIndex)
         return if (step?.name == currentPage) step else null
     }
 

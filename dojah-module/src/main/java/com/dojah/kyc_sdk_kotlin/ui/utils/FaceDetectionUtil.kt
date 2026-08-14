@@ -22,6 +22,11 @@ class FaceDetectionUtil(
     @Volatile private var stopped = false
     private var singleFrame: Bitmap? = null
 
+    fun start() {
+        stopped = false
+        singleFrame = null
+    }
+
     fun stop() {
         stopped = true
     }

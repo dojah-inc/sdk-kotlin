@@ -74,7 +74,7 @@ class VerificationViewModel(
     private val _isUploadDocLiveData = MutableLiveData(false)
     private val _docTypeLiveData = MutableLiveData<GovDocType?>()
     private val _verificationTypeLiveData = MutableLiveData<VerificationType?>()
-    private val _selfiePhotoUriLiveData = MutableLiveData<Uri>()
+    private val _selfiePhotoUriLiveData = MutableLiveData<Uri?>()
     private val _timerOtpLiveData = MutableLiveData<String>()
     private val _timerOtpDoneLiveData = MutableLiveData<Boolean>(false)
     private val _preAuthDataLiveData = MutableLiveData<Result<PreAuthResponse>>()
@@ -164,7 +164,7 @@ class VerificationViewModel(
     val verificationTypeLiveData: LiveData<VerificationType?>
         get() = _verificationTypeLiveData
 
-    val selfieUriLiveData: LiveData<Uri>
+    val selfieUriLiveData: LiveData<Uri?>
         get() = _selfiePhotoUriLiveData
 
     val timerOtpLiveData: LiveData<String>
@@ -261,8 +261,12 @@ class VerificationViewModel(
         _selfieAnalysisResultLiveData.postValue(result)
     }
 
-    fun setSelfieUri(uri: Uri) {
+    fun setSelfieUri(uri: Uri?) {
         _selfiePhotoUriLiveData.postValue(uri)
+    }
+
+    fun clearSelfieUri() {
+        _selfiePhotoUriLiveData.value = null
     }
 
     fun setBackDocUri(context: Context, uri: Uri, isUpload: Boolean): DocumentInfo? {
@@ -997,7 +1001,7 @@ class VerificationViewModel(
 
     fun getCurrentPageName(ensureName: String? = null): Step? {
         val currentPageIndex = prefManager.getCurrentPageIndex()
-        val step = getPagesFromPrefs()?.get(currentPageIndex)
+        val step = getPagesFromPrefs()?.getOrNull(currentPageIndex)
         return ensureName?.let {
             if (step?.name == ensureName) step else null
         } ?: step
