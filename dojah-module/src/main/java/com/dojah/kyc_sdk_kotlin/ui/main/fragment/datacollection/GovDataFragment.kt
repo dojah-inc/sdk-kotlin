@@ -156,7 +156,7 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
             }
 
 
-            govViewModel.prefillGovIdentity(gIds?.first())
+            govViewModel.prefillGovIdentity(gIds?.firstOrNull())
             prefillVerificationMethod(verificationMethods)
 
             textEdtBvn.addTextChangedListener {
