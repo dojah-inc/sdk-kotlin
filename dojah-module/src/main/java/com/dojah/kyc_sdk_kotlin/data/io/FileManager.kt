@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.res.AssetManager
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.dojah.kyc_sdk_kotlin.BuildConfig
+import com.dojah.kyc_sdk_kotlin.ui.utils.dojahFileProviderAuthority
 import kotlinx.coroutines.*
 import java.io.File
 
@@ -143,7 +143,7 @@ class FileManager (private val context: Context) {
     var notificationToneUri : Uri? = null
         get() {
             val file = File(context.getSaveDirectory(), "notification_tone.wav")
-            return if(file.exists() && file.length() > 0) FileProvider.getUriForFile(context, BuildConfig.FILE_PROVIDER_AUTHORITY, File(context.getSaveDirectory(), "notification_tone.wav"))
+            return if(file.exists() && file.length() > 0) FileProvider.getUriForFile(context, context.dojahFileProviderAuthority(), File(context.getSaveDirectory(), "notification_tone.wav"))
             else null
         }
         private set
@@ -168,7 +168,7 @@ class FileManager (private val context: Context) {
 
             val tempFile = File.createTempFile("temp-user-pic", ".png", userPicDir)
 
-            val uri = FileProvider.getUriForFile(context, BuildConfig.FILE_PROVIDER_AUTHORITY, tempFile)
+            val uri = FileProvider.getUriForFile(context, context.dojahFileProviderAuthority(), tempFile)
 
             Pair(uri, tempFile.path)
         }

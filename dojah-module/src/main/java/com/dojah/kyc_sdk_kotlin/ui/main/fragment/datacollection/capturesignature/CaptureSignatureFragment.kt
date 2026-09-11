@@ -72,6 +72,7 @@ class CaptureSignatureFragment : ErrorFragment() {
                 }
 
                 is Result.Success -> {
+                    dismissLoading()
                     viewModel.resetQuestionEvent()
                     navViewModel.navigateNextStep()
                 }

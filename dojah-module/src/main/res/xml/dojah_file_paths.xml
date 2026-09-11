@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <cache-path
+        name="dojah_cache"
+        path="." />
+    <files-path
+        name="dojah_files"
+        path="." />
+    <external-files-path
+        name="dojah_external_files"
+        path="." />
+</paths>

@@ -70,7 +70,7 @@ object DojahSdk {
                 // Tracing — 100% in dev, 20% in production
                 options.tracesSampleRate = if (BuildConfig.DEBUG) 1.0 else 0.2
 
-                // Session Replay (API 26+; silent no-op on API 21–25)
+                // Session Replay (API 26+; silent no-op on API 24–25)
                 options.sessionReplay.sessionSampleRate = 0.1   // 10% of all sessions
                 options.sessionReplay.onErrorSampleRate = 1.0   // 100% on error
                 options.sessionReplay.maskAllText = true         // mask text for privacy

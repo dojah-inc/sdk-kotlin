@@ -13,12 +13,12 @@ plugins {
 ext {
     mobileToolsVersion = [
             applicationId        : "com.dojah.kyc_sdk_kotlin",
-            minSdk               : 21,
+            minSdk               : 24,
             targetSdk            : 35,
             compileSdk           : 36,
-            versionCode          : 30,
-            versionName          : "0.4.1",
-            fileProviderAuthority: "com.dojah.kyc_sdk_kotlin.provider"
+            versionCode          : 31,
+            versionName          : "0.421",
+            fileProviderAuthority: "dojah.kyc.provider"
     ]
 
     configVariable = [
@@ -31,10 +31,6 @@ ext {
             apiKeyUrl     : "https://drive.google.com/uc?export=download&id=1oX64zp-PyI0_sBOzY8fXL4HS_FAlR9Ld",
             sentryDsn     : "https://eb0d1a34dd73551c03fffc1d0f55bda8@logs.dojah.services/11",
 
-    ]
-
-    projectDependenciesVersion = [
-            kotlin: "2.1.0"
     ]
 
     dependenciesVersion = [
@@ -51,7 +47,7 @@ ext {
             materialDesign  : "1.6.1",
             retrofit        : "2.9.0",
             gson            : "2.9.0",
-            okhttp          : "5.0.0-alpha.2",
+            okhttp          : "4.12.0",
 
             coil            : "2.1.0",
 
@@ -60,24 +56,11 @@ ext {
             libphonenumber  : "8.12.31",
             timber          : "4.7.1",
             zxing           : "3.4.0",
-            desugar         : "1.1.5",
+            desugar         : "2.1.5",
     ]
 }
 
 apply from: 'scripts/deploy-variables.gradle'
-
-task downloadApiKeyFile {
-//    doLast {
-    def apiKeyFile = new File("api_key.properties")
-    if (!apiKeyFile.exists()) {
-        def apiKeyFileUrl = "${configVariable.apiKeyUrl}"
-        new URL(apiKeyFileUrl).withInputStream { i -> apiKeyFile.withOutputStream { it << i } }
-    }
-//    }
-}
-
-preBuild.dependsOn downloadApiKeyFile
-
 
 android {
     compileSdk mobileToolsVersion.compileSdk
@@ -85,9 +68,10 @@ android {
     namespace = "com.dojah.kyc_sdk_kotlin"
 
     defaultConfig {
-//        multiDexEnabled true
+        minSdk mobileToolsVersion.minSdk
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'proguard-rules.pro'
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -183,12 +167,22 @@ android {
         abortOnError false
     }
 
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    publishing {
+        singleVariant("mobileRelease") {
+            withSourcesJar()
+        }
+    }
+
 }
 
 dependencies {
 
-    implementation libs.androidx.compose.runtime.android
-    implementation libs.androidx.compose.ui.android
     implementation libs.androidx.paging.runtime.ktx.v311
 //    implementation libs.multidex
     coreLibraryDesugaring(libs.desugar)
@@ -244,14 +238,13 @@ dependencies {
     implementation libs.places
     implementation libs.vectorchildfinder
     implementation libs.resizer
-    implementation libs.clarity
     implementation libs.androidx.activity.compose
     implementation platform(libs.androidx.compose.bom)
     implementation libs.androidx.lifecycle.runtime.compose
     implementation libs.androidx.ui
     implementation libs.androidx.ui.graphics
     implementation libs.androidx.material3
-    implementation libs.androidx.ui.tooling
+    debugImplementation libs.androidx.ui.tooling
     implementation libs.androidx.ui.tooling.preview
     implementation libs.signature.pad // jetpack Compose views
 
@@ -288,7 +281,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.dojah-inc'
             artifactId = 'kyc_sdk_kotlin'
-            version = 'v0.4.1'
+            version = 'v0.4.2'
 //          version = 'v0.0.01-dev'
             afterEvaluate {
                 from components.mobileRelease

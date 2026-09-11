@@ -90,6 +90,7 @@
     <string name="how_to_allow_permission">How to allow permission</string>
     <string name="take_moment_ensure_readable">Please take a moment to review the captured image to ensure it is clear and readable.</string>
     <string name="please_make_sure_you_are_in_a_well_lit_environment">Please make sure you are in a well lit environment</string>
+    <string name="flip_camera">Flip camera</string>
     <string name="place_your_face_in_the_circle_and_click_capture">Position your face ONLY within the dotted shape</string>
     <string name="about_to_capture_selfie_label">Image now in frame and about to capture</string>
     <string name="now_capturing_selfie_label">Hold still, capturing…</string>

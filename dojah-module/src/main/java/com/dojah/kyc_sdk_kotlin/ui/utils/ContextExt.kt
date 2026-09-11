@@ -55,12 +55,15 @@ fun Context.updatePrimaryColor(stringColor: String) {
     tv.data = R.color.black
 }
 
+fun Context.dojahFileProviderAuthority(): String =
+    "$packageName.${BuildConfig.FILE_PROVIDER_AUTHORITY}"
+
 fun Context.createTemporaryFile(): Uri {
     val dir = if (BuildConfig.DEBUG) getExternalFilesDir("user") else File(filesDir, "user")
 
     return dir?.let {
         File.createTempFile("temp-user-profile-pic", ".png")
-        FileProvider.getUriForFile(this, BuildConfig.FILE_PROVIDER_AUTHORITY, dir)
+        FileProvider.getUriForFile(this, dojahFileProviderAuthority(), dir)
 
     } ?: Uri.EMPTY
 }

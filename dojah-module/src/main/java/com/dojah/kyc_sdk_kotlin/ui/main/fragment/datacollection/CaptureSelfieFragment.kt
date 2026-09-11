@@ -25,6 +25,7 @@ import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.GovDataViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.utils.CameraUtil
 import com.dojah.kyc_sdk_kotlin.ui.utils.FaceDetectionUtil
+import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
 import com.dojah.kyc_sdk_kotlin.ui.utils.VerificationType
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
 import com.dojah.kyc_sdk_kotlin.ui.utils.load
@@ -87,6 +88,7 @@ class CaptureSelfieFragment : ErrorFragment() {
                         cameraPreview.load(uri, isCenterCrop = true)
                         selfieImageNotifierView.isVisible = false
                         cameraPreview.isVisible = true
+                        flipCameraBtn.isVisible = false
                     }
                 }
             }
@@ -377,9 +379,28 @@ class CaptureSelfieFragment : ErrorFragment() {
 //                }
 //            }
 
-//            val currentPageName =
-//                navViewModel.currentPage ?: KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
-//            val isFront = viewModel.getStepWithPageName(currentPageName)?.config?.flipCamera?:false
+            val currentPageName =
+                navViewModel.currentPage ?: KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
+            val canFlipCamera =
+                viewModel.getStepWithPageName(currentPageName)?.config?.flipCamera ?: false
+
+            flipCameraBtn.isVisible = canFlipCamera
+            flipCameraBtn.setOnClickListener {
+                stopTimer()
+                CameraUtil.switchCamera(
+                    this@CaptureSelfieFragment,
+                    camera,
+                    isVideo = isVideo,
+                    isLiveness = !isVideo,
+                    executor = cameraExecutor,
+                    onImageChanged = { imageProxy ->
+                        cameraExecutor?.let {
+                            faceDetection.analyze(imageProxy)
+                        }
+                    }
+                )
+            }
+
             CameraUtil.startCamera(
                 this@CaptureSelfieFragment,
                 camera,
@@ -412,6 +433,7 @@ class CaptureSelfieFragment : ErrorFragment() {
 
             startRecording.setOnClickListener {
                 startRecording.isVisible = false
+                flipCameraBtn.isVisible = false
                 doneBtn.isVisible = true
                 CameraUtil.recordVideo(
                     context = requireContext(),

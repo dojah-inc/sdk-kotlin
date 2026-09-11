@@ -20,6 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-keep class com.dojah.kyc_sdk_kotlin.DojahSdk { *; }
 -keep class com.dojah.kyc_sdk_kotlin.domain.** { *; }
 -keep class com.dojah.kyc_sdk_kotlin.core.Result
 

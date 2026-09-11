@@ -90,6 +90,7 @@ class CustomQuestionsFragment : ErrorFragment() {
                 }
 
                 is Result.Success -> {
+                    dismissLoading()
                     viewModel.resetQuestionEvent()
                     navViewModel.navigateNextStep()
                 }

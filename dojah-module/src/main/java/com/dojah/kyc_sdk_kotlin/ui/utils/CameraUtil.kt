@@ -47,6 +47,7 @@ class CameraUtil {
         @SuppressLint("StaticFieldLeak")
         private var cameraProvider: ProcessCameraProvider? = null
         private var recordingObj: Recording? = null
+        private var boundIsFront: Boolean = true
 
         fun closeCamera() {
             if (recordingObj != null) {
@@ -138,6 +139,8 @@ class CameraUtil {
                 onPreviewUpdate(state)
             }
 
+            boundIsFront = isFront
+
             camera.doOnLayout {
                 if (!fragment.isAdded || fragment.view == null) return@doOnLayout
                 bindCameraToLifecycle(
@@ -145,11 +148,32 @@ class CameraUtil {
                     camera = camera,
                     executor = executor,
                     isVideo = isVideo,
-                    isFront = isFront,
+                    isFront = boundIsFront,
                     isLiveness = isLiveness,
                     onImageChanged = onImageChanged
                 )
             }
+        }
+
+        fun switchCamera(
+            fragment: Fragment,
+            camera: PreviewView,
+            executor: Executor? = null,
+            isVideo: Boolean = false,
+            isLiveness: Boolean = false,
+            onImageChanged: (ImageProxy) -> Unit = {},
+        ) {
+            if (!fragment.isAdded || fragment.view == null) return
+            boundIsFront = !boundIsFront
+            bindCameraToLifecycle(
+                fragment = fragment,
+                camera = camera,
+                executor = executor,
+                isVideo = isVideo,
+                isLiveness = isLiveness,
+                isFront = boundIsFront,
+                onImageChanged = onImageChanged
+            )
         }
 
         private fun bindCameraToLifecycle(
@@ -210,11 +234,17 @@ class CameraUtil {
                     bound = bindUseCases(fragment, cameraSelector, preview, secondaryUseCase)
                 }
 
+                var boundSelector = cameraSelector
                 if (!bound) {
                     val fallbackSelector = oppositeCameraSelector(cameraSelector)
                     if (fallbackSelector != null && provider.hasCamera(fallbackSelector)) {
-                        bindUseCases(fragment, fallbackSelector, preview, secondaryUseCase)
+                        bound = bindUseCases(fragment, fallbackSelector, preview, secondaryUseCase)
+                        if (bound) boundSelector = fallbackSelector
                     }
+                }
+
+                if (bound) {
+                    boundIsFront = boundSelector == CameraSelector.DEFAULT_FRONT_CAMERA
                 }
             }, ContextCompat.getMainExecutor(fragment.requireContext()))
         }
