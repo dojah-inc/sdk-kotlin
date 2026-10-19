@@ -45,7 +45,22 @@ data class GovData(
     @SerializedName("nin") var nin: String? = null,
     //vnin
     @SerializedName("vnin") var vnin: String? = null,
-) : Serializable
+) : Serializable {
+    fun firstProvided(enabledKeys: List<String>? = null): Pair<GovDocType, String>? {
+        val candidates = listOfNotNull(
+            bvn?.takeIf { it.isNotBlank() }?.let { GovDocType.BVN to it },
+            nin?.takeIf { it.isNotBlank() }?.let { GovDocType.NIN to it },
+            vnin?.takeIf { it.isNotBlank() }?.let { GovDocType.VNIN to it },
+            dl?.takeIf { it.isNotBlank() }?.let { GovDocType.DL to it },
+        )
+        if (candidates.isEmpty()) return null
+        if (enabledKeys.isNullOrEmpty()) return candidates.first()
+        return candidates.firstOrNull { enabledKeys.contains(it.first.serverKey) }
+            ?: candidates.first()
+    }
+
+    fun isAnyFilled(): Boolean = firstProvided() != null
+}
 
 //govid: object - national, permit, passport, dl, voter, nin, others
 data class GovId(

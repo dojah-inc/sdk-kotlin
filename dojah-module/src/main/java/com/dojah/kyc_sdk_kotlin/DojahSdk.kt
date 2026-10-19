@@ -10,6 +10,7 @@ import com.dojah.kyc_sdk_kotlin.core.di.DojahContainer
 import com.dojah.kyc_sdk_kotlin.data.io.DeviceIdManager
 import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.ui.splash.SplashActivity
+import com.dojah.kyc_sdk_kotlin.ui.utils.facetec.FaceTecManager
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import io.sentry.android.core.SentryAndroid
@@ -46,6 +47,7 @@ object DojahSdk {
 
         // Initialize Sentry error monitoring & tracing
         initSentry(context.applicationContext)
+        FaceTecManager.preload(context.applicationContext)
 
         with(dojahContainer) {
             source?.takeIf { it.isNotBlank() }

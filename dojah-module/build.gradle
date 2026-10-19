@@ -16,8 +16,8 @@ ext {
             minSdk               : 24,
             targetSdk            : 35,
             compileSdk           : 36,
-            versionCode          : 31,
-            versionName          : "0.421",
+            versionCode          : 32,
+            versionName          : "0.4.3",
             fileProviderAuthority: "dojah.kyc.provider"
     ]
 
@@ -30,6 +30,7 @@ ext {
             placeApiKey   : "AIzaSyBCukJV3oUhVHcBFADXIv5lcKMw8QlqitY",
             apiKeyUrl     : "https://drive.google.com/uc?export=download&id=1oX64zp-PyI0_sBOzY8fXL4HS_FAlR9Ld",
             sentryDsn     : "https://eb0d1a34dd73551c03fffc1d0f55bda8@logs.dojah.services/11",
+            faceTecDeviceKey: "dBbg4VWOpkKwK6A7E8alecBnaRNRX0fE",
 
     ]
 
@@ -96,6 +97,7 @@ android {
             buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
             buildConfigField "String", "VERSION_NAME", "\"${configVariable.versionName}\""
             buildConfigField "String", "SENTRY_DSN", "\"${configVariable.sentryDsn}\""
+            buildConfigField "String", "FACETEC_DEVICE_KEY", "\"${configVariable.faceTecDeviceKey}\""
         }
 
         debug {
@@ -105,6 +107,7 @@ android {
             buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
             buildConfigField "String", "VERSION_NAME", "\"${configVariable.versionName}\""
             buildConfigField "String", "SENTRY_DSN", "\"${configVariable.sentryDsn}\""
+            buildConfigField "String", "FACETEC_DEVICE_KEY", "\"${configVariable.faceTecDeviceKey}\""
         }
 
         releaseNoMinify {
@@ -249,6 +252,7 @@ dependencies {
     implementation libs.signature.pad // jetpack Compose views
 
     implementation libs.face.detection
+    implementation files('FaceTecSDK-android-10.1.21/facetec-sdk-10.1.21.aar')
     implementation(libs.kotlinx.coroutines.android)
 
     // Sentry error monitoring, tracing & integrations (BOM for consistent versions)
@@ -281,7 +285,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.dojah-inc'
             artifactId = 'kyc_sdk_kotlin'
-            version = 'v0.4.2'
+            version = 'v0.4.3'
 //          version = 'v0.0.01-dev'
             afterEvaluate {
                 from components.mobileRelease

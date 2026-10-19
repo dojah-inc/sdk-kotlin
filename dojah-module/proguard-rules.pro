@@ -70,6 +70,10 @@
 #-keepclassmembers class io.grpc.internal.** { *; }
 #-dontwarn io.grpc.**
 
+# FaceTec device SDK
+-keep class com.facetec.** { *; }
+-dontwarn com.facetec.**
+
 # Sentry — SDK ships its own consumer ProGuard rules; these ensure readable stack traces
 -keepattributes SourceFile,LineNumberTable
 -dontwarn io.sentry.**

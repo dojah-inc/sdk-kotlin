@@ -25,11 +25,11 @@ open class BaseRepository(private val networkManager: NetworkManager, private va
             try {
                 action.invoke()
             } catch (e: UnknownHostException) {
-                e.printStackTrace();Result.Error.TimeoutError as T
+                e.printStackTrace(); Result.Error.TimeoutError as T
             } catch (e: SocketTimeoutException) {
-                e.printStackTrace();Result.Error.TimeoutError as T
+                e.printStackTrace(); Result.Error.TimeoutError as T
             } catch (e: Exception) {
-                e.printStackTrace();Result.Error.ApiError(null) as T
+                e.printStackTrace(); Result.Error.ApiError(null) as T
             }
         } else Result.Error.NetworkError as T
     }
@@ -43,16 +43,16 @@ open class BaseRepository(private val networkManager: NetworkManager, private va
         get() {
             val jsonMap = gson.fromJson<Map<String, String>>(this, Map::class.java)
 
-//            val status = when {
-//                jsonMap?.containsKey("status") == true -> {
-//                    jsonMap["status"]
-//
-//                }
-//
-//                else -> ""
-//            }
+            val error = when {
+                jsonMap?.containsKey("error") == true -> {
+                    jsonMap["error"]
+                }
+
+                else -> null
+            }
 
 //            Timber.tag("getResult>").d(">isSuccess$status")
+            if (error?.contains("Liveness Verification", ignoreCase = true) == true) return true
 
             return !jsonMap.contains(errorCode)
         }

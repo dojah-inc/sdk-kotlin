@@ -44,6 +44,7 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
 
     private val navViewModel by activityViewModels<NavigationViewModel> { DojahSdk.dojahContainer.navViewModelFactory }
     private val logger = HttpLoggingInterceptor.Logger.DEFAULT
+    private var skippedWithPrefill = false
 
     val verificationMethods: List<String>
         get() = govViewModel.getVerifyMethods(viewModel) ?: emptyList()
@@ -79,6 +80,10 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                         })
                     }
                 } else if (it is Result.Error) {
+                    if (skippedWithPrefill) {
+                        skippedWithPrefill = false
+                        binding.root.post { binding.root.isVisible = true }
+                    }
                     if (it is Result.Error.ApiError) {
                         val isOtpPhoneError =
                             it.error?.containsKey("error") == true && it.error["error"] == FailedReasons.OTP_NOT_SENT.message
@@ -106,6 +111,13 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                         govDataViewModel = govViewModel
                     )
                 }
+            }
+        }
+        if (savedInstanceState == null) {
+            val prefill = initializationPrefill()
+            if (prefill != null) {
+                skippedWithPrefill = true
+                autoSubmitPrefill(prefill)
             }
         }
     }
@@ -163,35 +175,11 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
                 updateButtonState()
             }
 
-            viewModel.extraUserDataFromPref?.govData.let {
-
-                if (it?.dl?.isNotBlank() == true) {
-                    textEdtBvn.setText(it.dl)
-                    textEdtBvn.isEnabled = false
-                    spinnerTextGid.isEnabled = false
-                    govViewModel.selectGovIdentity(viewModel.dojahEnum.toMap()[GovDocType.DL.serverKey])
-                    prefillVerificationMethod(verificationMethods)
-                }
-                if (it?.bvn?.isNotBlank() == true) {
-                    textEdtBvn.setText(it.bvn)
-                    textEdtBvn.isEnabled = false
-                    spinnerTextGid.isEnabled = false
-                    govViewModel.selectGovIdentity(viewModel.dojahEnum.toMap()[GovDocType.BVN.serverKey])
-                    prefillVerificationMethod(verificationMethods)
-                }
-                if (it?.nin?.isNotBlank() == true) {
-                    textEdtBvn.setText(it.nin)
-                    textEdtBvn.isEnabled = false
-                    spinnerTextGid.isEnabled = false
-                    govViewModel.selectGovIdentity(viewModel.dojahEnum.toMap()[GovDocType.NIN.serverKey])
-                    prefillVerificationMethod(verificationMethods)
-                }
-                if (it?.vnin?.isNotBlank() == true) {
-                    textEdtBvn.setText(it.vnin)
-                    textEdtBvn.isEnabled = false
-                    spinnerTextGid.isEnabled = false
-                    govViewModel.selectGovIdentity(viewModel.dojahEnum.toMap()[GovDocType.VNIN.serverKey])
-                    prefillVerificationMethod(verificationMethods)
+            val prefill = initializationPrefill()
+            if (prefill != null) {
+                applyPrefillToUi(prefill)
+                if (skippedWithPrefill) {
+                    root.isVisible = false
                 }
             }
 
@@ -288,6 +276,28 @@ class GovDataFragment : SpinnerFragment(R.layout.fragment_gov_data) {
 
             updateButtonState()
         }
+    }
+
+    private fun initializationPrefill(): Pair<GovDocType, String>? {
+        val enabledKeys = govViewModel.getGovIdTypes(viewModel)?.mapNotNull { it?.enum }
+        return viewModel.extraUserDataFromPref?.govData?.firstProvided(enabledKeys)
+    }
+
+    private fun applyPrefillToUi(prefill: Pair<GovDocType, String>) {
+        val enumAttr = viewModel.dojahEnum.toMap()[prefill.first.serverKey]
+        govViewModel.selectGovIdentity(enumAttr)
+        binding.textEdtBvn.setText(prefill.second)
+        binding.textEdtBvn.isEnabled = false
+        binding.spinnerTextGid.isEnabled = false
+        binding.prefillVerificationMethod(verificationMethods)
+    }
+
+    private fun autoSubmitPrefill(prefill: Pair<GovDocType, String>) {
+        val enumAttr = viewModel.dojahEnum.toMap()[prefill.first.serverKey]
+        govViewModel.applyGovPrefillForSubmit(enumAttr, null)
+        val methods = getFilteredMethods(verificationMethods)
+        govViewModel.applyGovPrefillForSubmit(enumAttr, methods?.firstOrNull())
+        govViewModel.submitGovDataForm(viewModel, prefill.second)
     }
 
     private fun getFilteredMethods(verificationMethods: List<String>?): List<String>? {

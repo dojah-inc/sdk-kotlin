@@ -237,6 +237,13 @@ class GovDataViewModel(
         _selectedGovIdDataLiveData.postValue(id)
     }
 
+    fun applyGovPrefillForSubmit(id: DojahEnumAttr?, verificationType: String?) {
+        _selectedGovIdDataLiveData.value = id
+        if (verificationType != null) {
+            _verificationTypeLiveData.value = VerificationType.enumOfValue(verificationType)
+        }
+    }
+
     fun selectBizIdentity(id: DojahEnumAttr?) {
         _selectedBizIdDataLiveData.postValue(id)
     }

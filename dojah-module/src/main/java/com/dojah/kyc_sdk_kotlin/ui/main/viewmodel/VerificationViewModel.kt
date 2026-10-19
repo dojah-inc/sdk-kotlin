@@ -141,6 +141,21 @@ class VerificationViewModel(
         _eventLiveData.postValue(null)
     }
 
+    fun resetFaceTecSelfie() {
+        _faceTecSelfieLiveData.value = null
+    }
+
+    fun completeFaceTecSelfie() {
+        val page = getCurrentPageName()?.name?.let { KycPages.findPageEnum(it) }
+            ?: KycPages.SELFIE
+        viewModelScope.launch {
+            _faceTecSelfieLiveData.postValue(Result.Loading)
+            logStepEvent(page, EventTypes.STEP_COMPLETED).collect { result ->
+                _faceTecSelfieLiveData.postValue(result)
+            }
+        }
+    }
+
     fun resetAuthVerificationCompleted() {
         //clear necessary event
         _authVerificationCompletedLD.postValue(false)
@@ -195,6 +210,10 @@ class VerificationViewModel(
     private val _submitEventLiveData = MutableLiveData<Result<SimpleResponse>>()
     val submitEventLiveData: LiveData<Result<SimpleResponse>>
         get() = _submitEventLiveData
+
+    private val _faceTecSelfieLiveData = MutableLiveData<Result<SimpleResponse>?>()
+    val faceTecSelfieLiveData: LiveData<Result<SimpleResponse>?>
+        get() = _faceTecSelfieLiveData
 
 
     val dojahEnum

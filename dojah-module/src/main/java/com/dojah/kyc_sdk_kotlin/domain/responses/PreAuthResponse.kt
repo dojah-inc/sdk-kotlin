@@ -95,7 +95,10 @@ data class PreAuthResponse(
                             disposable = config.disposable,
                             freeProvider = config.freeProvider,
                             flipCamera = config.flipCamera,
-                            questions = config.questions
+                            questions = config.questions,
+                            livenessProvider = config.livenessProvider,
+                            faceTec = config.faceTec,
+                            faceTecDeviceKey = config.faceTecDeviceKey,
                         )
                     )
                 }).toMutableList().apply {
@@ -118,6 +121,9 @@ data class PreAuthResponse(
                                         selfie = data.authReqConfigConfig?.selfie,
                                         otp = data.authReqConfigConfig?.otp,
                                         version = data.authReqConfigConfig?.version,
+                                        livenessProvider = data.authReqConfigConfig?.livenessProvider,
+                                        faceTec = data.authReqConfigConfig?.faceTec,
+                                        faceTecDeviceKey = data.authReqConfigConfig?.faceTecDeviceKey,
                                     )
                                 )
                             )

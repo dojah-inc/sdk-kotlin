@@ -48,6 +48,7 @@ import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.splash.COUNTRY_ERROR
 import com.dojah.kyc_sdk_kotlin.ui.splash.VERIFICATION_COMPLETE_ERROR
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
+import com.dojah.kyc_sdk_kotlin.ui.utils.facetec.FaceTecManager
 import com.dojah.kyc_sdk_kotlin.ui.utils.normaliseColor
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -571,12 +572,24 @@ class DojahMainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (FaceTecManager.onHostActivityResult(requestCode, resultCode, data)) {
+            return
+        }
+        @Suppress("DEPRECATION")
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         preferenceManager.clearTemporaryPref()
         dismissLoading()
         if (keyboardListenersAttached) {
             rootLayout?.viewTreeObserver?.removeOnGlobalLayoutListener(keyboardLayoutListener);
+        }
+        if (isFinishing) {
+            FaceTecManager.deinitialize()
         }
     }
 
