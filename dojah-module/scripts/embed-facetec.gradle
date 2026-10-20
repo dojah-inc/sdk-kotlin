@@ -1,0 +1,173 @@
+// AGP refuses local .aar file dependencies when this module publishes an AAR
+// (hasLocalAarDeps / bundleMobileDebugAar). Explode FaceTec into jar + res +
+// jni + assets, then generate com.facetec.sdk.R so vendor bytecode can resolve
+// resources after they are merged into this library.
+
+def faceTecAar = file("FaceTecSDK-android-10.1.21/facetec-sdk-10.1.21.aar")
+def extractDir = file("$buildDir/facetec-extracted")
+def faceTecRDir = file("$buildDir/generated/facetecR")
+def hostRPackage = "com.dojah.kyc_sdk_kotlin"
+
+android {
+    sourceSets {
+        main {
+            java.srcDirs += [faceTecRDir]
+            jniLibs.srcDirs += ["${extractDir}/jni"]
+            assets.srcDirs += ["${extractDir}/assets"]
+            res.srcDirs += ["${extractDir}/res"]
+        }
+    }
+}
+
+tasks.register("extractFaceTecAar", Copy) {
+    description = "Unpack FaceTec vendor AAR so this library can package it"
+    from(zipTree(faceTecAar))
+    into(extractDir)
+    doLast {
+        // viewBinding/dataBinding would otherwise generate bindings against
+        // package-private FaceTec view classes (ft, fv, dg, ...).
+        fileTree(dir: extractDir, include: "res/layout*/*.xml").each { layout ->
+            def text = layout.getText("UTF-8")
+            if (text.contains("tools:viewBindingIgnore")) {
+                return
+            }
+            if (!text.contains("xmlns:tools=")) {
+                text = text.replaceFirst(
+                        /xmlns:android="http:\/\/schemas\.android\.com\/apk\/res\/android"/,
+                        'xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:tools="http://schemas.android.com/tools"'
+                )
+            }
+            text = text.replaceFirst(
+                    /(<([A-Za-z][A-Za-z0-9._:]*)\b)([^>]*?)(\/?>)/,
+                    { all, open, name, attrs, close ->
+                        if (name.equalsIgnoreCase("xml") || attrs.contains("viewBindingIgnore")) {
+                            return all
+                        }
+                        return "${open}${attrs} tools:viewBindingIgnore=\"true\"${close}"
+                    }
+            )
+            layout.write(text, "UTF-8")
+        }
+    }
+}
+
+tasks.register("generateFaceTecR") {
+    description = "Generate com.facetec.sdk.R aliases for merged FaceTec resources"
+    dependsOn "extractFaceTecAar"
+    def rTxt = file("${extractDir}/R.txt")
+    def outFile = file("${faceTecRDir}/com/facetec/sdk/R.java")
+    inputs.file(rTxt)
+    outputs.file(outFile)
+
+    doLast {
+        if (!rTxt.exists()) {
+            throw new GradleException("FaceTec R.txt missing after extract: ${rTxt}")
+        }
+
+        def grouped = [:].withDefault { [] as LinkedHashSet }
+        def styleableArrays = [] as LinkedHashSet
+
+        rTxt.eachLine { raw ->
+            def line = raw.trim()
+            if (line.isEmpty()) {
+                return
+            }
+            def arrayMatch = line =~ /^int\[\]\s+styleable\s+(\w+)\b/
+            if (arrayMatch.find()) {
+                styleableArrays << arrayMatch.group(1)
+                return
+            }
+            def fieldMatch = line =~ /^int\s+(\w+)\s+(\S+)\s+/
+            if (fieldMatch.find()) {
+                def type = fieldMatch.group(1)
+                def name = fieldMatch.group(2).replace('.' as char, '_' as char)
+                grouped[type] << name
+            }
+        }
+
+        def sb = new StringBuilder()
+        sb << "// Generated from FaceTec R.txt — do not edit.\n"
+        sb << "package com.facetec.sdk;\n\n"
+        sb << "public final class R {\n"
+        sb << "    private R() {}\n"
+
+        grouped.each { type, names ->
+            if (type == "styleable") {
+                return
+            }
+            sb << "\n    public static final class ${type} {\n"
+            sb << "        private ${type}() {}\n"
+            names.each { name ->
+                sb << "        public static int ${name} = ${hostRPackage}.R.${type}.${name};\n"
+            }
+            sb << "    }\n"
+        }
+
+        sb << "\n    public static final class styleable {\n"
+        sb << "        private styleable() {}\n"
+        styleableArrays.each { name ->
+            // Empty FaceTec declare-styleable; keep the symbol without
+            // requiring AGP to emit a matching host R.styleable field.
+            sb << "        public static int[] ${name} = new int[0];\n"
+        }
+        grouped["styleable"].each { name ->
+            sb << "        public static int ${name} = ${hostRPackage}.R.styleable.${name};\n"
+        }
+        sb << "    }\n"
+        sb << "}\n"
+
+        outFile.parentFile.mkdirs()
+        outFile.text = sb.toString()
+    }
+}
+
+def injectFaceTecRIntoAar(File aarFile, File compiledClassesDir) {
+    def rFiles = fileTree(dir: compiledClassesDir, include: "com/facetec/sdk/R*.class")
+    if (rFiles.isEmpty()) {
+        throw new GradleException("FaceTec R classes missing at ${compiledClassesDir}")
+    }
+    def work = file("${buildDir}/facetec-aar-r-inject/${aarFile.name}")
+    delete work
+    work.mkdirs()
+    copy {
+        from zipTree(aarFile)
+        into work
+    }
+    ant.jar(destfile: "${work}/classes.jar", update: "true") {
+        fileset(dir: compiledClassesDir) {
+            include(name: "com/facetec/sdk/R*.class")
+        }
+    }
+    aarFile.delete()
+    ant.zip(destfile: aarFile, basedir: work)
+}
+
+afterEvaluate {
+    tasks.named("preBuild").configure {
+        dependsOn "extractFaceTecAar", "generateFaceTecR"
+    }
+    tasks.withType(JavaCompile).configureEach {
+        dependsOn "extractFaceTecAar", "generateFaceTecR"
+    }
+    tasks.matching { it.name.startsWith("compile") && it.name.contains("Kotlin") }.configureEach {
+        dependsOn "extractFaceTecAar", "generateFaceTecR"
+    }
+    // AGP strips com.**.R from the library classes.jar. Put FaceTec's
+    // alias R back so vendor bytecode can resolve resources at runtime.
+    tasks.matching { it.name.startsWith("bundle") && it.name.endsWith("Aar") }.configureEach { bundleTask ->
+        bundleTask.doLast {
+            def variantCap = bundleTask.name.substring("bundle".length(), bundleTask.name.length() - "Aar".length())
+            def variantDir = variantCap.substring(0, 1).toLowerCase() + variantCap.substring(1)
+            def compiled = file("${buildDir}/intermediates/javac/${variantDir}/compile${variantCap}JavaWithJavac/classes")
+            def aar = bundleTask.outputs.files.files.find { it.name.endsWith(".aar") }
+            if (aar == null) {
+                throw new GradleException("No AAR output for ${bundleTask.name}")
+            }
+            injectFaceTecRIntoAar(aar, compiled)
+        }
+    }
+}
+
+dependencies {
+    implementation files("${extractDir}/classes.jar")
+}

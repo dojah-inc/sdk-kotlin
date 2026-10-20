@@ -17,7 +17,7 @@ ext {
             targetSdk            : 35,
             compileSdk           : 36,
             versionCode          : 32,
-            versionName          : "0.4.3",
+            versionName          : "0.4.4",
             fileProviderAuthority: "dojah.kyc.provider"
     ]
 
@@ -62,6 +62,7 @@ ext {
 }
 
 apply from: 'scripts/deploy-variables.gradle'
+apply from: 'scripts/embed-facetec.gradle'
 
 android {
     compileSdk mobileToolsVersion.compileSdk
@@ -252,7 +253,6 @@ dependencies {
     implementation libs.signature.pad // jetpack Compose views
 
     implementation libs.face.detection
-    implementation files('FaceTecSDK-android-10.1.21/facetec-sdk-10.1.21.aar')
     implementation(libs.kotlinx.coroutines.android)
 
     // Sentry error monitoring, tracing & integrations (BOM for consistent versions)
@@ -285,7 +285,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.dojah-inc'
             artifactId = 'kyc_sdk_kotlin'
-            version = 'v0.4.3'
+            version = 'v0.4.4'
 //          version = 'v0.0.01-dev'
             afterEvaluate {
                 from components.mobileRelease

@@ -27,32 +27,13 @@ class FaceTecSessionProcessor : FaceTecSessionRequestProcessor {
         scope.launch {
             try {
                 val container = DojahSdk.dojahContainer
-                val auth = container.userRepository.getLocalResponse(
-                    SharedPreferenceManager.KEY_AUTH_RESPONSE,
-                    AuthResponse::class.java,
-                )?.data
-                val authData = auth?.initData?.authData
-                val verificationId = authData?.verificationId
-                val pages = authData?.pages
-                val currentIndex = container.sharedPreferenceManager.getCurrentPageIndex()
-                val currentStep = pages?.getOrNull(currentIndex)
-                    ?: pages?.firstOrNull { it.name == KycPages.SELFIE.serverKey }
-                    ?: pages?.firstOrNull {
-                        it.name == KycPages.GOVERNMENT_DATA_VERIFICATION.serverKey
-                    }
-
                 val result = container.userRepository.processFaceTecSession(
-                    FaceTecSessionRequest(
-                        requestBlob = sessionRequestBlob,
-                        selfie = sessionRequestBlob,
-                        verificationId = verificationId,
-                        stepNumber = currentStep?.id,
-                    )
+                    FaceTecSessionRequest(selfie = sessionRequestBlob)
                 )
 
                 when (result) {
                     is Result.Success -> {
-                        val blob = result.data.blob()
+                        val blob = result.data.livenessResponse?.responseBlob
                         if (blob.isNullOrBlank()) {
                             Timber.e("FaceTec session response was missing responseBlob")
                             sessionRequestCallback.abortOnCatastrophicError()
