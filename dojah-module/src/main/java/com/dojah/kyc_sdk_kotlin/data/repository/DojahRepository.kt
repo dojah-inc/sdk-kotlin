@@ -15,7 +15,6 @@ import com.dojah.kyc_sdk_kotlin.domain.request.AuthRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.BaseAddressRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.CheckIpRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.EventRequest
-import com.dojah.kyc_sdk_kotlin.domain.request.FaceTecSessionRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.ImageAnalysisRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessCheckRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessVerifyRequest
@@ -29,7 +28,6 @@ import com.dojah.kyc_sdk_kotlin.domain.responses.BvnLookUpResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.CheckIpResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.DecisionResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.DocImageAnalysisResponse
-import com.dojah.kyc_sdk_kotlin.domain.responses.FaceTecSessionResponse
 import com.dojah.kyc_sdk_kotlin.domain.responses.DojahEnum
 import com.dojah.kyc_sdk_kotlin.domain.responses.DojahPricing
 import com.dojah.kyc_sdk_kotlin.domain.responses.DriverLicenceResponse
@@ -347,15 +345,6 @@ class DojahRepository(
             emit(result)
 
         }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun processFaceTecSession(
-        request: FaceTecSessionRequest,
-    ): Result<FaceTecSessionResponse> {
-        return checkNetworkAndStartRequest {
-            val response = service.processFaceTecSession(request)
-            response.getResult(FaceTecSessionResponse::class.java)
-        }
     }
 
     suspend fun sendUserData(

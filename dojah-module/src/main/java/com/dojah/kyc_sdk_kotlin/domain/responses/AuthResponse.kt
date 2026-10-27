@@ -150,10 +150,6 @@ data class Config(
     @SerializedName("questions") var questions: List<Question>? = null,
     @SerializedName(value = "livenessProvider", alternate = ["liveness_provider"])
     var livenessProvider: String? = null,
-    @SerializedName(value = "faceTec", alternate = ["facetec"])
-    var faceTec: Boolean? = null,
-    @SerializedName(value = "faceTecDeviceKey", alternate = ["face_tec_device_key", "facetec_device_key"])
-    var faceTecDeviceKey: String? = null,
 
 ) {
     val otpVerificationTypes: List<String>

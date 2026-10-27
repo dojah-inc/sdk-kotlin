@@ -7,7 +7,6 @@ import com.dojah.kyc_sdk_kotlin.domain.request.AuthRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.BaseAddressRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.CheckIpRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.EventRequest
-import com.dojah.kyc_sdk_kotlin.domain.request.FaceTecSessionRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.ImageAnalysisRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessCheckRequest
 import com.dojah.kyc_sdk_kotlin.domain.request.LivenessVerifyRequest
@@ -85,11 +84,6 @@ interface DojahService {
     @POST("${prefix}/kyc/image/verify")
     suspend fun verifyLiveness(
         @Body request: LivenessVerifyRequest,
-    ): Response<ResponseBody>
-
-    @POST("${prefix}/liveness/ft")
-    suspend fun processFaceTecSession(
-        @Body request: FaceTecSessionRequest,
     ): Response<ResponseBody>
 
     @POST("${prefix}/kyc/user-data")
@@ -252,12 +246,6 @@ class DojahServiceMock : DojahService {
     override suspend fun verifyLiveness(request: LivenessVerifyRequest): Response<ResponseBody> {
         delay(1000)
         val responseBody = livenessVerifyResponse().replace("\n", "").toResponseBody()
-        return Response.success(responseBody)
-    }
-
-    override suspend fun processFaceTecSession(request: FaceTecSessionRequest): Response<ResponseBody> {
-        val responseBody =
-            """{"entity":{"liveness_response":{"responseBlob":""}},"error":null,"status":true}""".toResponseBody()
         return Response.success(responseBody)
     }
 

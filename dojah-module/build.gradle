@@ -17,7 +17,7 @@ ext {
             targetSdk            : 35,
             compileSdk           : 36,
             versionCode          : 32,
-            versionName          : "0.4.4",
+            versionName          : "0.4.5",
             fileProviderAuthority: "dojah.kyc.provider"
     ]
 
@@ -30,7 +30,6 @@ ext {
             placeApiKey   : "AIzaSyBCukJV3oUhVHcBFADXIv5lcKMw8QlqitY",
             apiKeyUrl     : "https://drive.google.com/uc?export=download&id=1oX64zp-PyI0_sBOzY8fXL4HS_FAlR9Ld",
             sentryDsn     : "https://eb0d1a34dd73551c03fffc1d0f55bda8@logs.dojah.services/11",
-            faceTecDeviceKey: "dBbg4VWOpkKwK6A7E8alecBnaRNRX0fE",
 
     ]
 
@@ -62,7 +61,6 @@ ext {
 }
 
 apply from: 'scripts/deploy-variables.gradle'
-apply from: 'scripts/embed-facetec.gradle'
 
 android {
     compileSdk mobileToolsVersion.compileSdk
@@ -98,7 +96,6 @@ android {
             buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
             buildConfigField "String", "VERSION_NAME", "\"${configVariable.versionName}\""
             buildConfigField "String", "SENTRY_DSN", "\"${configVariable.sentryDsn}\""
-            buildConfigField "String", "FACETEC_DEVICE_KEY", "\"${configVariable.faceTecDeviceKey}\""
         }
 
         debug {
@@ -108,7 +105,6 @@ android {
             buildConfigField "String", "AES_ENC_SECRET", "\"${configVariable.aesEncSecret}\""
             buildConfigField "String", "VERSION_NAME", "\"${configVariable.versionName}\""
             buildConfigField "String", "SENTRY_DSN", "\"${configVariable.sentryDsn}\""
-            buildConfigField "String", "FACETEC_DEVICE_KEY", "\"${configVariable.faceTecDeviceKey}\""
         }
 
         releaseNoMinify {
@@ -285,7 +281,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.github.dojah-inc'
             artifactId = 'kyc_sdk_kotlin'
-            version = 'v0.4.4'
+            version = 'v0.4.5'
 //          version = 'v0.0.01-dev'
             afterEvaluate {
                 from components.mobileRelease

@@ -56,6 +56,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        DojahSdk.ensureInitialized(this)
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.splash_loading)
@@ -156,6 +157,13 @@ class SplashActivity : AppCompatActivity() {
         HttpLoggingInterceptor.Logger.DEFAULT.log(
             "Splash extraData passed is: $extraData"
         )
+
+        // Camera / low-memory can kill the process. Android then restores this
+        // activity. authenticate() deletes local auth data first, which 400s the
+        // same reference ID if the session is already in progress.
+        if (savedInstanceState != null) {
+            return
+        }
 
         viewModel.prefManager.setWidgetId(widgetId)
         viewModel.authenticate(

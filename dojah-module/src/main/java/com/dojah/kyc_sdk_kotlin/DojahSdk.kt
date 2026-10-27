@@ -10,7 +10,6 @@ import com.dojah.kyc_sdk_kotlin.core.di.DojahContainer
 import com.dojah.kyc_sdk_kotlin.data.io.DeviceIdManager
 import com.dojah.kyc_sdk_kotlin.domain.ExtraUserData
 import com.dojah.kyc_sdk_kotlin.ui.splash.SplashActivity
-import com.dojah.kyc_sdk_kotlin.ui.utils.facetec.FaceTecManager
 import io.sentry.Sentry
 import io.sentry.SentryLevel
 import io.sentry.android.core.SentryAndroid
@@ -30,30 +29,53 @@ const val BACKWARD_CALL_REQUEST_CODE = 1001
 object DojahSdk {
     private var contextRef: WeakReference<Context>? = null
 
+    @Volatile
+    private var container: DojahContainer? = null
+
     val context get() = contextRef?.get()
 
-    lateinit var dojahContainer: DojahContainer
+    val dojahContainer: DojahContainer
+        get() = container
+            ?: throw UninitializedPropertyAccessException(
+                "lateinit property dojahContainer has not been initialized"
+            )
+
+    /**
+     * Rebuilds the in-memory container after process death. SDK activities must
+     * call this before touching [dojahContainer]. Uses [Context.getApplicationContext]
+     * so a destroyed host Activity cannot take the container with it.
+     */
+    @JvmStatic
+    fun ensureInitialized(context: Context): DojahContainer {
+        return initialize(context.applicationContext, source = null, force = false)
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun with(context: Context, source: String? = null): DojahSdk {
-        this.contextRef = WeakReference(context)
-        dojahContainer = DojahContainer(contextRef!!)
-
-        contextRef?.get()?.let {
-            dojahContainer.sharedPreferenceManager.setDeviceSignature(
-                DeviceIdManager.androidId(it)
-            )
-        }
-
-        // Initialize Sentry error monitoring & tracing
-        initSentry(context.applicationContext)
-        FaceTecManager.preload(context.applicationContext)
-
-        with(dojahContainer) {
-            source?.takeIf { it.isNotBlank() }
-                ?.let { sharedPreferenceManager.setAndroidSource(source) }
-        }
+        initialize(context.applicationContext, source, force = true)
         return this
+    }
+
+    @Synchronized
+    private fun initialize(
+        appContext: Context,
+        source: String?,
+        force: Boolean,
+    ): DojahContainer {
+        if (!force) {
+            container?.let { return it }
+        }
+        val app = appContext.applicationContext
+        val appRef = WeakReference(app)
+        contextRef = appRef
+        val created = DojahContainer(appRef)
+        created.sharedPreferenceManager.setDeviceSignature(DeviceIdManager.androidId(app))
+        source?.takeIf { it.isNotBlank() }?.let {
+            created.sharedPreferenceManager.setAndroidSource(it)
+        }
+        initSentry(app)
+        container = created
+        return created
     }
 
     private var sentryInitialized = false

@@ -97,8 +97,6 @@ data class PreAuthResponse(
                             flipCamera = config.flipCamera,
                             questions = config.questions,
                             livenessProvider = config.livenessProvider,
-                            faceTec = config.faceTec,
-                            faceTecDeviceKey = config.faceTecDeviceKey,
                         )
                     )
                 }).toMutableList().apply {
@@ -122,8 +120,6 @@ data class PreAuthResponse(
                                         otp = data.authReqConfigConfig?.otp,
                                         version = data.authReqConfigConfig?.version,
                                         livenessProvider = data.authReqConfigConfig?.livenessProvider,
-                                        faceTec = data.authReqConfigConfig?.faceTec,
-                                        faceTecDeviceKey = data.authReqConfigConfig?.faceTecDeviceKey,
                                     )
                                 )
                             )
