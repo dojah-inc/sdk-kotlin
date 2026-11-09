@@ -16,7 +16,6 @@ import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewModelScope
@@ -40,6 +39,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.logging.HttpLoggingInterceptor
 import okio.ByteString.Companion.toByteString
+import timber.log.Timber
+import java.io.File
 
 
 class PreviewSelfieFragment : ErrorFragment() {
@@ -137,7 +138,7 @@ class PreviewSelfieFragment : ErrorFragment() {
             val uri: Uri? =
                 viewModel.selfieUriLiveData.value
 
-            verificationImage = uri?.toFile()?.readBytes()?.toByteString()?.base64()
+            verificationImage = uri?.readCaptureBytes()?.toByteString()?.base64()
 
             errorTag.background = MaterialShapeDrawable().apply {
                 setTint(ContextCompat.getColor(requireContext(), R.color.error_bg_color))
@@ -223,6 +224,21 @@ class PreviewSelfieFragment : ErrorFragment() {
             videoPreview.start()
         } else {
             cameraPreview.load(uri, isCenterCrop = true)
+        }
+    }
+
+    private fun Uri.readCaptureBytes(): ByteArray? {
+        return try {
+            when (scheme) {
+                "file" -> path?.let { File(it).takeIf(File::exists)?.readBytes() }
+                "content" -> requireContext().contentResolver.openInputStream(this)
+                    ?.use { it.readBytes() }
+                else -> path?.let { File(it).takeIf(File::exists)?.readBytes() }
+                    ?: requireContext().contentResolver.openInputStream(this)?.use { it.readBytes() }
+            }
+        } catch (error: Exception) {
+            Timber.e(error, "Failed to read captured selfie bytes")
+            null
         }
     }
 

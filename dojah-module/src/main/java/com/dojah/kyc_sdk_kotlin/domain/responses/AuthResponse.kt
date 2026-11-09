@@ -202,11 +202,7 @@ data class Config(
                     add("otp")
                 }
                 if (whatsappOtp == true) add("whatsappOtp")
-                if (selfie == true)
-                    if (version == 3)
-                        add("selfie")
-                    else
-                        add("selfie-video")
+                if (selfie == true) add("selfie")
             }
         }
     val businessTypes: List<String>

@@ -165,7 +165,7 @@ data class PreAuthResponse(
                     } else {
                         modifiedSteps.add(
                             nearestFirstIndex + 1,
-                            AuthReqSteps(name = emailPage, authReqConfigConfig = Config())
+                            AuthReqSteps(name = emailPage, authReqConfigConfig = Config(freeProvider = true))
                         )
                     }
                 }

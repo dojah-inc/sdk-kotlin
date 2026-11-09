@@ -1,10 +1,8 @@
 package com.dojah.kyc_sdk_kotlin.ui.utils
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import android.provider.MediaStore
 import android.util.Size
 import android.widget.Toast
 import androidx.camera.core.AspectRatio
@@ -19,7 +17,7 @@ import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.core.resolutionselector.ResolutionStrategy
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.FallbackStrategy
-import androidx.camera.video.MediaStoreOutputOptions
+import androidx.camera.video.FileOutputOptions
 import androidx.camera.video.Quality
 import androidx.camera.video.QualitySelector
 import androidx.camera.video.Recorder
@@ -32,8 +30,6 @@ import androidx.core.view.doOnLayout
 import androidx.fragment.app.Fragment
 import timber.log.Timber
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Locale
 import java.util.concurrent.Executor
 
 class CameraUtil {
@@ -90,34 +86,42 @@ class CameraUtil {
             context: Context,
             tmpFileNamePrefix: String = "Dojah-video_verify-recording-",
             photoExtension: String = ".mp4",
+            onError: (String?) -> Unit = {},
             onSaved: (photoFile: Uri) -> Unit
         ) {
-            // Create MediaStoreOutputOptions for our recorder
-            val name = tmpFileNamePrefix +
-                    SimpleDateFormat("dd-mm-yy", Locale.US)
-                        .format(System.currentTimeMillis()) + photoExtension
-            val contentValues = ContentValues().apply {
-                put(MediaStore.Video.Media.DISPLAY_NAME, name)
+            val recorder = videoCapture?.output
+            if (recorder == null) {
+                onError("Camera is not ready")
+                return
             }
 
+            val videoFile = File.createTempFile(tmpFileNamePrefix, photoExtension, context.cacheDir)
+            val outputOptions = FileOutputOptions.Builder(videoFile).build()
 
-            val mediaStoreOutput = MediaStoreOutputOptions.Builder(
-                context.contentResolver,
-                MediaStore.Video.Media.INTERNAL_CONTENT_URI
-            ).setContentValues(contentValues).build()
-
-            // 2. Configure Recorder and Start recording to the mediaStoreOutput.
-            recordingObj =
-                videoCapture?.output?.prepareRecording(context, mediaStoreOutput)
-                    ?.start(
-                        ContextCompat.getMainExecutor(context),
-                    ) {
-                        if (it is VideoRecordEvent.Finalize) {
-                            ///take path and send to preview screen
-                            val videoUri = it.outputResults.outputUri
-                            onSaved(videoUri)
-                        }
+            recordingObj = recorder.prepareRecording(context, outputOptions)
+                .start(ContextCompat.getMainExecutor(context)) { event ->
+                    if (event !is VideoRecordEvent.Finalize) return@start
+                    recordingObj = null
+                    if (event.hasError()) {
+                        Timber.e(
+                            event.cause,
+                            "Video finalize failed error=%s",
+                            event.error
+                        )
+                        videoFile.delete()
+                        onError(event.cause?.message)
+                        return@start
                     }
+                    val videoUri = event.outputResults.outputUri
+                        .takeIf { it != Uri.EMPTY }
+                        ?: Uri.fromFile(videoFile)
+                    if (videoUri == Uri.EMPTY || !videoFile.exists() || videoFile.length() == 0L) {
+                        videoFile.delete()
+                        onError("Video recording produced an empty file")
+                        return@start
+                    }
+                    onSaved(videoUri)
+                }
         }
 
         fun startCamera(

@@ -25,6 +25,7 @@ import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.GovDataViewModel
 import com.dojah.kyc_sdk_kotlin.ui.main.viewmodel.VerificationViewModel
 import com.dojah.kyc_sdk_kotlin.ui.utils.CameraUtil
 import com.dojah.kyc_sdk_kotlin.ui.utils.FaceDetectionUtil
+import com.dojah.kyc_sdk_kotlin.ui.utils.FailedReasons
 import com.dojah.kyc_sdk_kotlin.ui.utils.KycPages
 import com.dojah.kyc_sdk_kotlin.ui.utils.VerificationType
 import com.dojah.kyc_sdk_kotlin.ui.utils.delegates.viewBinding
@@ -437,6 +438,13 @@ class CaptureSelfieFragment : ErrorFragment() {
                 doneBtn.isVisible = true
                 CameraUtil.recordVideo(
                     context = requireContext(),
+                    onError = { message ->
+                        if (!isAdded) return@recordVideo
+                        startRecording.isVisible = true
+                        flipCameraBtn.isVisible = true
+                        doneBtn.isVisible = false
+                        showShortToast(message ?: FailedReasons.SELFIE_NO_CAPTURE.message)
+                    },
                     onSaved = { videoUri ->
                         viewModel.setSelfieUri(videoUri)
                         previewSelfie()

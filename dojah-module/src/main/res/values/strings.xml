@@ -21,7 +21,7 @@
     <string name="please_note_the_following">Please note the following</string>
     <string name="be_in_well_lit">You must be in a well lit environment before getting started.</string>
     <string name="hide_not_your_face">Avoid wearing anything that hinders or hides your face from being seen.</string>
-    <string name="show_id_clearly">All parts of your identification must be shown properly and must be clear.</string>
+    <string name="show_id_clearly">Your photo will be taken automatically once your face is clearly in the frame.</string>
     <string name="_continue">Continue</string>
     <string name="powered_by">Powered by</string>
     <string name="sandbox">SANDBOX</string>
@@ -43,7 +43,7 @@
     <string name="nin_verify">NIN</string>
     <string name="other_verify">Other Doc</string>
     <string name="selfie">Selfie</string>
-    <string name="video">Video KYC</string>
+    <string name="video">Selfie</string>
     <string name="phone_verify">Phone Number OTP</string>
     <string name="email_verify">Email OTP</string>
     <string name="document_type">Document type</string>
@@ -116,7 +116,7 @@
     <string name="enter_the_code_sent">Enter the code sent to %s</string>
     <string name="resend_code_in">Resend code in %s</string>
     <string name="resend_code">Resend code</string>
-    <string name="record">Record</string>
+    <string name="record">Capture</string>
     <string name="submit">Submit</string>
     <string name="signature_title">Sign and confirm information</string>
     <string name="full_name_text">Enter your full name</string>
@@ -147,7 +147,7 @@
     <string name="multiple_faces_detected">Multiple faces detected.</string>
     <string name="move_back">Move back a little.</string>
     <string name="move_closer">Move closer to the camera.</string>
-    <string name="centre_face">Center your face in the oval</string>
+    <string name="centre_face">Center your face in the dotted shape</string>
     <string name="more_lighting">Poor lighting. Move to a well-lit environment</string>
     <string name="reduce_lighting">High lighting. Move to a balance-lit environment</string>
 

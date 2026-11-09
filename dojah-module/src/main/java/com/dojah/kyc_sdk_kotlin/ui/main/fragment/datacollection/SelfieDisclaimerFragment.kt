@@ -40,19 +40,9 @@ class SelfieDisclaimerFragment : ErrorFragment(R.layout.dialog_selfie_disclaimer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (navViewModel.currentPage == KycPages.SELFIE.serverKey) {
-            val version = viewModel.getStepWithPageName(KycPages.SELFIE.serverKey)?.config?.version
-            if (version == 3) {
-                /**auto select [VerificationType.Selfie] if page
-                is standalone selfie page and version is 3 **/
-                govDataViewModel.selectVerificationType(VerificationType.Selfie.value)
-            } else {
-                /**auto select [VerificationType.SelfieVideo] if page
-                is standalone selfie page and version is not 3 **/
-                govDataViewModel.selectVerificationType(VerificationType.SelfieVideo.value)
-            }
+            govDataViewModel.selectVerificationType(VerificationType.Selfie.value)
         }
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         cameraContract =
