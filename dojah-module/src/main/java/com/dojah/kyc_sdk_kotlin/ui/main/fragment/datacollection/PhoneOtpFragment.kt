@@ -64,7 +64,11 @@ class PhoneOtpFragment : SpinnerFragment(R.layout.fragment_otp_phone) {
 
             val verificationMethods =
                 viewModel.getStepWithPageName(KycPages.PHONE_NUMBER.serverKey)?.config?.otpVerificationTypes
-            if (verificationMethods?.size == 1) {
+
+            if (verificationMethods?.isEmpty() == true) {
+                inputVerifyWith.isVisible = false
+                textVerifyWith.isVisible = false
+            } else if (verificationMethods?.size == 1) {
                 spinnerVerifyWith.setText(verificationMethods.first())
                 btnContinue.isEnabled = true
             }
@@ -90,7 +94,8 @@ class PhoneOtpFragment : SpinnerFragment(R.layout.fragment_otp_phone) {
                 }
                 if (isValidPhone(layoutSpinner.getTextWithPrefix())) {
                     layoutSpinner.editText.error = null
-                    btnContinue.isEnabled = true && spinnerVerifyWith.text.isNotBlank()
+                    btnContinue.isEnabled =
+                        spinnerVerifyWith.text.isNotBlank() || verificationMethods?.isEmpty() == true
                 } else {
                     layoutSpinner.editText.error = "Invalid Phone Number"
                     btnContinue.isEnabled = false
@@ -101,7 +106,7 @@ class PhoneOtpFragment : SpinnerFragment(R.layout.fragment_otp_phone) {
                     viewModel.getStepWithPageName(KycPages.PHONE_NUMBER.serverKey)?.config
 //                HttpLoggingInterceptor.Logger.DEFAULT.log("phoneConfig: $phoneConfig")
 //                HttpLoggingInterceptor.Logger.DEFAULT.log("phone verify: ${phoneConfig?.verification}")
-                if (phoneConfig?.verification == true) {
+                if (phoneConfig?.verification == true && verificationMethods?.isEmpty() == false) {
                     govViewModel.sendOtpSync(
                         verificationVm = viewModel,
                         destination = layoutSpinner.getTextWithPrefix(),

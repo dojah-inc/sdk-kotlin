@@ -151,10 +151,10 @@ data class Config(
     @SerializedName(value = "livenessProvider", alternate = ["liveness_provider"])
     var livenessProvider: String? = null,
 
-) {
+    ) {
     val otpVerificationTypes: List<String>
         get() = listOfNotNull(
-            "OTP".takeIf { otp == true || verification == true },
+            "OTP".takeIf { otp == true },
             "Whatsapp".takeIf { whatsappVerification == true }
         )
 
@@ -181,7 +181,7 @@ data class Config(
                     add(GovDocType.DL.serverKey)
                 if (bvn == true)
                     add(GovDocType.BVN.serverKey)
-                if(bvnAdvance == true)
+                if (bvnAdvance == true)
                     add(GovDocType.BVN_ADVANCE.serverKey)
                 if (voter == true)
                     add(GovDocType.VOTER.serverKey)
