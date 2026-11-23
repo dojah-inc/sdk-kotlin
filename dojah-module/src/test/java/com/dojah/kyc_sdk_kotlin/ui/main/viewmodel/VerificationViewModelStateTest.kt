@@ -16,6 +16,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -143,6 +144,44 @@ class VerificationViewModelStateTest {
 
         assertEquals("user-data", step?.name)
         assertEquals(2, step?.id)
+    }
+
+    @Test
+    fun `getCurrentPageName returns the step at the stored index when the name matches`() {
+        val pages = harness.viewModel.getPagesFromPrefs().orEmpty()
+        val userDataIndex = pages.indexOfFirst { it.name == KycPages.USER_DATA.serverKey }
+        every { harness.prefManager.getCurrentPageIndex() } returns userDataIndex
+
+        val step = harness.viewModel.getCurrentPageName(KycPages.USER_DATA.serverKey)
+
+        assertEquals(KycPages.USER_DATA.serverKey, step?.name)
+    }
+
+    @Test
+    fun `getCurrentPageName finds the named step when the stored index lags behind`() {
+        val pages = harness.viewModel.getPagesFromPrefs().orEmpty()
+        assertNotEquals(KycPages.USER_DATA.serverKey, pages.first().name)
+        every { harness.prefManager.getCurrentPageIndex() } returns 0
+
+        val step = harness.viewModel.getCurrentPageName(KycPages.USER_DATA.serverKey)
+
+        assertEquals(KycPages.USER_DATA.serverKey, step?.name)
+    }
+
+    @Test
+    fun `getCurrentPageName without a name returns the step at the stored index`() {
+        every { harness.prefManager.getCurrentPageIndex() } returns 0
+        val first = harness.viewModel.getPagesFromPrefs().orEmpty().first()
+
+        assertEquals(first, harness.viewModel.getCurrentPageName())
+    }
+
+    @Test
+    fun `getCurrentPageName falls back to the stored step when the name is not configured`() {
+        every { harness.prefManager.getCurrentPageIndex() } returns 0
+        val first = harness.viewModel.getPagesFromPrefs().orEmpty().first()
+
+        assertEquals(first, harness.viewModel.getCurrentPageName("not-a-configured-page"))
     }
 
     @Test
